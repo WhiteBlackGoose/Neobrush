@@ -15,7 +15,6 @@ pub struct Tiled {
     pub w: u32,
     pub h: u32,
     tw: i32,
-    th: i32,
     /// `None` is a fully transparent tile.
     tiles: Vec<Option<Arc<Tile>>>,
 }
@@ -24,7 +23,7 @@ impl Tiled {
     pub fn new(w: u32, h: u32) -> Self {
         let tw = (w as i32 + TS - 1) / TS;
         let th = (h as i32 + TS - 1) / TS;
-        Tiled { w, h, tw, th, tiles: vec![None; (tw * th) as usize] }
+        Tiled { w, h, tw, tiles: vec![None; (tw * th) as usize] }
     }
 
     pub fn filled(w: u32, h: u32, c: Px) -> Self {
@@ -50,6 +49,7 @@ impl Tiled {
     }
 
     #[inline]
+    #[allow(dead_code)]
     pub fn set(&mut self, x: i32, y: i32, c: Px) {
         if x < 0 || y < 0 || x >= self.w as i32 || y >= self.h as i32 {
             return;
@@ -151,18 +151,6 @@ impl Tiled {
         });
     }
 
-    /// Writes `s` at position (x0,y0), keeping unchanged tiles shared.
-    pub fn write_rect(&mut self, x0: i32, y0: i32, s: &Surface) {
-        for y in 0..s.h as i32 {
-            for x in 0..s.w as i32 {
-                let p = s.get(x, y);
-                if self.get(x0 + x, y0 + y) != p {
-                    self.set(x0 + x, y0 + y, p);
-                }
-            }
-        }
-    }
-
     /// Applies `f` to every pixel in rect `r` in parallel (by tile).
     pub fn map_rect<F>(&mut self, r: Rect, f: F)
     where
@@ -204,18 +192,5 @@ impl Tiled {
                 }
             }
         });
-    }
-
-    /// Bounding box of non-transparent pixels.
-    pub fn content_bounds(&self) -> Rect {
-        let mut r = Rect::EMPTY;
-        for y in 0..self.h as i32 {
-            for x in 0..self.w as i32 {
-                if self.get(x, y)[3] != 0 {
-                    r = r.union(&Rect::new(x, y, x + 1, y + 1));
-                }
-            }
-        }
-        r
     }
 }

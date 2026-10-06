@@ -1,6 +1,6 @@
 //! Menu actions, dialogs, file handling and effects.
 
-use super::editor::{color_to_px, px_to_color, with_editor, Editor};
+use super::editor::{px_to_color, with_editor, Editor};
 use super::session::Session;
 use crate::core::blend::BlendMode;
 use crate::core::document::{DocState, Document, Layer};
@@ -61,7 +61,7 @@ fn curves_lut(c: &[Vec<(f32, f32)>; 4]) -> [[u8; 256]; 3] {
 impl Editor {
     pub fn action(&mut self, id: &str) {
         // Most actions end an active editing session first.
-        let keeps_session = matches!(id, "view.zoom-in" | "view.zoom-out" | "view.fit" | "view.actual" | "view.refresh" | "edit.undo" | "color.swap" | "color.reset")
+        let keeps_session = id.starts_with("view.theme") || matches!(id, "view.zoom-in" | "view.zoom-out" | "view.fit" | "view.actual" | "view.refresh" | "edit.undo" | "color.swap" | "color.reset")
             || id.starts_with("color.hex:");
         if !keeps_session {
             self.finish_session(true);
@@ -73,6 +73,18 @@ impl Editor {
         match id {
             "file.new" => self.open_new_dialog(),
             "file.open" => self.open_dialog(false),
+            s if s.starts_with("file.recent:") => {
+                let p = PathBuf::from(s.trim_start_matches("file.recent:"));
+                if let Some(i) = self.docs.iter().position(|d| d.path.as_ref().map(|dp| std::fs::canonicalize(dp).ok() == std::fs::canonicalize(&p).ok()).unwrap_or(false)) {
+                    self.switch_doc(i);
+                } else {
+                    self.open_path(&p);
+                }
+            }
+            "file.clear-recent" => {
+                self.recent_files.clear();
+                self.sync_recent_files();
+            }
             "file.save" if has_doc => self.save(false),
             "file.save-as" if has_doc => self.save(true),
             "file.close" if has_doc => self.request_close(self.cur),
@@ -133,6 +145,9 @@ impl Editor {
             "view.fit" if has_doc => self.fit_doc(self.cur, false),
             "view.actual" if has_doc => self.set_zoom_centered(1.0),
             "view.refresh" => self.redraw(),
+            "view.theme-system" => self.set_theme(0),
+            "view.theme-light" => self.set_theme(1),
+            "view.theme-dark" => self.set_theme(2),
             "color.swap" => {
                 let ui = self.ui();
                 let g = ui.global::<App>();
@@ -389,6 +404,7 @@ impl Editor {
                 let mut doc = Document::new(title, st, "Open Image", true);
                 doc.path = Some(path.to_path_buf());
                 self.add_doc(doc);
+                self.add_recent_file(path);
             }
             Err(e) => self.message("Could not open file", &format!("{}\n\n{}", path.display(), e)),
         }
@@ -504,6 +520,7 @@ impl Editor {
                 doc.path = Some(path.clone());
                 doc.title = path.file_name().map(|s| s.to_string_lossy().to_string()).unwrap_or_default();
                 doc.saved_index = Some(doc.history.index);
+                self.add_recent_file(&path);
                 self.panels();
                 match self.after_save.take() {
                     Some(AfterSave::CloseDoc(id)) => {
@@ -1189,9 +1206,4 @@ where
             let _ = slint::invoke_from_event_loop(move || done(files));
         });
     }
-}
-
-#[allow(dead_code)]
-fn _unused(_: slint::Color) -> [u8; 4] {
-    color_to_px(slint::Color::default())
 }

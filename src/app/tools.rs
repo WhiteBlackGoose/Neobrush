@@ -946,10 +946,6 @@ impl Editor {
             }
             return true;
         }
-        if ctrl && shift && text.eq_ignore_ascii_case("z") {
-            self.action("edit.redo");
-            return true;
-        }
         if ctrl || alt {
             return false;
         }

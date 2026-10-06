@@ -8,14 +8,9 @@ use std::io::{Read, Write};
 use std::path::Path;
 
 pub const OPEN_EXTS: &[&str] = &["ora", "png", "jpg", "jpeg", "bmp", "gif", "tif", "tiff", "webp", "tga", "ico", "qoi"];
-pub const SAVE_EXTS: &[&str] = &["ora", "png", "jpg", "jpeg", "bmp", "gif", "tif", "tiff", "webp", "tga", "ico", "qoi"];
 
 pub fn ext_of(path: &Path) -> String {
     path.extension().and_then(|e| e.to_str()).unwrap_or("").to_lowercase()
-}
-
-pub fn is_layered_format(path: &Path) -> bool {
-    ext_of(path) == "ora"
 }
 
 pub fn load(path: &Path) -> Result<DocState, String> {
@@ -55,7 +50,6 @@ pub fn save(path: &Path, st: &DocState, jpeg_quality: u8) -> Result<(), String> 
             let enc = image::codecs::jpeg::JpegEncoder::new_with_quality(&mut w, jpeg_quality);
             rgb.write_with_encoder(enc).map_err(|e| e.to_string())
         }
-        "bmp" | "ico" if false => unreachable!(),
         "ico" => {
             let img = if img.width() > 256 || img.height() > 256 {
                 image::imageops::resize(&img, 256.min(img.width()), 256.min(img.height()), image::imageops::FilterType::Lanczos3)

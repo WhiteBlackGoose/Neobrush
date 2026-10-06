@@ -49,10 +49,6 @@ impl Surface {
         let i = self.idx(x, y);
         self.data[i] = c;
     }
-    pub fn rect(&self) -> Rect {
-        Rect::from_size(self.w, self.h)
-    }
-
     /// Bilinear sample returning premultiplied floats (0..255). Out-of-bounds is transparent.
     pub fn sample_bilinear_premul(&self, fx: f32, fy: f32) -> [f32; 4] {
         let fx = fx - 0.5;

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Neobrush
+GenericName=Image Editor
+Comment=Modern raster graphics editor
+Exec=neobrush %F
+Icon=neobrush
+Terminal=false
+Categories=Graphics;2DGraphics;RasterGraphics;
+MimeType=image/png;image/jpeg;image/bmp;image/gif;image/tiff;image/webp;image/x-tga;image/vnd.microsoft.icon;image/openraster;
+Keywords=paint;draw;image;photo;editor;

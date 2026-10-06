@@ -53,6 +53,9 @@ pub struct Editor {
     pub last_caret: Instant,
     pub models: Models,
     pub exiting: bool,
+    pub system_scheme: slint::language::ColorScheme,
+    pub recent_files: Vec<std::path::PathBuf>,
+    pub glyphs: Option<render::Glyphs>,
 }
 
 thread_local! {
@@ -141,6 +144,9 @@ pub fn run(files: Vec<std::path::PathBuf>) -> Result<(), slint::PlatformError> {
         last_caret: Instant::now(),
         models,
         exiting: false,
+        system_scheme: ui.global::<crate::Palette>().get_color_scheme(),
+        recent_files: vec![],
+        glyphs: None,
     }));
     EDITOR.with(|e| *e.borrow_mut() = Some(ed.clone()));
 
@@ -205,10 +211,12 @@ pub fn run(files: Vec<std::path::PathBuf>) -> Result<(), slint::PlatformError> {
     ui.window().on_close_requested(|| {
         let mut resp = slint::CloseRequestResponse::HideWindow;
         with_editor(|e| {
-            if !e.exiting && e.docs.iter().any(|d| d.is_modified()) {
+            if e.docs.iter().any(|d| d.is_modified()) {
                 resp = slint::CloseRequestResponse::KeepWindowShown;
-                e.exiting = true;
-                e.continue_exit();
+                if !e.exiting {
+                    e.exiting = true;
+                    e.continue_exit();
+                }
             }
         });
         resp
@@ -222,13 +230,21 @@ pub fn run(files: Vec<std::path::PathBuf>) -> Result<(), slint::PlatformError> {
 
     {
         let mut e = ed.borrow_mut();
+        e.load_settings();
+        match std::env::var("NEOBRUSH_THEME").as_deref() {
+            Ok("light") => e.set_theme(1),
+            Ok("dark") => e.set_theme(2),
+            _ => {}
+        }
         for f in files {
             e.open_path(&f);
         }
         e.sync_all();
     }
 
-    ui.run()
+    let r = ui.run();
+    ed.borrow().save_settings();
+    r
 }
 
 impl Editor {
@@ -277,6 +293,9 @@ impl Editor {
         }
         if self.needs_panels {
             self.needs_panels = false;
+            if let Some(d) = self.docs.get_mut(self.cur) {
+                d.update_composite();
+            }
             self.sync_panels();
         }
         if self.needs_render {
@@ -309,6 +328,16 @@ impl Editor {
         let grid = g.get_pixel_grid();
         let overlay = self.overlay();
         let phase = self.phase;
+        let rulers = g.get_show_rulers();
+        if rulers {
+            let px = (10.0 * self.scale).round();
+            if self.glyphs.as_ref().map(|gl| gl.px != px).unwrap_or(true) {
+                self.glyphs = Some(render::Glyphs::new(px));
+            }
+        }
+        let hover = self.hover;
+        let scale = self.scale;
+        let glyphs = if rulers { self.glyphs.as_ref() } else { None };
         let Some(doc) = self.docs.get_mut(self.cur) else {
             return;
         };
@@ -316,7 +345,7 @@ impl Editor {
             return;
         }
         doc.update_composite();
-        let buf = render::render(doc, cw, ch, &RenderParams { dark, grid, phase }, &overlay);
+        let buf = render::render(doc, cw, ch, &RenderParams { dark, grid, phase, rulers: glyphs, hover, scale }, &overlay);
         g.set_canvas(slint::Image::from_rgba8(buf));
         g.set_zoom(doc.view.zoom * 100.0);
         self.update_status();
@@ -622,6 +651,20 @@ impl Editor {
         g.set_message_title(title.into());
         g.set_message_text(text.into());
         g.set_dialog("message".into());
+    }
+
+    /// 0 = follow system, 1 = light, 2 = dark
+    pub fn set_theme(&mut self, mode: i32) {
+        use slint::language::ColorScheme;
+        let ui = self.ui();
+        let p = ui.global::<crate::Palette>();
+        p.set_color_scheme(match mode {
+            1 => ColorScheme::Light,
+            2 => ColorScheme::Dark,
+            _ => self.system_scheme,
+        });
+        ui.global::<App>().set_theme_mode(mode);
+        self.panels();
     }
 
     pub fn refocus(&self) {

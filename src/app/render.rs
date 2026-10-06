@@ -98,10 +98,184 @@ impl Canvas<'_> {
     }
 }
 
-pub struct RenderParams {
+pub struct RenderParams<'a> {
     pub dark: bool,
     pub grid: bool,
     pub phase: u32,
+    pub rulers: Option<&'a Glyphs>,
+    pub hover: Option<Pt>,
+    pub scale: f32,
+}
+
+/// Pre-rasterized digits for ruler labels.
+pub struct Glyphs {
+    pub px: f32,
+    /// (advance, width, height, x offset, y offset (from baseline), alpha)
+    pub glyphs: Vec<(f32, i32, i32, i32, i32, Vec<u8>)>,
+    pub ascent: f32,
+}
+
+const GLYPH_CHARS: &str = "0123456789-";
+
+impl Glyphs {
+    pub fn new(px: f32) -> Glyphs {
+        use ab_glyph::{Font, FontRef, ScaleFont};
+        let font = FontRef::try_from_slice(include_bytes!("../../ui/fonts/Inter-500.ttf")).unwrap();
+        let sf = font.as_scaled(px);
+        let mut glyphs = Vec::new();
+        for ch in GLYPH_CHARS.chars() {
+            let id = font.glyph_id(ch);
+            let g = id.with_scale_and_position(px, ab_glyph::point(0.0, 0.0));
+            let adv = sf.h_advance(id);
+            if let Some(o) = font.outline_glyph(g) {
+                let b = o.px_bounds();
+                let (w, h) = (b.width() as i32, b.height() as i32);
+                let mut a = vec![0u8; (w * h).max(0) as usize];
+                o.draw(|x, y, c| {
+                    let i = (y as i32 * w + x as i32) as usize;
+                    if i < a.len() {
+                        a[i] = (c * 255.0) as u8;
+                    }
+                });
+                glyphs.push((adv, w, h, b.min.x as i32, b.min.y as i32, a));
+            } else {
+                glyphs.push((adv, 0, 0, 0, 0, vec![]));
+            }
+        }
+        Glyphs { px, glyphs, ascent: sf.ascent() }
+    }
+
+    fn draw(&self, cv: &mut Canvas, text: &str, x: f32, y_top: f32, color: [u8; 3]) {
+        let mut pen = x;
+        let base = y_top + self.ascent;
+        for ch in text.chars() {
+            let Some(i) = GLYPH_CHARS.find(ch) else { continue };
+            let (adv, w, h, ox, oy, a) = &self.glyphs[i];
+            for yy in 0..*h {
+                for xx in 0..*w {
+                    let v = a[(yy * w + xx) as usize];
+                    if v > 0 {
+                        cv.blend(pen as i32 + ox + xx, base as i32 + oy + yy, color, v as f32 / 255.0);
+                    }
+                }
+            }
+            pen += adv;
+        }
+    }
+
+    fn draw_vertical(&self, cv: &mut Canvas, text: &str, x_left: f32, y: f32, color: [u8; 3]) {
+        // Rotated 90° counter-clockwise, reading bottom to top.
+        let mut pen = y;
+        let base = x_left + self.ascent;
+        for ch in text.chars() {
+            let Some(i) = GLYPH_CHARS.find(ch) else { continue };
+            let (adv, w, h, ox, oy, a) = &self.glyphs[i];
+            for yy in 0..*h {
+                for xx in 0..*w {
+                    let v = a[(yy * w + xx) as usize];
+                    if v > 0 {
+                        cv.blend(base as i32 + oy + yy, pen as i32 - ox - xx, color, v as f32 / 255.0);
+                    }
+                }
+            }
+            pen -= adv;
+        }
+    }
+}
+
+fn draw_rulers(cv: &mut Canvas, g: &Glyphs, doc_w: u32, doc_h: u32, zoom: f32, ox: f32, oy: f32, dark: bool, hover: Option<Pt>, scale: f32) {
+    let t = (20.0 * scale).round() as i32;
+    let bg: [u8; 3] = if dark { [27, 27, 33] } else { [255, 255, 255] };
+    let line: [u8; 3] = if dark { [58, 58, 70] } else { [207, 210, 218] };
+    let fg: [u8; 3] = if dark { [154, 154, 171] } else { [100, 103, 120] };
+    let (w, h) = (cv.w, cv.h);
+    for y in 0..t.min(h) {
+        for x in 0..w {
+            cv.put(x, y, bg);
+        }
+    }
+    for y in t..h {
+        for x in 0..t.min(w) {
+            cv.put(x, y, bg);
+        }
+    }
+    for x in 0..w {
+        cv.put(x, t - 1, line);
+    }
+    for y in 0..h {
+        cv.put(t - 1, y, line);
+    }
+    // Choose a tick step so labels are at least ~64px apart.
+    let steps = [1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 5000, 10000];
+    let step = steps.iter().copied().find(|s| *s as f32 * zoom >= 64.0 * scale).unwrap_or(20000) as f32;
+    let minor = step / if step >= 10.0 { 10.0 } else { step.max(1.0) };
+    let ext_x = |d: f32| ox + d * zoom;
+    let ext_y = |d: f32| oy + d * zoom;
+    // Horizontal
+    let d0 = ((t as f32 - ox) / zoom / minor).floor() * minor;
+    let mut d = d0;
+    while ext_x(d) < w as f32 {
+        let x = ext_x(d).round() as i32;
+        if x >= t {
+            let major = (d / step).round() * step == d || ((d / step) - (d / step).round()).abs() < 1e-4;
+            let half = ((d / (step / 2.0)) - (d / (step / 2.0)).round()).abs() < 1e-4;
+            let len = if major { t } else if half { t / 2 } else { t / 4 };
+            for y in t - len..t {
+                cv.put(x, y, if major { fg } else { line });
+            }
+            if major {
+                g.draw(cv, &format!("{}", d as i64), x as f32 + 3.0 * scale, 2.0 * scale, fg);
+            }
+        }
+        d += minor;
+    }
+    // Vertical
+    let d0 = ((t as f32 - oy) / zoom / minor).floor() * minor;
+    let mut d = d0;
+    while ext_y(d) < h as f32 {
+        let y = ext_y(d).round() as i32;
+        if y >= t {
+            let major = ((d / step) - (d / step).round()).abs() < 1e-4;
+            let half = ((d / (step / 2.0)) - (d / (step / 2.0)).round()).abs() < 1e-4;
+            let len = if major { t } else if half { t / 2 } else { t / 4 };
+            for x in t - len..t {
+                cv.put(x, y, if major { fg } else { line });
+            }
+            if major {
+                g.draw_vertical(cv, &format!("{}", d as i64), 2.0 * scale, y as f32 - 3.0 * scale, fg);
+            }
+        }
+        d += minor;
+    }
+    // Image extent and cursor markers.
+    let accent = ACCENT;
+    let (ix0, ix1) = (ext_x(0.0) as i32, ext_x(doc_w as f32) as i32);
+    let (iy0, iy1) = (ext_y(0.0) as i32, ext_y(doc_h as f32) as i32);
+    for x in ix0.max(t)..ix1.min(w) {
+        cv.blend(x, t - 2, accent, 0.5);
+    }
+    for y in iy0.max(t)..iy1.min(h) {
+        cv.blend(t - 2, y, accent, 0.5);
+    }
+    if let Some(p) = hover {
+        let x = ext_x(p.x).round() as i32;
+        let y = ext_y(p.y).round() as i32;
+        if x >= t {
+            for yy in 0..t {
+                cv.put(x, yy, accent);
+            }
+        }
+        if y >= t {
+            for xx in 0..t {
+                cv.put(xx, y, accent);
+            }
+        }
+    }
+    for y in 0..t.min(h) {
+        for x in 0..t.min(w) {
+            cv.put(x, y, bg);
+        }
+    }
 }
 
 pub fn render(doc: &Document, cw: u32, ch: u32, rp: &RenderParams, ov: &Overlay) -> SharedPixelBuffer<Rgba8Pixel> {
@@ -261,6 +435,9 @@ pub fn render(doc: &Document, cw: u32, ch: u32, rp: &RenderParams, ov: &Overlay)
     for h in &ov.handles {
         let (hx, hy) = to_s(*h);
         cv.handle(hx, hy);
+    }
+    if let Some(g) = rp.rulers {
+        draw_rulers(&mut cv, g, comp.w, comp.h, z, x0, y0, rp.dark, rp.hover, rp.scale);
     }
     buf
 }

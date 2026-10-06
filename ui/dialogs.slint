@@ -2,7 +2,7 @@ import { Theme } from "theme.slint";
 import { Icons } from "icons.slint";
 import { App, ParamItem } from "state.slint";
 import { Card, IconButton, Btn, Segmented, ValueSlider, FieldLabel, Divider } from "widgets.slint";
-import { SpinBox, CheckBox, ComboBox, LineEdit, Spinner } from "std-widgets.slint";
+import { SpinBox, CheckBox, ComboBox, LineEdit, Spinner, AboutSlint } from "std-widgets.slint";
 
 component Overlay inherits Rectangle {
     in property <string> title;
@@ -610,8 +610,11 @@ export component AboutDialog inherits Overlay {
         font-size: Theme.font;
         wrap: word-wrap;
     }
+    AboutSlint {
+        height: 90px;
+    }
     Text {
-        text: "Built with Rust and Slint. Icons by Lucide (ISC). Inter typeface (OFL).";
+        text: "Icons by Lucide (ISC). Inter typeface (OFL).";
         color: Theme.text-muted;
         font-size: Theme.font-sm + 0.5px;
         wrap: word-wrap;

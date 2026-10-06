@@ -10,24 +10,27 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        runtimeLibs = with pkgs; lib.optionals stdenv.isLinux [
-          wayland
-          libxkbcommon
-          libGL
-          vulkan-loader
-          fontconfig
-          freetype
-          xorg.libX11
-          xorg.libXcursor
-          xorg.libXrandr
-          xorg.libXi
-          xorg.libxcb
+        lib = pkgs.lib;
+        isLinux = pkgs.stdenv.hostPlatform.isLinux;
+        x = name: old: pkgs.${name} or pkgs.xorg.${old};
+        runtimeLibs = lib.optionals isLinux [
+          pkgs.wayland
+          pkgs.libxkbcommon
+          pkgs.libGL
+          pkgs.vulkan-loader
+          pkgs.fontconfig
+          pkgs.freetype
+          (x "libx11" "libX11")
+          (x "libxcursor" "libXcursor")
+          (x "libxrandr" "libXrandr")
+          (x "libxi" "libXi")
+          (x "libxcb" "libxcb")
         ];
       in {
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [ cargo rustc rustfmt clippy rust-analyzer pkg-config ];
           buildInputs = runtimeLibs;
-          LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath runtimeLibs;
+          LD_LIBRARY_PATH = lib.makeLibraryPath runtimeLibs;
         };
 
         packages.default = pkgs.rustPlatform.buildRustPackage {
@@ -37,9 +40,21 @@
           cargoLock.lockFile = ./Cargo.lock;
           nativeBuildInputs = with pkgs; [ pkg-config makeWrapper ];
           buildInputs = runtimeLibs;
-          postFixup = pkgs.lib.optionalString pkgs.stdenv.isLinux ''
-            wrapProgram $out/bin/neobrush --prefix LD_LIBRARY_PATH : ${pkgs.lib.makeLibraryPath runtimeLibs}
+          doCheck = false;
+          postInstall = lib.optionalString isLinux ''
+            install -Dm644 packaging/neobrush.desktop $out/share/applications/neobrush.desktop
+            install -Dm644 packaging/neobrush.svg $out/share/icons/hicolor/scalable/apps/neobrush.svg
           '';
+          postFixup = lib.optionalString isLinux ''
+            wrapProgram $out/bin/neobrush --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath runtimeLibs}
+          '';
+          meta = {
+            description = "A modern, cross-platform raster graphics editor";
+            license = lib.licenses.mit;
+            mainProgram = "neobrush";
+          };
         };
+
+        apps.default = flake-utils.lib.mkApp { drv = self.packages.${system}.default; };
       });
 }

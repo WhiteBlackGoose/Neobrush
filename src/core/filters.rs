@@ -903,7 +903,6 @@ fn add_noise(s: &Surface, p: &[f32], _: &Ctx) -> Surface {
 /// Median-like percentile filter using sliding histograms per row.
 fn percentile_filter(s: &Surface, r: i32, pct: f32) -> Surface {
     let w = s.w as i32;
-    let h = s.h as i32;
     let mut out = Surface::new(s.w, s.h);
     out.data.par_chunks_mut(w as usize).enumerate().for_each(|(y, row)| {
         let y = y as i32;

@@ -11,6 +11,8 @@ import { TopBar, OptionsBar } from "toolbar.slint";
 import { CanvasView } from "canvas.slint";
 import { NewImageDialog, ResizeDialog, CanvasSizeDialog, FxDialog, CurvesDialog, LayerPropsDialog, ConfirmDialog, MessageDialog, JpegDialog, AboutDialog, ShortcutsDialog } from "dialogs.slint";
 
+import { Palette } from "std-widgets.slint";
+export { Palette }
 export { App, Tip, Tool, Theme, LayerItem, HistoryItem, DocTab, ParamItem, CurvePoint }
 
 component DocTabs inherits Rectangle {
@@ -111,7 +113,7 @@ component StatusBar inherits Rectangle {
 
 export component AppWindow inherits Window {
     title: App.window-title;
-    icon: @image-url("icons/brush.svg");
+    icon: @image-url("icons/app-icon.svg");
     preferred-width: 1440px;
     preferred-height: 900px;
     min-width: 900px;
@@ -125,6 +127,16 @@ export component AppWindow inherits Window {
             title: "File";
             MenuItem { title: "New…"; shortcut: @keys(Control + N); activated => { App.action("file.new"); } }
             MenuItem { title: "Open…"; shortcut: @keys(Control + O); activated => { App.action("file.open"); } }
+            Menu {
+                title: "Open Recent";
+                enabled: App.recent-files.length > 0;
+                for f in App.recent-files: MenuItem {
+                    title: f;
+                    activated => { App.action("file.recent:" + f); }
+                }
+                MenuSeparator { }
+                MenuItem { title: "Clear Recent"; activated => { App.action("file.clear-recent"); } }
+            }
             MenuSeparator { }
             MenuItem { title: "Save"; shortcut: @keys(Control + S); activated => { App.action("file.save"); } }
             MenuItem { title: "Save As…"; shortcut: @keys(Control + Shift + S); activated => { App.action("file.save-as"); } }
@@ -158,7 +170,15 @@ export component AppWindow inherits Window {
             MenuItem { title: "Zoom to Window"; shortcut: @keys(Control + B); activated => { App.action("view.fit"); } }
             MenuItem { title: "Actual Size"; shortcut: @keys(Control + "0"); activated => { App.action("view.actual"); } }
             MenuSeparator { }
+            Menu {
+                title: "Theme";
+                MenuItem { title: "Follow System"; checkable: true; checked: App.theme-mode == 0; activated => { App.action("view.theme-system"); } }
+                MenuItem { title: "Light"; checkable: true; checked: App.theme-mode == 1; activated => { App.action("view.theme-light"); } }
+                MenuItem { title: "Dark"; checkable: true; checked: App.theme-mode == 2; activated => { App.action("view.theme-dark"); } }
+            }
+            MenuSeparator { }
             MenuItem { title: "Pixel Grid"; checkable: true; checked: App.pixel-grid; activated => { App.pixel-grid = !App.pixel-grid; App.action("view.refresh"); } }
+            MenuItem { title: "Rulers"; checkable: true; checked: App.show-rulers; shortcut: @keys(Control + Alt + R); activated => { App.show-rulers = !App.show-rulers; App.action("view.refresh"); } }
             MenuSeparator { }
             MenuItem { title: "Tools"; checkable: true; checked: App.show-tools; activated => { App.show-tools = !App.show-tools; } }
             MenuItem { title: "Colors"; checkable: true; checked: App.show-colors; activated => { App.show-colors = !App.show-colors; } }

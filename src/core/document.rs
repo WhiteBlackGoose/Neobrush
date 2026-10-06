@@ -262,8 +262,4 @@ impl Document {
             self.goto_history(self.history.index + 1);
         }
     }
-
-    pub fn display_title(&self) -> String {
-        self.title.clone()
-    }
 }
