@@ -1,0 +1,176 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  linux:
+    # Oldest supported runner, so the binary works with older glibc versions.
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libfontconfig1-dev libxkbcommon-dev libxkbcommon-x11-dev libwayland-dev libx11-dev libxcursor-dev libxrandr-dev libxi-dev libgl1-mesa-dev libfuse2 file
+      - run: cargo build --release
+      - name: Build .deb
+        run: |
+          cargo install cargo-deb --locked
+          cargo deb --no-build
+          mkdir -p dist
+          cp target/debian/*.deb dist/
+      - name: Build AppImage
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          APPDIR=Neobrush.AppDir
+          mkdir -p $APPDIR/usr/bin $APPDIR/usr/share/applications $APPDIR/usr/share/icons/hicolor/256x256/apps
+          cp target/release/neobrush $APPDIR/usr/bin/
+          cp packaging/neobrush.desktop $APPDIR/usr/share/applications/
+          cp packaging/neobrush.desktop $APPDIR/
+          cp packaging/icons/neobrush-256.png $APPDIR/usr/share/icons/hicolor/256x256/apps/neobrush.png
+          cp packaging/icons/neobrush-256.png $APPDIR/neobrush.png
+          cat > $APPDIR/AppRun <<'APPRUN'
+          #!/bin/sh
+          HERE="$(dirname "$(readlink -f "$0")")"
+          exec "$HERE/usr/bin/neobrush" "$@"
+          APPRUN
+          chmod +x $APPDIR/AppRun
+          curl -fsSL -o appimagetool https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x appimagetool
+          ARCH=x86_64 ./appimagetool --appimage-extract-and-run $APPDIR dist/Neobrush-$VERSION-x86_64.AppImage
+      - name: Plain tarball
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          mkdir -p neobrush-$VERSION-linux-x86_64
+          cp target/release/neobrush README.md LICENSE packaging/neobrush.desktop packaging/neobrush.svg neobrush-$VERSION-linux-x86_64/
+          tar czf dist/neobrush-$VERSION-linux-x86_64.tar.gz neobrush-$VERSION-linux-x86_64
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux
+          path: dist/*
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo build --release
+      - name: Package
+        shell: pwsh
+        run: |
+          $v = "$env:GITHUB_REF_NAME".TrimStart('v')
+          New-Item -ItemType Directory -Force dist | Out-Null
+          $dir = "neobrush-$v-windows-x86_64"
+          New-Item -ItemType Directory -Force $dir | Out-Null
+          Copy-Item target/release/neobrush.exe, README.md, LICENSE $dir
+          Compress-Archive -Path $dir -DestinationPath "dist/$dir.zip"
+          Copy-Item target/release/neobrush.exe "dist/Neobrush-$v-windows-x86_64.exe"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: dist/*
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+      - uses: Swatinem/rust-cache@v2
+      - name: Build universal binary
+        run: |
+          cargo build --release --target aarch64-apple-darwin
+          cargo build --release --target x86_64-apple-darwin
+          lipo -create -output neobrush target/aarch64-apple-darwin/release/neobrush target/x86_64-apple-darwin/release/neobrush
+      - name: Bundle .app and .dmg
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          APP=Neobrush.app
+          mkdir -p $APP/Contents/MacOS $APP/Contents/Resources
+          cp neobrush $APP/Contents/MacOS/
+          sed "s/VERSION/$VERSION/g" packaging/Info.plist > $APP/Contents/Info.plist
+          ICONSET=neobrush.iconset
+          mkdir -p $ICONSET
+          for s in 16 32 128 256 512; do
+            cp packaging/icons/neobrush-$s.png $ICONSET/icon_${s}x${s}.png
+          done
+          cp packaging/icons/neobrush-32.png $ICONSET/icon_16x16@2x.png
+          cp packaging/icons/neobrush-64.png $ICONSET/icon_32x32@2x.png
+          cp packaging/icons/neobrush-256.png $ICONSET/icon_128x128@2x.png
+          cp packaging/icons/neobrush-512.png $ICONSET/icon_256x256@2x.png
+          cp packaging/icons/neobrush-1024.png $ICONSET/icon_512x512@2x.png
+          iconutil -c icns $ICONSET -o $APP/Contents/Resources/neobrush.icns
+          # Ad-hoc signature so Apple Silicon will launch it.
+          codesign --force --deep --sign - $APP
+          mkdir -p dist dmg
+          cp -R $APP dmg/
+          ln -s /Applications dmg/Applications
+          hdiutil create -volname Neobrush -srcfolder dmg -ov -format UDZO dist/Neobrush-$VERSION-macos-universal.dmg
+          ditto -c -k --keepParent $APP dist/Neobrush-$VERSION-macos-universal.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos
+          path: dist/*
+
+  freebsd:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build on FreeBSD
+        uses: vmactions/freebsd-vm@v1
+        with:
+          usesh: true
+          prepare: |
+            pkg install -y rust pkgconf fontconfig libxkbcommon wayland libX11 libXcursor libXrandr libXi mesa-libs
+          run: |
+            cargo build --release
+            VERSION=${GITHUB_REF_NAME#v}
+            mkdir -p dist neobrush-$VERSION-freebsd-x86_64
+            cp target/release/neobrush README.md LICENSE packaging/neobrush.desktop packaging/neobrush.svg neobrush-$VERSION-freebsd-x86_64/
+            tar czf dist/neobrush-$VERSION-freebsd-x86_64.tar.gz neobrush-$VERSION-freebsd-x86_64
+      - uses: actions/upload-artifact@v4
+        with:
+          name: freebsd
+          path: dist/*
+
+  release:
+    needs: [linux, windows, macos, freebsd]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - run: |
+          cd dist
+          sha256sum * > SHA256SUMS.txt
+          ls -la
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          prerelease: ${{ contains(github.ref_name, '-') }}
+          generate_release_notes: true
+          body: |
+            ## Downloads
+
+            | Platform | File |
+            | --- | --- |
+            | Linux (Debian/Ubuntu) | `neobrush_*_amd64.deb` |
+            | Linux (any distro) | `Neobrush-*-x86_64.AppImage` (make it executable, then run it) |
+            | Windows | `Neobrush-*-windows-x86_64.exe`, or the `.zip` |
+            | macOS (Apple Silicon + Intel) | `Neobrush-*-macos-universal.dmg` |
+            | FreeBSD | `neobrush-*-freebsd-x86_64.tar.gz` |
+
+            The macOS and Windows builds aren't signed yet. On macOS, right-click the app and choose **Open** the first time, or run `xattr -dr com.apple.quarantine /Applications/Neobrush.app`. On Windows, SmartScreen may ask you to confirm: choose **More info → Run anyway**.

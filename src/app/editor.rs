@@ -87,6 +87,7 @@ pub fn px_to_color(p: Px) -> slint::Color {
 pub fn run(files: Vec<std::path::PathBuf>) -> Result<(), slint::PlatformError> {
     let ui = AppWindow::new()?;
     let g = ui.global::<App>();
+    g.set_version(env!("CARGO_PKG_VERSION").into());
 
     let models = Models {
         layers: Rc::new(VecModel::default()),

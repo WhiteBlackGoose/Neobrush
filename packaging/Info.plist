@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key><string>Neobrush</string>
+    <key>CFBundleDisplayName</key><string>Neobrush</string>
+    <key>CFBundleIdentifier</key><string>org.angouri.neobrush</string>
+    <key>CFBundleExecutable</key><string>neobrush</string>
+    <key>CFBundleIconFile</key><string>neobrush</string>
+    <key>CFBundlePackageType</key><string>APPL</string>
+    <key>CFBundleVersion</key><string>VERSION</string>
+    <key>CFBundleShortVersionString</key><string>VERSION</string>
+    <key>LSMinimumSystemVersion</key><string>11.0</string>
+    <key>NSHighResolutionCapable</key><true/>
+    <key>NSSupportsAutomaticGraphicsSwitching</key><true/>
+    <key>CFBundleDocumentTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeName</key><string>Image</string>
+            <key>CFBundleTypeRole</key><string>Editor</string>
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>public.png</string>
+                <string>public.jpeg</string>
+                <string>com.microsoft.bmp</string>
+                <string>com.compuserve.gif</string>
+                <string>public.tiff</string>
+                <string>org.webmproject.webp</string>
+            </array>
+        </dict>
+    </array>
+</dict>
+</plist>
