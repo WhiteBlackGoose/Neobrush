@@ -1,0 +1,127 @@
+import { Theme } from "theme.slint";
+import { Icons } from "icons.slint";
+import { App, Tool } from "state.slint";
+import { Btn } from "widgets.slint";
+
+export component CanvasView inherits Rectangle {
+    background: Theme.canvas-bg;
+    border-radius: Theme.radius;
+    border-width: 1px;
+    border-color: Theme.border;
+    clip: true;
+
+    changed width => { App.canvas-size(self.width / 1px, self.height / 1px); }
+    changed height => { App.canvas-size(self.width / 1px, self.height / 1px); }
+    init => {
+        App.canvas-size(self.width / 1px, self.height / 1px);
+        fs.focus();
+    }
+    changed has-doc => { fs.focus(); }
+    property <int> refocus: App.refocus;
+    property <bool> has-doc: App.has-doc;
+    changed refocus => { fs.focus(); }
+
+    Image {
+        visible: App.has-doc;
+        source: App.canvas;
+        width: parent.width;
+        height: parent.height;
+        image-fit: fill;
+        image-rendering: pixelated;
+    }
+
+    fs := FocusScope {
+        key-pressed(e) => {
+            if App.key(e.text, e.modifiers.control, e.modifiers.shift, e.modifiers.alt, true) {
+                return accept;
+            }
+            reject
+        }
+        key-released(e) => {
+            if App.key(e.text, e.modifiers.control, e.modifiers.shift, e.modifiers.alt, false) {
+                return accept;
+            }
+            reject
+        }
+        ta := TouchArea {
+            enabled: App.has-doc;
+            mouse-cursor: App.cursor == 1 ? MouseCursor.crosshair : App.cursor == 2 ? MouseCursor.move : App.cursor == 3 ? MouseCursor.grab
+                : App.cursor == 4 ? MouseCursor.grabbing : App.cursor == 5 ? MouseCursor.text : App.cursor == 6 ? MouseCursor.pointer
+                : App.cursor == 8 ? MouseCursor.nwse-resize : App.cursor == 9 ? MouseCursor.nesw-resize : App.cursor == 10 ? MouseCursor.none : MouseCursor.default;
+            pointer-event(e) => {
+                if e.kind == PointerEventKind.down {
+                    fs.focus();
+                }
+                App.canvas-pointer(
+                    e.kind == PointerEventKind.down ? 0 : e.kind == PointerEventKind.up ? 1 : e.kind == PointerEventKind.move ? 2 : 3,
+                    e.button == PointerEventButton.left ? 0 : e.button == PointerEventButton.right ? 1 : e.button == PointerEventButton.middle ? 2 : 3,
+                    self.mouse-x / 1px, self.mouse-y / 1px,
+                    e.modifiers.control, e.modifiers.shift, e.modifiers.alt);
+            }
+            scroll-event(e) => {
+                if App.canvas-scroll(e.delta-x / 1px, e.delta-y / 1px, self.mouse-x / 1px, self.mouse-y / 1px, e.modifiers.control, e.modifiers.shift) {
+                    return accept;
+                }
+                reject
+            }
+            changed has-hover => {
+                if !self.has-hover {
+                    App.canvas-pointer(4, 3, -1, -1, false, false, false);
+                }
+            }
+        }
+    }
+
+    // Empty state
+    if !App.has-doc: VerticalLayout {
+        alignment: center;
+        spacing: 18px;
+        HorizontalLayout {
+            alignment: center;
+            Rectangle {
+                width: 72px;
+                height: 72px;
+                border-radius: 20px;
+                background: @linear-gradient(135deg, #a78bfa 0%, #6a4cf5 55%, #ec4899 100%);
+                drop-shadow-blur: 24px;
+                drop-shadow-color: #6a4cf566;
+                Image {
+                    source: Icons.brush;
+                    width: 36px;
+                    height: 36px;
+                    colorize: #ffffff;
+                }
+            }
+        }
+        Text {
+            text: "Welcome to Neobrush";
+            font-size: 22px;
+            font-weight: 600;
+            color: Theme.text;
+            horizontal-alignment: center;
+        }
+        Text {
+            text: "Create a new image or open an existing one to get started.";
+            font-size: Theme.font;
+            color: Theme.text-muted;
+            horizontal-alignment: center;
+        }
+        HorizontalLayout {
+            alignment: center;
+            spacing: 10px;
+            Btn {
+                text: "New Image";
+                primary: true;
+                clicked => { App.action("file.new"); }
+            }
+            Btn {
+                text: "Open…";
+                clicked => { App.action("file.open"); }
+            }
+            Btn {
+                text: "Paste";
+                clicked => { App.action("edit.paste-new-image"); }
+            }
+        }
+    }
+}

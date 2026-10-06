@@ -1,0 +1,296 @@
+import { Theme } from "theme.slint";
+import { Icons } from "icons.slint";
+import { App, Tool, Tip } from "state.slint";
+import { IconButton, Divider, VDivider, Segmented, ValueSlider, Toggle, FieldLabel } from "widgets.slint";
+import { ComboBox } from "std-widgets.slint";
+
+export component TopBar inherits Rectangle {
+    height: 46px;
+    HorizontalLayout {
+        padding-left: 12px;
+        padding-right: 12px;
+        spacing: 4px;
+        // Brand mark
+        HorizontalLayout {
+            spacing: 8px;
+            padding-right: 10px;
+            Rectangle {
+                width: 24px;
+                height: 24px;
+                y: (parent.height - self.height) / 2;
+                border-radius: 7px;
+                background: @linear-gradient(135deg, #a78bfa 0%, #6a4cf5 55%, #ec4899 100%);
+                Image {
+                    source: Icons.brush;
+                    width: 14px;
+                    height: 14px;
+                    colorize: #ffffff;
+                }
+            }
+            Text {
+                text: "Neobrush";
+                font-size: 14px;
+                font-weight: 600;
+                color: Theme.text;
+                vertical-alignment: center;
+            }
+        }
+        VDivider { height: 22px; y: 12px; }
+        IconButton { y: 8px; icon: Icons.file-plus; tip: "New image  Ctrl+N"; clicked => { App.action("file.new"); } }
+        IconButton { y: 8px; icon: Icons.folder-open; tip: "Open  Ctrl+O"; clicked => { App.action("file.open"); } }
+        IconButton { y: 8px; icon: Icons.save; tip: "Save  Ctrl+S"; enabled: App.has-doc; clicked => { App.action("file.save"); } }
+        VDivider { height: 22px; y: 12px; }
+        IconButton { y: 8px; icon: Icons.undo; tip: "Undo  Ctrl+Z"; enabled: App.can-undo || App.is-editing; clicked => { App.action("edit.undo"); } }
+        IconButton { y: 8px; icon: Icons.redo; tip: "Redo  Ctrl+Y"; enabled: App.can-redo; clicked => { App.action("edit.redo"); } }
+        VDivider { height: 22px; y: 12px; }
+        IconButton { y: 8px; icon: Icons.scissors; tip: "Cut  Ctrl+X"; enabled: App.has-doc; clicked => { App.action("edit.cut"); } }
+        IconButton { y: 8px; icon: Icons.copy; tip: "Copy  Ctrl+C"; enabled: App.has-doc; clicked => { App.action("edit.copy"); } }
+        IconButton { y: 8px; icon: Icons.paste; tip: "Paste  Ctrl+V"; enabled: App.has-doc; clicked => { App.action("edit.paste"); } }
+        VDivider { height: 22px; y: 12px; }
+        IconButton { y: 8px; icon: Icons.crop; tip: "Crop to selection  Ctrl+Shift+X"; enabled: App.has-selection; clicked => { App.action("image.crop"); } }
+        IconButton { y: 8px; icon: Icons.x; tip: "Deselect  Ctrl+D"; enabled: App.has-selection; clicked => { App.action("edit.deselect"); } }
+        Rectangle { horizontal-stretch: 1; }
+        IconButton { y: 8px; icon: Icons.grid; tip: "Pixel grid"; active: App.pixel-grid; clicked => { App.pixel-grid = !App.pixel-grid; App.action("view.refresh"); } }
+        IconButton { y: 8px; icon: Icons.zoom-out; tip: "Zoom out  Ctrl+-"; enabled: App.has-doc; clicked => { App.action("view.zoom-out"); } }
+        Rectangle {
+            width: 64px;
+            Text {
+                text: round(App.zoom) + "%";
+                color: Theme.text;
+                font-size: Theme.font;
+                font-weight: 600;
+                horizontal-alignment: center;
+                vertical-alignment: center;
+            }
+            TouchArea {
+                clicked => { App.action("view.actual"); }
+            }
+        }
+        IconButton { y: 8px; icon: Icons.zoom-in; tip: "Zoom in  Ctrl++"; enabled: App.has-doc; clicked => { App.action("view.zoom-in"); } }
+        IconButton { y: 8px; icon: Icons.maximize; tip: "Zoom to window  Ctrl+B"; enabled: App.has-doc; clicked => { App.action("view.fit"); } }
+    }
+}
+
+component Hint inherits Text {
+    color: Theme.text-muted;
+    font-size: Theme.font-sm + 0.5px;
+    vertical-alignment: center;
+    overflow: elide;
+}
+
+export component OptionsBar inherits Rectangle {
+    height: 44px;
+    property <Tool> t: App.tool;
+    property <bool> is-select: t == Tool.rect-select || t == Tool.ellipse-select || t == Tool.lasso-select || t == Tool.magic-wand;
+    property <bool> has-size: t == Tool.brush || t == Tool.eraser || t == Tool.clone || t == Tool.recolor;
+    property <bool> has-aa: t == Tool.brush || t == Tool.eraser || t == Tool.clone || t == Tool.recolor || t == Tool.text || t == Tool.line || t == Tool.shape;
+    property <bool> has-blend: t == Tool.brush || t == Tool.pencil || t == Tool.bucket || t == Tool.gradient || t == Tool.text || t == Tool.line || t == Tool.shape;
+    property <bool> has-flood: t == Tool.magic-wand || t == Tool.bucket;
+    property <string> tool-name: t == Tool.rect-select ? "Rectangle Select" : t == Tool.ellipse-select ? "Ellipse Select" : t == Tool.lasso-select ? "Lasso Select"
+        : t == Tool.magic-wand ? "Magic Wand" : t == Tool.move-pixels ? "Move Pixels" : t == Tool.move-selection ? "Move Selection"
+        : t == Tool.zoom ? "Zoom" : t == Tool.pan ? "Pan" : t == Tool.bucket ? "Paint Bucket" : t == Tool.gradient ? "Gradient"
+        : t == Tool.brush ? "Paintbrush" : t == Tool.eraser ? "Eraser" : t == Tool.pencil ? "Pencil" : t == Tool.picker ? "Color Picker"
+        : t == Tool.clone ? "Clone Stamp" : t == Tool.recolor ? "Recolor" : t == Tool.text ? "Text" : t == Tool.line ? "Line / Curve" : "Shapes";
+    property <image> tool-icon: t == Tool.rect-select ? Icons.square-dashed : t == Tool.ellipse-select ? Icons.circle-dashed : t == Tool.lasso-select ? Icons.lasso
+        : t == Tool.magic-wand ? Icons.wand : t == Tool.move-pixels ? Icons.move : t == Tool.move-selection ? Icons.pointer
+        : t == Tool.zoom ? Icons.zoom-in : t == Tool.pan ? Icons.hand : t == Tool.bucket ? Icons.bucket : t == Tool.gradient ? Icons.gradient
+        : t == Tool.brush ? Icons.brush : t == Tool.eraser ? Icons.eraser : t == Tool.pencil ? Icons.pencil : t == Tool.picker ? Icons.pipette
+        : t == Tool.clone ? Icons.stamp : t == Tool.recolor ? Icons.replace : t == Tool.text ? Icons.type : t == Tool.line ? Icons.spline : Icons.shapes;
+
+    HorizontalLayout {
+        padding-left: 12px;
+        padding-right: 12px;
+        spacing: 10px;
+        HorizontalLayout {
+            spacing: 8px;
+            width: 150px;
+            Rectangle {
+                width: 28px;
+                height: 28px;
+                y: (parent.height - self.height) / 2;
+                border-radius: 7px;
+                background: Theme.accent-soft;
+                Image {
+                    source: root.tool-icon;
+                    width: 16px;
+                    height: 16px;
+                    colorize: Theme.accent;
+                }
+            }
+            Text {
+                text: root.tool-name;
+                font-size: Theme.font;
+                font-weight: 600;
+                color: Theme.text;
+                vertical-alignment: center;
+                overflow: elide;
+            }
+        }
+        VDivider { height: 22px; y: 11px; }
+
+        HorizontalLayout {
+            spacing: 10px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            alignment: start;
+            horizontal-stretch: 1;
+
+            if root.is-select: Segmented {
+                items: ["Replace", "Add", "Subtract", "Intersect", "Invert"];
+                selected: App.sel-mode;
+                changed(i) => { App.sel-mode = i; App.option-changed(); }
+            }
+            if root.has-size: ValueSlider {
+                label: "Size";
+                width: 150px;
+                minimum: 1;
+                maximum: 500;
+                power: 2.5;
+                suffix: " px";
+                value: App.brush-width;
+                edited(v) => { App.brush-width = v; App.option-changed(); }
+            }
+            if root.t == Tool.brush || root.t == Tool.eraser || root.t == Tool.clone: ValueSlider {
+                label: "Hardness";
+                width: 140px;
+                minimum: 0;
+                maximum: 100;
+                suffix: "%";
+                value: App.hardness;
+                edited(v) => { App.hardness = v; App.option-changed(); }
+            }
+            if root.t == Tool.line || root.t == Tool.shape: ValueSlider {
+                label: root.t == Tool.line ? "Width" : "Outline";
+                width: 140px;
+                minimum: 1;
+                maximum: 200;
+                power: 2;
+                suffix: " px";
+                value: App.brush-width;
+                edited(v) => { App.brush-width = v; App.option-changed(); }
+            }
+            if root.t == Tool.shape: ComboBox {
+                width: 170px;
+                model: App.shape-names;
+                current-index: App.shape-type;
+                selected(v) => { App.shape-type = self.current-index; App.option-changed(); }
+            }
+            if root.t == Tool.shape: Segmented {
+                items: ["Outline", "Fill", "Fill + Outline"];
+                selected: App.fill-style;
+                changed(i) => { App.fill-style = i; App.option-changed(); }
+            }
+            if root.t == Tool.shape && App.shape-type == 1: ValueSlider {
+                label: "Radius";
+                width: 120px;
+                minimum: 0;
+                maximum: 200;
+                value: App.corner-radius;
+                edited(v) => { App.corner-radius = v; App.option-changed(); }
+            }
+            if root.t == Tool.line: Segmented {
+                items: ["Solid", "Dashed", "Dotted"];
+                selected: App.dash;
+                changed(i) => { App.dash = i; App.option-changed(); }
+            }
+            if root.has-flood: Segmented {
+                items: ["Contiguous", "Global"];
+                selected: App.flood-global ? 1 : 0;
+                changed(i) => { App.flood-global = i == 1; App.option-changed(); }
+            }
+            if root.has-flood || root.t == Tool.recolor: ValueSlider {
+                label: "Tolerance";
+                width: 140px;
+                minimum: 0;
+                maximum: 100;
+                suffix: "%";
+                value: App.tolerance;
+                edited(v) => { App.tolerance = v; App.option-changed(); }
+            }
+            if root.has-flood || root.t == Tool.picker: Segmented {
+                items: ["Layer", "Image"];
+                selected: App.sample-image ? 1 : 0;
+                changed(i) => { App.sample-image = i == 1; App.option-changed(); }
+            }
+            if root.t == Tool.gradient: Segmented {
+                items: ["Linear", "Reflected", "Diamond", "Radial", "Conical"];
+                selected: App.gradient-type;
+                changed(i) => { App.gradient-type = i; App.option-changed(); }
+            }
+            if root.t == Tool.gradient: Segmented {
+                items: ["Color", "Transparency"];
+                selected: App.gradient-alpha ? 1 : 0;
+                changed(i) => { App.gradient-alpha = i == 1; App.option-changed(); }
+            }
+            if root.t == Tool.picker: Segmented {
+                items: ["Single pixel", "3×3", "5×5", "9×9"];
+                selected: App.picker-size;
+                changed(i) => { App.picker-size = i; App.option-changed(); }
+            }
+            if root.t == Tool.picker: ComboBox {
+                width: 170px;
+                model: ["Stay on picker", "Switch to previous tool", "Switch to pencil"];
+                current-index: App.picker-after;
+                selected(v) => { App.picker-after = self.current-index; }
+            }
+            if root.t == Tool.text: ComboBox {
+                width: 180px;
+                model: App.fonts;
+                current-value: App.font-family;
+                selected(v) => { App.font-family = v; App.option-changed(); }
+            }
+            if root.t == Tool.text: ValueSlider {
+                label: "Size";
+                width: 120px;
+                minimum: 4;
+                maximum: 400;
+                power: 2;
+                suffix: " pt";
+                value: App.font-size;
+                edited(v) => { App.font-size = v; App.option-changed(); }
+            }
+            if root.t == Tool.text: HorizontalLayout {
+                spacing: 2px;
+                Toggle { text: "B"; tip: "Bold"; checked: App.bold; toggled(c) => { App.bold = c; App.option-changed(); } }
+                Toggle { text: "I"; tip: "Italic"; checked: App.italic; toggled(c) => { App.italic = c; App.option-changed(); } }
+                Toggle { text: "U"; tip: "Underline"; checked: App.underline; toggled(c) => { App.underline = c; App.option-changed(); } }
+            }
+            if root.t == Tool.text: Segmented {
+                items: ["Left", "Center", "Right"];
+                selected: App.text-align;
+                changed(i) => { App.text-align = i; App.option-changed(); }
+            }
+            if root.has-aa: Toggle {
+                text: "Antialias";
+                checked: App.antialias;
+                toggled(c) => { App.antialias = c; App.option-changed(); }
+            }
+            if root.has-blend: Segmented {
+                items: ["Normal", "Overwrite"];
+                selected: App.overwrite ? 1 : 0;
+                changed(i) => { App.overwrite = i == 1; App.option-changed(); }
+            }
+            if root.t == Tool.move-pixels || root.t == Tool.move-selection: Hint {
+                text: "Drag to move  ·  drag corner handles to scale  ·  right-drag to rotate";
+            }
+            if root.t == Tool.zoom: Hint {
+                text: "Click to zoom in  ·  right-click to zoom out  ·  drag a rectangle to zoom to it";
+            }
+            if root.t == Tool.pan: Hint {
+                text: "Drag to pan  ·  middle mouse or Space+drag pans with any tool";
+            }
+            if root.t == Tool.clone: Hint {
+                text: "Ctrl+click to set the source";
+            }
+            if root.is-select: Hint {
+                text: "Ctrl add · Alt subtract";
+            }
+            if root.t == Tool.text: Hint {
+                text: "Enter for new line · Esc to finish";
+            }
+            if root.t == Tool.shape || root.t == Tool.line: Hint {
+                text: "Shift to constrain · Enter to finish";
+            }
+        }
+    }
+}

@@ -1,0 +1,346 @@
+import "fonts/Inter-400.ttf";
+import "fonts/Inter-500.ttf";
+import "fonts/Inter-600.ttf";
+
+import { Theme } from "theme.slint";
+import { Icons } from "icons.slint";
+import { App, Tip, Tool, LayerItem, HistoryItem, DocTab, ParamItem, CurvePoint } from "state.slint";
+import { IconButton, Divider, VDivider, Card } from "widgets.slint";
+import { ToolPalette, ColorsPanel, LayersPanel, HistoryPanel } from "panels.slint";
+import { TopBar, OptionsBar } from "toolbar.slint";
+import { CanvasView } from "canvas.slint";
+import { NewImageDialog, ResizeDialog, CanvasSizeDialog, FxDialog, CurvesDialog, LayerPropsDialog, ConfirmDialog, MessageDialog, JpegDialog, AboutDialog, ShortcutsDialog } from "dialogs.slint";
+
+export { App, Tip, Tool, Theme, LayerItem, HistoryItem, DocTab, ParamItem, CurvePoint }
+
+component DocTabs inherits Rectangle {
+    height: 44px;
+    HorizontalLayout {
+        spacing: 6px;
+        alignment: start;
+        for tab[i] in App.tabs: Rectangle {
+            height: 40px;
+            y: 2px;
+            width: min(220px, row.preferred-width);
+            border-radius: 9px;
+            background: tab.active ? Theme.surface : tta.has-hover ? Theme.hover : transparent;
+            border-width: tab.active ? 1px : 0px;
+            border-color: Theme.border;
+            drop-shadow-blur: tab.active ? 8px : 0px;
+            drop-shadow-color: Theme.shadow;
+            tta := TouchArea {
+                clicked => { App.tab-select(i); }
+                pointer-event(e) => {
+                    if e.kind == PointerEventKind.up && e.button == PointerEventButton.middle {
+                        App.tab-close(i);
+                    }
+                }
+            }
+            row := HorizontalLayout {
+                padding-left: 5px;
+                padding-right: 4px;
+                spacing: 8px;
+                Rectangle {
+                    width: 30px;
+                    height: 30px;
+                    y: 5px;
+                    border-radius: 5px;
+                    clip: true;
+                    border-width: 1px;
+                    border-color: Theme.border;
+                    Image {
+                        source: tab.thumb;
+                        width: parent.width;
+                        height: parent.height;
+                        image-fit: contain;
+                    }
+                }
+                Text {
+                    text: tab.title + (tab.modified ? " •" : "");
+                    font-size: Theme.font;
+                    font-weight: tab.active ? 600 : 500;
+                    color: tab.active ? Theme.text : Theme.text-muted;
+                    vertical-alignment: center;
+                    overflow: elide;
+                    max-width: 140px;
+                }
+                IconButton {
+                    y: 9px;
+                    size: 22px;
+                    icon-size: 12px;
+                    icon: Icons.x;
+                    tip: "Close  Ctrl+W";
+                    clicked => { App.tab-close(i); }
+                }
+            }
+        }
+    }
+}
+
+component StatusBar inherits Rectangle {
+    height: 28px;
+    HorizontalLayout {
+        padding-left: 14px;
+        padding-right: 14px;
+        spacing: 18px;
+        Text {
+            text: App.status-hint;
+            color: Theme.text-muted;
+            font-size: Theme.font-sm + 0.5px;
+            vertical-alignment: center;
+            overflow: elide;
+            horizontal-stretch: 1;
+        }
+        if App.status-sel != "": HorizontalLayout {
+            spacing: 6px;
+            Image { source: Icons.square-dashed; width: 12px; height: 12px; y: 8px; colorize: Theme.text-faint; }
+            Text { text: App.status-sel; color: Theme.text-muted; font-size: Theme.font-sm + 0.5px; vertical-alignment: center; }
+        }
+        HorizontalLayout {
+            spacing: 6px;
+            Image { source: Icons.pointer; width: 12px; height: 12px; y: 8px; colorize: Theme.text-faint; }
+            Text { text: App.status-pos; color: Theme.text-muted; font-size: Theme.font-sm + 0.5px; vertical-alignment: center; min-width: 70px; }
+        }
+        HorizontalLayout {
+            spacing: 6px;
+            Image { source: Icons.image; width: 12px; height: 12px; y: 8px; colorize: Theme.text-faint; }
+            Text { text: App.status-size; color: Theme.text-muted; font-size: Theme.font-sm + 0.5px; vertical-alignment: center; }
+        }
+    }
+}
+
+export component AppWindow inherits Window {
+    title: App.window-title;
+    icon: @image-url("icons/brush.svg");
+    preferred-width: 1440px;
+    preferred-height: 900px;
+    min-width: 900px;
+    min-height: 560px;
+    background: Theme.bg;
+    default-font-family: "Inter";
+    default-font-size: 12.5px;
+
+    MenuBar {
+        Menu {
+            title: "File";
+            MenuItem { title: "New…"; shortcut: @keys(Control + N); activated => { App.action("file.new"); } }
+            MenuItem { title: "Open…"; shortcut: @keys(Control + O); activated => { App.action("file.open"); } }
+            MenuSeparator { }
+            MenuItem { title: "Save"; shortcut: @keys(Control + S); activated => { App.action("file.save"); } }
+            MenuItem { title: "Save As…"; shortcut: @keys(Control + Shift + S); activated => { App.action("file.save-as"); } }
+            MenuSeparator { }
+            MenuItem { title: "Close"; shortcut: @keys(Control + W); activated => { App.action("file.close"); } }
+            MenuItem { title: "Exit"; shortcut: @keys(Control + Q); activated => { App.action("file.exit"); } }
+        }
+        Menu {
+            title: "Edit";
+            MenuItem { title: "Undo"; shortcut: @keys(Control + Z); activated => { App.action("edit.undo"); } }
+            MenuItem { title: "Redo"; shortcut: @keys(Control + Y); activated => { App.action("edit.redo"); } }
+            MenuSeparator { }
+            MenuItem { title: "Cut"; shortcut: @keys(Control + X); activated => { App.action("edit.cut"); } }
+            MenuItem { title: "Copy"; shortcut: @keys(Control + C); activated => { App.action("edit.copy"); } }
+            MenuItem { title: "Copy Merged"; shortcut: @keys(Control + Shift + C); activated => { App.action("edit.copy-merged"); } }
+            MenuItem { title: "Paste"; shortcut: @keys(Control + V); activated => { App.action("edit.paste"); } }
+            MenuItem { title: "Paste into New Layer"; shortcut: @keys(Control + Shift + V); activated => { App.action("edit.paste-new-layer"); } }
+            MenuItem { title: "Paste into New Image"; shortcut: @keys(Control + Alt + V); activated => { App.action("edit.paste-new-image"); } }
+            MenuSeparator { }
+            MenuItem { title: "Select All"; shortcut: @keys(Control + A); activated => { App.action("edit.select-all"); } }
+            MenuItem { title: "Deselect"; shortcut: @keys(Control + D); activated => { App.action("edit.deselect"); } }
+            MenuItem { title: "Invert Selection"; shortcut: @keys(Control + I); activated => { App.action("edit.invert-selection"); } }
+            MenuSeparator { }
+            MenuItem { title: "Erase Selection   (Del)"; activated => { App.action("edit.erase"); } }
+            MenuItem { title: "Fill Selection   (Backspace)"; activated => { App.action("edit.fill"); } }
+        }
+        Menu {
+            title: "View";
+            MenuItem { title: "Zoom In"; shortcut: @keys(Control + Plus); activated => { App.action("view.zoom-in"); } }
+            MenuItem { title: "Zoom Out"; shortcut: @keys(Control + HyphenMinus); activated => { App.action("view.zoom-out"); } }
+            MenuItem { title: "Zoom to Window"; shortcut: @keys(Control + B); activated => { App.action("view.fit"); } }
+            MenuItem { title: "Actual Size"; shortcut: @keys(Control + "0"); activated => { App.action("view.actual"); } }
+            MenuSeparator { }
+            MenuItem { title: "Pixel Grid"; checkable: true; checked: App.pixel-grid; activated => { App.pixel-grid = !App.pixel-grid; App.action("view.refresh"); } }
+            MenuSeparator { }
+            MenuItem { title: "Tools"; checkable: true; checked: App.show-tools; activated => { App.show-tools = !App.show-tools; } }
+            MenuItem { title: "Colors"; checkable: true; checked: App.show-colors; activated => { App.show-colors = !App.show-colors; } }
+            MenuItem { title: "Layers"; checkable: true; checked: App.show-layers; activated => { App.show-layers = !App.show-layers; } }
+            MenuItem { title: "History"; checkable: true; checked: App.show-history; activated => { App.show-history = !App.show-history; } }
+        }
+        Menu {
+            title: "Image";
+            MenuItem { title: "Crop to Selection"; shortcut: @keys(Control + Shift + X); activated => { App.action("image.crop"); } }
+            MenuItem { title: "Auto Crop"; shortcut: @keys(Control + Alt + X); activated => { App.action("image.autocrop"); } }
+            MenuItem { title: "Resize…"; shortcut: @keys(Control + R); activated => { App.action("image.resize"); } }
+            MenuItem { title: "Canvas Size…"; shortcut: @keys(Control + Shift + R); activated => { App.action("image.canvas"); } }
+            MenuSeparator { }
+            MenuItem { title: "Flip Horizontal"; activated => { App.action("image.flip-h"); } }
+            MenuItem { title: "Flip Vertical"; activated => { App.action("image.flip-v"); } }
+            MenuSeparator { }
+            MenuItem { title: "Rotate 90° Clockwise"; shortcut: @keys(Control + H); activated => { App.action("image.rot-cw"); } }
+            MenuItem { title: "Rotate 90° Counter-clockwise"; shortcut: @keys(Control + G); activated => { App.action("image.rot-ccw"); } }
+            MenuItem { title: "Rotate 180°"; shortcut: @keys(Control + J); activated => { App.action("image.rot-180"); } }
+            MenuSeparator { }
+            MenuItem { title: "Flatten"; shortcut: @keys(Control + Shift + F); activated => { App.action("image.flatten"); } }
+        }
+        Menu {
+            title: "Layers";
+            MenuItem { title: "Add New Layer"; shortcut: @keys(Control + Shift + N); activated => { App.action("layer.add"); } }
+            MenuItem { title: "Delete Layer"; activated => { App.action("layer.delete"); } }
+            MenuItem { title: "Duplicate Layer"; shortcut: @keys(Control + Shift + D); activated => { App.action("layer.duplicate"); } }
+            MenuItem { title: "Merge Layer Down"; shortcut: @keys(Control + M); activated => { App.action("layer.merge-down"); } }
+            MenuItem { title: "Import from File…"; activated => { App.action("layer.import"); } }
+            MenuSeparator { }
+            MenuItem { title: "Flip Horizontal"; activated => { App.action("layer.flip-h"); } }
+            MenuItem { title: "Flip Vertical"; activated => { App.action("layer.flip-v"); } }
+            MenuItem { title: "Rotate / Zoom…"; shortcut: @keys(Control + Shift + Z); activated => { App.action("fx:rotate-zoom"); } }
+            MenuSeparator { }
+            MenuItem { title: "Move Layer Up"; shortcut: @keys(Control + PageUp); activated => { App.action("layer.up"); } }
+            MenuItem { title: "Move Layer Down"; shortcut: @keys(Control + PageDown); activated => { App.action("layer.down"); } }
+            MenuSeparator { }
+            MenuItem { title: "Layer Properties…"; shortcut: @keys(F4); activated => { App.action("layer.properties"); } }
+        }
+        Menu {
+            title: "Adjustments";
+            MenuItem { title: "Auto-Level"; shortcut: @keys(Control + Shift + L); activated => { App.action("fx:auto-level"); } }
+            MenuItem { title: "Black and White"; shortcut: @keys(Control + Shift + G); activated => { App.action("fx:black-and-white"); } }
+            MenuItem { title: "Brightness / Contrast…"; activated => { App.action("fx:brightness-contrast"); } }
+            MenuItem { title: "Curves…"; shortcut: @keys(Control + Shift + M); activated => { App.action("fx:curves"); } }
+            MenuItem { title: "Hue / Saturation…"; shortcut: @keys(Control + Shift + U); activated => { App.action("fx:hue-saturation"); } }
+            MenuItem { title: "Invert Colors"; shortcut: @keys(Control + Shift + I); activated => { App.action("fx:invert-colors"); } }
+            MenuItem { title: "Levels…"; shortcut: @keys(Control + L); activated => { App.action("fx:levels"); } }
+            MenuItem { title: "Posterize…"; shortcut: @keys(Control + Shift + P); activated => { App.action("fx:posterize"); } }
+            MenuItem { title: "Sepia"; shortcut: @keys(Control + Shift + E); activated => { App.action("fx:sepia"); } }
+            MenuSeparator { }
+            MenuItem { title: "Vibrance…"; activated => { App.action("fx:vibrance"); } }
+            MenuItem { title: "Temperature / Tint…"; activated => { App.action("fx:temperature"); } }
+        }
+        Menu {
+            title: "Effects";
+            MenuItem { title: "Repeat Last Effect"; shortcut: @keys(Control + F); activated => { App.action("fx.repeat"); } }
+            MenuSeparator { }
+            Menu {
+                title: "Artistic";
+                MenuItem { title: "Ink Sketch…"; activated => { App.action("fx:ink-sketch"); } }
+                MenuItem { title: "Oil Painting…"; activated => { App.action("fx:oil-painting"); } }
+                MenuItem { title: "Pencil Sketch…"; activated => { App.action("fx:pencil-sketch"); } }
+            }
+            Menu {
+                title: "Blurs";
+                MenuItem { title: "Fragment…"; activated => { App.action("fx:fragment"); } }
+                MenuItem { title: "Gaussian Blur…"; activated => { App.action("fx:gaussian-blur"); } }
+                MenuItem { title: "Motion Blur…"; activated => { App.action("fx:motion-blur"); } }
+                MenuItem { title: "Radial Blur…"; activated => { App.action("fx:radial-blur"); } }
+                MenuItem { title: "Surface Blur…"; activated => { App.action("fx:surface-blur"); } }
+                MenuItem { title: "Unfocus…"; activated => { App.action("fx:unfocus"); } }
+                MenuItem { title: "Zoom Blur…"; activated => { App.action("fx:zoom-blur"); } }
+            }
+            Menu {
+                title: "Distort";
+                MenuItem { title: "Bulge…"; activated => { App.action("fx:bulge"); } }
+                MenuItem { title: "Dents…"; activated => { App.action("fx:dents"); } }
+                MenuItem { title: "Frosted Glass…"; activated => { App.action("fx:frosted-glass"); } }
+                MenuItem { title: "Pixelate…"; activated => { App.action("fx:pixelate"); } }
+                MenuItem { title: "Polar Inversion…"; activated => { App.action("fx:polar-inversion"); } }
+                MenuItem { title: "Tile Reflection…"; activated => { App.action("fx:tile-reflection"); } }
+                MenuItem { title: "Twist…"; activated => { App.action("fx:twist"); } }
+            }
+            Menu {
+                title: "Noise";
+                MenuItem { title: "Add Noise…"; activated => { App.action("fx:add-noise"); } }
+                MenuItem { title: "Median…"; activated => { App.action("fx:median"); } }
+                MenuItem { title: "Reduce Noise…"; activated => { App.action("fx:reduce-noise"); } }
+            }
+            Menu {
+                title: "Photo";
+                MenuItem { title: "Glow…"; activated => { App.action("fx:glow"); } }
+                MenuItem { title: "Red Eye Removal…"; activated => { App.action("fx:red-eye"); } }
+                MenuItem { title: "Sharpen…"; activated => { App.action("fx:sharpen"); } }
+                MenuItem { title: "Soft Portrait…"; activated => { App.action("fx:soft-portrait"); } }
+                MenuItem { title: "Vignette…"; activated => { App.action("fx:vignette"); } }
+            }
+            Menu {
+                title: "Render";
+                MenuItem { title: "Clouds…"; activated => { App.action("fx:clouds"); } }
+                MenuItem { title: "Julia Fractal…"; activated => { App.action("fx:julia"); } }
+                MenuItem { title: "Mandelbrot Fractal…"; activated => { App.action("fx:mandelbrot"); } }
+            }
+            Menu {
+                title: "Stylize";
+                MenuItem { title: "Edge Detect…"; activated => { App.action("fx:edge-detect"); } }
+                MenuItem { title: "Emboss…"; activated => { App.action("fx:emboss"); } }
+                MenuItem { title: "Outline…"; activated => { App.action("fx:outline"); } }
+                MenuItem { title: "Relief…"; activated => { App.action("fx:relief"); } }
+            }
+            Menu {
+                title: "Object";
+                MenuItem { title: "Drop Shadow…"; activated => { App.action("fx:drop-shadow"); } }
+            }
+        }
+        Menu {
+            title: "Help";
+            MenuItem { title: "Keyboard Shortcuts"; shortcut: @keys(F1); activated => { App.dialog = "shortcuts"; } }
+            MenuItem { title: "About Neobrush"; activated => { App.dialog = "about"; } }
+        }
+    }
+
+    VerticalLayout {
+        TopBar { }
+        Divider { }
+        if App.has-doc: OptionsBar { }
+        HorizontalLayout {
+            padding: 10px;
+            padding-top: App.has-doc ? 4px : 10px;
+            spacing: 10px;
+            if App.show-tools && App.has-doc: VerticalLayout {
+                alignment: start;
+                padding-top: App.tabs.length > 0 ? 48px : 0px;
+                ToolPalette { }
+            }
+            VerticalLayout {
+                spacing: 4px;
+                horizontal-stretch: 1;
+                if App.tabs.length > 0: DocTabs { }
+                CanvasView {
+                    vertical-stretch: 1;
+                }
+            }
+            if App.has-doc && (App.show-colors || App.show-layers || App.show-history): VerticalLayout {
+                width: 284px;
+                spacing: 10px;
+                if App.show-colors: ColorsPanel { }
+                if App.show-layers: LayersPanel { vertical-stretch: 3; }
+                if App.show-history: HistoryPanel { vertical-stretch: 2; }
+            }
+        }
+        StatusBar { }
+    }
+
+    if App.dialog == "new": NewImageDialog { }
+    if App.dialog == "resize": ResizeDialog { }
+    if App.dialog == "canvas": CanvasSizeDialog { }
+    if App.dialog == "fx": FxDialog { }
+    if App.dialog == "curves": CurvesDialog { }
+    if App.dialog == "layer-props": LayerPropsDialog { }
+    if App.dialog == "confirm": ConfirmDialog { }
+    if App.dialog == "message": MessageDialog { }
+    if App.dialog == "jpeg": JpegDialog { }
+    if App.dialog == "about": AboutDialog { }
+    if App.dialog == "shortcuts": ShortcutsDialog { }
+
+    // Tooltip layer
+    if Tip.shown: Rectangle {
+        x: min(Tip.x, root.width - self.width - 4px);
+        y: Tip.y;
+        width: tt.preferred-width + 16px;
+        height: 24px;
+        border-radius: 6px;
+        background: Theme.dark ? #f0f0f5 : #1f2029;
+        drop-shadow-blur: 8px;
+        drop-shadow-color: #00000044;
+        tt := Text {
+            text: Tip.text;
+            color: Theme.dark ? #15151a : #f5f5fa;
+            font-size: Theme.font-sm + 0.5px;
+            font-weight: 500;
+        }
+    }
+}

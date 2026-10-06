@@ -1,0 +1,411 @@
+import { Theme } from "theme.slint";
+import { Tip } from "state.slint";
+
+export component Divider inherits Rectangle {
+    background: Theme.border;
+    height: 1px;
+}
+
+export component VDivider inherits Rectangle {
+    background: Theme.border;
+    width: 1px;
+}
+
+export component Checker inherits Rectangle {
+    clip: true;
+    Image {
+        width: parent.width;
+        height: parent.height;
+        source: @image-url("icons/checker.svg");
+        horizontal-tiling: repeat;
+        vertical-tiling: repeat;
+    }
+}
+
+export component IconButton inherits Rectangle {
+    in property <image> icon;
+    in property <string> tip;
+    in property <bool> active;
+    in property <bool> enabled: true;
+    in property <length> size: 30px;
+    in property <length> icon-size: 16px;
+    in property <int> tip-side: 0; // 0 below, 1 right, 2 above, 3 left
+    callback clicked;
+    width: size;
+    height: size;
+    border-radius: Theme.radius-sm;
+    background: active ? Theme.accent-soft : (ta.pressed && enabled) ? Theme.pressed : (ta.has-hover && enabled) ? Theme.hover : transparent;
+    animate background { duration: 90ms; }
+    Image {
+        source: root.icon;
+        width: root.icon-size;
+        height: root.icon-size;
+        colorize: !root.enabled ? Theme.text-faint : root.active ? Theme.accent : Theme.text;
+    }
+    ta := TouchArea {
+        enabled: root.enabled;
+        clicked => {
+            Tip.hide();
+            root.clicked();
+        }
+        changed has-hover => {
+            if self.has-hover && root.tip != "" {
+                if root.tip-side == 1 {
+                    Tip.show(root.tip, root.absolute-position.x + root.width + 6px, root.absolute-position.y + root.height / 2 - 12px);
+                } else if root.tip-side == 2 {
+                    Tip.show(root.tip, root.absolute-position.x, root.absolute-position.y - 30px);
+                } else {
+                    Tip.show(root.tip, root.absolute-position.x, root.absolute-position.y + root.height + 6px);
+                }
+            } else {
+                Tip.hide();
+            }
+        }
+    }
+}
+
+export component Btn inherits Rectangle {
+    in property <string> text;
+    in property <bool> primary: false;
+    in property <bool> danger: false;
+    in property <bool> enabled: true;
+    callback clicked;
+    height: 32px;
+    min-width: max(84px, label.preferred-width + 28px);
+    border-radius: 8px;
+    opacity: enabled ? 1 : 0.5;
+    background: primary ? (ta.pressed ? Theme.accent.darker(0.15) : ta.has-hover ? Theme.accent-hover : Theme.accent)
+        : danger ? (ta.has-hover ? Theme.danger.darker(0.1) : Theme.danger)
+        : (ta.pressed ? Theme.pressed : ta.has-hover ? Theme.surface-3 : Theme.surface-2);
+    border-width: (primary || danger) ? 0px : 1px;
+    border-color: Theme.border-strong;
+    animate background { duration: 90ms; }
+    label := Text {
+        text: root.text;
+        color: (root.primary || root.danger) ? Theme.accent-text : Theme.text;
+        font-weight: 600;
+        font-size: Theme.font;
+        horizontal-alignment: center;
+        vertical-alignment: center;
+    }
+    ta := TouchArea {
+        enabled: root.enabled;
+        clicked => { root.clicked(); }
+    }
+}
+
+export component Card inherits Rectangle {
+    background: Theme.surface;
+    border-radius: Theme.radius;
+    border-width: 1px;
+    border-color: Theme.border;
+    drop-shadow-blur: 14px;
+    drop-shadow-color: Theme.shadow;
+    drop-shadow-offset-y: 2px;
+}
+
+export component Segmented inherits Rectangle {
+    in property <[string]> items;
+    in-out property <int> selected;
+    in property <length> item-min-width: 0px;
+    callback changed(int);
+    height: 28px;
+    border-radius: 7px;
+    background: Theme.surface-3;
+    HorizontalLayout {
+        padding: 2px;
+        spacing: 2px;
+        for it[i] in root.items: Rectangle {
+            border-radius: 5px;
+            background: i == root.selected ? Theme.surface : (ita.has-hover ? Theme.hover : transparent);
+            drop-shadow-blur: i == root.selected ? 3px : 0px;
+            drop-shadow-color: Theme.shadow;
+            min-width: max(root.item-min-width, t.preferred-width + 16px);
+            horizontal-stretch: 1;
+            t := Text {
+                text: it;
+                color: i == root.selected ? Theme.text : Theme.text-muted;
+                font-size: Theme.font-sm + 0.5px;
+                font-weight: i == root.selected ? 600 : 500;
+                horizontal-alignment: center;
+                vertical-alignment: center;
+            }
+            ita := TouchArea {
+                clicked => {
+                    root.selected = i;
+                    root.changed(i);
+                }
+            }
+        }
+    }
+}
+
+export struct IconItem {
+    icon: image,
+    tip: string,
+}
+
+export component IconSegmented inherits Rectangle {
+    in property <[IconItem]> items;
+    in-out property <int> selected;
+    callback changed(int);
+    height: 28px;
+    border-radius: 7px;
+    background: Theme.surface-3;
+    HorizontalLayout {
+        padding: 2px;
+        spacing: 2px;
+        for it[i] in root.items: Rectangle {
+            width: 28px;
+            border-radius: 5px;
+            background: i == root.selected ? Theme.surface : (ita.has-hover ? Theme.hover : transparent);
+            drop-shadow-blur: i == root.selected ? 3px : 0px;
+            drop-shadow-color: Theme.shadow;
+            Image {
+                source: it.icon;
+                width: 15px;
+                height: 15px;
+                colorize: i == root.selected ? Theme.accent : Theme.text-muted;
+            }
+            ita := TouchArea {
+                clicked => {
+                    Tip.hide();
+                    root.selected = i;
+                    root.changed(i);
+                }
+                changed has-hover => {
+                    if self.has-hover {
+                        Tip.show(it.tip, parent.absolute-position.x, parent.absolute-position.y + parent.height + 6px);
+                    } else {
+                        Tip.hide();
+                    }
+                }
+            }
+        }
+    }
+}
+
+export component Toggle inherits Rectangle {
+    in property <image> icon;
+    in property <string> text;
+    in property <string> tip;
+    in-out property <bool> checked;
+    callback toggled(bool);
+    height: 28px;
+    width: text == "" ? 28px : max(28px, row.preferred-width);
+    border-radius: 7px;
+    background: checked ? Theme.accent-soft : ta.has-hover ? Theme.hover : Theme.surface-3;
+    animate background { duration: 90ms; }
+    row := HorizontalLayout {
+        padding-left: root.text == "" ? 0px : 8px;
+        padding-right: root.text == "" ? 0px : 10px;
+        spacing: 6px;
+        alignment: center;
+        if root.icon.width > 0: Image {
+            source: root.icon;
+            width: 15px;
+            height: 15px;
+            y: (parent.height - self.height) / 2;
+            colorize: root.checked ? Theme.accent : Theme.text-muted;
+        }
+        if root.text != "": Text {
+            text: root.text;
+            font-size: Theme.font-sm + 0.5px;
+            font-weight: 600;
+            color: root.checked ? Theme.accent : Theme.text-muted;
+            vertical-alignment: center;
+        }
+    }
+    ta := TouchArea {
+        clicked => {
+            root.checked = !root.checked;
+            root.toggled(root.checked);
+        }
+        changed has-hover => {
+            if self.has-hover && root.tip != "" {
+                Tip.show(root.tip, root.absolute-position.x, root.absolute-position.y + root.height + 6px);
+            } else {
+                Tip.hide();
+            }
+        }
+    }
+}
+
+/// A Figma-style compact slider: drag anywhere to set, scroll to nudge, double-click to type.
+export component ValueSlider inherits Rectangle {
+    in property <string> label;
+    in-out property <float> value;
+    in property <float> minimum: 0;
+    in property <float> maximum: 100;
+    in property <float> step: 1;
+    in property <int> decimals: 0;
+    in property <string> suffix;
+    in property <float> power: 1;
+    callback edited(float);
+    callback released();
+    property <bool> editing: false;
+    property <float> t: pow(clamp((root.value - root.minimum) / max(0.000001, root.maximum - root.minimum), 0, 1), 1 / root.power);
+    height: 28px;
+    min-width: 110px;
+    border-radius: 7px;
+    background: ta.has-hover ? Theme.surface-3.mix(Theme.text, 0.95) : Theme.surface-3;
+    clip: true;
+    Rectangle {
+        x: 0;
+        width: parent.width * root.t;
+        background: Theme.accent-soft;
+    }
+    Rectangle {
+        x: parent.width * root.t - 1px;
+        width: 2px;
+        background: Theme.accent;
+        opacity: 0.7;
+    }
+    if !root.editing: HorizontalLayout {
+        padding-left: 9px;
+        padding-right: 9px;
+        spacing: 6px;
+        Text {
+            text: root.label;
+            color: Theme.text-muted;
+            font-size: Theme.font-sm + 0.5px;
+            vertical-alignment: center;
+            overflow: elide;
+        }
+        Rectangle { horizontal-stretch: 1; }
+        Text {
+            text: root.value.to-fixed(root.decimals) + root.suffix;
+            color: Theme.text;
+            font-size: Theme.font-sm + 0.5px;
+            font-weight: 600;
+            vertical-alignment: center;
+        }
+    }
+    function set-from(mx: length) {
+        let tt = clamp(mx / root.width, 0, 1);
+        let raw = root.minimum + pow(tt, root.power) * (root.maximum - root.minimum);
+        let v = clamp(round(raw / root.step) * root.step, root.minimum, root.maximum);
+        if v != root.value {
+            root.value = v;
+            root.edited(v);
+        }
+    }
+    ta := TouchArea {
+        mouse-cursor: ew-resize;
+        enabled: !root.editing;
+        pointer-event(e) => {
+            if e.kind == PointerEventKind.down && e.button == PointerEventButton.left {
+                root.set-from(self.mouse-x);
+            }
+            if e.kind == PointerEventKind.up {
+                root.released();
+            }
+        }
+        moved => {
+            if self.pressed {
+                root.set-from(self.mouse-x);
+            }
+        }
+        double-clicked => {
+            root.editing = true;
+            input.text = root.value.to-fixed(root.decimals);
+            input.focus();
+            input.select-all();
+        }
+        scroll-event(e) => {
+            let d = e.delta-y > 0 ? root.step : e.delta-y < 0 ? -root.step : 0;
+            if d != 0 {
+                root.value = clamp(root.value + d, root.minimum, root.maximum);
+                root.edited(root.value);
+                root.released();
+            }
+            accept
+        }
+    }
+    input := TextInput {
+        visible: root.editing;
+        x: 9px;
+        width: parent.width - 18px;
+        color: Theme.text;
+        font-size: Theme.font-sm + 0.5px;
+        vertical-alignment: center;
+        horizontal-alignment: right;
+        accepted => {
+            if self.text.is-float() {
+                root.value = clamp(self.text.to-float(), root.minimum, root.maximum);
+                root.edited(root.value);
+                root.released();
+            }
+            root.editing = false;
+        }
+        changed has-focus => {
+            if !self.has-focus {
+                root.editing = false;
+            }
+        }
+        key-pressed(e) => {
+            if e.text == Key.Escape {
+                root.editing = false;
+                return accept;
+            }
+            reject
+        }
+    }
+}
+
+export component PanelHeader inherits HorizontalLayout {
+    in property <string> title;
+    in property <image> icon;
+    spacing: 6px;
+    height: 28px;
+    Image {
+        source: root.icon;
+        width: 14px;
+        height: 14px;
+        y: (parent.height - self.height) / 2;
+        colorize: Theme.text-muted;
+    }
+    Text {
+        text: root.title;
+        font-size: Theme.font;
+        font-weight: 600;
+        color: Theme.text;
+        vertical-alignment: center;
+    }
+    Rectangle { horizontal-stretch: 1; }
+    @children
+}
+
+export component Swatch inherits Rectangle {
+    in property <color> swatch;
+    in property <length> size: 16px;
+    in property <bool> ring: false;
+    callback picked(bool);
+    width: size;
+    height: size;
+    border-radius: 4px;
+    clip: true;
+    Checker { }
+    Rectangle {
+        background: root.swatch;
+    }
+    Rectangle {
+        border-radius: 4px;
+        border-width: root.ring ? 2px : 1px;
+        border-color: root.ring ? Theme.accent : (ta.has-hover ? Theme.text-muted : #00000022);
+    }
+    ta := TouchArea {
+        pointer-event(e) => {
+            if e.kind == PointerEventKind.down {
+                root.picked(e.button == PointerEventButton.right);
+            }
+        }
+    }
+}
+
+export component FieldLabel inherits Text {
+    color: Theme.text-muted;
+    font-size: Theme.font-sm + 0.5px;
+    font-weight: 500;
+    vertical-alignment: center;
+}

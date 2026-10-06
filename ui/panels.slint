@@ -1,0 +1,528 @@
+import { Theme } from "theme.slint";
+import { Icons } from "icons.slint";
+import { App, Tool, Tip } from "state.slint";
+import { Card, IconButton, PanelHeader, Swatch, Checker, Divider, ValueSlider } from "widgets.slint";
+import { ComboBox, LineEdit, ScrollView } from "std-widgets.slint";
+
+component ToolBtn inherits IconButton {
+    in property <Tool> t;
+    size: 34px;
+    icon-size: 17px;
+    tip-side: 1;
+    active: App.tool == t;
+    clicked => {
+        App.tool-selected(t);
+    }
+}
+
+export component ToolPalette inherits Card {
+    width: 86px;
+    VerticalLayout {
+        padding: 6px;
+        spacing: 4px;
+        alignment: start;
+        GridLayout {
+            spacing: 4px;
+            Row {
+                ToolBtn { t: Tool.rect-select; icon: Icons.square-dashed; tip: "Rectangle Select  S"; }
+                ToolBtn { t: Tool.ellipse-select; icon: Icons.circle-dashed; tip: "Ellipse Select  S"; }
+            }
+            Row {
+                ToolBtn { t: Tool.lasso-select; icon: Icons.lasso; tip: "Lasso Select  S"; }
+                ToolBtn { t: Tool.magic-wand; icon: Icons.wand; tip: "Magic Wand  S"; }
+            }
+            Row {
+                ToolBtn { t: Tool.move-pixels; icon: Icons.move; tip: "Move Selected Pixels  M"; }
+                ToolBtn { t: Tool.move-selection; icon: Icons.pointer; tip: "Move Selection  M"; }
+            }
+        }
+        Divider { }
+        GridLayout {
+            spacing: 4px;
+            Row {
+                ToolBtn { t: Tool.brush; icon: Icons.brush; tip: "Paintbrush  B"; }
+                ToolBtn { t: Tool.pencil; icon: Icons.pencil; tip: "Pencil  P"; }
+            }
+            Row {
+                ToolBtn { t: Tool.eraser; icon: Icons.eraser; tip: "Eraser  E"; }
+                ToolBtn { t: Tool.bucket; icon: Icons.bucket; tip: "Paint Bucket  F"; }
+            }
+            Row {
+                ToolBtn { t: Tool.gradient; icon: Icons.gradient; tip: "Gradient  G"; }
+                ToolBtn { t: Tool.picker; icon: Icons.pipette; tip: "Color Picker  K"; }
+            }
+            Row {
+                ToolBtn { t: Tool.clone; icon: Icons.stamp; tip: "Clone Stamp  L"; }
+                ToolBtn { t: Tool.recolor; icon: Icons.replace; tip: "Recolor  R"; }
+            }
+        }
+        Divider { }
+        GridLayout {
+            spacing: 4px;
+            Row {
+                ToolBtn { t: Tool.text; icon: Icons.type; tip: "Text  T"; }
+                ToolBtn { t: Tool.line; icon: Icons.spline; tip: "Line / Curve  O"; }
+            }
+            Row {
+                ToolBtn { t: Tool.shape; icon: Icons.shapes; tip: "Shapes  O"; }
+            }
+        }
+        Divider { }
+        GridLayout {
+            spacing: 4px;
+            Row {
+                ToolBtn { t: Tool.pan; icon: Icons.hand; tip: "Pan  H  (or hold Space)"; }
+                ToolBtn { t: Tool.zoom; icon: Icons.zoom-in; tip: "Zoom  Z"; }
+            }
+        }
+    }
+}
+
+component HueBar inherits Rectangle {
+    in-out property <float> hue;
+    callback edited(float);
+    height: 14px;
+    border-radius: 7px;
+    background: @linear-gradient(90deg, #ff0000 0%, #ffff00 16.66%, #00ff00 33.33%, #00ffff 50%, #0000ff 66.66%, #ff00ff 83.33%, #ff0000 100%);
+    Rectangle {
+        x: clamp(root.hue / 360 * parent.width - 7px, -2px, parent.width - 12px);
+        width: 14px;
+        height: 14px;
+        border-radius: 7px;
+        border-width: 2px;
+        border-color: #ffffff;
+        background: hsv(root.hue, 1, 1);
+        drop-shadow-blur: 4px;
+        drop-shadow-color: #00000066;
+    }
+    function set(mx: length) {
+        root.hue = clamp(mx / root.width, 0, 0.9999) * 360;
+        root.edited(root.hue);
+    }
+    TouchArea {
+        pointer-event(e) => {
+            if e.kind == PointerEventKind.down {
+                root.set(self.mouse-x);
+            }
+        }
+        moved => {
+            if self.pressed {
+                root.set(self.mouse-x);
+            }
+        }
+    }
+}
+
+component AlphaBar inherits Rectangle {
+    in property <color> base;
+    in-out property <float> alpha;
+    callback edited(float);
+    height: 14px;
+    border-radius: 7px;
+    clip: true;
+    Checker { }
+    Rectangle {
+        background: @linear-gradient(90deg, root.base.with-alpha(0) 0%, root.base.with-alpha(1) 100%);
+    }
+    Rectangle {
+        x: clamp(root.alpha * parent.width - 7px, 0px, parent.width - 14px);
+        width: 14px;
+        height: 14px;
+        border-radius: 7px;
+        border-width: 2px;
+        border-color: #ffffff;
+        drop-shadow-blur: 4px;
+        drop-shadow-color: #00000066;
+    }
+    function set(mx: length) {
+        root.alpha = clamp(mx / root.width, 0, 1);
+        root.edited(root.alpha);
+    }
+    TouchArea {
+        pointer-event(e) => {
+            if e.kind == PointerEventKind.down {
+                root.set(self.mouse-x);
+            }
+        }
+        moved => {
+            if self.pressed {
+                root.set(self.mouse-x);
+            }
+        }
+    }
+}
+
+export component ColorsPanel inherits Card {
+    property <color> cur: App.edit-secondary ? App.secondary : App.primary;
+    property <float> last-hue: 0;
+    property <float> shown-hue: (cur.to-hsv().saturation > 0.001 && cur.to-hsv().value > 0.001) ? cur.to-hsv().hue : last-hue;
+    property <[string]> digits: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"];
+
+    pure function hex2(v: int) -> string {
+        return digits[floor(v / 16)] + digits[mod(v, 16)];
+    }
+    pure function hex-of(c: color) -> string {
+        return hex2(c.red) + hex2(c.green) + hex2(c.blue);
+    }
+    function set-color(c: color) {
+        if App.edit-secondary {
+            App.secondary = c;
+        } else {
+            App.primary = c;
+        }
+        App.color-changed();
+    }
+    function set-hsva(h: float, s: float, v: float, a: float) {
+        root.last-hue = h;
+        root.set-color(hsv(h, s, v, a));
+    }
+
+    changed cur => {
+        if !hex.has-focus {
+            hex.text = hex-of(cur);
+        }
+    }
+    init => {
+        hex.text = hex-of(cur);
+    }
+
+    VerticalLayout {
+        padding: 12px;
+        spacing: 10px;
+        PanelHeader {
+            title: "Colors";
+            icon: Icons.palette;
+        }
+        HorizontalLayout {
+            spacing: 14px;
+            Rectangle {
+                width: 62px;
+                height: 58px;
+                // secondary
+                Rectangle {
+                    x: 22px;
+                    y: 18px;
+                    width: 38px;
+                    height: 38px;
+                    border-radius: 8px;
+                    clip: true;
+                    Checker { }
+                    Rectangle { background: App.secondary; }
+                    Rectangle {
+                        border-radius: 8px;
+                        border-width: App.edit-secondary ? 2.5px : 1px;
+                        border-color: App.edit-secondary ? Theme.accent : Theme.border-strong;
+                    }
+                    TouchArea {
+                        clicked => { App.edit-secondary = true; }
+                    }
+                }
+                // primary
+                Rectangle {
+                    x: 0px;
+                    y: 0px;
+                    width: 38px;
+                    height: 38px;
+                    border-radius: 8px;
+                    clip: true;
+                    drop-shadow-blur: 6px;
+                    drop-shadow-color: Theme.shadow;
+                    Checker { }
+                    Rectangle { background: App.primary; }
+                    Rectangle {
+                        border-radius: 8px;
+                        border-width: !App.edit-secondary ? 2.5px : 1px;
+                        border-color: !App.edit-secondary ? Theme.accent : Theme.border-strong;
+                    }
+                    TouchArea {
+                        clicked => { App.edit-secondary = false; }
+                    }
+                }
+                IconButton {
+                    x: 42px;
+                    y: -4px;
+                    size: 20px;
+                    icon-size: 12px;
+                    icon: Icons.swap;
+                    tip: "Swap colors  X";
+                    clicked => { App.action("color.swap"); }
+                }
+                IconButton {
+                    x: -2px;
+                    y: 40px;
+                    size: 20px;
+                    icon-size: 11px;
+                    icon: Icons.reset;
+                    tip: "Reset to black & white  D";
+                    clicked => { App.action("color.reset"); }
+                }
+            }
+            VerticalLayout {
+                spacing: 6px;
+                alignment: center;
+                HorizontalLayout {
+                    spacing: 6px;
+                    Text {
+                        text: "#";
+                        color: Theme.text-muted;
+                        vertical-alignment: center;
+                        font-size: Theme.font;
+                    }
+                    hex := LineEdit {
+                        font-size: Theme.font;
+                        height: 30px;
+                        accepted(t) => {
+                            App.action("color.hex:" + t);
+                            self.clear-focus();
+                        }
+                    }
+                }
+                ValueSlider {
+                    label: "Alpha";
+                    minimum: 0;
+                    maximum: 255;
+                    value: root.cur.alpha;
+                    edited(v) => {
+                        root.set-color(root.cur.with-alpha(v / 255));
+                    }
+                }
+            }
+        }
+        sv := Rectangle {
+            height: 128px;
+            border-radius: 8px;
+            clip: true;
+            background: hsv(root.shown-hue, 1, 1);
+            Rectangle {
+                background: @linear-gradient(90deg, #ffffff 0%, #ffffff00 100%);
+            }
+            Rectangle {
+                background: @linear-gradient(0deg, #000000 0%, #00000000 100%);
+            }
+            Rectangle {
+                x: root.cur.to-hsv().saturation * parent.width - 7px;
+                y: (1 - root.cur.to-hsv().value) * parent.height - 7px;
+                width: 14px;
+                height: 14px;
+                border-radius: 7px;
+                border-width: 2px;
+                border-color: #ffffff;
+                background: root.cur.with-alpha(1);
+                drop-shadow-blur: 4px;
+                drop-shadow-color: #00000088;
+            }
+            function set(mx: length, my: length) {
+                root.set-hsva(root.shown-hue, clamp(mx / self.width, 0, 1), 1 - clamp(my / self.height, 0, 1), root.cur.to-hsv().alpha);
+            }
+            TouchArea {
+                mouse-cursor: crosshair;
+                pointer-event(e) => {
+                    if e.kind == PointerEventKind.down {
+                        sv.set(self.mouse-x, self.mouse-y);
+                    }
+                }
+                moved => {
+                    if self.pressed {
+                        sv.set(self.mouse-x, self.mouse-y);
+                    }
+                }
+            }
+        }
+        HueBar {
+            hue: root.shown-hue;
+            edited(h) => {
+                let hv = root.cur.to-hsv();
+                root.set-hsva(h, hv.saturation, hv.value, hv.alpha);
+            }
+        }
+        AlphaBar {
+            base: root.cur;
+            alpha: root.cur.to-hsv().alpha;
+            edited(a) => {
+                root.set-color(root.cur.with-alpha(a));
+            }
+        }
+        // Palette
+        VerticalLayout {
+            spacing: 4px;
+            for row in 2: HorizontalLayout {
+                spacing: 3px;
+                for i in 14: Swatch {
+                    size: 15px;
+                    swatch: App.palette[row * 14 + i];
+                    picked(right) => { App.pick-palette(self.swatch, right); }
+                }
+            }
+            if App.recent.length > 0: HorizontalLayout {
+                spacing: 3px;
+                padding-top: 3px;
+                for c in App.recent: Swatch {
+                    size: 15px;
+                    swatch: c;
+                    picked(right) => { App.pick-palette(self.swatch, right); }
+                }
+            }
+        }
+    }
+}
+
+export component LayersPanel inherits Card {
+    VerticalLayout {
+        padding: 12px;
+        padding-bottom: 8px;
+        spacing: 8px;
+        PanelHeader {
+            title: "Layers";
+            icon: Icons.layers;
+            IconButton { size: 24px; icon-size: 14px; icon: Icons.plus; tip: "Add new layer"; clicked => { App.action("layer.add"); } }
+            IconButton { size: 24px; icon-size: 14px; icon: Icons.copy-plus; tip: "Duplicate layer"; clicked => { App.action("layer.duplicate"); } }
+            IconButton { size: 24px; icon-size: 14px; icon: Icons.merge; tip: "Merge layer down"; enabled: App.layer-count > 1; clicked => { App.action("layer.merge-down"); } }
+            IconButton { size: 24px; icon-size: 14px; icon: Icons.trash; tip: "Delete layer"; enabled: App.layer-count > 1; clicked => { App.action("layer.delete"); } }
+        }
+        HorizontalLayout {
+            spacing: 6px;
+            ComboBox {
+                height: 28px;
+                width: 128px;
+                model: App.blend-modes;
+                current-value: App.active-layer-blend;
+                selected(v) => {
+                    App.layer-blend(self.current-index);
+                }
+            }
+            ValueSlider {
+                label: "Opacity";
+                min-width: 80px;
+                horizontal-stretch: 1;
+                minimum: 0;
+                maximum: 100;
+                suffix: "%";
+                value: App.active-layer-opacity;
+                edited(v) => { App.layer-opacity(v, false); }
+                released => { App.layer-opacity(self.value, true); }
+            }
+        }
+        ScrollView {
+            vertical-stretch: 1;
+            min-height: 60px;
+            VerticalLayout {
+                spacing: 3px;
+                alignment: start;
+                for l[i] in App.layers: Rectangle {
+                    height: 46px;
+                    border-radius: 8px;
+                    background: l.selected ? Theme.accent-soft : rta.has-hover ? Theme.hover : transparent;
+                    rta := TouchArea {
+                        clicked => { App.layer-select(i); }
+                        double-clicked => {
+                            App.layer-select(i);
+                            App.action("layer.properties");
+                        }
+                    }
+                    HorizontalLayout {
+                        padding-left: 4px;
+                        padding-right: 8px;
+                        spacing: 8px;
+                        IconButton {
+                            y: (parent.height - self.height) / 2;
+                            size: 26px;
+                            icon-size: 14px;
+                            icon: l.visible ? Icons.eye : Icons.eye-off;
+                            opacity: l.visible ? 1 : 0.5;
+                            clicked => { App.layer-toggle(i); }
+                        }
+                        Rectangle {
+                            width: 38px;
+                            height: 38px;
+                            y: 4px;
+                            border-radius: 5px;
+                            clip: true;
+                            border-width: 1px;
+                            border-color: l.selected ? Theme.accent : Theme.border-strong;
+                            Image {
+                                source: l.thumb;
+                                width: parent.width;
+                                height: parent.height;
+                                image-fit: contain;
+                            }
+                        }
+                        VerticalLayout {
+                            alignment: center;
+                            spacing: 1px;
+                            Text {
+                                text: l.name;
+                                color: Theme.text;
+                                font-size: Theme.font;
+                                font-weight: l.selected ? 600 : 500;
+                                overflow: elide;
+                            }
+                            Text {
+                                text: l.blend + " · " + l.opacity + "%";
+                                color: Theme.text-faint;
+                                font-size: Theme.font-sm;
+                                overflow: elide;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        HorizontalLayout {
+            spacing: 2px;
+            alignment: end;
+            IconButton { size: 24px; icon-size: 14px; icon: Icons.chevron-up; tip: "Move layer up"; clicked => { App.action("layer.up"); } }
+            IconButton { size: 24px; icon-size: 14px; icon: Icons.chevron-down; tip: "Move layer down"; clicked => { App.action("layer.down"); } }
+            IconButton { size: 24px; icon-size: 14px; icon: Icons.sliders; tip: "Layer properties  F4"; clicked => { App.action("layer.properties"); } }
+        }
+    }
+}
+
+export component HistoryPanel inherits Card {
+    VerticalLayout {
+        padding: 12px;
+        padding-bottom: 8px;
+        spacing: 8px;
+        PanelHeader {
+            title: "History";
+            icon: Icons.history;
+            IconButton { size: 24px; icon-size: 14px; icon: Icons.undo; tip: "Undo  Ctrl+Z"; enabled: App.can-undo; clicked => { App.action("edit.undo"); } }
+            IconButton { size: 24px; icon-size: 14px; icon: Icons.redo; tip: "Redo  Ctrl+Y"; enabled: App.can-redo; clicked => { App.action("edit.redo"); } }
+        }
+        ScrollView {
+            vertical-stretch: 1;
+            min-height: 60px;
+            VerticalLayout {
+                alignment: start;
+                spacing: 1px;
+                for h[i] in App.history: Rectangle {
+                    height: 28px;
+                    border-radius: 6px;
+                    background: h.current ? Theme.accent-soft : hta.has-hover ? Theme.hover : transparent;
+                    opacity: h.undone ? 0.45 : 1;
+                    hta := TouchArea {
+                        clicked => { App.history-goto(i); }
+                    }
+                    HorizontalLayout {
+                        padding-left: 8px;
+                        spacing: 8px;
+                        Image {
+                            source: Icons.named(h.icon);
+                            width: 14px;
+                            height: 14px;
+                            y: (parent.height - self.height) / 2;
+                            colorize: h.current ? Theme.accent : Theme.text-muted;
+                        }
+                        Text {
+                            text: h.name;
+                            color: Theme.text;
+                            font-size: Theme.font;
+                            font-weight: h.current ? 600 : 400;
+                            vertical-alignment: center;
+                            overflow: elide;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

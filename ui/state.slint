@@ -1,0 +1,201 @@
+export enum Tool {
+    rect-select,
+    move-pixels,
+    lasso-select,
+    move-selection,
+    ellipse-select,
+    zoom,
+    magic-wand,
+    pan,
+    bucket,
+    gradient,
+    brush,
+    eraser,
+    pencil,
+    picker,
+    clone,
+    recolor,
+    text,
+    line,
+    shape,
+}
+
+export struct LayerItem {
+    name: string,
+    visible: bool,
+    opacity: int,
+    blend: string,
+    thumb: image,
+    selected: bool,
+}
+
+export struct HistoryItem {
+    name: string,
+    icon: string,
+    undone: bool,
+    current: bool,
+}
+
+export struct DocTab {
+    title: string,
+    thumb: image,
+    modified: bool,
+    active: bool,
+}
+
+export struct ParamItem {
+    label: string,
+    kind: int, // 0 slider, 1 checkbox, 2 choice
+    value: float,
+    min: float,
+    max: float,
+    step: float,
+    decimals: int,
+    choices: [string],
+}
+
+export struct CurvePoint {
+    x: float,
+    y: float,
+}
+
+export global Tip {
+    in-out property <string> text;
+    in-out property <length> x;
+    in-out property <length> y;
+    in-out property <bool> shown;
+    public function show(t: string, px: length, py: length) {
+        text = t;
+        x = px;
+        y = py;
+        shown = true;
+    }
+    public function hide() {
+        shown = false;
+    }
+}
+
+export global App {
+    // Documents & canvas
+    in property <[DocTab]> tabs;
+    in property <bool> has-doc;
+    in property <string> window-title: "Neobrush";
+    in property <image> canvas;
+    in property <int> cursor; // 0 default, 1 crosshair, 2 move, 3 grab, 4 grabbing, 5 text, 6 pointer, 7 zoom-in
+
+    in property <[LayerItem]> layers;
+    in property <[HistoryItem]> history;
+    in property <string> status-pos;
+    in property <string> status-sel;
+    in property <string> status-size;
+    in property <string> status-hint;
+    in property <float> zoom: 100;
+    in property <bool> can-undo;
+    in property <bool> can-redo;
+    in property <bool> has-selection;
+    in property <bool> is-editing;
+    in property <string> active-layer-blend: "Normal";
+    in property <int> active-layer-opacity: 100;
+    in property <int> layer-count: 1;
+
+    // Tools and options
+    in-out property <Tool> tool: Tool.brush;
+    in-out property <int> brush-width: 8;
+    in-out property <int> hardness: 75;
+    in-out property <bool> antialias: true;
+    in-out property <bool> overwrite: false;
+    in-out property <int> tolerance: 50;
+    in-out property <bool> flood-global: false;
+    in-out property <bool> sample-image: false;
+    in-out property <int> sel-mode: 0;
+    in-out property <int> gradient-type: 0;
+    in-out property <bool> gradient-alpha: false;
+    in-out property <int> picker-size: 0;
+    in-out property <int> picker-after: 0;
+    in-out property <string> font-family: "Inter";
+    in-out property <int> font-size: 32;
+    in-out property <bool> bold: false;
+    in-out property <bool> italic: false;
+    in-out property <bool> underline: false;
+    in-out property <int> text-align: 0;
+    in-out property <int> shape-type: 0;
+    in-out property <int> fill-style: 0;
+    in-out property <int> dash: 0;
+    in-out property <int> corner-radius: 20;
+    in property <[string]> fonts;
+    in property <[string]> shape-names;
+    in property <[string]> blend-modes;
+
+    // Colors
+    in-out property <color> primary: #000000;
+    in-out property <color> secondary: #ffffff;
+    in-out property <bool> edit-secondary: false;
+    in property <[color]> palette;
+    in property <[color]> recent;
+
+    // View
+    in-out property <bool> pixel-grid: false;
+    in-out property <bool> show-tools: true;
+    in-out property <bool> show-colors: true;
+    in-out property <bool> show-layers: true;
+    in-out property <bool> show-history: true;
+
+    // Dialogs
+    in-out property <string> dialog: "";
+    in property <string> fx-title;
+    in property <[ParamItem]> fx-params;
+    in property <bool> fx-busy;
+    in property <string> message-title;
+    in property <string> message-text;
+    in property <string> confirm-doc;
+    in property <int> image-w: 800;
+    in property <int> image-h: 600;
+    in property <int> clip-w: 0;
+    in property <int> clip-h: 0;
+    in property <string> lp-name;
+    in property <bool> lp-visible;
+    in property <int> lp-blend;
+    in property <int> lp-opacity;
+    in property <[CurvePoint]> curve-points;
+    in property <string> curve-path;
+    in property <string> curve-path-faint;
+    in-out property <int> curve-channel: 0;
+    in-out property <int> jpeg-quality: 92;
+    in property <int> refocus;
+
+    // Callbacks
+    callback canvas-pointer(int, int, float, float, bool, bool, bool);
+    callback canvas-scroll(float, float, float, float, bool, bool) -> bool;
+    callback canvas-size(float, float);
+    callback key(string, bool, bool, bool, bool) -> bool;
+    callback action(string);
+    callback tool-selected(Tool);
+    callback option-changed();
+    callback color-changed();
+    callback pick-palette(color, bool);
+
+    callback layer-select(int);
+    callback layer-toggle(int);
+    callback layer-opacity(int, bool);
+    callback layer-blend(int);
+    callback history-goto(int);
+    callback tab-select(int);
+    callback tab-close(int);
+    callback zoom-set(float);
+
+    callback fx-param(int, float);
+    callback fx-ok();
+    callback fx-cancel();
+    callback fx-reset();
+    callback new-image(int, int, int);
+    callback resize-image(int, int, int);
+    callback canvas-resize(int, int, int);
+    callback layer-props(string, bool, int, int);
+    callback layer-props-ok();
+    callback layer-props-cancel();
+    callback curve-pointer(int, int, float, float);
+    callback curve-channel-changed();
+    callback curve-reset();
+    callback confirm(int);
+    callback jpeg-ok();
+}

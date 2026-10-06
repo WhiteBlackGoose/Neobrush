@@ -1,0 +1,30 @@
+[package]
+name = "neobrush"
+version = "0.1.0"
+edition = "2021"
+description = "A modern, cross-platform raster graphics editor"
+license = "MIT"
+repository = "https://github.com/WhiteBlackGoose/Neobrush"
+
+[dependencies]
+slint = { version = "1", default-features = false, features = ["std", "backend-winit", "renderer-femtovg", "renderer-software", "accessibility", "compat-1-2"] }
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "bmp", "gif", "tiff", "webp", "tga", "ico", "qoi"] }
+rayon = "1"
+rfd = "0.15"
+arboard = { version = "3", features = ["wayland-data-control"] }
+ab_glyph = "0.2"
+zip = { version = "2", default-features = false, features = ["deflate"] }
+pollster = "0.4"
+fontdb = "0.23"
+
+[build-dependencies]
+slint-build = "1"
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.release]
+lto = "thin"

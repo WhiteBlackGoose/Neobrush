@@ -1,0 +1,694 @@
+import { Theme } from "theme.slint";
+import { Icons } from "icons.slint";
+import { App, ParamItem } from "state.slint";
+import { Card, IconButton, Btn, Segmented, ValueSlider, FieldLabel, Divider } from "widgets.slint";
+import { SpinBox, CheckBox, ComboBox, LineEdit, Spinner } from "std-widgets.slint";
+
+component Overlay inherits Rectangle {
+    in property <string> title;
+    in property <image> icon;
+    in property <length> card-width: 380px;
+    in property <bool> dim: true;
+    in property <bool> docked: false;
+    callback close();
+    background: dim ? Theme.backdrop : transparent;
+    TouchArea { }
+    card := Card {
+        width: root.card-width;
+        height: layout.preferred-height;
+        x: root.docked ? parent.width - self.width - 300px : (parent.width - self.width) / 2;
+        y: root.docked ? 104px : max(20px, (parent.height - self.height) / 2 - 20px);
+        drop-shadow-blur: 40px;
+        drop-shadow-offset-y: 8px;
+        border-radius: 14px;
+        layout := VerticalLayout {
+            padding: 20px;
+            spacing: 14px;
+            HorizontalLayout {
+                spacing: 10px;
+                if root.icon.width > 0: Rectangle {
+                    width: 28px;
+                    height: 28px;
+                    border-radius: 8px;
+                    background: Theme.accent-soft;
+                    Image {
+                        source: root.icon;
+                        width: 16px;
+                        height: 16px;
+                        colorize: Theme.accent;
+                    }
+                }
+                Text {
+                    text: root.title;
+                    font-size: Theme.font-lg;
+                    font-weight: 600;
+                    color: Theme.text;
+                    vertical-alignment: center;
+                }
+                Rectangle { horizontal-stretch: 1; }
+                IconButton {
+                    size: 28px;
+                    icon: Icons.x;
+                    clicked => { root.close(); }
+                }
+            }
+            @children
+        }
+    }
+}
+
+component Buttons inherits HorizontalLayout {
+    spacing: 8px;
+    alignment: end;
+    padding-top: 6px;
+}
+
+component Chip inherits Rectangle {
+    in property <string> text;
+    callback clicked;
+    height: 26px;
+    width: t.preferred-width + 18px;
+    border-radius: 13px;
+    background: ta.has-hover ? Theme.surface-3 : Theme.surface-2;
+    border-width: 1px;
+    border-color: Theme.border;
+    t := Text {
+        text: root.text;
+        font-size: Theme.font-sm + 0.5px;
+        color: Theme.text;
+    }
+    ta := TouchArea {
+        clicked => { root.clicked(); }
+    }
+}
+
+export component NewImageDialog inherits Overlay {
+    title: "New Image";
+    icon: Icons.file-plus;
+    card-width: 420px;
+    property <int> w: App.image-w;
+    property <int> h: App.image-h;
+    property <bool> keep: false;
+    property <int> bg: 0;
+    close => { App.dialog = ""; }
+    GridLayout {
+        spacing: 10px;
+        Row {
+            FieldLabel { text: "Width"; }
+            SpinBox {
+                minimum: 1;
+                maximum: 32000;
+                value: root.w;
+                edited(v) => {
+                    if root.keep && root.w > 0 { root.h = max(1, round(root.h * v / root.w)); }
+                    root.w = v;
+                }
+            }
+            FieldLabel { text: "px"; }
+        }
+        Row {
+            FieldLabel { text: "Height"; }
+            SpinBox {
+                minimum: 1;
+                maximum: 32000;
+                value: root.h;
+                edited(v) => {
+                    if root.keep && root.h > 0 { root.w = max(1, round(root.w * v / root.h)); }
+                    root.h = v;
+                }
+            }
+            FieldLabel { text: "px"; }
+        }
+    }
+    CheckBox {
+        text: "Maintain aspect ratio";
+        checked <=> root.keep;
+    }
+    FieldLabel { text: "Presets"; }
+    VerticalLayout {
+        spacing: 6px;
+        HorizontalLayout {
+            spacing: 6px;
+            alignment: start;
+            if App.clip-w > 0: Chip { text: "Clipboard " + App.clip-w + "×" + App.clip-h; clicked => { root.w = App.clip-w; root.h = App.clip-h; } }
+            Chip { text: "1920×1080"; clicked => { root.w = 1920; root.h = 1080; } }
+            Chip { text: "1280×720"; clicked => { root.w = 1280; root.h = 720; } }
+            Chip { text: "1080×1080"; clicked => { root.w = 1080; root.h = 1080; } }
+        }
+        HorizontalLayout {
+            spacing: 6px;
+            alignment: start;
+            Chip { text: "800×600"; clicked => { root.w = 800; root.h = 600; } }
+            Chip { text: "512×512"; clicked => { root.w = 512; root.h = 512; } }
+            Chip { text: "A4 @300dpi"; clicked => { root.w = 2480; root.h = 3508; } }
+            Chip { text: "3840×2160"; clicked => { root.w = 3840; root.h = 2160; } }
+        }
+    }
+    FieldLabel { text: "Background"; }
+    Segmented {
+        items: ["White", "Transparent", "Secondary color"];
+        selected <=> root.bg;
+    }
+    Buttons {
+        Btn { text: "Cancel"; clicked => { App.dialog = ""; } }
+        Btn { text: "Create"; primary: true; clicked => { App.new-image(root.w, root.h, root.bg); } }
+    }
+}
+
+export component ResizeDialog inherits Overlay {
+    title: "Resize Image";
+    icon: Icons.scaling;
+    card-width: 420px;
+    property <int> mode: 0;
+    property <float> pct: 100;
+    property <int> w: App.image-w;
+    property <int> h: App.image-h;
+    property <bool> keep: true;
+    property <int> resample: 0;
+    close => { App.dialog = ""; }
+    Segmented {
+        items: ["By percentage", "By absolute size"];
+        selected <=> root.mode;
+    }
+    if root.mode == 0: ValueSlider {
+        label: "Percentage";
+        minimum: 1;
+        maximum: 400;
+        suffix: "%";
+        value: root.pct;
+        edited(v) => {
+            root.pct = v;
+            root.w = max(1, round(App.image-w * v / 100));
+            root.h = max(1, round(App.image-h * v / 100));
+        }
+    }
+    GridLayout {
+        spacing: 10px;
+        Row {
+            FieldLabel { text: "Width"; }
+            SpinBox {
+                enabled: root.mode == 1;
+                minimum: 1;
+                maximum: 32000;
+                value: root.w;
+                edited(v) => {
+                    root.w = v;
+                    if root.keep { root.h = max(1, round(v * App.image-h / App.image-w)); }
+                }
+            }
+            FieldLabel { text: "px"; }
+        }
+        Row {
+            FieldLabel { text: "Height"; }
+            SpinBox {
+                enabled: root.mode == 1;
+                minimum: 1;
+                maximum: 32000;
+                value: root.h;
+                edited(v) => {
+                    root.h = v;
+                    if root.keep { root.w = max(1, round(v * App.image-w / App.image-h)); }
+                }
+            }
+            FieldLabel { text: "px"; }
+        }
+    }
+    CheckBox {
+        text: "Maintain aspect ratio";
+        checked <=> root.keep;
+    }
+    HorizontalLayout {
+        spacing: 10px;
+        FieldLabel { text: "Resampling"; }
+        ComboBox {
+            model: ["Best quality", "Bicubic", "Bilinear", "Nearest neighbor"];
+            current-index <=> root.resample;
+        }
+    }
+    FieldLabel {
+        text: "Original: " + App.image-w + " × " + App.image-h + " px  →  New: " + root.w + " × " + root.h + " px";
+    }
+    Buttons {
+        Btn { text: "Cancel"; clicked => { App.dialog = ""; } }
+        Btn { text: "Resize"; primary: true; clicked => { App.resize-image(root.w, root.h, root.resample); } }
+    }
+}
+
+export component CanvasSizeDialog inherits Overlay {
+    title: "Canvas Size";
+    icon: Icons.frame;
+    card-width: 420px;
+    property <int> w: App.image-w;
+    property <int> h: App.image-h;
+    property <bool> keep: false;
+    property <int> anchor: 4;
+    close => { App.dialog = ""; }
+    HorizontalLayout {
+        spacing: 20px;
+        VerticalLayout {
+            spacing: 10px;
+            GridLayout {
+                spacing: 10px;
+                Row {
+                    FieldLabel { text: "Width"; }
+                    SpinBox {
+                        minimum: 1;
+                        maximum: 32000;
+                        value: root.w;
+                        edited(v) => {
+                            root.w = v;
+                            if root.keep { root.h = max(1, round(v * App.image-h / App.image-w)); }
+                        }
+                    }
+                }
+                Row {
+                    FieldLabel { text: "Height"; }
+                    SpinBox {
+                        minimum: 1;
+                        maximum: 32000;
+                        value: root.h;
+                        edited(v) => {
+                            root.h = v;
+                            if root.keep { root.w = max(1, round(v * App.image-w / App.image-h)); }
+                        }
+                    }
+                }
+            }
+            CheckBox {
+                text: "Maintain aspect ratio";
+                checked <=> root.keep;
+            }
+        }
+        VerticalLayout {
+            spacing: 6px;
+            FieldLabel { text: "Anchor"; }
+            GridLayout {
+                spacing: 4px;
+                for i in 9: Rectangle {
+                    row: floor(i / 3);
+                    col: mod(i, 3);
+                    width: 28px;
+                    height: 28px;
+                    border-radius: 6px;
+                    background: i == root.anchor ? Theme.accent : (ata.has-hover ? Theme.surface-3 : Theme.surface-2);
+                    border-width: 1px;
+                    border-color: Theme.border;
+                    Rectangle {
+                        width: 6px;
+                        height: 6px;
+                        border-radius: 3px;
+                        background: i == root.anchor ? #ffffff : Theme.text-faint;
+                    }
+                    ata := TouchArea {
+                        clicked => { root.anchor = i; }
+                    }
+                }
+            }
+        }
+    }
+    Buttons {
+        Btn { text: "Cancel"; clicked => { App.dialog = ""; } }
+        Btn { text: "Apply"; primary: true; clicked => { App.canvas-resize(root.w, root.h, root.anchor); } }
+    }
+}
+
+export component FxDialog inherits Overlay {
+    title: App.fx-title;
+    icon: Icons.sparkles;
+    card-width: 340px;
+    dim: false;
+    docked: true;
+    close => { App.fx-cancel(); }
+    for p[i] in App.fx-params: VerticalLayout {
+        if p.kind == 0: ValueSlider {
+            label: p.label;
+            minimum: p.min;
+            maximum: p.max;
+            step: p.step;
+            decimals: p.decimals;
+            value: p.value;
+            edited(v) => { App.fx-param(i, v); }
+        }
+        if p.kind == 1: CheckBox {
+            text: p.label;
+            checked: p.value > 0.5;
+            toggled => { App.fx-param(i, self.checked ? 1 : 0); }
+        }
+        if p.kind == 2: HorizontalLayout {
+            spacing: 10px;
+            FieldLabel { text: p.label; }
+            ComboBox {
+                model: p.choices;
+                current-index: p.value;
+                selected(v) => { App.fx-param(i, self.current-index); }
+            }
+        }
+    }
+    Buttons {
+        if App.fx-busy: Spinner {
+            indeterminate: true;
+            width: 22px;
+            height: 22px;
+            y: 5px;
+        }
+        Rectangle { horizontal-stretch: 1; }
+        Btn { text: "Reset"; clicked => { App.fx-reset(); } }
+        Btn { text: "Cancel"; clicked => { App.fx-cancel(); } }
+        Btn { text: "Apply"; primary: true; clicked => { App.fx-ok(); } }
+    }
+}
+
+export component CurvesDialog inherits Overlay {
+    title: "Curves";
+    icon: Icons.squiggle;
+    card-width: 300px;
+    dim: false;
+    docked: true;
+    close => { App.fx-cancel(); }
+    Segmented {
+        items: ["RGB", "Red", "Green", "Blue"];
+        selected: App.curve-channel;
+        changed(i) => {
+            App.curve-channel = i;
+            App.curve-channel-changed();
+        }
+    }
+    HorizontalLayout {
+        alignment: center;
+        Rectangle {
+            width: 256px;
+            height: 256px;
+            background: Theme.surface-2;
+            border-width: 1px;
+            border-color: Theme.border;
+            border-radius: 4px;
+            for i in 3: Rectangle {
+                x: (i + 1) * 64px;
+                y: 0;
+                width: 1px;
+                height: parent.height;
+                background: Theme.border;
+            }
+            for i in 3: Rectangle {
+                y: (i + 1) * 64px;
+                x: 0;
+                height: 1px;
+                width: parent.width;
+                background: Theme.border;
+            }
+            Path {
+                width: parent.width;
+                height: parent.height;
+                viewbox-width: 256;
+                viewbox-height: 256;
+                commands: App.curve-path-faint;
+                stroke: Theme.text-faint;
+                stroke-width: 1px;
+            }
+            Path {
+                width: parent.width;
+                height: parent.height;
+                viewbox-width: 256;
+                viewbox-height: 256;
+                commands: App.curve-path;
+                stroke: App.curve-channel == 1 ? #ef4444 : App.curve-channel == 2 ? #22c55e : App.curve-channel == 3 ? #3b82f6 : Theme.text;
+                stroke-width: 2px;
+            }
+            for p in App.curve-points: Rectangle {
+                x: p.x * 1px - 5px;
+                y: (255 - p.y) * 1px - 5px;
+                width: 10px;
+                height: 10px;
+                border-radius: 5px;
+                background: #ffffff;
+                border-width: 2px;
+                border-color: Theme.accent;
+            }
+            TouchArea {
+                mouse-cursor: crosshair;
+                pointer-event(e) => {
+                    App.curve-pointer(
+                        e.kind == PointerEventKind.down ? 0 : e.kind == PointerEventKind.up ? 1 : e.kind == PointerEventKind.move ? 2 : 3,
+                        e.button == PointerEventButton.left ? 0 : e.button == PointerEventButton.right ? 1 : 2,
+                        self.mouse-x / 1px, 255 - self.mouse-y / 1px);
+                }
+            }
+        }
+    }
+    FieldLabel {
+        text: "Click to add points · drag to move · right-click to remove";
+        wrap: word-wrap;
+    }
+    Buttons {
+        Btn { text: "Reset"; clicked => { App.curve-reset(); } }
+        Btn { text: "Cancel"; clicked => { App.fx-cancel(); } }
+        Btn { text: "Apply"; primary: true; clicked => { App.fx-ok(); } }
+    }
+}
+
+export component LayerPropsDialog inherits Overlay {
+    title: "Layer Properties";
+    icon: Icons.layers;
+    card-width: 340px;
+    dim: false;
+    docked: true;
+    property <string> name: App.lp-name;
+    property <bool> vis: App.lp-visible;
+    property <int> blend: App.lp-blend;
+    property <float> op: App.lp-opacity;
+    close => { App.layer-props-cancel(); }
+    function push() {
+        App.layer-props(root.name, root.vis, root.blend, root.op);
+    }
+    HorizontalLayout {
+        spacing: 10px;
+        FieldLabel { text: "Name"; width: 60px; }
+        LineEdit {
+            text: root.name;
+            edited(t) => {
+                root.name = t;
+                root.push();
+            }
+        }
+    }
+    CheckBox {
+        text: "Visible";
+        checked: root.vis;
+        toggled => {
+            root.vis = self.checked;
+            root.push();
+        }
+    }
+    HorizontalLayout {
+        spacing: 10px;
+        FieldLabel { text: "Blend mode"; width: 60px; }
+        ComboBox {
+            model: App.blend-modes;
+            current-index: root.blend;
+            selected(v) => {
+                root.blend = self.current-index;
+                root.push();
+            }
+        }
+    }
+    ValueSlider {
+        label: "Opacity";
+        minimum: 0;
+        maximum: 255;
+        value: root.op;
+        edited(v) => {
+            root.op = v;
+            root.push();
+        }
+    }
+    Buttons {
+        Btn { text: "Cancel"; clicked => { App.layer-props-cancel(); } }
+        Btn { text: "OK"; primary: true; clicked => { App.layer-props-ok(); } }
+    }
+}
+
+export component ConfirmDialog inherits Overlay {
+    title: "Unsaved changes";
+    icon: Icons.alert;
+    card-width: 440px;
+    close => { App.confirm(1); }
+    Text {
+        text: "Save changes to “" + App.confirm-doc + "” before closing?";
+        color: Theme.text;
+        font-size: Theme.font + 1px;
+        wrap: word-wrap;
+    }
+    Text {
+        text: "Your changes will be lost if you don't save them.";
+        color: Theme.text-muted;
+        font-size: Theme.font;
+        wrap: word-wrap;
+    }
+    Buttons {
+        Btn { text: "Don't Save"; clicked => { App.confirm(0); } }
+        Rectangle { horizontal-stretch: 1; }
+        Btn { text: "Cancel"; clicked => { App.confirm(1); } }
+        Btn { text: "Save"; primary: true; clicked => { App.confirm(2); } }
+    }
+}
+
+export component MessageDialog inherits Overlay {
+    title: App.message-title;
+    icon: Icons.info;
+    card-width: 420px;
+    close => { App.dialog = ""; }
+    Text {
+        text: App.message-text;
+        color: Theme.text;
+        font-size: Theme.font;
+        wrap: word-wrap;
+    }
+    Buttons {
+        Btn { text: "OK"; primary: true; clicked => { App.dialog = ""; } }
+    }
+}
+
+export component JpegDialog inherits Overlay {
+    title: "Save Configuration";
+    icon: Icons.image-down;
+    card-width: 360px;
+    close => { App.dialog = ""; }
+    ValueSlider {
+        label: "Quality";
+        minimum: 1;
+        maximum: 100;
+        value: App.jpeg-quality;
+        edited(v) => { App.jpeg-quality = v; }
+    }
+    FieldLabel {
+        text: "Higher quality means larger files. Transparency is flattened onto white.";
+        wrap: word-wrap;
+    }
+    Buttons {
+        Btn { text: "Cancel"; clicked => { App.dialog = ""; } }
+        Btn { text: "Save"; primary: true; clicked => { App.jpeg-ok(); } }
+    }
+}
+
+export component AboutDialog inherits Overlay {
+    title: "About";
+    card-width: 400px;
+    close => { App.dialog = ""; }
+    HorizontalLayout {
+        spacing: 16px;
+        Rectangle {
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            background: @linear-gradient(135deg, #a78bfa 0%, #6a4cf5 55%, #ec4899 100%);
+            Image {
+                source: Icons.brush;
+                width: 32px;
+                height: 32px;
+                colorize: #ffffff;
+            }
+        }
+        VerticalLayout {
+            alignment: center;
+            spacing: 4px;
+            Text {
+                text: "Neobrush";
+                font-size: 20px;
+                font-weight: 600;
+                color: Theme.text;
+            }
+            Text {
+                text: "Version 0.1.0";
+                color: Theme.text-muted;
+                font-size: Theme.font;
+            }
+        }
+    }
+    Text {
+        text: "A modern, cross-platform raster graphics editor for Windows, macOS, Linux and FreeBSD.";
+        color: Theme.text;
+        font-size: Theme.font;
+        wrap: word-wrap;
+    }
+    Text {
+        text: "Built with Rust and Slint. Icons by Lucide (ISC). Inter typeface (OFL).";
+        color: Theme.text-muted;
+        font-size: Theme.font-sm + 0.5px;
+        wrap: word-wrap;
+    }
+    Buttons {
+        Btn { text: "Close"; primary: true; clicked => { App.dialog = ""; } }
+    }
+}
+
+component KeyRow inherits HorizontalLayout {
+    in property <string> keys;
+    in property <string> label;
+    spacing: 10px;
+    height: 22px;
+    Text {
+        text: root.label;
+        color: Theme.text;
+        font-size: Theme.font;
+        vertical-alignment: center;
+        horizontal-stretch: 1;
+    }
+    Rectangle {
+        width: kt.preferred-width + 12px;
+        height: 20px;
+        border-radius: 5px;
+        background: Theme.surface-3;
+        kt := Text {
+            text: root.keys;
+            color: Theme.text-muted;
+            font-size: Theme.font-sm;
+            font-weight: 600;
+        }
+    }
+}
+
+export component ShortcutsDialog inherits Overlay {
+    title: "Keyboard Shortcuts";
+    card-width: 620px;
+    close => { App.dialog = ""; }
+    HorizontalLayout {
+        spacing: 28px;
+        VerticalLayout {
+            spacing: 4px;
+            KeyRow { label: "Selection tools"; keys: "S"; }
+            KeyRow { label: "Move tools"; keys: "M"; }
+            KeyRow { label: "Paintbrush"; keys: "B"; }
+            KeyRow { label: "Pencil"; keys: "P"; }
+            KeyRow { label: "Eraser"; keys: "E"; }
+            KeyRow { label: "Paint bucket"; keys: "F"; }
+            KeyRow { label: "Gradient"; keys: "G"; }
+            KeyRow { label: "Color picker"; keys: "K"; }
+            KeyRow { label: "Clone stamp"; keys: "L"; }
+            KeyRow { label: "Recolor"; keys: "R"; }
+            KeyRow { label: "Text"; keys: "T"; }
+            KeyRow { label: "Line / Shapes"; keys: "O"; }
+            KeyRow { label: "Pan / Zoom"; keys: "H / Z"; }
+            KeyRow { label: "Brush size"; keys: "[ / ]"; }
+        }
+        VerticalLayout {
+            spacing: 4px;
+            KeyRow { label: "Swap colors"; keys: "X"; }
+            KeyRow { label: "Reset colors"; keys: "D"; }
+            KeyRow { label: "Pan"; keys: "Space + drag"; }
+            KeyRow { label: "Zoom"; keys: "Ctrl + wheel"; }
+            KeyRow { label: "Undo / Redo"; keys: "Ctrl+Z / Ctrl+Y"; }
+            KeyRow { label: "Select all / Deselect"; keys: "Ctrl+A / Ctrl+D"; }
+            KeyRow { label: "Erase selection"; keys: "Delete"; }
+            KeyRow { label: "Fill selection"; keys: "Backspace"; }
+            KeyRow { label: "Zoom to window"; keys: "Ctrl+B"; }
+            KeyRow { label: "Actual size"; keys: "Ctrl+0"; }
+            KeyRow { label: "Repeat last effect"; keys: "Ctrl+F"; }
+            KeyRow { label: "Finish / cancel"; keys: "Enter / Esc"; }
+            KeyRow { label: "Layer properties"; keys: "F4"; }
+            KeyRow { label: "Next document"; keys: "Ctrl+Tab"; }
+        }
+    }
+    Buttons {
+        Btn { text: "Close"; primary: true; clicked => { App.dialog = ""; } }
+    }
+}

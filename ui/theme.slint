@@ -1,0 +1,31 @@
+import { Palette } from "std-widgets.slint";
+
+export global Theme {
+    out property <bool> dark: Palette.color-scheme == ColorScheme.dark;
+
+    out property <color> bg: dark ? #121216 : #eef0f4;
+    out property <color> surface: dark ? #1b1b21 : #ffffff;
+    out property <color> surface-2: dark ? #23232b : #f5f6f9;
+    out property <color> surface-3: dark ? #2c2c36 : #eaecf1;
+    out property <color> hover: dark ? #ffffff10 : #0000000a;
+    out property <color> pressed: dark ? #ffffff1c : #00000014;
+    out property <color> border: dark ? #2b2b34 : #e2e4ea;
+    out property <color> border-strong: dark ? #3a3a46 : #cfd2da;
+    out property <color> canvas-bg: dark ? #0d0d10 : #e3e5ea;
+    out property <color> text: dark ? #ececf2 : #1a1b22;
+    out property <color> text-muted: dark ? #9a9aab : #646778;
+    out property <color> text-faint: dark ? #6a6a7a : #9a9daa;
+    out property <color> accent: dark ? #8b74ff : #6a4cf5;
+    out property <color> accent-hover: dark ? #9d89ff : #5a3be8;
+    out property <color> accent-soft: dark ? #8b74ff2e : #6a4cf51f;
+    out property <color> accent-text: #ffffff;
+    out property <color> danger: dark ? #ff6b7a : #d83a4c;
+    out property <color> shadow: dark ? #00000080 : #1a1b2224;
+    out property <color> backdrop: dark ? #000000a0 : #1a1b2266;
+
+    out property <length> radius: 10px;
+    out property <length> radius-sm: 6px;
+    out property <length> font-sm: 11px;
+    out property <length> font: 12.5px;
+    out property <length> font-lg: 15px;
+}

@@ -1,0 +1,116 @@
+export global Icons {
+    out property <image> square-dashed: @image-url("icons/square-dashed.svg");
+    out property <image> move: @image-url("icons/move.svg");
+    out property <image> lasso: @image-url("icons/lasso.svg");
+    out property <image> pointer: @image-url("icons/mouse-pointer-2.svg");
+    out property <image> circle-dashed: @image-url("icons/circle-dashed.svg");
+    out property <image> zoom-in: @image-url("icons/zoom-in.svg");
+    out property <image> zoom-out: @image-url("icons/zoom-out.svg");
+    out property <image> wand: @image-url("icons/wand-sparkles.svg");
+    out property <image> hand: @image-url("icons/hand.svg");
+    out property <image> bucket: @image-url("icons/paint-bucket.svg");
+    out property <image> gradient: @image-url("icons/gradient.svg");
+    out property <image> brush: @image-url("icons/brush.svg");
+    out property <image> eraser: @image-url("icons/eraser.svg");
+    out property <image> pencil: @image-url("icons/pencil.svg");
+    out property <image> pipette: @image-url("icons/pipette.svg");
+    out property <image> stamp: @image-url("icons/stamp.svg");
+    out property <image> replace: @image-url("icons/replace.svg");
+    out property <image> type: @image-url("icons/type.svg");
+    out property <image> spline: @image-url("icons/spline.svg");
+    out property <image> shapes: @image-url("icons/shapes.svg");
+    out property <image> file-plus: @image-url("icons/file-plus.svg");
+    out property <image> folder-open: @image-url("icons/folder-open.svg");
+    out property <image> save: @image-url("icons/save.svg");
+    out property <image> undo: @image-url("icons/undo-2.svg");
+    out property <image> redo: @image-url("icons/redo-2.svg");
+    out property <image> scissors: @image-url("icons/scissors.svg");
+    out property <image> copy: @image-url("icons/copy.svg");
+    out property <image> paste: @image-url("icons/clipboard-paste.svg");
+    out property <image> eye: @image-url("icons/eye.svg");
+    out property <image> eye-off: @image-url("icons/eye-off.svg");
+    out property <image> plus: @image-url("icons/plus.svg");
+    out property <image> trash: @image-url("icons/trash-2.svg");
+    out property <image> copy-plus: @image-url("icons/copy-plus.svg");
+    out property <image> merge: @image-url("icons/arrow-down-to-line.svg");
+    out property <image> chevron-up: @image-url("icons/chevron-up.svg");
+    out property <image> chevron-down: @image-url("icons/chevron-down.svg");
+    out property <image> chevron-right: @image-url("icons/chevron-right.svg");
+    out property <image> sliders: @image-url("icons/sliders-horizontal.svg");
+    out property <image> swap: @image-url("icons/arrow-left-right.svg");
+    out property <image> x: @image-url("icons/x.svg");
+    out property <image> maximize: @image-url("icons/maximize.svg");
+    out property <image> grid: @image-url("icons/grid-3x3.svg");
+    out property <image> history: @image-url("icons/history.svg");
+    out property <image> layers: @image-url("icons/layers.svg");
+    out property <image> palette: @image-url("icons/palette.svg");
+    out property <image> crop: @image-url("icons/crop.svg");
+    out property <image> image: @image-url("icons/image.svg");
+    out property <image> check: @image-url("icons/check.svg");
+    out property <image> rotate-cw: @image-url("icons/rotate-cw.svg");
+    out property <image> rotate-ccw: @image-url("icons/rotate-ccw.svg");
+    out property <image> flip-h: @image-url("icons/flip-horizontal-2.svg");
+    out property <image> flip-v: @image-url("icons/flip-vertical-2.svg");
+    out property <image> minus: @image-url("icons/minus.svg");
+    out property <image> square: @image-url("icons/square.svg");
+    out property <image> circle: @image-url("icons/circle.svg");
+    out property <image> sparkles: @image-url("icons/sparkles.svg");
+    out property <image> squircle: @image-url("icons/squircle.svg");
+    out property <image> squiggle: @image-url("icons/line-squiggle.svg");
+    out property <image> droplet: @image-url("icons/droplet.svg");
+    out property <image> info: @image-url("icons/info.svg");
+    out property <image> alert: @image-url("icons/triangle-alert.svg");
+    out property <image> scaling: @image-url("icons/scaling.svg");
+    out property <image> image-plus: @image-url("icons/image-plus.svg");
+    out property <image> image-down: @image-url("icons/image-down.svg");
+    out property <image> layers-2: @image-url("icons/layers-2.svg");
+    out property <image> frame: @image-url("icons/frame.svg");
+    out property <image> more: @image-url("icons/ellipsis-vertical.svg");
+    out property <image> reset: @image-url("icons/refresh-ccw.svg");
+    out property <image> blend: @image-url("icons/blend.svg");
+    out property <image> sun: @image-url("icons/sun.svg");
+    out property <image> contrast: @image-url("icons/contrast.svg");
+
+    public pure function named(name: string) -> image {
+        if name == "brush" { return brush; }
+        if name == "eraser" { return eraser; }
+        if name == "pencil" { return pencil; }
+        if name == "bucket" { return bucket; }
+        if name == "gradient" { return gradient; }
+        if name == "select" { return square-dashed; }
+        if name == "ellipse-select" { return circle-dashed; }
+        if name == "lasso" { return lasso; }
+        if name == "wand" { return wand; }
+        if name == "move" { return move; }
+        if name == "pointer" { return pointer; }
+        if name == "stamp" { return stamp; }
+        if name == "replace" { return replace; }
+        if name == "type" { return type; }
+        if name == "spline" { return spline; }
+        if name == "shapes" { return shapes; }
+        if name == "layers" { return layers; }
+        if name == "plus" { return plus; }
+        if name == "trash" { return trash; }
+        if name == "copy-plus" { return copy-plus; }
+        if name == "merge" { return merge; }
+        if name == "sliders" { return sliders; }
+        if name == "crop" { return crop; }
+        if name == "scaling" { return scaling; }
+        if name == "frame" { return frame; }
+        if name == "flip-h" { return flip-h; }
+        if name == "flip-v" { return flip-v; }
+        if name == "rotate-cw" { return rotate-cw; }
+        if name == "rotate-ccw" { return rotate-ccw; }
+        if name == "sparkles" { return sparkles; }
+        if name == "contrast" { return contrast; }
+        if name == "scissors" { return scissors; }
+        if name == "paste" { return paste; }
+        if name == "x" { return x; }
+        if name == "eye" { return eye; }
+        if name == "image-plus" { return image-plus; }
+        if name == "layers-2" { return layers-2; }
+        if name == "chevron-up" { return chevron-up; }
+        if name == "chevron-down" { return chevron-down; }
+        return image;
+    }
+}
