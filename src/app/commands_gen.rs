@@ -34,7 +34,8 @@ pub const COMMANDS: &[Cmd] = &[
     Cmd { id: "edit.invert-selection", title: "Invert Selection", path: "Edit", icon: "select", keys: &["Ctrl", "I"], chord: "", keywords: "selection reverse" },
     Cmd { id: "edit.erase", title: "Erase Selection", path: "Edit", icon: "eraser", keys: &["Delete"], chord: "", keywords: "clear delete transparent" },
     Cmd { id: "edit.fill", title: "Fill Selection", path: "Edit", icon: "bucket", keys: &["Backspace"], chord: "", keywords: "primary color paint" },
-    Cmd { id: "palette.open", title: "Command Palette…", path: "View", icon: "search", keys: &["Space"], chord: "", keywords: "search find fuzzy commands" },
+    Cmd { id: "palette.open", title: "Command Palette…", path: "View", icon: "command", keys: &["Space"], chord: "", keywords: "search find fuzzy commands" },
+    Cmd { id: "view.menubar", title: "Menu Bar", path: "View", icon: "menu", keys: &[], chord: "v m", keywords: "show hide main menu" },
     Cmd { id: "view.zoom-in", title: "Zoom In", path: "View", icon: "zoom-in", keys: &["Ctrl", "+"], chord: "", keywords: "magnify bigger" },
     Cmd { id: "view.zoom-out", title: "Zoom Out", path: "View", icon: "zoom-out", keys: &["Ctrl", "-"], chord: "", keywords: "smaller" },
     Cmd { id: "view.fit", title: "Zoom to Window", path: "View", icon: "maximize", keys: &["Ctrl", "B"], chord: "", keywords: "fit best" },
@@ -139,4 +140,6 @@ pub const COMMANDS: &[Cmd] = &[
     Cmd { id: "brush.bigger", title: "Bigger Brush", path: "Tools", icon: "plus", keys: &["]"], chord: "", keywords: "size increase" },
     Cmd { id: "help.shortcuts", title: "Keyboard Shortcuts", path: "Help", icon: "keyboard", keys: &["F1"], chord: "", keywords: "keys hotkeys help" },
     Cmd { id: "help.about", title: "About Neobrush", path: "Help", icon: "info", keys: &["Shift", "F1"], chord: "", keywords: "version credits" },
+    Cmd { id: "help.github", title: "Source Code on GitHub", path: "Help", icon: "github", keys: &[], chord: "", keywords: "repository source issues bug report" },
+    Cmd { id: "help.donate", title: "Donate to Voices of Children", path: "Help", icon: "heart", keys: &[], chord: "", keywords: "support ukraine charity donate" },
 ];

@@ -189,3 +189,15 @@ pub fn mime_for(ext: &str) -> &'static str {
         _ => "application/octet-stream",
     }
 }
+
+/// Opens a link in the user's browser.
+pub fn open_url(url: &str) {
+    #[cfg(not(target_arch = "wasm32"))]
+    {
+        let _ = open::that_detached(url);
+    }
+    #[cfg(target_arch = "wasm32")]
+    if let Some(w) = web_sys::window() {
+        let _ = w.open_with_url_and_target(url, "_blank");
+    }
+}

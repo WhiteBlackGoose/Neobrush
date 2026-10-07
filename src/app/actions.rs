@@ -84,7 +84,7 @@ impl Editor {
             }
         }
         // Most actions end an active editing session first.
-        let keeps_session = id.starts_with("view.theme") || id == "palette.open" || id.starts_with("set.") || id.starts_with("tool:") || matches!(id, "view.zoom-in" | "view.zoom-out" | "view.fit" | "view.actual" | "view.refresh" | "edit.undo" | "color.swap" | "color.reset")
+        let keeps_session = id.starts_with("view.theme") || id.starts_with("help.") || id == "view.menubar" || id == "palette.open" || id.starts_with("set.") || id.starts_with("tool:") || matches!(id, "view.zoom-in" | "view.zoom-out" | "view.fit" | "view.actual" | "view.refresh" | "edit.undo" | "color.swap" | "color.reset")
             || id.starts_with("color.hex:");
         if !keeps_session {
             self.finish_session(true);
@@ -196,6 +196,13 @@ impl Editor {
                 self.ui().global::<App>().set_dialog("shortcuts".into());
             }
             "help.about" => self.ui().global::<App>().set_dialog("about".into()),
+            "help.github" => super::platform::open_url("https://github.com/WhiteBlackGoose/Neobrush"),
+            "help.donate" => super::platform::open_url("https://voices.org.ua/en/"),
+            "view.menubar" => {
+                let ui = self.ui();
+                let g = ui.global::<App>();
+                g.set_show_menubar(!g.get_show_menubar());
+            }
             "brush.smaller" | "brush.bigger" => {
                 let ui = self.ui();
                 let g = ui.global::<App>();

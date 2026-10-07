@@ -6,7 +6,7 @@ import { ComboBox, LineEdit, ScrollView } from "std-widgets.slint";
 
 component ToolBtn inherits IconButton {
     in property <Tool> t;
-    size: 34px;
+    size: 33px;
     icon-size: 17px;
     tip-side: 1;
     active: App.tool == t;
@@ -16,62 +16,35 @@ component ToolBtn inherits IconButton {
 }
 
 export component ToolPalette inherits Card {
-    width: 86px;
     VerticalLayout {
-        padding: 6px;
-        spacing: 4px;
-        alignment: start;
+        padding: 8px;
         GridLayout {
-            spacing: 4px;
+            spacing: 3px;
             Row {
                 ToolBtn { t: Tool.rect-select; icon: Icons.square-dashed; tip: "Rectangle Select  S"; }
                 ToolBtn { t: Tool.ellipse-select; icon: Icons.circle-dashed; tip: "Ellipse Select  S"; }
-            }
-            Row {
                 ToolBtn { t: Tool.lasso-select; icon: Icons.lasso; tip: "Lasso Select  S"; }
                 ToolBtn { t: Tool.magic-wand; icon: Icons.wand; tip: "Magic Wand  S"; }
-            }
-            Row {
                 ToolBtn { t: Tool.move-pixels; icon: Icons.move; tip: "Move Selected Pixels  M"; }
                 ToolBtn { t: Tool.move-selection; icon: Icons.pointer; tip: "Move Selection  M"; }
             }
-        }
-        Divider { }
-        GridLayout {
-            spacing: 4px;
             Row {
                 ToolBtn { t: Tool.brush; icon: Icons.brush; tip: "Paintbrush  B"; }
                 ToolBtn { t: Tool.pencil; icon: Icons.pencil; tip: "Pencil  P"; }
-            }
-            Row {
                 ToolBtn { t: Tool.eraser; icon: Icons.eraser; tip: "Eraser  E"; }
-                ToolBtn { t: Tool.bucket; icon: Icons.bucket; tip: "Paint Bucket  G"; }
-            }
-            Row {
                 ToolBtn { t: Tool.gradient; icon: Icons.gradient; tip: "Gradient  G"; }
+                ToolBtn { t: Tool.bucket; icon: Icons.bucket; tip: "Paint Bucket  G"; }
                 ToolBtn { t: Tool.picker; icon: Icons.pipette; tip: "Color Picker  K"; }
             }
             Row {
                 ToolBtn { t: Tool.clone; icon: Icons.stamp; tip: "Clone Stamp  C"; }
                 ToolBtn { t: Tool.recolor; icon: Icons.replace; tip: "Recolor  R"; }
-            }
-        }
-        Divider { }
-        GridLayout {
-            spacing: 4px;
-            Row {
                 ToolBtn { t: Tool.text; icon: Icons.type; tip: "Text  T"; }
                 ToolBtn { t: Tool.line; icon: Icons.spline; tip: "Line / Curve  O"; }
-            }
-            Row {
                 ToolBtn { t: Tool.shape; icon: Icons.shapes; tip: "Shapes  O"; }
-            }
-        }
-        Divider { }
-        GridLayout {
-            spacing: 4px;
-            Row {
                 ToolBtn { t: Tool.pan; icon: Icons.hand; tip: "Pan  H  (or hold Space)"; }
+            }
+            Row {
                 ToolBtn { t: Tool.zoom; icon: Icons.zoom-in; tip: "Zoom  Z"; }
             }
         }

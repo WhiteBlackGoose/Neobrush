@@ -26,6 +26,7 @@ web-time = "1"
 slint = { version = "1", default-features = false, features = ["accessibility"] }
 rfd = "0.15"
 arboard = { version = "3", features = ["wayland-data-control"] }
+open = "5"
 fontdb = { version = "0.23", features = ["fs", "memmap", "fontconfig"] }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]

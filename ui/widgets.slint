@@ -414,3 +414,37 @@ export component FieldLabel inherits Text {
     font-weight: 500;
     vertical-alignment: center;
 }
+
+/// A toolbar button that opens a dropdown menu (the menu itself is a ContextMenuArea child).
+export component MenuChip inherits Rectangle {
+    in property <string> title;
+    callback clicked(length, length);
+    height: 30px;
+    width: row.preferred-width;
+    border-radius: 7px;
+    background: ta.pressed ? Theme.pressed : ta.has-hover ? Theme.hover : transparent;
+    animate background { duration: 90ms; }
+    row := HorizontalLayout {
+        padding-left: 9px;
+        padding-right: 6px;
+        spacing: 3px;
+        Text {
+            text: root.title;
+            color: Theme.text;
+            font-size: Theme.font;
+            font-weight: 500;
+            vertical-alignment: center;
+        }
+        Image {
+            source: @image-url("icons/chevron-down.svg");
+            width: 12px;
+            height: 12px;
+            y: (parent.height - self.height) / 2;
+            colorize: Theme.text-faint;
+        }
+    }
+    ta := TouchArea {
+        clicked => { root.clicked(0, root.height + 4px); }
+    }
+    @children
+}

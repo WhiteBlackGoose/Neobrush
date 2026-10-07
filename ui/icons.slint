@@ -75,6 +75,9 @@ export global Icons {
     out property <image> keyboard: @image-url("icons/keyboard.svg");
     out property <image> command: @image-url("icons/command.svg");
     out property <image> enter: @image-url("icons/corner-down-left.svg");
+    out property <image> menu: @image-url("icons/menu.svg");
+    out property <image> heart: @image-url("icons/heart.svg");
+    out property <image> github: @image-url("icons/github.svg");
 
     public pure function named(name: string) -> image {
         if name == "brush" { return brush; }
@@ -139,6 +142,10 @@ export global Icons {
         if name == "reset" { return reset; }
         if name == "minus" { return minus; }
         if name == "image" { return image; }
+        if name == "menu" { return menu; }
+        if name == "heart" { return heart; }
+        if name == "github" { return github; }
+        if name == "command" { return command; }
         return sparkles;
     }
 }

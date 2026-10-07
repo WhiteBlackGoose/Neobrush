@@ -7,7 +7,7 @@ import { Icons } from "icons.slint";
 import { App, Tip, Tool, LayerItem, HistoryItem, DocTab, ParamItem, CurvePoint } from "state.slint";
 import { IconButton, Divider, VDivider, Card } from "widgets.slint";
 import { ToolPalette, ColorsPanel, LayersPanel, HistoryPanel } from "panels.slint";
-import { TopBar, OptionsBar } from "toolbar.slint";
+import { TopBar, ToolOptions } from "toolbar.slint";
 import { CanvasView } from "canvas.slint";
 import { PaletteDialog, ChordHud } from "palette.slint";
 import { NewImageDialog, ResizeDialog, CanvasSizeDialog, FxDialog, CurvesDialog, LayerPropsDialog, ConfirmDialog, MessageDialog, JpegDialog, AboutDialog, ShortcutsDialog, ExportDialog } from "dialogs.slint";
@@ -110,6 +110,36 @@ component StatusBar inherits Rectangle {
             Image { source: Icons.image; width: 12px; height: 12px; y: 8px; colorize: Theme.text-faint; }
             Text { text: App.status-size; color: Theme.text-muted; font-size: Theme.font-sm + 0.5px; vertical-alignment: center; }
         }
+        Rectangle {
+            width: donate.preferred-width;
+            donate := HorizontalLayout {
+                spacing: 5px;
+                Image {
+                    source: @image-url("icons/heart.svg");
+                    width: 12px;
+                    height: 12px;
+                    y: 8px;
+                    colorize: dta.has-hover ? #f43f5e : Theme.text-faint;
+                }
+                Text {
+                    text: "Support Ukraine's children";
+                    color: dta.has-hover ? Theme.text : Theme.text-faint;
+                    font-size: Theme.font-sm + 0.5px;
+                    vertical-alignment: center;
+                }
+            }
+            dta := TouchArea {
+                mouse-cursor: pointer;
+                clicked => { App.action("help.donate"); }
+                changed has-hover => {
+                    if self.has-hover {
+                        Tip.show("Donate to Voices of Children · voices.org.ua", self.absolute-position.x - 100px, self.absolute-position.y - 30px);
+                    } else {
+                        Tip.hide();
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -126,6 +156,7 @@ export component AppWindow inherits Window {
 
     // BEGIN GENERATED MENU (tools/gen_commands.py)
     MenuBar {
+        visible: App.show-menubar;
         Menu {
             title: "File";
             MenuItem { title: "New…"; shortcut: @keys(Control + N); activated => { App.action("file.new"); } }
@@ -169,6 +200,7 @@ export component AppWindow inherits Window {
         Menu {
             title: "View";
             MenuItem { title: "Command Palette…      Space"; activated => { App.action("palette.open"); } }
+            MenuItem { title: "Menu Bar      V M"; checkable: true; checked: App.show-menubar; activated => { App.action("view.menubar"); } }
             MenuSeparator { }
             MenuItem { title: "Zoom In"; shortcut: @keys(Control + Plus); activated => { App.action("view.zoom-in"); } }
             MenuItem { title: "Zoom Out"; shortcut: @keys(Control + HyphenMinus); activated => { App.action("view.zoom-out"); } }
@@ -334,6 +366,9 @@ export component AppWindow inherits Window {
             title: "Help";
             MenuItem { title: "Keyboard Shortcuts"; shortcut: @keys(F1); activated => { App.action("help.shortcuts"); } }
             MenuItem { title: "About Neobrush"; shortcut: @keys(Shift + F1); activated => { App.action("help.about"); } }
+            MenuSeparator { }
+            MenuItem { title: "Source Code on GitHub"; activated => { App.action("help.github"); } }
+            MenuItem { title: "Donate to Voices of Children"; activated => { App.action("help.donate"); } }
         }
     }
     // END GENERATED MENU
@@ -341,15 +376,15 @@ export component AppWindow inherits Window {
     VerticalLayout {
         TopBar { }
         Divider { }
-        if App.has-doc: OptionsBar { }
         HorizontalLayout {
             padding: 10px;
-            padding-top: App.has-doc ? 4px : 10px;
             spacing: 10px;
             if App.show-tools && App.has-doc: VerticalLayout {
+                width: 232px;
+                spacing: 10px;
                 alignment: start;
-                padding-top: App.tabs.length > 0 ? 48px : 0px;
                 ToolPalette { }
+                ToolOptions { }
             }
             VerticalLayout {
                 spacing: 4px;

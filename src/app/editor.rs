@@ -97,6 +97,8 @@ pub fn run(files: Vec<std::path::PathBuf>) -> Result<(), slint::PlatformError> {
     let ui = AppWindow::new()?;
     let g = ui.global::<App>();
     g.set_version(env!("CARGO_PKG_VERSION").into());
+    // On macOS the menu bar is the native one at the top of the screen, so keep it.
+    g.set_show_menubar(cfg!(target_os = "macos"));
 
     let models = Models {
         layers: Rc::new(VecModel::default()),
