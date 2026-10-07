@@ -488,10 +488,10 @@ export component HistoryPanel inherits Card {
     property <int> count: App.history.length;
     function reveal() {
         let row-top = root.current * 29px;
-        if row-top + 28px > -hsv.viewport-y + hsv.visible-height {
-            hsv.viewport-y = min(0px, hsv.visible-height - row-top - 28px);
-        } else if row-top < -hsv.viewport-y {
-            hsv.viewport-y = -row-top;
+        if row-top + 28px > -hsv.content-y + hsv.visible-height {
+            hsv.content-y = min(0px, hsv.visible-height - row-top - 28px);
+        } else if row-top < -hsv.content-y {
+            hsv.content-y = -row-top;
         }
     }
     changed count => { root.reveal(); }
@@ -510,7 +510,7 @@ export component HistoryPanel inherits Card {
             vertical-stretch: 1;
             min-height: 60px;
             // Keep the current step in view when the history changes.
-            changed viewport-height => { root.reveal(); }
+            changed content-height => { root.reveal(); }
             VerticalLayout {
                 alignment: start;
                 spacing: 1px;

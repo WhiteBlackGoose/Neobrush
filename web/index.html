@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neobrush: image editor in your browser</title>
+  <meta name="description" content="Neobrush is a fast, modern raster graphics editor in the spirit of Paint.NET. Layers, selections, adjustments and 30+ effects, right in your browser.">
+  <meta name="theme-color" content="#121216">
+  <meta property="og:title" content="Neobrush">
+  <meta property="og:description" content="A fast, modern image editor in the spirit of Paint.NET, right in your browser.">
+  <meta property="og:image" content="https://neobrush.wbg.gg/og.png">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <style>
+    :root { --bg: #eef0f4; --fg: #1a1b22; --muted: #646778; }
+    @media (prefers-color-scheme: dark) { :root { --bg: #121216; --fg: #ececf2; --muted: #9a9aab; } }
+    html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); }
+    canvas#canvas { display: block; width: 100vw; height: 100vh; outline: none; }
+    #loading {
+      position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 18px; font: 500 15px/1.4 Inter, system-ui, sans-serif; color: var(--muted); background: var(--bg);
+      transition: opacity .3s;
+    }
+    #loading img { width: 72px; height: 72px; animation: pulse 1.4s ease-in-out infinite; }
+    #loading b { color: var(--fg); font-size: 22px; font-weight: 600; }
+    @keyframes pulse { 50% { transform: scale(.92); opacity: .75; } }
+    #loading.hidden { opacity: 0; pointer-events: none; }
+    #loading .err { color: #d83a4c; max-width: 480px; text-align: center; }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" tabindex="0"></canvas>
+  <div id="loading">
+    <img src="icon.svg" alt="">
+    <b>Neobrush</b>
+    <span id="status">Loading…</span>
+  </div>
+  <script type="module">
+    import init from "./pkg/neobrush.js";
+    const loading = document.getElementById("loading");
+    const status = document.getElementById("status");
+    // Keep browser shortcuts like Ctrl+S / Ctrl+O from leaving the editor.
+    window.addEventListener("keydown", (e) => {
+      if ((e.ctrlKey || e.metaKey) && ["s", "o", "n", "a", "d", "f", "b", "l", "r", "i", "g", "h", "j", "m", "y", "z"].includes(e.key.toLowerCase())) {
+        e.preventDefault();
+      }
+    }, { capture: true });
+    try {
+      await init();
+    } catch (e) {
+      // Slint uses an exception to hand control to the browser's event loop.
+      if (!String(e).includes("Using exceptions for control flow")) {
+        status.className = "err";
+        status.textContent = "Neobrush couldn't start: " + e + ". It needs a browser with WebGL.";
+        throw e;
+      }
+    }
+    loading.classList.add("hidden");
+    document.getElementById("canvas").focus();
+  </script>
+</body>
+</html>

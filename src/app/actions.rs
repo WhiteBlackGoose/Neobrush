@@ -106,7 +106,7 @@ impl Editor {
             "file.save" if has_doc => self.save(false),
             "file.save-as" if has_doc => self.save(true),
             "file.close" if has_doc => self.request_close(self.cur),
-            "file.exit" => {
+            "file.exit" if cfg!(not(target_arch = "wasm32")) => {
                 self.exiting = true;
                 self.continue_exit();
             }
@@ -377,10 +377,7 @@ impl Editor {
     pub fn open_new_dialog(&mut self) {
         let ui = self.ui();
         let g = ui.global::<App>();
-        let (cw, ch) = match arboard::Clipboard::new().and_then(|mut c| c.get_image()) {
-            Ok(img) => (img.width as i32, img.height as i32),
-            Err(_) => (0, 0),
-        };
+        let (cw, ch) = super::platform::clipboard_size();
         g.set_clip_w(cw);
         g.set_clip_h(ch);
         if let Some(d) = self.doc() {
@@ -416,22 +413,38 @@ impl Editor {
     }
 
     pub fn open_path(&mut self, path: &Path) {
-        match io::load(path) {
-            Ok(st) => {
-                let title = path.file_name().map(|s| s.to_string_lossy().to_string()).unwrap_or_else(|| "Image".into());
-                let mut doc = Document::new(title, st, "Open Image", true);
-                doc.path = Some(path.to_path_buf());
-                self.add_doc(doc);
-                self.add_recent_file(path);
+        match std::fs::read(path) {
+            Ok(bytes) => {
+                let name = path.file_name().map(|s| s.to_string_lossy().to_string()).unwrap_or_else(|| "Image".into());
+                self.open_bytes(name, &bytes, Some(path.to_path_buf()));
             }
             Err(e) => self.message("Could not open file", &format!("{}\n\n{}", path.display(), e)),
         }
     }
 
-    fn import_layer(&mut self, path: &Path) {
-        match io::load_surface(path) {
-            Ok(s) => {
-                let name = path.file_stem().map(|s| s.to_string_lossy().to_string()).unwrap_or_else(|| "Imported".into());
+    pub fn open_bytes(&mut self, name: String, bytes: &[u8], path: Option<PathBuf>) {
+        let ext = io::ext_of(Path::new(&name));
+        match io::load_bytes(&ext, bytes) {
+            Ok(st) => {
+                let mut doc = Document::new(name, st, "Open Image", true);
+                doc.path = path.clone();
+                self.add_doc(doc);
+                if let Some(p) = path {
+                    if cfg!(not(target_arch = "wasm32")) {
+                        self.add_recent_file(&p);
+                    }
+                }
+            }
+            Err(e) => self.message("Could not open file", &format!("{name}\n\n{e}")),
+        }
+    }
+
+    fn import_layer_bytes(&mut self, name: String, bytes: &[u8]) {
+        let ext = io::ext_of(Path::new(&name));
+        match io::load_bytes(&ext, bytes) {
+            Ok(st) => {
+                let s = st.flatten();
+                let name = Path::new(&name).file_stem().map(|s| s.to_string_lossy().to_string()).unwrap_or_else(|| "Imported".into());
                 let d = self.doc_mut().unwrap();
                 let mut full = Surface::new(d.state.w, d.state.h);
                 for y in 0..s.h.min(d.state.h) as i32 {
@@ -448,6 +461,7 @@ impl Editor {
         }
     }
 
+    #[cfg(not(target_arch = "wasm32"))]
     pub fn open_dialog(&mut self, as_layer: bool) {
         let dlg = rfd::FileDialog::new()
             .set_title(if as_layer { "Import from File" } else { "Open" })
@@ -457,7 +471,10 @@ impl Editor {
             with_editor(move |e| {
                 for f in files {
                     if as_layer {
-                        e.import_layer(&f);
+                        match std::fs::read(&f) {
+                            Ok(b) => e.import_layer_bytes(f.file_name().map(|s| s.to_string_lossy().to_string()).unwrap_or_default(), &b),
+                            Err(err) => e.message("Could not import file", &err.to_string()),
+                        }
                     } else {
                         e.open_path(&f);
                     }
@@ -467,6 +484,48 @@ impl Editor {
         spawn_dialog(move || if as_layer { dlg.pick_file().into_iter().collect() } else { dlg.pick_files().unwrap_or_default() }, done);
     }
 
+    #[cfg(target_arch = "wasm32")]
+    pub fn open_dialog(&mut self, as_layer: bool) {
+        let accept: Vec<String> = io::OPEN_EXTS.iter().map(|e| format!(".{e}")).collect();
+        super::platform::pick_files(!as_layer, &accept.join(","), move |files| {
+            with_editor(move |e| {
+                for (name, bytes) in files {
+                    if as_layer {
+                        e.import_layer_bytes(name, &bytes);
+                    } else {
+                        let path = PathBuf::from(&name);
+                        e.open_bytes(name, &bytes, Some(path));
+                    }
+                }
+            })
+        });
+    }
+
+    /// Web: "Save As" asks for a name and format, then downloads the file.
+    #[cfg(target_arch = "wasm32")]
+    pub fn save(&mut self, save_as: bool) {
+        let Some(doc) = self.doc() else { return };
+        match (&doc.path, save_as) {
+            (Some(p), false) => self.save_to(p.clone()),
+            _ => {
+                let stem = doc.title.rsplit_once('.').map(|(a, _)| a.to_string()).unwrap_or(doc.title.clone());
+                let ui = self.ui();
+                let g = ui.global::<App>();
+                g.set_export_name(stem.into());
+                g.set_export_format(if doc.state.layers.len() > 1 { 3 } else { 0 });
+                g.set_dialog("export".into());
+            }
+        }
+    }
+
+    pub fn export_file(&mut self, name: String, format: i32) {
+        self.ui().global::<App>().set_dialog("".into());
+        let ext = ["png", "jpg", "webp", "ora", "bmp"][format.clamp(0, 4) as usize];
+        let name = if name.trim().is_empty() { "image".to_string() } else { name.trim().to_string() };
+        self.save_to(PathBuf::from(format!("{name}.{ext}")));
+    }
+
+    #[cfg(not(target_arch = "wasm32"))]
     pub fn save(&mut self, save_as: bool) {
         let Some(doc) = self.doc() else { return };
         let path = doc.path.clone();
@@ -533,11 +592,21 @@ impl Editor {
 
     fn write_file(&mut self, path: PathBuf, quality: u8) {
         let Some(doc) = self.docs.get_mut(self.cur) else { return };
-        match io::save(&path, &doc.state, quality) {
+        #[cfg(not(target_arch = "wasm32"))]
+        let result = io::save(&path, &doc.state, quality);
+        #[cfg(target_arch = "wasm32")]
+        let result = {
+            let ext = io::ext_of(&path);
+            io::encode(&ext, &doc.state, quality).map(|bytes| {
+                super::platform::download(&path.to_string_lossy(), &bytes, super::platform::mime_for(&ext));
+            })
+        };
+        match result {
             Ok(()) => {
                 doc.path = Some(path.clone());
                 doc.title = path.file_name().map(|s| s.to_string_lossy().to_string()).unwrap_or_default();
                 doc.saved_index = Some(doc.history.index);
+                #[cfg(not(target_arch = "wasm32"))]
                 self.add_recent_file(&path);
                 self.panels();
                 match self.after_save.take() {
@@ -794,32 +863,12 @@ impl Editor {
                 }
             }
         }
-        let bytes: Vec<u8> = s.data.iter().flatten().copied().collect();
-        let img = arboard::ImageData { width: s.w as usize, height: s.h as usize, bytes: bytes.into() };
-        if let Ok(mut cb) = arboard::Clipboard::new() {
-            let _ = cb.set_image(img);
-        }
+        super::platform::clipboard_set(&s);
         self.clipboard = Some(s);
     }
 
     fn clipboard_image(&mut self) -> Option<Surface> {
-        if let Ok(mut cb) = arboard::Clipboard::new() {
-            if let Ok(img) = cb.get_image() {
-                let data = img.bytes.chunks_exact(4).map(|c| [c[0], c[1], c[2], c[3]]).collect();
-                return Some(Surface { w: img.width as u32, h: img.height as u32, data });
-            }
-            // A file path or URI on the clipboard.
-            if let Ok(t) = cb.get_text() {
-                let p = t.trim().trim_start_matches("file://");
-                let path = Path::new(p);
-                if path.is_file() {
-                    if let Ok(s) = io::load_surface(path) {
-                        return Some(s);
-                    }
-                }
-            }
-        }
-        self.clipboard.clone()
+        super::platform::clipboard_get().or_else(|| self.clipboard.clone())
     }
 
     /// mode: 0 = into current layer, 1 = new layer, 2 = new image
@@ -1058,12 +1107,10 @@ impl Editor {
         let values = fx.values.clone();
         let src = fx.base_surface.clone();
         self.ui().global::<App>().set_fx_busy(true);
-        std::thread::spawn(move || {
-            let out = filters::find(&id).map(|def| (def.run)(&src, &values, &ctx));
-            let _ = slint::invoke_from_event_loop(move || {
-                with_editor(move |e| e.fx_done(gen, out));
-            });
-        });
+        super::platform::background(
+            move || filters::find(&id).map(|def| (def.run)(&src, &values, &ctx)),
+            move |out| with_editor(move |e| e.fx_done(gen, out)),
+        );
     }
 
     fn fx_done(&mut self, gen: u64, out: Option<Surface>) {
@@ -1209,6 +1256,7 @@ impl Editor {
 }
 
 /// Runs a blocking file dialog without freezing the UI where the platform allows it.
+#[cfg(not(target_arch = "wasm32"))]
 fn spawn_dialog<F, D>(f: F, done: D)
 where
     F: FnOnce() -> Vec<PathBuf> + Send + 'static,

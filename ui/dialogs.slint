@@ -696,3 +696,34 @@ export component ShortcutsDialog inherits Overlay {
         Btn { text: "Close"; primary: true; clicked => { App.dialog = ""; } }
     }
 }
+
+export component ExportDialog inherits Overlay {
+    title: "Save As";
+    icon: Icons.image-down;
+    card-width: 440px;
+    close => { App.dialog = ""; }
+    HorizontalLayout {
+        spacing: 10px;
+        FieldLabel { text: "File name"; width: 70px; }
+        LineEdit {
+            text <=> App.export-name;
+            changed has-focus => { App.text-focus = self.has-focus; }
+        }
+    }
+    HorizontalLayout {
+        spacing: 10px;
+        FieldLabel { text: "Format"; width: 70px; }
+        Segmented {
+            items: ["PNG", "JPEG", "WebP", "OpenRaster", "BMP"];
+            selected <=> App.export-format;
+        }
+    }
+    FieldLabel {
+        text: App.export-format == 3 ? "OpenRaster keeps your layers and opens in GIMP, Krita and MyPaint." : "Layers are flattened in this format.";
+        wrap: word-wrap;
+    }
+    Buttons {
+        Btn { text: "Cancel"; clicked => { App.dialog = ""; } }
+        Btn { text: "Download"; primary: true; clicked => { App.export-file(App.export-name, App.export-format); } }
+    }
+}

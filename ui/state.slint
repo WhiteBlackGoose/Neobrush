@@ -205,4 +205,8 @@ export global App {
     callback curve-reset();
     callback confirm(int);
     callback jpeg-ok();
+    callback export-file(string, int);
+    in property <bool> is-web;
+    in-out property <string> export-name;
+    in-out property <int> export-format;
 }

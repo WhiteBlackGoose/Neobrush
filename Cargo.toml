@@ -6,16 +6,34 @@ description = "A modern, cross-platform raster graphics editor"
 license = "MIT"
 repository = "https://github.com/WhiteBlackGoose/Neobrush"
 
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "neobrush"
+path = "src/main.rs"
+
 [dependencies]
-slint = { version = "1", default-features = false, features = ["std", "backend-winit", "renderer-femtovg", "renderer-software", "accessibility", "compat-1-2"] }
+slint = { version = "1", default-features = false, features = ["std", "backend-winit", "renderer-femtovg", "renderer-software", "compat-1-2"] }
 image = { version = "0.25", default-features = false, features = ["png", "jpeg", "bmp", "gif", "tiff", "webp", "tga", "ico", "qoi"] }
 rayon = "1"
-rfd = "0.15"
-arboard = { version = "3", features = ["wayland-data-control"] }
 ab_glyph = "0.2"
 zip = { version = "2", default-features = false, features = ["deflate"] }
-pollster = "0.4"
-fontdb = "0.23"
+fontdb = { version = "0.23", default-features = false, features = ["std"] }
+web-time = "1"
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+slint = { version = "1", default-features = false, features = ["accessibility"] }
+rfd = "0.15"
+arboard = { version = "3", features = ["wayland-data-control"] }
+fontdb = { version = "0.23", features = ["fs", "memmap", "fontconfig"] }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen = "0.2"
+wasm-bindgen-futures = "0.4"
+js-sys = "0.3"
+web-sys = { version = "0.3", features = ["Window", "Document", "Element", "HtmlElement", "HtmlAnchorElement", "HtmlInputElement", "FileList", "File", "Blob", "BlobPropertyBag", "Url", "Storage", "Event", "console"] }
+console_error_panic_hook = "0.1"
 
 [build-dependencies]
 slint-build = "1"
@@ -46,3 +64,10 @@ opt-level = 3
 [profile.release]
 lto = "thin"
 strip = true
+
+[profile.web]
+inherits = "release"
+opt-level = "s"
+lto = "fat"
+codegen-units = 1
+panic = "abort"

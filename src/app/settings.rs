@@ -5,23 +5,6 @@ use crate::App;
 use slint::{ComponentHandle, ModelRc, SharedString, VecModel};
 use std::path::PathBuf;
 
-fn config_dir() -> Option<PathBuf> {
-    if cfg!(windows) {
-        std::env::var_os("APPDATA").map(|p| PathBuf::from(p).join("Neobrush"))
-    } else if cfg!(target_os = "macos") {
-        std::env::var_os("HOME").map(|h| PathBuf::from(h).join("Library/Application Support/Neobrush"))
-    } else {
-        std::env::var_os("XDG_CONFIG_HOME")
-            .map(PathBuf::from)
-            .or_else(|| std::env::var_os("HOME").map(|h| PathBuf::from(h).join(".config")))
-            .map(|p| p.join("neobrush"))
-    }
-}
-
-fn settings_path() -> Option<PathBuf> {
-    config_dir().map(|d| d.join("settings.conf"))
-}
-
 fn hex(p: [u8; 4]) -> String {
     format!("{:02x}{:02x}{:02x}{:02x}", p[0], p[1], p[2], p[3])
 }
@@ -36,8 +19,7 @@ fn parse_hex(s: &str) -> Option<[u8; 4]> {
 
 impl Editor {
     pub fn load_settings(&mut self) {
-        let Some(path) = settings_path() else { return };
-        let Ok(text) = std::fs::read_to_string(path) else { return };
+        let Some(text) = super::platform::read_settings() else { return };
         let ui = self.ui();
         let g = ui.global::<App>();
         let mut theme = 0;
@@ -91,7 +73,6 @@ impl Editor {
     }
 
     pub fn save_settings(&self) {
-        let Some(path) = settings_path() else { return };
         let Some(ui) = self.ui.upgrade() else { return };
         let g = ui.global::<App>();
         let b = |v: bool| if v { "1" } else { "0" };
@@ -118,10 +99,7 @@ impl Editor {
         for c in &self.recent {
             s += &format!("recent_color={}\n", hex(*c));
         }
-        if let Some(dir) = path.parent() {
-            let _ = std::fs::create_dir_all(dir);
-        }
-        let _ = std::fs::write(path, s);
+        super::platform::write_settings(&s);
     }
 
     pub fn add_recent_file(&mut self, p: &std::path::Path) {

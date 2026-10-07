@@ -31,13 +31,16 @@ pub struct TextLayout {
     pub bounds: Rect,
 }
 
-const BUNDLED: &[u8] = include_bytes!("../../ui/fonts/Inter-400.ttf");
+const BUNDLED: &[&[u8]] = &[include_bytes!("../../ui/fonts/Inter-400.ttf"), include_bytes!("../../ui/fonts/Inter-600.ttf")];
 
 impl FontLib {
     pub fn new() -> Self {
         let mut db = fontdb::Database::new();
+        #[cfg(not(target_arch = "wasm32"))]
         db.load_system_fonts();
-        db.load_font_data(BUNDLED.to_vec());
+        for f in BUNDLED {
+            db.load_font_data(f.to_vec());
+        }
         let mut families: Vec<String> = db
             .faces()
             .filter_map(|f| f.families.first().map(|(n, _)| n.clone()))

@@ -1,5 +1,6 @@
 mod actions;
 mod editor;
+mod platform;
 mod render;
 mod session;
 mod settings;

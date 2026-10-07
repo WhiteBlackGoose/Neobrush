@@ -10,7 +10,8 @@ use crate::{App, AppWindow, CurvePoint, DocTab, HistoryItem, LayerItem, ParamIte
 use slint::{ComponentHandle, Model, ModelRc, SharedString, VecModel};
 use std::cell::RefCell;
 use std::rc::Rc;
-use std::time::{Duration, Instant};
+use std::time::Duration;
+use web_time::Instant;
 
 pub struct Models {
     pub layers: Rc<VecModel<LayerItem>>,
@@ -56,6 +57,8 @@ pub struct Editor {
     pub system_scheme: slint::language::ColorScheme,
     pub recent_files: Vec<std::path::PathBuf>,
     pub glyphs: Option<render::Glyphs>,
+    #[allow(dead_code)]
+    pub last_settings_save: Instant,
 }
 
 thread_local! {
@@ -148,6 +151,7 @@ pub fn run(files: Vec<std::path::PathBuf>) -> Result<(), slint::PlatformError> {
         system_scheme: ui.global::<crate::Palette>().get_color_scheme(),
         recent_files: vec![],
         glyphs: None,
+        last_settings_save: Instant::now(),
     }));
     EDITOR.with(|e| *e.borrow_mut() = Some(ed.clone()));
 
@@ -208,6 +212,11 @@ pub fn run(files: Vec<std::path::PathBuf>) -> Result<(), slint::PlatformError> {
     g.on_curve_reset(|| with_editor(|e| e.curve_reset()));
     g.on_confirm(|c| with_editor(|e| e.confirm(c)));
     g.on_jpeg_ok(|| with_editor(|e| e.jpeg_ok()));
+    g.on_export_file(|name, fmt| {
+        let name = name.to_string();
+        with_editor(move |e| e.export_file(name, fmt))
+    });
+    g.set_is_web(cfg!(target_arch = "wasm32"));
 
     ui.window().on_close_requested(|| {
         let mut resp = slint::CloseRequestResponse::HideWindow;
@@ -243,9 +252,42 @@ pub fn run(files: Vec<std::path::PathBuf>) -> Result<(), slint::PlatformError> {
         e.sync_all();
     }
 
-    let r = ui.run();
-    ed.borrow().save_settings();
-    r
+    #[cfg(not(target_arch = "wasm32"))]
+    {
+        let r = ui.run();
+        ed.borrow().save_settings();
+        r
+    }
+    // On the web `run` returns immediately while the browser drives the event loop,
+    // so the window and frame timer have to outlive this function.
+    #[cfg(target_arch = "wasm32")]
+    {
+        fit_to_browser(&ui);
+        let weak = ui.as_weak();
+        let on_resize = wasm_bindgen::closure::Closure::<dyn FnMut()>::new(move || {
+            if let Some(ui) = weak.upgrade() {
+                fit_to_browser(&ui);
+            }
+        });
+        if let Some(w) = web_sys::window() {
+            use wasm_bindgen::JsCast;
+            let _ = w.add_event_listener_with_callback("resize", on_resize.as_ref().unchecked_ref());
+        }
+        on_resize.forget();
+        let r = ui.run();
+        std::mem::forget(timer);
+        std::mem::forget(ui);
+        r
+    }
+}
+
+/// Makes the Slint window fill the browser viewport.
+#[cfg(target_arch = "wasm32")]
+fn fit_to_browser(ui: &AppWindow) {
+    let Some(w) = web_sys::window() else { return };
+    let width = w.inner_width().ok().and_then(|v| v.as_f64()).unwrap_or(1280.0);
+    let height = w.inner_height().ok().and_then(|v| v.as_f64()).unwrap_or(800.0);
+    ui.window().set_size(slint::LogicalSize::new(width as f32, height as f32));
 }
 
 impl Editor {
@@ -280,6 +322,12 @@ impl Editor {
     }
 
     pub fn tick(&mut self) {
+        // The web build has no clean shutdown, so persist settings every few seconds.
+        #[cfg(target_arch = "wasm32")]
+        if self.last_settings_save.elapsed() > Duration::from_secs(3) {
+            self.last_settings_save = Instant::now();
+            self.save_settings();
+        }
         // Marching ants & caret animation.
         let has_sel = self.doc().map(|d| d.state.selection.is_active()).unwrap_or(false);
         if has_sel && self.last_phase.elapsed() > Duration::from_millis(120) {

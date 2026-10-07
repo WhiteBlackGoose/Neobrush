@@ -9,7 +9,7 @@ import { IconButton, Divider, VDivider, Card } from "widgets.slint";
 import { ToolPalette, ColorsPanel, LayersPanel, HistoryPanel } from "panels.slint";
 import { TopBar, OptionsBar } from "toolbar.slint";
 import { CanvasView } from "canvas.slint";
-import { NewImageDialog, ResizeDialog, CanvasSizeDialog, FxDialog, CurvesDialog, LayerPropsDialog, ConfirmDialog, MessageDialog, JpegDialog, AboutDialog, ShortcutsDialog } from "dialogs.slint";
+import { NewImageDialog, ResizeDialog, CanvasSizeDialog, FxDialog, CurvesDialog, LayerPropsDialog, ConfirmDialog, MessageDialog, JpegDialog, AboutDialog, ShortcutsDialog, ExportDialog } from "dialogs.slint";
 
 import { Palette } from "std-widgets.slint";
 export { Palette }
@@ -142,7 +142,7 @@ export component AppWindow inherits Window {
             MenuItem { title: "Save As…"; shortcut: @keys(Control + Shift + S); activated => { App.action("file.save-as"); } }
             MenuSeparator { }
             MenuItem { title: "Close"; shortcut: @keys(Control + W); activated => { App.action("file.close"); } }
-            MenuItem { title: "Exit"; shortcut: @keys(Control + Q); activated => { App.action("file.exit"); } }
+            MenuItem { title: "Exit"; enabled: !App.is-web; shortcut: @keys(Control + Q); activated => { App.action("file.exit"); } }
         }
         Menu {
             title: "Edit";
@@ -345,6 +345,7 @@ export component AppWindow inherits Window {
     if App.dialog == "jpeg": JpegDialog { }
     if App.dialog == "about": AboutDialog { }
     if App.dialog == "shortcuts": ShortcutsDialog { }
+    if App.dialog == "export": ExportDialog { }
 
     // Tooltip layer
     if Tip.shown: Rectangle {

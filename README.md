@@ -13,7 +13,7 @@ Native on Windows, macOS, Linux and FreeBSD. Light and dark, just like your OS.
 ![Platforms](https://img.shields.io/badge/platforms-Windows%20·%20macOS%20·%20Linux%20·%20FreeBSD-444?style=flat-square)
 ![Rust](https://img.shields.io/badge/Rust-Slint-dea584?style=flat-square&logo=rust&logoColor=white)
 
-[**Download**](#download) · [Features](#features) · [Shortcuts](#shortcuts) · [Building](#building)
+[**▶ Try it in your browser**](https://neobrush.wbg.gg) · [**Download**](#download) · [Features](#features) · [Shortcuts](#shortcuts) · [Building](#building)
 
 <br>
 
@@ -70,6 +70,7 @@ Grab the latest build from the [**Releases page**](https://github.com/WhiteBlack
 | --- | --- | --- |
 | 🐧 **Linux** (Debian, Ubuntu, Mint…) | `neobrush_*_amd64.deb` | `sudo apt install ./neobrush_*.deb` |
 | 🐧 **Linux** (any distro) | `Neobrush-*-x86_64.AppImage` | `chmod +x` it, then run |
+| 🌐 **Web** | [neobrush.wbg.gg](https://neobrush.wbg.gg) | runs in any modern browser with WebGL, nothing to install |
 | ❄️ **NixOS / Nix** | flake | `nix run github:WhiteBlackGoose/Neobrush` |
 | 🪟 **Windows** 10/11 | `Neobrush-*-windows-x86_64.exe` | portable, no installer needed |
 | 🍎 **macOS** 11+ (Apple Silicon & Intel) | `Neobrush-*-macos-universal.dmg` | drag to Applications |
@@ -80,6 +81,8 @@ Grab the latest build from the [**Releases page**](https://github.com/WhiteBlack
 > On macOS, right-click the app and choose **Open** the first time, or run
 > `xattr -dr com.apple.quarantine /Applications/Neobrush.app`.
 > On Windows, SmartScreen may ask you to confirm: choose **More info → Run anyway**.
+
+The web version is the full editor, compiled to WebAssembly. Open and save go through the browser's file picker and downloads. Text uses the bundled Inter font, and copy / paste only work inside the app.
 
 **Staying up to date on Nix:** `nix profile install github:WhiteBlackGoose/Neobrush` installs it, and `nix profile upgrade Neobrush` updates it.
 

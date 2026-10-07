@@ -14,20 +14,27 @@ pub fn ext_of(path: &Path) -> String {
 }
 
 pub fn load(path: &Path) -> Result<DocState, String> {
-    if ext_of(path) == "ora" {
-        return load_ora(path);
+    let bytes = std::fs::read(path).map_err(|e| e.to_string())?;
+    load_bytes(&ext_of(path), &bytes)
+}
+
+/// Decodes a document from memory. `ext` is the lower-case file extension.
+pub fn load_bytes(ext: &str, bytes: &[u8]) -> Result<DocState, String> {
+    if ext == "ora" {
+        return load_ora(bytes);
     }
-    let img = image::open(path).map_err(|e| e.to_string())?.to_rgba8();
-    let s = Surface::from_image(&img);
+    let s = match image::ImageFormat::from_extension(ext) {
+        Some(fmt) => match image::load_from_memory_with_format(bytes, fmt) {
+            Ok(img) => Surface::from_image(&img.to_rgba8()),
+            Err(_) => decode_bytes(bytes)?,
+        },
+        None => decode_bytes(bytes)?,
+    };
     Ok(DocState { w: s.w, h: s.h, layers: vec![Layer::from_surface("Background", &s)], active: 0, selection: Selection::none() })
 }
 
 pub fn load_surface(path: &Path) -> Result<Surface, String> {
-    if ext_of(path) == "ora" {
-        return Ok(load_ora(path)?.flatten());
-    }
-    let img = image::open(path).map_err(|e| e.to_string())?.to_rgba8();
-    Ok(Surface::from_image(&img))
+    Ok(load(path)?.flatten())
 }
 
 pub fn decode_bytes(bytes: &[u8]) -> Result<Surface, String> {
@@ -36,30 +43,40 @@ pub fn decode_bytes(bytes: &[u8]) -> Result<Surface, String> {
 }
 
 pub fn save(path: &Path, st: &DocState, jpeg_quality: u8) -> Result<(), String> {
-    let ext = ext_of(path);
+    let bytes = encode(&ext_of(path), st, jpeg_quality)?;
+    std::fs::write(path, bytes).map_err(|e| e.to_string())
+}
+
+/// Encodes a document into the format given by the lower-case extension.
+pub fn encode(ext: &str, st: &DocState, jpeg_quality: u8) -> Result<Vec<u8>, String> {
     if ext == "ora" {
-        return save_ora(path, st);
+        return encode_ora(st);
     }
     let flat = st.flatten();
-    let img = flat.to_image();
-    match ext.as_str() {
-        "jpg" | "jpeg" => {
+    let mut out = std::io::Cursor::new(Vec::new());
+    let fmt = image::ImageFormat::from_extension(ext).ok_or_else(|| format!("unsupported format: .{ext}"))?;
+    match fmt {
+        image::ImageFormat::Jpeg => {
             let rgb = image::DynamicImage::ImageRgba8(composite_on_white(&flat).to_image()).to_rgb8();
-            let f = std::fs::File::create(path).map_err(|e| e.to_string())?;
-            let mut w = std::io::BufWriter::new(f);
-            let enc = image::codecs::jpeg::JpegEncoder::new_with_quality(&mut w, jpeg_quality);
-            rgb.write_with_encoder(enc).map_err(|e| e.to_string())
+            let enc = image::codecs::jpeg::JpegEncoder::new_with_quality(&mut out, jpeg_quality);
+            rgb.write_with_encoder(enc).map_err(|e| e.to_string())?;
         }
-        "ico" => {
+        image::ImageFormat::Ico => {
+            let img = flat.to_image();
             let img = if img.width() > 256 || img.height() > 256 {
-                image::imageops::resize(&img, 256.min(img.width()), 256.min(img.height()), image::imageops::FilterType::Lanczos3)
+                let (w, h) = fit(img.width(), img.height(), 256);
+                image::imageops::resize(&img, w, h, image::imageops::FilterType::Lanczos3)
             } else {
                 img
             };
-            img.save(path).map_err(|e| e.to_string())
+            img.write_to(&mut out, fmt).map_err(|e| e.to_string())?;
         }
-        _ => img.save(path).map_err(|e| e.to_string()),
+        image::ImageFormat::Bmp | image::ImageFormat::Tga | image::ImageFormat::Gif => {
+            flat.to_image().write_to(&mut out, fmt).map_err(|e| e.to_string())?;
+        }
+        _ => flat.to_image().write_to(&mut out, fmt).map_err(|e| e.to_string())?,
     }
+    Ok(out.into_inner())
 }
 
 fn composite_on_white(s: &Surface) -> Surface {
@@ -83,9 +100,8 @@ fn xml_unescape(s: &str) -> String {
     s.replace("&quot;", "\"").replace("&lt;", "<").replace("&gt;", ">").replace("&apos;", "'").replace("&amp;", "&")
 }
 
-fn save_ora(path: &Path, st: &DocState) -> Result<(), String> {
-    let f = std::fs::File::create(path).map_err(|e| e.to_string())?;
-    let mut z = zip::ZipWriter::new(f);
+fn encode_ora(st: &DocState) -> Result<Vec<u8>, String> {
+    let mut z = zip::ZipWriter::new(std::io::Cursor::new(Vec::new()));
     let stored = zip::write::SimpleFileOptions::default().compression_method(zip::CompressionMethod::Stored);
     let deflate = zip::write::SimpleFileOptions::default();
     let e = |e: zip::result::ZipError| e.to_string();
@@ -116,8 +132,8 @@ fn save_ora(path: &Path, st: &DocState) -> Result<(), String> {
     let thumb = super::transform::resize_surface(&flat, tw, th, super::transform::Resample::Supersample);
     z.start_file("Thumbnails/thumbnail.png", stored).map_err(e)?;
     z.write_all(&encode_png(&thumb)).map_err(|e| e.to_string())?;
-    z.finish().map_err(e)?;
-    Ok(())
+    let out = z.finish().map_err(e)?;
+    Ok(out.into_inner())
 }
 
 pub fn fit(w: u32, h: u32, max: u32) -> (u32, u32) {
@@ -134,9 +150,8 @@ fn attr(tag: &str, name: &str) -> Option<String> {
     Some(xml_unescape(&rest[..end]))
 }
 
-fn load_ora(path: &Path) -> Result<DocState, String> {
-    let f = std::fs::File::open(path).map_err(|e| e.to_string())?;
-    let mut z = zip::ZipArchive::new(f).map_err(|e| e.to_string())?;
+fn load_ora(bytes: &[u8]) -> Result<DocState, String> {
+    let mut z = zip::ZipArchive::new(std::io::Cursor::new(bytes)).map_err(|e| e.to_string())?;
     let mut xml = String::new();
     z.by_name("stack.xml").map_err(|e| e.to_string())?.read_to_string(&mut xml).map_err(|e| e.to_string())?;
     let img_tag_start = xml.find("<image").ok_or("invalid stack.xml")?;
