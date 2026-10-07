@@ -57,6 +57,7 @@ pub struct Editor {
     pub system_scheme: slint::language::ColorScheme,
     pub recent_files: Vec<std::path::PathBuf>,
     pub glyphs: Option<render::Glyphs>,
+    pub base_cache: Option<render::BaseCache>,
     #[allow(dead_code)]
     pub last_settings_save: Instant,
 }
@@ -151,6 +152,7 @@ pub fn run(files: Vec<std::path::PathBuf>) -> Result<(), slint::PlatformError> {
         system_scheme: ui.global::<crate::Palette>().get_color_scheme(),
         recent_files: vec![],
         glyphs: None,
+        base_cache: None,
         last_settings_save: Instant::now(),
     }));
     EDITOR.with(|e| *e.borrow_mut() = Some(ed.clone()));
@@ -340,6 +342,7 @@ impl Editor {
             self.last_caret = Instant::now();
             self.needs_render = true;
         }
+        self.fx_check_view();
         if self.needs_panels {
             self.needs_panels = false;
             if let Some(d) = self.docs.get_mut(self.cur) {
@@ -394,8 +397,25 @@ impl Editor {
             return;
         }
         doc.update_composite();
-        let buf = render::render(doc, cw, ch, &RenderParams { dark, grid, phase, rulers: glyphs, hover, scale }, &overlay);
-        g.set_canvas(slint::Image::from_rgba8(buf));
+        let key = render::BaseKey::new(doc, cw, ch, dark, grid);
+        // Re-render the cached base only where something changed; overlays go on a copy.
+        match &mut self.base_cache {
+            Some(c) if c.key == key => {
+                if !doc.view_dirty.is_empty() {
+                    let region = key.doc_to_screen(doc.view_dirty);
+                    render::render_base(doc, c.buf.make_mut_slice(), &key, region);
+                }
+            }
+            slot => {
+                let mut buf = slint::SharedPixelBuffer::<slint::Rgba8Pixel>::new(key.w, key.h);
+                render::render_base(doc, buf.make_mut_slice(), &key, crate::core::geom::Rect::from_size(key.w, key.h));
+                *slot = Some(render::BaseCache { key, buf });
+            }
+        }
+        doc.view_dirty = crate::core::geom::Rect::EMPTY;
+        let mut frame = self.base_cache.as_ref().unwrap().buf.clone();
+        render::draw_overlays(doc, frame.make_mut_slice(), &key, &RenderParams { dark, grid, phase, rulers: glyphs, hover, scale }, &overlay);
+        g.set_canvas(slint::Image::from_rgba8(frame));
         g.set_zoom(doc.view.zoom * 100.0);
         self.update_status();
     }
@@ -592,6 +612,21 @@ impl Editor {
         d.view.needs_fit = false;
         d.view.auto = initial;
         self.redraw();
+    }
+
+    /// Part of the document currently visible in the viewport (with a small margin).
+    pub fn visible_doc_rect(&self) -> crate::core::geom::Rect {
+        use crate::core::geom::Rect;
+        let Some(d) = self.doc() else { return Rect::EMPTY };
+        let (cw, ch) = self.canvas_px();
+        let v = d.view;
+        let r = Rect::new(
+            ((-v.ox) / v.zoom).floor() as i32 - 2,
+            ((-v.oy) / v.zoom).floor() as i32 - 2,
+            ((cw as f32 - v.ox) / v.zoom).ceil() as i32 + 2,
+            ((ch as f32 - v.oy) / v.zoom).ceil() as i32 + 2,
+        );
+        r.intersect(&d.state.rect())
     }
 
     pub fn clamp_view(&mut self) {

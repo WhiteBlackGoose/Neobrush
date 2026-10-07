@@ -278,65 +278,121 @@ fn draw_rulers(cv: &mut Canvas, g: &Glyphs, doc_w: u32, doc_h: u32, zoom: f32, o
     }
 }
 
-pub fn render(doc: &Document, cw: u32, ch: u32, rp: &RenderParams, ov: &Overlay) -> SharedPixelBuffer<Rgba8Pixel> {
-    let cw = cw.max(1);
-    let ch = ch.max(1);
-    let mut buf = SharedPixelBuffer::<Rgba8Pixel>::new(cw, ch);
-    let bg: [u8; 3] = if rp.dark { [13, 13, 16] } else { [227, 229, 234] };
-    let (c1, c2): ([u8; 3], [u8; 3]) = if rp.dark { ([58, 58, 66], [74, 74, 84]) } else { ([255, 255, 255], [218, 220, 226]) };
-    let v = doc.view;
-    let z = v.zoom;
+/// Settings that decide whether a cached base image is still valid.
+#[derive(Clone, Copy, PartialEq, Debug)]
+pub struct BaseKey {
+    pub doc: u64,
+    pub w: u32,
+    pub h: u32,
+    pub zoom: f32,
+    pub ox: f32,
+    pub oy: f32,
+    pub img_w: u32,
+    pub img_h: u32,
+    pub dark: bool,
+    pub grid: bool,
+}
+
+/// The rendered document without overlays, kept between frames.
+pub struct BaseCache {
+    pub key: BaseKey,
+    pub buf: SharedPixelBuffer<Rgba8Pixel>,
+}
+
+impl BaseKey {
+    pub fn new(doc: &Document, w: u32, h: u32, dark: bool, grid: bool) -> BaseKey {
+        BaseKey {
+            doc: doc.id,
+            w: w.max(1),
+            h: h.max(1),
+            zoom: doc.view.zoom,
+            ox: doc.view.ox,
+            oy: doc.view.oy,
+            img_w: doc.composite.w,
+            img_h: doc.composite.h,
+            dark,
+            grid,
+        }
+    }
+
+    /// Converts a document rectangle into the screen pixels it covers.
+    pub fn doc_to_screen(&self, r: Rect) -> Rect {
+        Rect::new(
+            (self.ox + r.x0 as f32 * self.zoom).floor() as i32 - 2,
+            (self.oy + r.y0 as f32 * self.zoom).floor() as i32 - 2,
+            (self.ox + r.x1 as f32 * self.zoom).ceil() as i32 + 2,
+            (self.oy + r.y1 as f32 * self.zoom).ceil() as i32 + 2,
+        )
+        .intersect(&Rect::from_size(self.w, self.h))
+    }
+}
+
+/// Renders the document (checkerboard, image, pixel grid, drop shadow) into `px`,
+/// limited to the screen rectangle `region`.
+pub fn render_base(doc: &Document, px: &mut [Rgba8Pixel], key: &BaseKey, region: Rect) {
+    let (cw, ch) = (key.w, key.h);
+    let region = region.intersect(&Rect::from_size(cw, ch));
+    if region.is_empty() {
+        return;
+    }
+    let bg: [u8; 3] = if key.dark { [13, 13, 16] } else { [227, 229, 234] };
+    let (c1, c2): ([u8; 3], [u8; 3]) = if key.dark { ([58, 58, 66], [74, 74, 84]) } else { ([255, 255, 255], [218, 220, 226]) };
+    let z = key.zoom;
+    let (x0, y0) = (key.ox, key.oy);
     let comp = &doc.composite;
-    let (iw, ih) = (comp.w as i32, comp.h as i32);
-    let x0 = v.ox;
-    let y0 = v.oy;
-    let x1 = x0 + iw as f32 * z;
-    let y1 = y0 + ih as f32 * z;
-    let grid = rp.grid && z >= 6.0;
-    let samples = if z < 1.0 { ((1.0 / z).ceil() as i32).min(4) } else { 1 };
+    let x1 = x0 + comp.w as f32 * z;
+    let y1 = y0 + comp.h as f32 * z;
+    let grid = key.grid && z >= 6.0;
 
-    // Precompute per-column document coordinates for nearest sampling.
-    let cols: Vec<i32> = (0..cw).map(|sx| ((sx as f32 + 0.5 - x0) / z).floor() as i32).collect();
+    // Zoomed out: read from the mip level whose scale is closest above the zoom.
+    let mut level = 0usize;
+    let mut lz = z;
+    while lz < 0.5 && level < doc.mips.len() {
+        level += 1;
+        lz *= 2.0;
+    }
+    let src: &crate::core::surface::Surface = if level == 0 { comp } else { &doc.mips[level - 1] };
+    let (iw, ih) = (src.w as i32, src.h as i32);
+    let supersample = lz < 0.99;
 
-    let px = buf.make_mut_slice();
-    px.par_chunks_mut(cw as usize).enumerate().for_each(|(sy, row)| {
+    let cols: Vec<i32> = (region.x0..region.x1).map(|sx| ((sx as f32 + 0.5 - x0) / lz).floor() as i32).collect();
+    let rx0 = region.x0 as usize;
+    let rx1 = region.x1 as usize;
+    px.par_chunks_mut(cw as usize).enumerate().skip(region.y0 as usize).take(region.height() as usize).for_each(|(sy, row)| {
         let fy = sy as f32 + 0.5;
-        let doc_y = ((fy - y0) / z).floor() as i32;
+        let doc_y = ((fy - y0) / lz).floor() as i32;
         let gy = grid && {
             let ly = (fy - y0) / z;
             (ly - ly.floor()) * z < 1.0
         };
-        for (sx, out) in row.iter_mut().enumerate() {
+        for (i, out) in row[rx0..rx1].iter_mut().enumerate() {
+            let sx = rx0 + i;
             let fx = sx as f32 + 0.5;
             let c: [u8; 3];
             if fx >= x0 && fx < x1 && fy >= y0 && fy < y1 {
                 let ck = (((fx - x0) / 8.0) as i32 + ((fy - y0) / 8.0) as i32) & 1;
                 let chk = if ck == 0 { c1 } else { c2 };
-                let p: [f32; 4] = if samples == 1 {
-                    let dx = cols[sx].clamp(0, iw - 1);
+                let p: [f32; 4] = if !supersample {
+                    let dx = cols[i].clamp(0, iw - 1);
                     let dy = doc_y.clamp(0, ih - 1);
-                    let q = comp.data[(dy * iw + dx) as usize];
+                    let q = src.data[(dy * iw + dx) as usize];
                     [q[0] as f32, q[1] as f32, q[2] as f32, q[3] as f32 / 255.0]
                 } else {
                     let mut acc = [0f32; 4];
-                    let n = samples as f32;
-                    for j in 0..samples {
-                        for i in 0..samples {
-                            let dx = (((fx - 0.5 + (i as f32 + 0.5) / n) - x0) / z).floor() as i32;
-                            let dy = (((fy - 0.5 + (j as f32 + 0.5) / n) - y0) / z).floor() as i32;
-                            let q = comp.data[(dy.clamp(0, ih - 1) * iw + dx.clamp(0, iw - 1)) as usize];
-                            let a = q[3] as f32 / 255.0;
-                            acc[0] += q[0] as f32 * a;
-                            acc[1] += q[1] as f32 * a;
-                            acc[2] += q[2] as f32 * a;
-                            acc[3] += a;
-                        }
+                    for (ox, oy) in [(0.25f32, 0.25f32), (0.75, 0.25), (0.25, 0.75), (0.75, 0.75)] {
+                        let dx = ((sx as f32 + ox - x0) / lz).floor() as i32;
+                        let dy = ((sy as f32 + oy - y0) / lz).floor() as i32;
+                        let q = src.data[(dy.clamp(0, ih - 1) * iw + dx.clamp(0, iw - 1)) as usize];
+                        let a = q[3] as f32 / 255.0;
+                        acc[0] += q[0] as f32 * a;
+                        acc[1] += q[1] as f32 * a;
+                        acc[2] += q[2] as f32 * a;
+                        acc[3] += a;
                     }
-                    let a = acc[3] / (n * n);
                     if acc[3] > 0.0 {
-                        [acc[0] / acc[3], acc[1] / acc[3], acc[2] / acc[3], a]
+                        [acc[0] / acc[3], acc[1] / acc[3], acc[2] / acc[3], acc[3] / 4.0]
                     } else {
-                        [0.0, 0.0, 0.0, 0.0]
+                        [0.0; 4]
                     }
                 };
                 let a = p[3];
@@ -361,7 +417,7 @@ pub fn render(doc: &Document, cw: u32, ch: u32, rp: &RenderParams, ov: &Overlay)
                 let d = (dx * dx + dy * dy).sqrt();
                 let r = 18.0;
                 if d < r {
-                    let k = (1.0 - d / r).powi(2) * if rp.dark { 0.6 } else { 0.22 };
+                    let k = (1.0 - d / r).powi(2) * if key.dark { 0.6 } else { 0.22 };
                     c = [(bg[0] as f32 * (1.0 - k)) as u8, (bg[1] as f32 * (1.0 - k)) as u8, (bg[2] as f32 * (1.0 - k)) as u8];
                 } else {
                     c = bg;
@@ -370,7 +426,13 @@ pub fn render(doc: &Document, cw: u32, ch: u32, rp: &RenderParams, ov: &Overlay)
             *out = Rgba8Pixel { r: c[0], g: c[1], b: c[2], a: 255 };
         }
     });
+}
 
+/// Draws selection outline, tool overlays and rulers on top of a rendered base.
+pub fn draw_overlays(doc: &Document, px: &mut [Rgba8Pixel], key: &BaseKey, rp: &RenderParams, ov: &Overlay) {
+    let (cw, ch) = (key.w, key.h);
+    let z = key.zoom;
+    let (x0, y0) = (key.ox, key.oy);
     let mut cv = Canvas { px, w: cw as i32, h: ch as i32 };
     let to_s = |p: Pt| (x0 + p.x * z, y0 + p.y * z);
 
@@ -437,8 +499,17 @@ pub fn render(doc: &Document, cw: u32, ch: u32, rp: &RenderParams, ov: &Overlay)
         cv.handle(hx, hy);
     }
     if let Some(g) = rp.rulers {
-        draw_rulers(&mut cv, g, comp.w, comp.h, z, x0, y0, rp.dark, rp.hover, rp.scale);
+        draw_rulers(&mut cv, g, key.img_w, key.img_h, z, x0, y0, key.dark, rp.hover, rp.scale);
     }
+}
+
+/// Renders a complete frame without caching (used by tests and benchmarks).
+#[allow(dead_code)]
+pub fn render(doc: &Document, cw: u32, ch: u32, rp: &RenderParams, ov: &Overlay) -> SharedPixelBuffer<Rgba8Pixel> {
+    let key = BaseKey::new(doc, cw, ch, rp.dark, rp.grid);
+    let mut buf = SharedPixelBuffer::<Rgba8Pixel>::new(key.w, key.h);
+    render_base(doc, buf.make_mut_slice(), &key, Rect::from_size(key.w, key.h));
+    draw_overlays(doc, buf.make_mut_slice(), &key, rp, ov);
     buf
 }
 

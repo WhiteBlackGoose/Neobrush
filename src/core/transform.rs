@@ -125,7 +125,13 @@ fn map_layers(st: &mut DocState, nw: u32, nh: u32, f: impl Fn(&Surface) -> Surfa
 }
 
 fn mask_to_surface(m: &Mask) -> Surface {
-    Surface { w: m.w, h: m.h, data: m.data.iter().map(|v| [255, 255, 255, *v]).collect() }
+    let mut s = Surface::new(m.w, m.h);
+    for y in 0..m.h as i32 {
+        for x in 0..m.w as i32 {
+            s.set(x, y, [255, 255, 255, m.get(x, y)]);
+        }
+    }
+    s
 }
 fn surface_to_mask(s: &Surface) -> Mask {
     Mask::from_coverage(s.w, s.h, s.data.iter().map(|p| p[3]).collect())

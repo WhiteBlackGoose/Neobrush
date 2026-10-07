@@ -33,7 +33,7 @@ mod tests {
     #[test]
     fn all_filters_run() {
         let s = sample(67, 41);
-        let ctx = Ctx { primary: [0, 0, 0, 255], secondary: [255, 255, 255, 255], bounds: Rect::new(5, 5, 60, 30), curves: Some([[0; 256]; 3]) };
+        let ctx = Ctx { primary: [0, 0, 0, 255], secondary: [255, 255, 255, 255], bounds: Rect::new(5, 5, 60, 30), curves: Some([[0; 256]; 3]), ox: 0, oy: 0 };
         for f in filters::all() {
             let params: Vec<f32> = f.params.iter().map(|p| p.default).collect();
             let out = (f.run)(&s, &params, &ctx);
@@ -59,6 +59,43 @@ mod tests {
                 .collect();
             let _ = (f.run)(&s, &minp, &ctx);
         }
+    }
+
+    /// Previews run on a crop (with margin); they must match the full-image result.
+    #[test]
+    fn crop_preview_matches_full() {
+        let s = sample(600, 400);
+        let region = Rect::new(380, 250, 440, 310);
+        let margin = 64;
+        let crop_r = region.inflate(margin).intersect(&Rect::new(0, 0, 600, 400));
+        let bounds = Rect::new(10, 10, 590, 390);
+        let mut bad = vec![];
+        for f in filters::all() {
+            if filters::needs_full_image(f.id) || f.id == "curves" {
+                continue;
+            }
+            let params: Vec<f32> = f.params.iter().map(|p| p.default).collect();
+            let full_ctx = Ctx { primary: [0, 0, 0, 255], secondary: [255; 4], bounds, curves: None, ox: 0, oy: 0 };
+            let full = (f.run)(&s, &params, &full_ctx);
+            let crop = s.crop(crop_r);
+            let b = Rect::new(bounds.x0 - crop_r.x0, bounds.y0 - crop_r.y0, bounds.x1 - crop_r.x0, bounds.y1 - crop_r.y0);
+            let ctx = Ctx { bounds: b, ox: crop_r.x0, oy: crop_r.y0, ..full_ctx };
+            let part = (f.run)(&crop, &params, &ctx);
+            let mut maxd = 0i32;
+            for y in region.y0..region.y1 {
+                for x in region.x0..region.x1 {
+                    let a = full.get(x, y);
+                    let c = part.get(x - crop_r.x0, y - crop_r.y0);
+                    for i in 0..4 {
+                        maxd = maxd.max((a[i] as i32 - c[i] as i32).abs());
+                    }
+                }
+            }
+            if maxd > 3 {
+                bad.push(format!("{} ({maxd})", f.id));
+            }
+        }
+        assert!(bad.is_empty(), "previews differ: {bad:?}");
     }
 
     #[test]

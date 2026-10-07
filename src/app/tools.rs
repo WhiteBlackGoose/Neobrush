@@ -398,26 +398,31 @@ impl Editor {
         }
     }
 
-    fn sample_surface(&self, image: bool) -> Surface {
-        let doc = &self.docs[self.cur];
-        if image {
-            doc.composite.clone()
+    /// Flood-fills from `p` on the active layer or the whole image; returns the mask and its bounds.
+    fn flood(&mut self, p: Pt, o: &Opts) -> (Vec<u8>, Rect) {
+        let doc = &mut self.docs[self.cur];
+        let (w, h) = (doc.state.w, doc.state.h);
+        let tol = o.tolerance * o.tolerance;
+        if o.sample_image {
+            doc.update_composite();
+            let comp = &doc.composite;
+            paint::flood_mask(w, h, |x, y| comp.get(x, y), p.x as i32, p.y as i32, tol, !o.global)
         } else {
-            doc.state.layer().px.to_surface()
+            let px = &doc.state.layer().px;
+            paint::flood_mask(w, h, |x, y| px.get(x, y), p.x as i32, p.y as i32, tol, !o.global)
         }
     }
 
     fn tool_wand(&mut self, button: i32, p: Pt, ctrl: bool, alt: bool) {
         let o = self.opts();
         let mode = self.sel_mode(button, ctrl, alt);
-        let doc = &self.docs[self.cur];
-        if !doc.state.rect().contains(p.x as i32, p.y as i32) {
+        if !self.docs[self.cur].state.rect().contains(p.x as i32, p.y as i32) {
             return;
         }
-        let src = self.sample_surface(o.sample_image);
-        let mask = paint::flood_mask(&src, p.x as i32, p.y as i32, o.tolerance * o.tolerance, !o.global);
+        let (mask, b) = self.flood(p, &o);
         let doc = &mut self.docs[self.cur];
-        let m = Mask::from_coverage(doc.state.w, doc.state.h, mask);
+        let (w, h) = (doc.state.w, doc.state.h);
+        let m = Mask::from_region(w, h, b, paint::crop_mask(&mask, w, b));
         doc.state.selection = doc.state.selection.apply(m, mode);
         doc.commit("Magic Wand Select", "wand");
         self.panels();
@@ -467,7 +472,7 @@ impl Editor {
         } else {
             (doc.state.layers[layer].px.clone(), Surface::new(0, 0))
         };
-        self.session = Session::Move(Box::new(MoveSession { pixels, layer, cleared, float, rect, mask, xf: Xf::default(), drag: None }));
+        self.session = Session::Move(Box::new(MoveSession { pixels, layer, cleared, float, rect, mask, xf: Xf::default(), drag: None, last_dest: Default::default() }));
     }
 
     fn tool_move(&mut self, tool: Tool, kind: i32, button: i32, p: Pt, shift: bool) {
@@ -494,10 +499,11 @@ impl Editor {
                 }
             }
             MOVE => {
+                let visible = self.visible_doc_rect();
                 if let Session::Move(m) = &mut self.session {
                     if m.drag.is_some() {
                         m.drag_to(p, shift);
-                        m.apply(&mut self.docs[self.cur]);
+                        m.apply(&mut self.docs[self.cur], Some(visible));
                         self.redraw();
                     }
                 }
@@ -506,6 +512,7 @@ impl Editor {
                 if let Session::Move(m) = &mut self.session {
                     if m.drag.take().is_some() {
                         let doc = &mut self.docs[self.cur];
+                        m.apply(doc, None);
                         let changed = {
                             let h = doc.history.current();
                             let a = h.selection.mask.as_ref().map(|m| m.bounds);
@@ -568,17 +575,16 @@ impl Editor {
         if !doc.state.rect().contains(p.x as i32, p.y as i32) {
             return;
         }
-        let src = self.sample_surface(o.sample_image);
-        let mask = paint::flood_mask(&src, p.x as i32, p.y as i32, o.tolerance * o.tolerance, !o.global);
+        let (mask, b) = self.flood(p, &o);
         let doc = &mut self.docs[self.cur];
-        let r = doc.state.rect();
-        let cov = Cov { rect: r, data: mask, touched: r };
+        let cov = Cov::from_data(b, &paint::crop_mask(&mask, doc.state.w, b));
         let c = if button == 1 { o.secondary } else { o.primary };
         let op = PaintOp::Color { c, overwrite: o.overwrite };
         let base = doc.state.layer().px.clone();
         let sel = doc.state.selection.clone();
-        paint::apply_ops(&mut doc.state.layer_mut().px, &base, sel.bounds(r.x1 as u32, r.y1 as u32), &sel, &[(&cov, &op)]);
-        doc.invalidate_all();
+        let r = sel.bounds(doc.state.w, doc.state.h).intersect(&b);
+        paint::apply_ops(&mut doc.state.layer_mut().px, &base, r, &sel, &[(&cov, &op)]);
+        doc.invalidate(r);
         doc.commit("Paint Bucket", "bucket");
         self.push_recent(c);
         self.panels();
@@ -592,6 +598,7 @@ impl Editor {
             }
             MOVE => {
                 let o = self.opts();
+                let visible = self.visible_doc_rect();
                 if let Drag::Gradient { a, b, base, swap } = &mut self.drag {
                     let mut q = p;
                     if shift {
@@ -603,18 +610,30 @@ impl Editor {
                     }
                     *b = q;
                     let (c0, c1) = if *swap { (o.secondary, o.primary) } else { (o.primary, o.secondary) };
+                    // While dragging only the visible part is rendered; the rest follows on release.
+                    let region = visible;
                     let doc = &mut self.docs[self.cur];
                     let sel = doc.state.selection.clone();
                     let active = doc.state.active;
-                    paint::apply_gradient(&mut doc.state.layers[active].px, base, &sel, o.gradient, *a, *b, c0, c1, o.gradient_alpha, o.overwrite);
-                    doc.invalidate_all();
+                    paint::apply_gradient(&mut doc.state.layers[active].px, base, &sel, o.gradient, *a, *b, c0, c1, o.gradient_alpha, o.overwrite, region);
+                    doc.invalidate(region);
                     self.redraw();
                 }
             }
             UP | CANCEL => {
-                if let Drag::Gradient { a, b, .. } = std::mem::replace(&mut self.drag, Drag::None) {
+                if let Drag::Gradient { a, b, base, swap } = std::mem::replace(&mut self.drag, Drag::None) {
                     if a.dist(b) >= 1.0 {
-                        self.docs[self.cur].commit("Gradient", "gradient");
+                        let o = self.opts();
+                        let (c0, c1) = if swap { (o.secondary, o.primary) } else { (o.primary, o.secondary) };
+                        let doc = &mut self.docs[self.cur];
+                        let sel = doc.state.selection.clone();
+                        let active = doc.state.active;
+                        let full = doc.state.rect();
+                        paint::apply_gradient(&mut doc.state.layers[active].px, &base, &sel, o.gradient, a, b, c0, c1, o.gradient_alpha, o.overwrite, full);
+                        doc.invalidate_all();
+                        doc.commit("Gradient", "gradient");
+                    } else {
+                        self.docs[self.cur].revert();
                     }
                     self.panels();
                 }

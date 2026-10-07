@@ -137,6 +137,8 @@ pub struct MoveSession {
     pub mask: Arc<Mask>,
     pub xf: Xf,
     pub drag: Option<MoveDrag>,
+    /// Destination area of the previous apply (to invalidate what moved away).
+    pub last_dest: std::cell::Cell<Rect>,
 }
 
 impl MoveSession {
@@ -161,9 +163,11 @@ impl MoveSession {
         r.inflate(1).intersect(&doc)
     }
 
-    /// Writes the transformed pixels/selection into the document.
-    pub fn apply(&self, doc: &mut Document) {
+    /// Writes the transformed pixels/selection into the document. With `region`, pixels are
+    /// only updated inside it (used while dragging; the full update follows on release).
+    pub fn apply(&self, doc: &mut Document, region: Option<Rect>) {
         let drect = doc.state.rect();
+        let clip = region.unwrap_or(drect).intersect(&drect);
         let c = self.center();
         let xf = self.xf;
         let ti = (xf.tx.round() as i32, xf.ty.round() as i32);
@@ -175,12 +179,12 @@ impl MoveSession {
             let float = &self.float;
             if translate {
                 let r = fr.intersect(&Rect::new(-ti.0, -ti.1, drect.x1 - ti.0, drect.y1 - ti.1));
-                px.map_rect(Rect::new(r.x0 + ti.0, r.y0 + ti.1, r.x1 + ti.0, r.y1 + ti.1), |x, y, b| {
+                px.map_rect(Rect::new(r.x0 + ti.0, r.y0 + ti.1, r.x1 + ti.0, r.y1 + ti.1).intersect(&clip), |x, y, b| {
                     let s = float.get_or(x - ti.0 - fr.x0, y - ti.1 - fr.y0, [0; 4]);
                     over(b, s, 1.0)
                 });
             } else {
-                px.map_rect(dest, |x, y, b| {
+                px.map_rect(dest.intersect(&clip), |x, y, b| {
                     let sp = xf.inverse(c, Pt::new(x as f32 + 0.5, y as f32 + 0.5));
                     let s = unpremul(float.sample_bilinear_premul(sp.x - fr.x0 as f32, sp.y - fr.y0 as f32));
                     over(b, s, 1.0)
@@ -188,11 +192,12 @@ impl MoveSession {
             }
             doc.state.layers[self.layer].px = px;
         }
-        // Transform the selection mask.
+        // Transform the selection mask (only its bounding region is stored).
         let (w, h) = (doc.state.w, doc.state.h);
-        let mut data = vec![0u8; (w * h) as usize];
         let m = &self.mask;
         let d = if translate { Rect::new(m.bounds.x0 + ti.0, m.bounds.y0 + ti.1, m.bounds.x1 + ti.0, m.bounds.y1 + ti.1).intersect(&drect) } else { dest };
+        let dw = d.width().max(0);
+        let mut data = vec![0u8; (dw * d.height().max(0)) as usize];
         for y in d.y0..d.y1 {
             for x in d.x0..d.x1 {
                 let v = if translate {
@@ -208,11 +213,13 @@ impl MoveSession {
                         + m.get(x0 + 1, y0 + 1) as f32 * tx * ty;
                     v.round() as u8
                 };
-                data[(y as u32 * w + x as u32) as usize] = v;
+                data[((y - d.y0) * dw + (x - d.x0)) as usize] = v;
             }
         }
-        doc.state.selection = Selection::from_mask(Mask::from_coverage(w, h, data));
-        doc.invalidate_all();
+        doc.state.selection = Selection::from_mask(Mask::from_region(w, h, d, data));
+        let old = self.last_dest.get();
+        doc.invalidate(old.union(&dest).union(&self.rect));
+        self.last_dest.set(dest);
     }
 
     /// Returns the handle index under the screen-space point, if any.

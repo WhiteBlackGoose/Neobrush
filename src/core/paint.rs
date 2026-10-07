@@ -2,72 +2,127 @@
 
 use super::geom::{dist_to_segment, Pt, Rect};
 use super::selection::Selection;
-use super::surface::{color_distance, lerp_px, over, Px, Surface};
+use super::surface::{color_distance, lerp_px, over, Px};
 use super::tiled::Tiled;
 
-/// A coverage buffer over a region of the document.
+const CT: i32 = 64;
+
+/// A sparse, tiled coverage buffer over a region of the document.
+/// Tiles are only allocated once something is drawn into them.
 #[derive(Clone)]
 pub struct Cov {
     pub rect: Rect,
-    pub data: Vec<u8>,
+    tw: i32,
+    tiles: Vec<Option<Box<[u8; (CT * CT) as usize]>>>,
     /// Area that has been touched so far.
     pub touched: Rect,
 }
 
 impl Cov {
     pub fn new(rect: Rect) -> Cov {
-        Cov { rect, data: vec![0; (rect.width() * rect.height()).max(0) as usize], touched: Rect::EMPTY }
+        let tw = (rect.width() + CT - 1) / CT;
+        let th = (rect.height() + CT - 1) / CT;
+        Cov { rect, tw, tiles: vec![None; (tw * th).max(0) as usize], touched: Rect::EMPTY }
     }
+
+    /// Builds a coverage buffer from row-major data covering `rect`.
+    pub fn from_data(rect: Rect, data: &[u8]) -> Cov {
+        let mut c = Cov::new(rect);
+        let rw = rect.width();
+        for y in 0..rect.height() {
+            for x in 0..rw {
+                let v = data[(y * rw + x) as usize];
+                if v != 0 {
+                    c.set(rect.x0 + x, rect.y0 + y, v);
+                }
+            }
+        }
+        c.touched = rect;
+        c
+    }
+
+    #[inline]
+    fn locate(&self, x: i32, y: i32) -> Option<(usize, usize)> {
+        if !self.rect.contains(x, y) {
+            return None;
+        }
+        let lx = x - self.rect.x0;
+        let ly = y - self.rect.y0;
+        Some((((ly / CT) * self.tw + lx / CT) as usize, ((ly % CT) * CT + lx % CT) as usize))
+    }
+
     #[inline]
     pub fn get(&self, x: i32, y: i32) -> u8 {
-        if !self.rect.contains(x, y) {
-            return 0;
+        match self.locate(x, y) {
+            Some((t, i)) => match &self.tiles[t] {
+                Some(tile) => tile[i],
+                None => 0,
+            },
+            None => 0,
         }
-        self.data[((y - self.rect.y0) * self.rect.width() + (x - self.rect.x0)) as usize]
     }
+
     #[inline]
     pub fn max(&mut self, x: i32, y: i32, v: u8) {
-        if !self.rect.contains(x, y) || v == 0 {
+        if v == 0 {
             return;
         }
-        let i = ((y - self.rect.y0) * self.rect.width() + (x - self.rect.x0)) as usize;
-        if self.data[i] < v {
-            self.data[i] = v;
+        if let Some((t, i)) = self.locate(x, y) {
+            let tile = self.tiles[t].get_or_insert_with(|| Box::new([0; (CT * CT) as usize]));
+            if tile[i] < v {
+                tile[i] = v;
+            }
         }
     }
+
     #[inline]
     pub fn set(&mut self, x: i32, y: i32, v: u8) {
-        if !self.rect.contains(x, y) {
-            return;
+        if let Some((t, i)) = self.locate(x, y) {
+            if v == 0 && self.tiles[t].is_none() {
+                return;
+            }
+            let tile = self.tiles[t].get_or_insert_with(|| Box::new([0; (CT * CT) as usize]));
+            tile[i] = v;
         }
-        let i = ((y - self.rect.y0) * self.rect.width() + (x - self.rect.x0)) as usize;
-        self.data[i] = v;
     }
+
     pub fn touch(&mut self, r: Rect) {
         self.touched = self.touched.union(&r.intersect(&self.rect));
     }
 
-    /// Fills coverage for every pixel in `r` from a function returning 0..1.
+    /// Fills coverage (max-combined) for every pixel in `r` from a function returning 0..1.
     pub fn fill_with<F: Fn(f32, f32) -> f32 + Sync>(&mut self, r: Rect, f: F) {
         let r = r.intersect(&self.rect);
         if r.is_empty() {
             return;
         }
         use rayon::prelude::*;
-        let rw = self.rect.width() as usize;
-        let (rx0, ry0) = (self.rect.x0, self.rect.y0);
-        self.data.par_chunks_mut(rw).enumerate().for_each(|(row_i, row)| {
-            let y = ry0 + row_i as i32;
-            if y < r.y0 || y >= r.y1 {
-                return;
+        let (tw, rx0, ry0) = (self.tw, self.rect.x0, self.rect.y0);
+        let (tx0, tx1) = ((r.x0 - rx0) / CT, (r.x1 - 1 - rx0) / CT + 1);
+        let (ty0, ty1) = ((r.y0 - ry0) / CT, (r.y1 - 1 - ry0) / CT + 1);
+        // Only visit the tiles that intersect `r`, in parallel by tile row.
+        self.tiles.par_chunks_mut(tw as usize).enumerate().skip(ty0 as usize).take((ty1 - ty0) as usize).for_each(|(ty, row)| {
+          let ty = ty as i32;
+          for tx in tx0..tx1 {
+            let slot = &mut row[tx as usize];
+            let tr = Rect::new(rx0 + tx * CT, ry0 + ty * CT, rx0 + tx * CT + CT, ry0 + ty * CT + CT).intersect(&r);
+            if tr.is_empty() {
+                continue;
             }
-            for x in r.x0..r.x1 {
-                let v = (f(x as f32 + 0.5, y as f32 + 0.5).clamp(0.0, 1.0) * 255.0).round() as u8;
-                let i = (x - rx0) as usize;
-                if row[i] < v {
-                    row[i] = v;
+            for y in tr.y0..tr.y1 {
+                for x in tr.x0..tr.x1 {
+                    let v = (f(x as f32 + 0.5, y as f32 + 0.5).clamp(0.0, 1.0) * 255.0).round() as u8;
+                    if v == 0 {
+                        continue;
+                    }
+                    let tile = slot.get_or_insert_with(|| Box::new([0; (CT * CT) as usize]));
+                    let i = ((y - ry0 - ty * CT) * CT + (x - rx0 - tx * CT)) as usize;
+                    if tile[i] < v {
+                        tile[i] = v;
+                    }
                 }
             }
+          }
         });
         self.touch(r);
     }
@@ -451,40 +506,59 @@ pub fn polyline_cov(cov: &mut Cov, pts: &[Pt], width: f32, aa: bool, dash: f32) 
 // ---------------------------------------------------------------------------------------------
 // Flood fill
 
-/// Produces a 0/255 mask of pixels similar to the seed color.
-pub fn flood_mask(src: &Surface, sx: i32, sy: i32, tol: f32, contiguous: bool) -> Vec<u8> {
-    let (w, h) = (src.w as i32, src.h as i32);
+/// Produces a full-image 0/255 mask of pixels similar to the seed color, plus its bounding box.
+pub fn flood_mask(w: u32, h: u32, get: impl Fn(i32, i32) -> Px + Sync, sx: i32, sy: i32, tol: f32, contiguous: bool) -> (Vec<u8>, Rect) {
+    use rayon::prelude::*;
+    let (w, h) = (w as i32, h as i32);
     let mut mask = vec![0u8; (w * h) as usize];
-    if !src.in_bounds(sx, sy) {
-        return mask;
+    if sx < 0 || sy < 0 || sx >= w || sy >= h {
+        return (mask, Rect::EMPTY);
     }
-    let seed = src.get(sx, sy);
+    let seed = get(sx, sy);
     let similar = |p: Px| color_distance(p, seed) <= tol + 1e-6;
     if !contiguous {
-        for (i, p) in src.data.iter().enumerate() {
-            if similar(*p) {
-                mask[i] = 255;
+        let rows: Vec<Option<(i32, i32)>> = mask
+            .par_chunks_mut(w as usize)
+            .enumerate()
+            .map(|(y, row)| {
+                let mut span: Option<(i32, i32)> = None;
+                for (x, m) in row.iter_mut().enumerate() {
+                    if similar(get(x as i32, y as i32)) {
+                        *m = 255;
+                        span = Some(match span {
+                            None => (x as i32, x as i32),
+                            Some((a, _)) => (a, x as i32),
+                        });
+                    }
+                }
+                span
+            })
+            .collect();
+        let mut b = Rect::EMPTY;
+        for (y, s) in rows.iter().enumerate() {
+            if let Some((a, z)) = s {
+                b = b.union(&Rect::new(*a, y as i32, z + 1, y as i32 + 1));
             }
         }
-        return mask;
+        return (mask, b);
     }
+    let mut b = Rect::EMPTY;
     let mut stack = vec![(sx, sy)];
     while let Some((x, y)) = stack.pop() {
         let row = (y * w) as usize;
-        if mask[row + x as usize] != 0 || !similar(src.data[row + x as usize]) {
+        if mask[row + x as usize] != 0 || !similar(get(x, y)) {
             continue;
         }
         let mut l = x;
-        while l > 0 && mask[row + (l - 1) as usize] == 0 && similar(src.data[row + (l - 1) as usize]) {
+        while l > 0 && mask[row + (l - 1) as usize] == 0 && similar(get(l - 1, y)) {
             l -= 1;
         }
         let mut r = x;
-        while r < w - 1 && mask[row + (r + 1) as usize] == 0 && similar(src.data[row + (r + 1) as usize]) {
+        while r < w - 1 && mask[row + (r + 1) as usize] == 0 && similar(get(r + 1, y)) {
             r += 1;
         }
-        for xx in l..=r {
-            mask[row + xx as usize] = 255;
-        }
+        mask[row + l as usize..=row + r as usize].fill(255);
+        b = b.union(&Rect::new(l, y, r + 1, y + 1));
         for ny in [y - 1, y + 1] {
             if ny < 0 || ny >= h {
                 continue;
@@ -492,7 +566,7 @@ pub fn flood_mask(src: &Surface, sx: i32, sy: i32, tol: f32, contiguous: bool) -
             let nrow = (ny * w) as usize;
             let mut in_run = false;
             for xx in l..=r {
-                let ok = mask[nrow + xx as usize] == 0 && similar(src.data[nrow + xx as usize]);
+                let ok = mask[nrow + xx as usize] == 0 && similar(get(xx, ny));
                 if ok && !in_run {
                     stack.push((xx, ny));
                     in_run = true;
@@ -502,7 +576,17 @@ pub fn flood_mask(src: &Surface, sx: i32, sy: i32, tol: f32, contiguous: bool) -
             }
         }
     }
-    mask
+    (mask, b)
+}
+
+/// Crops a full-image mask to `r`.
+pub fn crop_mask(mask: &[u8], w: u32, r: Rect) -> Vec<u8> {
+    let mut out = Vec::with_capacity((r.width() * r.height()).max(0) as usize);
+    for y in r.y0..r.y1 {
+        let start = (y as u32 * w + r.x0 as u32) as usize;
+        out.extend_from_slice(&mask[start..start + r.width() as usize]);
+    }
+    out
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -567,8 +651,9 @@ pub fn apply_gradient(
     c1: Px,
     transparency: bool,
     overwrite: bool,
+    region: Rect,
 ) {
-    let r = sel.bounds(layer.w, layer.h);
+    let r = sel.bounds(layer.w, layer.h).intersect(&region);
     layer.map_rect(r, |x, y, _| {
         let bp = base.get(x, y);
         let s = sel.coverage(x, y) as f32 / 255.0;

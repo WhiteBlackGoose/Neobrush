@@ -151,7 +151,7 @@ impl Tiled {
         });
     }
 
-    /// Applies `f` to every pixel in rect `r` in parallel (by tile).
+    /// Applies `f` to every pixel in rect `r`, in parallel by tile row. Only touched tiles are visited.
     pub fn map_rect<F>(&mut self, r: Rect, f: F)
     where
         F: Fn(i32, i32, Px) -> Px + Sync,
@@ -161,36 +161,55 @@ impl Tiled {
             return;
         }
         let tw = self.tw;
-        self.tiles.par_iter_mut().enumerate().for_each(|(i, slot)| {
-            let tx = i as i32 % tw;
-            let ty = i as i32 / tw;
-            let tr = Rect::new(tx * TS, ty * TS, tx * TS + TS, ty * TS + TS).intersect(&r);
-            if tr.is_empty() {
-                return;
-            }
-            let mut changed = false;
-            let mut tile: Tile = match slot {
-                None => [[0; 4]; TN],
-                Some(t) => **t,
-            };
-            for y in tr.y0..tr.y1 {
-                for x in tr.x0..tr.x1 {
-                    let idx = ((y - ty * TS) * TS + (x - tx * TS)) as usize;
-                    let o = tile[idx];
-                    let n = f(x, y, o);
-                    if n != o {
-                        tile[idx] = n;
-                        changed = true;
+        let (tx0, tx1) = (r.x0 / TS, (r.x1 - 1) / TS + 1);
+        let (ty0, ty1) = (r.y0 / TS, (r.y1 - 1) / TS + 1);
+        self.tiles.par_chunks_mut(tw as usize).enumerate().skip(ty0 as usize).take((ty1 - ty0) as usize).for_each(|(ty, row)| {
+            let ty = ty as i32;
+            for tx in tx0..tx1 {
+                let slot = &mut row[tx as usize];
+                let tr = Rect::new(tx * TS, ty * TS, tx * TS + TS, ty * TS + TS).intersect(&r);
+                let mut changed = false;
+                let mut tile: Tile = match slot {
+                    None => [[0; 4]; TN],
+                    Some(t) => **t,
+                };
+                for y in tr.y0..tr.y1 {
+                    for x in tr.x0..tr.x1 {
+                        let idx = ((y - ty * TS) * TS + (x - tx * TS)) as usize;
+                        let o = tile[idx];
+                        let n = f(x, y, o);
+                        if n != o {
+                            tile[idx] = n;
+                            changed = true;
+                        }
+                    }
+                }
+                if changed {
+                    if tile.iter().all(|p| *p == [0; 4]) {
+                        *slot = None;
+                    } else {
+                        *slot = Some(Arc::new(tile));
                     }
                 }
             }
-            if changed {
-                if tile.iter().all(|p| *p == [0; 4]) {
-                    *slot = None;
-                } else {
-                    *slot = Some(Arc::new(tile));
-                }
-            }
         });
+    }
+
+    /// Union of the tiles that differ (by identity) between two images of the same size.
+    pub fn diff_rect(&self, other: &Tiled) -> Rect {
+        let mut r = Rect::EMPTY;
+        for (i, (a, b)) in self.tiles.iter().zip(other.tiles.iter()).enumerate() {
+            let same = match (a, b) {
+                (None, None) => true,
+                (Some(a), Some(b)) => Arc::ptr_eq(a, b),
+                _ => false,
+            };
+            if !same {
+                let tx = i as i32 % self.tw;
+                let ty = i as i32 / self.tw;
+                r = r.union(&Rect::new(tx * TS, ty * TS, tx * TS + TS, ty * TS + TS));
+            }
+        }
+        r.intersect(&self.rect())
     }
 }

@@ -70,8 +70,13 @@ impl DocState {
                 let mut buf = vec![[0u8; 4]; rw];
                 for l in &layers {
                     l.px.read_row(y as i32, r.x0, r.x1, &mut buf);
+                    let normal = l.blend == BlendMode::Normal && l.opacity >= 1.0;
                     for (a, p) in acc.iter_mut().zip(buf.iter()) {
                         if p[3] == 0 {
+                            continue;
+                        }
+                        if normal && p[3] == 255 {
+                            *a = [p[0] as f32 / 255.0, p[1] as f32 / 255.0, p[2] as f32 / 255.0, 1.0];
                             continue;
                         }
                         let s = [
@@ -97,6 +102,26 @@ impl DocState {
                     row[r.x0 as usize + i] = px;
                 }
             });
+    }
+
+    /// Area whose composite may differ between two states (None = everything).
+    pub fn composite_diff(&self, other: &DocState) -> Option<Rect> {
+        if self.w != other.w || self.h != other.h || self.layers.len() != other.layers.len() {
+            return None;
+        }
+        let mut r = Rect::EMPTY;
+        for (a, b) in self.layers.iter().zip(other.layers.iter()) {
+            if a.visible != b.visible || a.opacity != b.opacity || a.blend != b.blend {
+                if a.visible || b.visible {
+                    return None;
+                }
+                continue;
+            }
+            if a.visible {
+                r = r.union(&a.px.diff_rect(&b.px));
+            }
+        }
+        Some(r)
     }
 
     pub fn flatten(&self) -> Surface {
@@ -161,7 +186,11 @@ pub struct Document {
     /// History index that matches what is on disk (None if never matches).
     pub saved_index: Option<usize>,
     pub composite: Surface,
+    /// Downscaled copies of the composite (each half the size of the previous).
+    pub mips: Vec<Surface>,
     pub dirty: Rect,
+    /// Area changed since the viewport was last rendered.
+    pub view_dirty: Rect,
     pub view: View,
 }
 
@@ -178,8 +207,10 @@ impl Document {
             path: None,
             title,
             saved_index: if saved { Some(0) } else { None },
+            mips: build_mips(&composite),
             composite,
             dirty: Rect::EMPTY,
+            view_dirty: Rect::EMPTY,
             view: View::default(),
         }
     }
@@ -195,7 +226,8 @@ impl Document {
     }
 
     pub fn invalidate(&mut self, r: Rect) {
-        self.dirty = self.dirty.union(&r.intersect(&self.state.rect()));
+        let r = r.intersect(&self.state.rect());
+        self.dirty = self.dirty.union(&r);
     }
     pub fn invalidate_all(&mut self) {
         self.dirty = self.state.rect();
@@ -205,6 +237,7 @@ impl Document {
     pub fn update_composite(&mut self) -> bool {
         if self.composite.w != self.state.w || self.composite.h != self.state.h {
             self.composite = Surface::new(self.state.w, self.state.h);
+            self.mips = build_mips(&self.composite);
             self.dirty = self.state.rect();
         }
         if self.dirty.is_empty() {
@@ -212,6 +245,8 @@ impl Document {
         }
         let d = self.dirty;
         self.state.composite_into(&mut self.composite, d);
+        update_mips(&self.composite, &mut self.mips, d);
+        self.view_dirty = self.view_dirty.union(&d);
         self.dirty = Rect::EMPTY;
         true
     }
@@ -240,10 +275,12 @@ impl Document {
     /// Discards uncommitted changes of the working state.
     pub fn revert(&mut self) {
         let prev = self.history.current().clone();
-        let resized = prev.w != self.state.w || prev.h != self.state.h;
+        let diff = self.state.composite_diff(&prev);
         self.state = prev;
-        let _ = resized;
-        self.invalidate_all();
+        match diff {
+            Some(r) => self.invalidate(r),
+            None => self.invalidate_all(),
+        }
     }
 
     pub fn goto_history(&mut self, idx: usize) {
@@ -261,5 +298,61 @@ impl Document {
         if self.history.can_redo() {
             self.goto_history(self.history.index + 1);
         }
+    }
+}
+
+fn mip_sizes(w: u32, h: u32) -> Vec<(u32, u32)> {
+    let mut v = Vec::new();
+    let (mut w, mut h) = (w, h);
+    while w > 64 || h > 64 {
+        w = w.div_ceil(2).max(1);
+        h = h.div_ceil(2).max(1);
+        v.push((w, h));
+    }
+    v
+}
+
+fn build_mips(base: &Surface) -> Vec<Surface> {
+    let mut mips: Vec<Surface> = mip_sizes(base.w, base.h).into_iter().map(|(w, h)| Surface::new(w, h)).collect();
+    update_mips(base, &mut mips, Rect::from_size(base.w, base.h));
+    mips
+}
+
+/// Recomputes the mip levels covering `r` (in base coordinates) with a premultiplied 2x2 box filter.
+fn update_mips(base: &Surface, mips: &mut [Surface], r: Rect) {
+    let mut r = r;
+    for i in 0..mips.len() {
+        let (prev, rest) = mips.split_at_mut(i);
+        let src: &Surface = if i == 0 { base } else { &prev[i - 1] };
+        let dst = &mut rest[0];
+        r = Rect::new(r.x0.div_euclid(2), r.y0.div_euclid(2), (r.x1 + 1) / 2, (r.y1 + 1) / 2).intersect(&Rect::from_size(dst.w, dst.h));
+        if r.is_empty() {
+            return;
+        }
+        let dw = dst.w as usize;
+        dst.data
+            .par_chunks_mut(dw)
+            .enumerate()
+            .skip(r.y0 as usize)
+            .take(r.height() as usize)
+            .for_each(|(y, row)| {
+                let y = y as i32;
+                for x in r.x0..r.x1 {
+                    let mut acc = [0u32; 4];
+                    for (dx, dy) in [(0, 0), (1, 0), (0, 1), (1, 1)] {
+                        let p = src.get_clamped(x * 2 + dx, y * 2 + dy);
+                        let a = p[3] as u32;
+                        acc[0] += p[0] as u32 * a;
+                        acc[1] += p[1] as u32 * a;
+                        acc[2] += p[2] as u32 * a;
+                        acc[3] += a;
+                    }
+                    row[x as usize] = if acc[3] == 0 {
+                        [0; 4]
+                    } else {
+                        [(acc[0] / acc[3]) as u8, (acc[1] / acc[3]) as u8, (acc[2] / acc[3]) as u8, (acc[3] / 4) as u8]
+                    };
+                }
+            });
     }
 }

@@ -7,3 +7,6 @@ mod settings;
 mod tools;
 
 pub use editor::run;
+
+#[cfg(test)]
+mod perf;

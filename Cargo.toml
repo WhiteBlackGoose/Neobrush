@@ -67,7 +67,7 @@ strip = true
 
 [profile.web]
 inherits = "release"
-opt-level = "s"
+opt-level = 3
 lto = "fat"
 codegen-units = 1
 panic = "abort"

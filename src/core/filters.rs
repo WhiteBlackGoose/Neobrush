@@ -39,6 +39,23 @@ pub struct Ctx {
     pub bounds: Rect,
     /// Curves LUTs (r, g, b) for the curves adjustment.
     pub curves: Option<[[u8; 256]; 3]>,
+    /// Image position of the surface's top-left pixel (non-zero when previewing a crop).
+    pub ox: i32,
+    pub oy: i32,
+}
+
+impl Ctx {
+    fn plain() -> Ctx {
+        Ctx { primary: [0; 4], secondary: [0; 4], bounds: Rect::EMPTY, curves: None, ox: 0, oy: 0 }
+    }
+}
+
+/// Margin around the visible area used when previewing on a crop.
+pub const PREVIEW_MARGIN: i32 = 256;
+
+/// Filters that must see the whole image (they can't be previewed on a crop).
+pub fn needs_full_image(id: &str) -> bool {
+    matches!(id, "auto-level" | "rotate-zoom" | "polar-inversion" | "twist" | "bulge" | "radial-blur" | "zoom-blur" | "drop-shadow")
 }
 
 pub type RunFn = fn(&Surface, &[f32], &Ctx) -> Surface;
@@ -519,8 +536,8 @@ fn oil_painting(s: &Surface, p: &[f32], _: &Ctx) -> Surface {
 fn pencil_sketch(s: &Surface, p: &[f32], _: &Ctx) -> Surface {
     let tip = p[0];
     let range = p[1] / 20.0;
-    let grey = black_white(s, &[], &Ctx { primary: [0; 4], secondary: [0; 4], bounds: Rect::EMPTY, curves: None });
-    let inv = invert(&grey, &[], &Ctx { primary: [0; 4], secondary: [0; 4], bounds: Rect::EMPTY, curves: None });
+    let grey = black_white(s, &[], &Ctx::plain());
+    let inv = invert(&grey, &[], &Ctx::plain());
     let b = blur(&inv, tip * 2.0);
     map_xy(s, |x, y| {
         let i = (y as u32 * s.w + x as u32) as usize;
@@ -758,45 +775,48 @@ fn fbm(x: f32, y: f32, octaves: i32, rough: f32, seed: u32) -> f32 {
     sum / norm
 }
 
-fn dents(s: &Surface, p: &[f32], _: &Ctx) -> Surface {
+fn dents(s: &Surface, p: &[f32], ctx: &Ctx) -> Surface {
     let scale = p[0];
     let refr = p[1] / 100.0 * scale * 0.5;
     let rough = (p[2] / 100.0).clamp(0.0, 0.95);
     let seed = p[3] as u32;
     map_xy(s, |x, y| {
-        let fx = x as f32 / scale;
-        let fy = y as f32 / scale;
+        let fx = (x + ctx.ox) as f32 / scale;
+        let fy = (y + ctx.oy) as f32 / scale;
         let nx = fbm(fx, fy, 4, rough + 0.3, seed) - 0.5;
         let ny = fbm(fx + 31.7, fy + 17.3, 4, rough + 0.3, seed) - 0.5;
         s.sample_bilinear_clamped(x as f32 + 0.5 + nx * refr * 2.0, y as f32 + 0.5 + ny * refr * 2.0)
     })
 }
 
-fn frosted_glass(s: &Surface, p: &[f32], _: &Ctx) -> Surface {
+fn frosted_glass(s: &Surface, p: &[f32], ctx: &Ctx) -> Surface {
     let amt = p[0];
     let seed = p[1] as u32;
     map_xy(s, |x, y| {
-        let dx = (hash(x, y, seed) - 0.5) * 2.0 * amt;
-        let dy = (hash(y, x, seed + 7) - 0.5) * 2.0 * amt;
+        let (gx, gy) = (x + ctx.ox, y + ctx.oy);
+        let dx = (hash(gx, gy, seed) - 0.5) * 2.0 * amt;
+        let dy = (hash(gy, gx, seed + 7) - 0.5) * 2.0 * amt;
         s.get_clamped(x + dx as i32, y + dy as i32)
     })
 }
 
-fn pixelate(s: &Surface, p: &[f32], _: &Ctx) -> Surface {
+fn pixelate(s: &Surface, p: &[f32], ctx: &Ctx) -> Surface {
     let n = p[0].max(1.0) as i32;
-    let w = s.w as i32;
-    let h = s.h as i32;
+    // Align the cell grid to the image, not to the (possibly cropped) surface.
+    let (sx, sy) = (ctx.ox.rem_euclid(n), ctx.oy.rem_euclid(n));
+    let w = s.w as i32 + sx;
+    let h = s.h as i32 + sy;
     let cw = (w + n - 1) / n;
     let chh = (h + n - 1) / n;
     let cells: Vec<Px> = (0..cw * chh)
         .into_par_iter()
         .map(|i| {
-            let cx = (i % cw) * n;
-            let cy = (i / cw) * n;
+            let cx = (i % cw) * n - sx;
+            let cy = (i / cw) * n - sy;
             let mut acc = [0f32; 4];
             let mut cnt = 0.0;
-            for y in cy..(cy + n).min(h) {
-                for x in cx..(cx + n).min(w) {
+            for y in cy.max(0)..(cy + n).min(s.h as i32) {
+                for x in cx.max(0)..(cx + n).min(s.w as i32) {
                     let q = s.get(x, y);
                     let a = q[3] as f32 / 255.0;
                     for c in 0..3 {
@@ -807,12 +827,12 @@ fn pixelate(s: &Surface, p: &[f32], _: &Ctx) -> Surface {
                 }
             }
             for v in acc.iter_mut() {
-                *v /= cnt;
+                *v /= f32::max(cnt, 1.0);
             }
             unpremul(acc)
         })
         .collect();
-    map_xy(s, |x, y| cells[((y / n) * cw + x / n) as usize])
+    map_xy(s, |x, y| cells[(((y + sy) / n) * cw + (x + sx) / n) as usize])
 }
 
 fn polar_inversion(s: &Surface, p: &[f32], ctx: &Ctx) -> Surface {
@@ -836,14 +856,14 @@ fn polar_inversion(s: &Surface, p: &[f32], ctx: &Ctx) -> Surface {
     })
 }
 
-fn tile_reflection(s: &Surface, p: &[f32], _: &Ctx) -> Surface {
+fn tile_reflection(s: &Surface, p: &[f32], ctx: &Ctx) -> Surface {
     let size = p[0];
     let curv = p[1] / 100.0;
     let a = p[2].to_radians();
     let (sn, cs) = a.sin_cos();
     map_xy(s, |x, y| {
-        let fx = x as f32 + 0.5;
-        let fy = y as f32 + 0.5;
+        let fx = (x + ctx.ox) as f32 + 0.5;
+        let fy = (y + ctx.oy) as f32 + 0.5;
         let u = fx * cs - fy * sn;
         let v = fx * sn + fy * cs;
         let tu = (u / size).rem_euclid(1.0) * 2.0 - 1.0;
@@ -852,8 +872,8 @@ fn tile_reflection(s: &Surface, p: &[f32], _: &Ctx) -> Surface {
         let dv = tv * tv.abs() * curv * size * 0.5;
         let ou = u - du;
         let ov = v - dv;
-        let sx = ou * cs + ov * sn;
-        let sy = -ou * sn + ov * cs;
+        let sx = ou * cs + ov * sn - ctx.ox as f32;
+        let sy = -ou * sn + ov * cs - ctx.oy as f32;
         s.sample_bilinear_clamped(sx, sy)
     })
 }
@@ -879,13 +899,14 @@ fn twist(s: &Surface, p: &[f32], ctx: &Ctx) -> Surface {
 // ---------------------------------------------------------------------------------------------
 // Noise
 
-fn add_noise(s: &Surface, p: &[f32], _: &Ctx) -> Surface {
+fn add_noise(s: &Surface, p: &[f32], ctx: &Ctx) -> Surface {
     let intensity = p[0] / 100.0 * 128.0;
     let sat = p[1] / 100.0;
     let coverage = p[2] / 100.0;
     let seed = p[3] as u32;
-    map_xy(s, |x, y| {
-        let q = s.get(x, y);
+    map_xy(s, |lx, ly| {
+        let q = s.get(lx, ly);
+        let (x, y) = (lx + ctx.ox, ly + ctx.oy);
         if hash(x, y, seed + 99) > coverage {
             return q;
         }
@@ -964,7 +985,7 @@ fn reduce_noise(s: &Surface, p: &[f32], _: &Ctx) -> Surface {
 
 fn glow(s: &Surface, p: &[f32], _: &Ctx) -> Surface {
     let b = blur(s, p[0]);
-    let bc = brightness_contrast(&b, &[p[1], p[2]], &Ctx { primary: [0; 4], secondary: [0; 4], bounds: Rect::EMPTY, curves: None });
+    let bc = brightness_contrast(&b, &[p[1], p[2]], &Ctx::plain());
     map_xy(s, |x, y| {
         let a = s.get(x, y);
         let g = bc.get(x, y);
@@ -1057,7 +1078,7 @@ fn clouds(s: &Surface, p: &[f32], ctx: &Ctx) -> Surface {
     let mode = p[3] as i32;
     let (c0, c1) = (ctx.primary, ctx.secondary);
     map_xy(s, |x, y| {
-        let n = fbm(x as f32 / scale, y as f32 / scale, 8, rough, seed).clamp(0.0, 1.0);
+        let n = fbm((x + ctx.ox) as f32 / scale, (y + ctx.oy) as f32 / scale, 8, rough, seed).clamp(0.0, 1.0);
         let n = ((n - 0.5) * 1.6 + 0.5).clamp(0.0, 1.0);
         let mut cl = [0u8; 4];
         for c in 0..4 {
@@ -1167,7 +1188,7 @@ fn edge_detect(s: &Surface, p: &[f32], _: &Ctx) -> Surface {
 }
 
 fn emboss(s: &Surface, p: &[f32], _: &Ctx) -> Surface {
-    let g = black_white(s, &[], &Ctx { primary: [0; 4], secondary: [0; 4], bounds: Rect::EMPTY, curves: None });
+    let g = black_white(s, &[], &Ctx::plain());
     convolve3(&g, directional_kernel(p[0]), 128.0, true)
 }
 

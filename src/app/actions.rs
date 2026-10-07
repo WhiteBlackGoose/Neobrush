@@ -22,7 +22,12 @@ pub struct FxSession {
     pub params: Vec<filters::ParamDef>,
     pub values: Vec<f32>,
     pub base: Tiled,
-    pub base_surface: Arc<Surface>,
+    /// Full-image copy of the layer, created only when a full computation is needed.
+    pub base_surface: Option<Arc<Surface>>,
+    /// Whether the last applied preview covered the whole image.
+    pub applied_full: bool,
+    /// View (zoom, ox, oy, canvas w, canvas h) the last preview was computed for.
+    pub preview_view: (f32, f32, f32, u32, u32),
     pub layer: usize,
     pub gen: u64,
     pub applied_gen: u64,
@@ -908,8 +913,8 @@ impl Editor {
         let mask = Arc::new(Mask::rect(w, h, rect));
         let layer = d.state.active;
         let cleared = d.state.layers[layer].px.clone();
-        let ms = super::session::MoveSession { pixels: true, layer, cleared, float: img, rect, mask, xf: Default::default(), drag: None };
-        ms.apply(d);
+        let ms = super::session::MoveSession { pixels: true, layer, cleared, float: img, rect, mask, xf: Default::default(), drag: None, last_dest: Default::default() };
+        ms.apply(d, None);
         d.commit(if mode == 1 { "Paste into New Layer" } else { "Paste" }, "paste");
         self.session = Session::Move(Box::new(ms));
         let ui = self.ui();
@@ -966,7 +971,7 @@ impl Editor {
 
     fn fx_ctx(&self, curves: Option<[[u8; 256]; 3]>) -> Ctx {
         let d = self.doc().unwrap();
-        Ctx { primary: self.primary(), secondary: self.secondary(), bounds: d.state.selection.bounds(d.state.w, d.state.h), curves }
+        Ctx { primary: self.primary(), secondary: self.secondary(), bounds: d.state.selection.bounds(d.state.w, d.state.h), curves, ox: 0, oy: 0 }
     }
 
     fn icon_for_fx(id: &str) -> &'static str {
@@ -1023,7 +1028,7 @@ impl Editor {
         }
         let d = self.doc().unwrap();
         let base = d.state.layer().px.clone();
-        let base_surface = Arc::new(base.to_surface());
+        let base_surface = None;
         let values: Vec<f32> = match &self.last_fx {
             Some((lid, v)) if lid == id && v.len() == def.params.len() => v.clone(),
             _ => def.params.iter().map(|p| p.default).collect(),
@@ -1035,6 +1040,8 @@ impl Editor {
             values,
             base,
             base_surface,
+            applied_full: false,
+            preview_view: (0.0, 0.0, 0.0, 0, 0),
             layer: d.state.active,
             gen: 0,
             applied_gen: 0,
@@ -1092,37 +1099,71 @@ impl Editor {
         self.fx_preview();
     }
 
-    /// Starts (or schedules) a background preview computation.
+    fn view_key(&self) -> (f32, f32, f32, u32, u32) {
+        let (cw, ch) = self.canvas_px();
+        self.doc().map(|d| (d.view.zoom, d.view.ox, d.view.oy, cw, ch)).unwrap_or_default()
+    }
+
+    /// Re-runs the preview when the user pans or zooms while an effect dialog is open.
+    pub fn fx_check_view(&mut self) {
+        let key = self.view_key();
+        if let Some(fx) = &self.fx {
+            if !fx.running && !fx.applied_full && fx.preview_view != key {
+                self.fx_preview();
+            }
+        }
+    }
+
+    /// Starts (or schedules) a background preview computation. Previews only cover the
+    /// visible part of the selection (plus a margin) unless the filter needs the whole image.
     fn fx_preview(&mut self) {
         let curves = self.fx.as_ref().and_then(|f| f.curves.as_ref().map(curves_lut));
-        let ctx = self.fx_ctx(curves);
+        let mut ctx = self.fx_ctx(curves);
+        let visible = self.visible_doc_rect();
+        let view_key = self.view_key();
+        let Some(doc) = self.docs.get(self.cur) else { return };
+        let (doc_rect, sel_bounds) = (doc.state.rect(), doc.state.selection.bounds(doc.state.w, doc.state.h));
         let Some(fx) = &mut self.fx else { return };
         fx.gen += 1;
         if fx.running {
             return;
         }
+        let region = visible.intersect(&sel_bounds);
+        let full = filters::needs_full_image(&fx.id) || region.width() as i64 * region.height() as i64 * 10 >= sel_bounds.width() as i64 * sel_bounds.height() as i64 * 7;
+        let (src, crop, region) = if full {
+            let s = fx.base_surface.get_or_insert_with(|| Arc::new(fx.base.to_surface())).clone();
+            (s, doc_rect, sel_bounds)
+        } else {
+            let crop = region.inflate(filters::PREVIEW_MARGIN).intersect(&doc_rect);
+            let b = ctx.bounds;
+            ctx.bounds = Rect::new(b.x0 - crop.x0, b.y0 - crop.y0, b.x1 - crop.x0, b.y1 - crop.y0);
+            ctx.ox = crop.x0;
+            ctx.oy = crop.y0;
+            (Arc::new(fx.base.read_rect(crop)), crop, region)
+        };
         fx.running = true;
+        fx.preview_view = view_key;
         let gen = fx.gen;
         let id = fx.id.clone();
         let values = fx.values.clone();
-        let src = fx.base_surface.clone();
         self.ui().global::<App>().set_fx_busy(true);
         super::platform::background(
             move || filters::find(&id).map(|def| (def.run)(&src, &values, &ctx)),
-            move |out| with_editor(move |e| e.fx_done(gen, out)),
+            move |out| with_editor(move |e| e.fx_done(gen, out, crop, region, full)),
         );
     }
 
-    fn fx_done(&mut self, gen: u64, out: Option<Surface>) {
+    fn fx_done(&mut self, gen: u64, out: Option<Surface>, crop: Rect, region: Rect, full: bool) {
         let Some(fx) = &mut self.fx else { return };
         fx.running = false;
         let latest = fx.gen;
         let layer = fx.layer;
         let base = fx.base.clone();
         if let Some(out) = out {
-            self.apply_filter_result(layer, &base, &out);
+            self.apply_filter_patch(layer, &base, &out, crop, region);
             if let Some(fx) = &mut self.fx {
                 fx.applied_gen = gen;
+                fx.applied_full = full;
             }
         }
         if gen != latest {
@@ -1136,16 +1177,42 @@ impl Editor {
         }
     }
 
+    /// Writes a filter result covering `crop` into the layer, inside `region` and the selection.
+    fn apply_filter_patch(&mut self, layer: usize, base: &Tiled, out: &Surface, crop: Rect, region: Rect) {
+        let d = self.doc_mut().unwrap();
+        let sel = d.state.selection.clone();
+        let r = sel.bounds(d.state.w, d.state.h).intersect(&region);
+        let prev = d.state.layers[layer].px.diff_rect(base);
+        let mut px = base.clone();
+        px.map_rect(r, |x, y, b| {
+            let k = sel.coverage(x, y);
+            if k == 0 {
+                b
+            } else {
+                let o = out.get(x - crop.x0, y - crop.y0);
+                if k == 255 {
+                    o
+                } else {
+                    lerp_px(b, o, k as f32 / 255.0)
+                }
+            }
+        });
+        d.state.layers[layer].px = px;
+        d.invalidate(r.union(&prev));
+        self.redraw();
+    }
+
     pub fn fx_ok(&mut self) {
         let Some(fx) = self.fx.take() else { return };
         self.ui().global::<App>().set_dialog("".into());
         self.ui().global::<App>().set_fx_busy(false);
-        if fx.applied_gen != fx.gen || fx.running {
-            // Compute the final result synchronously.
+        if fx.applied_gen != fx.gen || fx.running || !fx.applied_full {
+            // Compute the final, full-image result.
             let curves = fx.curves.as_ref().map(curves_lut);
             let ctx = self.fx_ctx(curves);
             if let Some(def) = filters::find(&fx.id) {
-                let out = (def.run)(&fx.base_surface, &fx.values, &ctx);
+                let src = fx.base_surface.clone().unwrap_or_else(|| Arc::new(fx.base.to_surface()));
+                let out = (def.run)(&src, &fx.values, &ctx);
                 self.apply_filter_result(fx.layer, &fx.base, &out);
             }
         }
