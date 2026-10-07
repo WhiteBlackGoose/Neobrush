@@ -86,6 +86,7 @@ export global App {
 
     in property <[LayerItem]> layers;
     in property <[HistoryItem]> history;
+    in property <int> history-index;
     in property <string> status-pos;
     in property <string> status-sel;
     in property <string> status-size;
@@ -166,6 +167,8 @@ export global App {
     in-out property <int> curve-channel: 0;
     in-out property <int> jpeg-quality: 92;
     in property <int> refocus;
+    /// True while a text field has keyboard focus (menu shortcuts must not edit the image then).
+    in-out property <bool> text-focus;
 
     // Callbacks
     callback canvas-pointer(int, int, float, float, bool, bool, bool);

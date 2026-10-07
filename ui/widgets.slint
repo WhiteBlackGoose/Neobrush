@@ -1,5 +1,5 @@
 import { Theme } from "theme.slint";
-import { Tip } from "state.slint";
+import { Tip, App } from "state.slint";
 
 export component Divider inherits Rectangle {
     background: Theme.border;
@@ -343,6 +343,7 @@ export component ValueSlider inherits Rectangle {
             root.editing = false;
         }
         changed has-focus => {
+            App.text-focus = self.has-focus;
             if !self.has-focus {
                 root.editing = false;
             }

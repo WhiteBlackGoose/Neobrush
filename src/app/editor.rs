@@ -481,6 +481,7 @@ impl Editor {
         if self.models.history.row_count() != hist.len() || hist.iter().enumerate().any(|(i, it)| self.models.history.row_data(i).as_ref() != Some(it)) {
             self.models.history.set_vec(hist);
         }
+        g.set_history_index(h.index as i32);
         g.set_can_undo(h.can_undo());
         g.set_can_redo(h.can_redo());
         g.set_has_selection(st.selection.is_active());

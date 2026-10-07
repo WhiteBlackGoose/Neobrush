@@ -272,6 +272,7 @@ export component ColorsPanel inherits Card {
                         font-size: Theme.font;
                         height: 30px;
                         changed has-focus => {
+                            App.text-focus = self.has-focus;
                             if self.has-focus {
                                 self.select-all();
                             }
@@ -483,6 +484,18 @@ export component LayersPanel inherits Card {
 }
 
 export component HistoryPanel inherits Card {
+    property <int> current: App.history-index;
+    property <int> count: App.history.length;
+    function reveal() {
+        let row-top = root.current * 29px;
+        if row-top + 28px > -hsv.viewport-y + hsv.visible-height {
+            hsv.viewport-y = min(0px, hsv.visible-height - row-top - 28px);
+        } else if row-top < -hsv.viewport-y {
+            hsv.viewport-y = -row-top;
+        }
+    }
+    changed count => { root.reveal(); }
+    changed current => { root.reveal(); }
     VerticalLayout {
         padding: 12px;
         padding-bottom: 8px;
@@ -493,9 +506,11 @@ export component HistoryPanel inherits Card {
             IconButton { size: 24px; icon-size: 14px; icon: Icons.undo; tip: "Undo  Ctrl+Z"; enabled: App.can-undo; clicked => { App.action("edit.undo"); } }
             IconButton { size: 24px; icon-size: 14px; icon: Icons.redo; tip: "Redo  Ctrl+Y"; enabled: App.can-redo; clicked => { App.action("edit.redo"); } }
         }
-        ScrollView {
+        hsv := ScrollView {
             vertical-stretch: 1;
             min-height: 60px;
+            // Keep the current step in view when the history changes.
+            changed viewport-height => { root.reveal(); }
             VerticalLayout {
                 alignment: start;
                 spacing: 1px;

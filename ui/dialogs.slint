@@ -465,6 +465,7 @@ export component LayerPropsDialog inherits Overlay {
         FieldLabel { text: "Name"; width: 60px; }
         LineEdit {
             text: root.name;
+            changed has-focus => { App.text-focus = self.has-focus; }
             edited(t) => {
                 root.name = t;
                 root.push();

@@ -60,6 +60,24 @@ fn curves_lut(c: &[Vec<(f32, f32)>; 4]) -> [[u8; 256]; 3] {
 
 impl Editor {
     pub fn action(&mut self, id: &str) {
+        {
+            let ui = self.ui();
+            let g = ui.global::<App>();
+            // While a dialog is open only view and color actions make sense.
+            let always = id.starts_with("view.") || id.starts_with("color.");
+            if !g.get_dialog().is_empty() && !always {
+                return;
+            }
+            // Menu shortcuts are global; don't let Ctrl+A/Z/C/V... edit the image while typing.
+            const TEXT_KEYS: &[&str] = &[
+                "edit.undo", "edit.redo", "edit.cut", "edit.copy", "edit.copy-merged", "edit.paste",
+                "edit.paste-new-layer", "edit.paste-new-image", "edit.select-all", "edit.deselect",
+                "edit.invert-selection", "edit.erase", "edit.fill",
+            ];
+            if g.get_text_focus() && TEXT_KEYS.contains(&id) {
+                return;
+            }
+        }
         // Most actions end an active editing session first.
         let keeps_session = id.starts_with("view.theme") || matches!(id, "view.zoom-in" | "view.zoom-out" | "view.fit" | "view.actual" | "view.refresh" | "edit.undo" | "color.swap" | "color.reset")
             || id.starts_with("color.hex:");
