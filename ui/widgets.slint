@@ -234,7 +234,11 @@ export component Toggle inherits Rectangle {
 /// A Figma-style compact slider: drag anywhere to set, scroll to nudge, double-click to type.
 export component ValueSlider inherits Rectangle {
     in property <string> label;
+    /// External value; the slider follows it whenever it changes.
+    in property <float> source;
     in-out property <float> value;
+    init => { root.value = root.source; }
+    changed source => { root.value = root.source; }
     in property <float> minimum: 0;
     in property <float> maximum: 100;
     in property <float> step: 1;

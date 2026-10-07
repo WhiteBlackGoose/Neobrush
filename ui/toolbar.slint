@@ -147,7 +147,7 @@ export component OptionsBar inherits Rectangle {
                 maximum: 500;
                 power: 2.5;
                 suffix: " px";
-                value: App.brush-width;
+                source: App.brush-width;
                 edited(v) => { App.brush-width = v; App.option-changed(); }
             }
             if root.t == Tool.brush || root.t == Tool.eraser || root.t == Tool.clone: ValueSlider {
@@ -156,7 +156,7 @@ export component OptionsBar inherits Rectangle {
                 minimum: 0;
                 maximum: 100;
                 suffix: "%";
-                value: App.hardness;
+                source: App.hardness;
                 edited(v) => { App.hardness = v; App.option-changed(); }
             }
             if root.t == Tool.line || root.t == Tool.shape: ValueSlider {
@@ -166,7 +166,7 @@ export component OptionsBar inherits Rectangle {
                 maximum: 200;
                 power: 2;
                 suffix: " px";
-                value: App.brush-width;
+                source: App.brush-width;
                 edited(v) => { App.brush-width = v; App.option-changed(); }
             }
             if root.t == Tool.shape: ComboBox {
@@ -185,7 +185,7 @@ export component OptionsBar inherits Rectangle {
                 width: 120px;
                 minimum: 0;
                 maximum: 200;
-                value: App.corner-radius;
+                source: App.corner-radius;
                 edited(v) => { App.corner-radius = v; App.option-changed(); }
             }
             if root.t == Tool.line: Segmented {
@@ -204,7 +204,7 @@ export component OptionsBar inherits Rectangle {
                 minimum: 0;
                 maximum: 100;
                 suffix: "%";
-                value: App.tolerance;
+                source: App.tolerance;
                 edited(v) => { App.tolerance = v; App.option-changed(); }
             }
             if root.has-flood || root.t == Tool.picker: Segmented {
@@ -246,7 +246,7 @@ export component OptionsBar inherits Rectangle {
                 maximum: 400;
                 power: 2;
                 suffix: " pt";
-                value: App.font-size;
+                source: App.font-size;
                 edited(v) => { App.font-size = v; App.option-changed(); }
             }
             if root.t == Tool.text: HorizontalLayout {

@@ -271,6 +271,11 @@ export component ColorsPanel inherits Card {
                     hex := LineEdit {
                         font-size: Theme.font;
                         height: 30px;
+                        changed has-focus => {
+                            if self.has-focus {
+                                self.select-all();
+                            }
+                        }
                         accepted(t) => {
                             App.action("color.hex:" + t);
                             self.clear-focus();
@@ -281,7 +286,7 @@ export component ColorsPanel inherits Card {
                     label: "Alpha";
                     minimum: 0;
                     maximum: 255;
-                    value: root.cur.alpha;
+                    source: root.cur.alpha;
                     edited(v) => {
                         root.set-color(root.cur.with-alpha(v / 255));
                     }
@@ -397,7 +402,7 @@ export component LayersPanel inherits Card {
                 minimum: 0;
                 maximum: 100;
                 suffix: "%";
-                value: App.active-layer-opacity;
+                source: App.active-layer-opacity;
                 edited(v) => { App.layer-opacity(v, false); }
                 released => { App.layer-opacity(self.value, true); }
             }

@@ -175,7 +175,7 @@ export component ResizeDialog inherits Overlay {
         minimum: 1;
         maximum: 400;
         suffix: "%";
-        value: root.pct;
+        source: root.pct;
         edited(v) => {
             root.pct = v;
             root.w = max(1, round(App.image-w * v / 100));
@@ -326,7 +326,7 @@ export component FxDialog inherits Overlay {
             maximum: p.max;
             step: p.step;
             decimals: p.decimals;
-            value: p.value;
+            source: p.value;
             edited(v) => { App.fx-param(i, v); }
         }
         if p.kind == 1: CheckBox {
@@ -495,7 +495,7 @@ export component LayerPropsDialog inherits Overlay {
         label: "Opacity";
         minimum: 0;
         maximum: 255;
-        value: root.op;
+        source: root.op;
         edited(v) => {
             root.op = v;
             root.push();
@@ -557,7 +557,7 @@ export component JpegDialog inherits Overlay {
         label: "Quality";
         minimum: 1;
         maximum: 100;
-        value: App.jpeg-quality;
+        source: App.jpeg-quality;
         edited(v) => { App.jpeg-quality = v; }
     }
     FieldLabel {
