@@ -20,7 +20,33 @@ export enum Tool {
     shape,
 }
 
+export struct Seg {
+    text: string,
+    hl: bool,
+}
+
+export struct PaletteItem {
+    segs: [Seg],
+    subtitle: string,
+    icon: string,
+    keys: [string],
+    chord: [string],
+}
+
+export struct ChordOption {
+    key: string,
+    label: string,
+}
+
+export struct ShortcutRow {
+    section: string,
+    title: string,
+    keys: [string],
+    chord: [string],
+}
+
 export struct LayerItem {
+    number: int,
     name: string,
     visible: bool,
     opacity: int,
@@ -166,7 +192,7 @@ export global App {
     in property <string> curve-path-faint;
     in-out property <int> curve-channel: 0;
     in-out property <int> jpeg-quality: 92;
-    in property <int> refocus;
+    in-out property <int> refocus;
     /// True while a text field has keyboard focus (menu shortcuts must not edit the image then).
     in-out property <bool> text-focus;
 
@@ -206,6 +232,18 @@ export global App {
     callback confirm(int);
     callback jpeg-ok();
     callback export-file(string, int);
+
+    // Command palette & chords
+    in property <[PaletteItem]> palette-items;
+    in-out property <int> palette-index;
+    in-out property <string> palette-query;
+    callback palette-changed(string);
+    callback palette-run(int);
+    in property <bool> chord-active;
+    in property <string> chord-title;
+    in property <string> chord-keys;
+    in property <[ChordOption]> chord-options;
+    in property <[ShortcutRow]> shortcut-rows;
     in property <bool> is-web;
     in-out property <string> export-name;
     in-out property <int> export-format;

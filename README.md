@@ -13,7 +13,7 @@ Native on Windows, macOS, Linux and FreeBSD. Light and dark, just like your OS.
 ![Platforms](https://img.shields.io/badge/platforms-Windows%20·%20macOS%20·%20Linux%20·%20FreeBSD-444?style=flat-square)
 ![Rust](https://img.shields.io/badge/Rust-Slint-dea584?style=flat-square&logo=rust&logoColor=white)
 
-[**▶ Try it in your browser**](https://neobrush.wbg.gg) · [**Download**](#download) · [Features](#features) · [Shortcuts](#shortcuts) · [Building](#building)
+[**▶ Try it in your browser**](https://neobrush.wbg.gg) · [**Download**](#download) · [Features](#features) · [Palette & shortcuts](#shortcuts) · [Building](#building)
 
 <br>
 
@@ -24,6 +24,12 @@ Native on Windows, macOS, Linux and FreeBSD. Light and dark, just like your OS.
 ---
 
 ## ✨ See it in action
+
+### ⚡ Drive everything from the keyboard
+
+Tap <kbd>Space</kbd> and type: fuzzy search finds any command, tool or layer, and quick commands like `#ffb347`, `size 60` or `zoom 100` just work. Chords like <kbd>L</kbd> <kbd>2</kbd> <kbd>O</kbd> (show only layer 2) or <kbd>V</kbd> <kbd>T</kbd> <kbd>L</kbd> (light theme) come with a hint panel, so you never have to memorize them.
+
+<p align="center"><img src="docs/media/command-palette.gif" alt="Command palette and chords in Neobrush" width="90%"></p>
 
 <table>
 <tr>
@@ -148,6 +154,7 @@ Auto-Level · Black & White · Brightness / Contrast · **Curves** (per channel)
 
 #### 💎 Everything else
 - Tabs with live thumbnails for multiple documents
+- **Command palette** with fuzzy search and quick commands; **chords** like <kbd>L</kbd> <kbd>2</kbd> <kbd>T</kbd>
 - **History panel:** click any step to jump to it
 - Clipboard: copy, copy merged, paste, paste into a new layer or image
 - Zoom from 1% to 6400%, pixel grid, rulers
@@ -168,21 +175,42 @@ PNG · JPEG · WebP · BMP · GIF · TIFF · TGA · ICO · QOI
 
 <a id="shortcuts"></a>
 
-## ⌨️ Keyboard shortcuts
+## ⌨️ Command palette & shortcuts
 
-Press <kbd>F1</kbd> in the app for the full list.
+Neobrush is built to be driven from the keyboard.
+
+**Tap <kbd>Space</kbd>** to open the command palette and fuzzy-search every command, tool, layer, open document and recent file. Matches are highlighted, the commands you use most rise to the top, and each row shows its shortcut. You can also just type what you want:
+
+| Type | Does |
+| --- | --- |
+| `gauss`, `hue`, `crop`… | finds the command |
+| `zoom 200` / `150%` | zooms |
+| `#ff6a00` | sets the color |
+| `size 40` · `hardness 80` · `tolerance 30` | sets tool options |
+| `opacity 50` · `rename Sky` · `layer 3` | works with layers |
+| `new 1920x1080` | creates an image |
+
+**Chords** are short key sequences, and a hint panel shows what you can press next:
+
+| Chord | Action |
+| --- | --- |
+| <kbd>L</kbd> <kbd>2</kbd> <kbd>T</kbd> | toggle layer 2 (<kbd>S</kbd> switch to it, <kbd>O</kbd> show only it, <kbd>D</kbd> duplicate, <kbd>X</kbd> delete, <kbd>M</kbd> merge down) |
+| <kbd>L</kbd> <kbd>N</kbd> / <kbd>L</kbd> <kbd>K</kbd> / <kbd>L</kbd> <kbd>J</kbd> | new layer / move up / move down |
+| <kbd>F</kbd> <kbd>B</kbd> <kbd>G</kbd> | Effects › Blurs › Gaussian Blur (every effect has one) |
+| <kbd>A</kbd> <kbd>C</kbd> · <kbd>A</kbd> <kbd>H</kbd> · <kbd>A</kbd> <kbd>L</kbd> | Curves · Hue / Saturation · Levels (every adjustment has one) |
+| <kbd>I</kbd> <kbd>R</kbd> · <kbd>I</kbd> <kbd>C</kbd> · <kbd>I</kbd> <kbd>]</kbd> | Resize · Crop to selection · Rotate clockwise |
+| <kbd>V</kbd> <kbd>T</kbd> <kbd>D</kbd> · <kbd>V</kbd> <kbd>G</kbd> | dark theme · pixel grid |
+
+**Single keys** pick tools, Paint.NET style:
 
 | Keys | Action |
 | --- | --- |
-| <kbd>S</kbd> <kbd>M</kbd> <kbd>B</kbd> <kbd>P</kbd> <kbd>E</kbd> <kbd>F</kbd> <kbd>G</kbd> <kbd>K</kbd> <kbd>L</kbd> <kbd>R</kbd> <kbd>T</kbd> <kbd>O</kbd> <kbd>H</kbd> <kbd>Z</kbd> | Switch tools (press <kbd>S</kbd>, <kbd>M</kbd> or <kbd>O</kbd> again to cycle) |
-| <kbd>[</kbd> / <kbd>]</kbd> | Brush size |
-| <kbd>X</kbd> / <kbd>D</kbd> | Swap / reset colors |
-| <kbd>Space</kbd> + drag, middle mouse | Pan |
-| <kbd>Ctrl</kbd> + wheel | Zoom |
-| <kbd>Enter</kbd> / <kbd>Esc</kbd> | Finish text, shape or line |
-| <kbd>Delete</kbd> / <kbd>Backspace</kbd> | Erase / fill selection |
-| <kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Ctrl</kbd>+<kbd>Y</kbd> | Undo / redo |
-| <kbd>Ctrl</kbd>+<kbd>F</kbd> | Repeat last effect |
+| <kbd>S</kbd> <kbd>M</kbd> <kbd>B</kbd> <kbd>P</kbd> <kbd>E</kbd> <kbd>G</kbd> <kbd>K</kbd> <kbd>C</kbd> <kbd>R</kbd> <kbd>T</kbd> <kbd>O</kbd> <kbd>H</kbd> <kbd>Z</kbd> | tools (<kbd>S</kbd>, <kbd>M</kbd>, <kbd>G</kbd> and <kbd>O</kbd> cycle through related tools) |
+| <kbd>[</kbd> / <kbd>]</kbd> · <kbd>X</kbd> / <kbd>D</kbd> | brush size · swap / reset colors |
+| hold <kbd>Space</kbd>, middle mouse · <kbd>Ctrl</kbd> + wheel | pan · zoom |
+| <kbd>Alt</kbd>+<kbd>1</kbd>…<kbd>9</kbd> | switch document |
+
+Every menu item has a shortcut; press <kbd>F1</kbd> for the full list.
 
 ---
 

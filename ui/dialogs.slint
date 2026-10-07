@@ -2,6 +2,7 @@ import { Theme } from "theme.slint";
 import { Icons } from "icons.slint";
 import { App, ParamItem } from "state.slint";
 import { Card, IconButton, Btn, Segmented, ValueSlider, FieldLabel, Divider } from "widgets.slint";
+import { ShortcutsList } from "palette.slint";
 import { SpinBox, CheckBox, ComboBox, LineEdit, Spinner, AboutSlint } from "std-widgets.slint";
 
 component Overlay inherits Rectangle {
@@ -625,72 +626,19 @@ export component AboutDialog inherits Overlay {
     }
 }
 
-component KeyRow inherits HorizontalLayout {
-    in property <string> keys;
-    in property <string> label;
-    spacing: 10px;
-    height: 22px;
-    Text {
-        text: root.label;
-        color: Theme.text;
-        font-size: Theme.font;
-        vertical-alignment: center;
-        horizontal-stretch: 1;
-    }
-    Rectangle {
-        width: kt.preferred-width + 12px;
-        height: 20px;
-        border-radius: 5px;
-        background: Theme.surface-3;
-        kt := Text {
-            text: root.keys;
-            color: Theme.text-muted;
-            font-size: Theme.font-sm;
-            font-weight: 600;
-        }
-    }
-}
-
 export component ShortcutsDialog inherits Overlay {
     title: "Keyboard Shortcuts";
-    card-width: 620px;
+    icon: Icons.keyboard;
+    card-width: 640px;
     close => { App.dialog = ""; }
-    HorizontalLayout {
-        spacing: 28px;
-        VerticalLayout {
-            spacing: 4px;
-            KeyRow { label: "Selection tools"; keys: "S"; }
-            KeyRow { label: "Move tools"; keys: "M"; }
-            KeyRow { label: "Paintbrush"; keys: "B"; }
-            KeyRow { label: "Pencil"; keys: "P"; }
-            KeyRow { label: "Eraser"; keys: "E"; }
-            KeyRow { label: "Paint bucket"; keys: "F"; }
-            KeyRow { label: "Gradient"; keys: "G"; }
-            KeyRow { label: "Color picker"; keys: "K"; }
-            KeyRow { label: "Clone stamp"; keys: "L"; }
-            KeyRow { label: "Recolor"; keys: "R"; }
-            KeyRow { label: "Text"; keys: "T"; }
-            KeyRow { label: "Line / Shapes"; keys: "O"; }
-            KeyRow { label: "Pan / Zoom"; keys: "H / Z"; }
-            KeyRow { label: "Brush size"; keys: "[ / ]"; }
-        }
-        VerticalLayout {
-            spacing: 4px;
-            KeyRow { label: "Swap colors"; keys: "X"; }
-            KeyRow { label: "Reset colors"; keys: "D"; }
-            KeyRow { label: "Pan"; keys: "Space + drag"; }
-            KeyRow { label: "Zoom"; keys: "Ctrl + wheel"; }
-            KeyRow { label: "Undo / Redo"; keys: "Ctrl+Z / Ctrl+Y"; }
-            KeyRow { label: "Select all / Deselect"; keys: "Ctrl+A / Ctrl+D"; }
-            KeyRow { label: "Erase selection"; keys: "Delete"; }
-            KeyRow { label: "Fill selection"; keys: "Backspace"; }
-            KeyRow { label: "Zoom to window"; keys: "Ctrl+B"; }
-            KeyRow { label: "Actual size"; keys: "Ctrl+0"; }
-            KeyRow { label: "Repeat last effect"; keys: "Ctrl+F"; }
-            KeyRow { label: "Finish / cancel"; keys: "Enter / Esc"; }
-            KeyRow { label: "Layer properties"; keys: "F4"; }
-            KeyRow { label: "Next document"; keys: "Ctrl+Tab"; }
-        }
+    Text {
+        text: "Purple keys are chords: press them one after another (e.g. F, then B, then G). Tap Space for the command palette; hold Space to pan.";
+        color: Theme.text-muted;
+        font-size: Theme.font;
+        wrap: word-wrap;
+    }
+    ShortcutsList {
+        height: min(520px, root.height - 220px);
     }
     Buttons {
         Btn { text: "Close"; primary: true; clicked => { App.dialog = ""; } }

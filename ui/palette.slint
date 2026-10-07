@@ -1,0 +1,383 @@
+import { Theme } from "theme.slint";
+import { Icons } from "icons.slint";
+import { App, PaletteItem, ChordOption, ShortcutRow } from "state.slint";
+import { Card, IconButton, Btn } from "widgets.slint";
+import { ScrollView } from "std-widgets.slint";
+
+export component Keycap inherits Rectangle {
+    in property <string> text;
+    in property <bool> accent: false;
+    height: 20px;
+    width: max(20px, t.preferred-width + 10px);
+    border-radius: 5px;
+    background: accent ? Theme.accent-soft : Theme.surface-3;
+    border-width: 1px;
+    border-color: accent ? Theme.accent.with-alpha(0.35) : Theme.border-strong;
+    t := Text {
+        text: root.text;
+        color: accent ? Theme.accent : Theme.text-muted;
+        font-size: 10.5px;
+        font-weight: 600;
+        horizontal-alignment: center;
+        vertical-alignment: center;
+    }
+}
+
+/// Key combination (joined by "+") and/or chord (keys in sequence).
+export component KeyList inherits HorizontalLayout {
+    in property <[string]> keys;
+    in property <[string]> chord;
+    spacing: 3px;
+    alignment: end;
+    for k[i] in root.keys: HorizontalLayout {
+        spacing: 3px;
+        if i > 0: Text {
+            text: "+";
+            color: Theme.text-faint;
+            font-size: 10px;
+            vertical-alignment: center;
+        }
+        Keycap { text: k; y: 0; }
+    }
+    if root.keys.length > 0 && root.chord.length > 0: Text {
+        text: "or";
+        color: Theme.text-faint;
+        font-size: 10px;
+        vertical-alignment: center;
+    }
+    for k in root.chord: Keycap { text: k; accent: true; }
+}
+
+/// The search pill in the top bar.
+export component SearchPill inherits Rectangle {
+    width: 380px;
+    height: 32px;
+    border-radius: 9px;
+    background: ta.has-hover ? Theme.surface-3 : Theme.surface-2;
+    border-width: 1px;
+    border-color: ta.has-hover ? Theme.accent.with-alpha(0.5) : Theme.border;
+    animate background, border-color { duration: 120ms; }
+    HorizontalLayout {
+        padding-left: 12px;
+        padding-right: 6px;
+        spacing: 8px;
+        Image {
+            source: Icons.search;
+            width: 15px;
+            height: 15px;
+            y: (parent.height - self.height) / 2;
+            colorize: Theme.text-muted;
+        }
+        Text {
+            text: "Search commands, tools, layers…";
+            color: Theme.text-faint;
+            font-size: Theme.font;
+            vertical-alignment: center;
+            horizontal-stretch: 1;
+            overflow: elide;
+        }
+        Keycap { text: "Space"; y: 6px; }
+    }
+    ta := TouchArea {
+        mouse-cursor: pointer;
+        clicked => { App.action("palette.open"); }
+    }
+}
+
+export component PaletteDialog inherits Rectangle {
+    function close() {
+        App.dialog = "";
+        App.text-focus = false;
+        App.refocus = App.refocus + 1;
+    }
+    background: Theme.backdrop.with-alpha(Theme.dark ? 0.45 : 0.25);
+    TouchArea {
+        clicked => { root.close(); }
+    }
+    property <length> row-h: 44px;
+    function reveal() {
+        let top = App.palette-index * root.row-h;
+        if top + root.row-h > -list.content-y + list.visible-height {
+            list.content-y = min(0px, list.visible-height - top - root.row-h);
+        } else if top < -list.content-y {
+            list.content-y = -top;
+        }
+    }
+    function move(d: int) {
+        if App.palette-items.length > 0 {
+            App.palette-index = mod(App.palette-index + d + App.palette-items.length, App.palette-items.length);
+            root.reveal();
+        }
+    }
+    card := Card {
+        x: (parent.width - self.width) / 2;
+        y: max(24px, parent.height * 0.1);
+        width: min(680px, parent.width - 48px);
+        height: min(parent.height * 0.75, layout.preferred-height);
+        border-radius: 14px;
+        drop-shadow-blur: 48px;
+        drop-shadow-offset-y: 12px;
+        clip: true;
+        TouchArea { }
+        layout := VerticalLayout {
+            // Search field
+            HorizontalLayout {
+                height: 54px;
+                padding-left: 18px;
+                padding-right: 14px;
+                spacing: 12px;
+                Image {
+                    source: Icons.search;
+                    width: 18px;
+                    height: 18px;
+                    y: (parent.height - self.height) / 2;
+                    colorize: Theme.accent;
+                }
+                fs := FocusScope {
+                    capture-key-pressed(e) => {
+                        if e.text == Key.UpArrow {
+                            root.move(-1);
+                            return accept;
+                        }
+                        if e.text == Key.DownArrow {
+                            root.move(1);
+                            return accept;
+                        }
+                        if e.text == Key.PageDown {
+                            root.move(8);
+                            return accept;
+                        }
+                        if e.text == Key.PageUp {
+                            root.move(-8);
+                            return accept;
+                        }
+                        if e.text == Key.Return {
+                            App.palette-run(App.palette-index);
+                            return accept;
+                        }
+                        if e.text == Key.Escape {
+                            root.close();
+                            return accept;
+                        }
+                        reject
+                    }
+                    input := TextInput {
+                        text <=> App.palette-query;
+                        font-size: 16px;
+                        color: Theme.text;
+                        vertical-alignment: center;
+                        single-line: true;
+                        edited => {
+                            App.palette-changed(self.text);
+                            list.content-y = 0;
+                        }
+                        changed has-focus => { App.text-focus = self.has-focus; }
+                        init => { self.focus(); }
+                    }
+                    Text {
+                        visible: App.palette-query == "";
+                        text: "Type a command, tool, layer… or try “zoom 200”, “#ff6a00”, “size 40”";
+                        color: Theme.text-faint;
+                        font-size: 15px;
+                        vertical-alignment: center;
+                        overflow: elide;
+                    }
+                }
+                Keycap { text: "Esc"; y: 17px; }
+            }
+            Rectangle { height: 1px; background: Theme.border; }
+            // Results
+            list := ScrollView {
+                height: min(App.palette-items.length * root.row-h + 12px, 440px);
+                VerticalLayout {
+                    padding: 6px;
+                    for it[i] in App.palette-items: Rectangle {
+                        height: root.row-h;
+                        border-radius: 8px;
+                        background: i == App.palette-index ? Theme.accent-soft : transparent;
+                        rta := TouchArea {
+                            mouse-cursor: pointer;
+                            moved => { }
+                            changed has-hover => {
+                                if self.has-hover {
+                                    App.palette-index = i;
+                                }
+                            }
+                            clicked => { App.palette-run(i); }
+                        }
+                        HorizontalLayout {
+                            padding-left: 12px;
+                            padding-right: 10px;
+                            spacing: 12px;
+                            Rectangle {
+                                width: 28px;
+                                height: 28px;
+                                y: (parent.height - self.height) / 2;
+                                border-radius: 7px;
+                                background: i == App.palette-index ? Theme.accent : Theme.surface-3;
+                                Image {
+                                    source: Icons.named(it.icon);
+                                    width: 15px;
+                                    height: 15px;
+                                    colorize: i == App.palette-index ? #ffffff : Theme.text-muted;
+                                }
+                            }
+                            HorizontalLayout {
+                                spacing: 0px;
+                                alignment: start;
+                                horizontal-stretch: 1;
+                                for s in it.segs: Text {
+                                    text: s.text;
+                                    color: s.hl ? Theme.accent : Theme.text;
+                                    font-weight: s.hl ? 700 : 500;
+                                    font-size: 13.5px;
+                                    vertical-alignment: center;
+                                }
+                            }
+                            Text {
+                                text: it.subtitle;
+                                color: Theme.text-faint;
+                                font-size: 11.5px;
+                                vertical-alignment: center;
+                                overflow: elide;
+                                max-width: 180px;
+                            }
+                            KeyList {
+                                keys: it.keys;
+                                chord: it.chord;
+                                y: (parent.height - 20px) / 2;
+                                height: 20px;
+                            }
+                        }
+                    }
+                }
+            }
+            if App.palette-items.length == 0: Text {
+                height: 64px;
+                text: "No matching commands";
+                color: Theme.text-faint;
+                horizontal-alignment: center;
+                vertical-alignment: center;
+            }
+            Rectangle { height: 1px; background: Theme.border; }
+            HorizontalLayout {
+                height: 34px;
+                padding-left: 16px;
+                padding-right: 16px;
+                spacing: 14px;
+                HorizontalLayout {
+                    spacing: 4px;
+                    Keycap { text: "↑"; y: 7px; }
+                    Keycap { text: "↓"; y: 7px; }
+                    Text { text: "navigate"; color: Theme.text-faint; font-size: 11px; vertical-alignment: center; }
+                }
+                HorizontalLayout {
+                    spacing: 4px;
+                    Keycap { text: "↵"; y: 7px; }
+                    Text { text: "run"; color: Theme.text-faint; font-size: 11px; vertical-alignment: center; }
+                }
+                Rectangle { horizontal-stretch: 1; }
+                HorizontalLayout {
+                    spacing: 4px;
+                    Keycap { text: "L"; accent: true; y: 7px; }
+                    Keycap { text: "2"; accent: true; y: 7px; }
+                    Keycap { text: "T"; accent: true; y: 7px; }
+                    Text { text: "chords work everywhere: toggle layer 2"; color: Theme.text-faint; font-size: 11px; vertical-alignment: center; }
+                }
+            }
+        }
+    }
+}
+
+/// Floating hint panel shown while a chord is being typed.
+export component ChordHud inherits Card {
+    width: min(560px, hl.preferred-width + 32px);
+    height: hl.preferred-height;
+    border-radius: 12px;
+    drop-shadow-blur: 30px;
+    hl := VerticalLayout {
+        padding: 14px;
+        spacing: 10px;
+        HorizontalLayout {
+            spacing: 10px;
+            Rectangle {
+                width: k.preferred-width + 16px;
+                height: 24px;
+                border-radius: 6px;
+                background: Theme.accent;
+                k := Text {
+                    text: App.chord-keys;
+                    color: #ffffff;
+                    font-weight: 700;
+                    font-size: 12px;
+                }
+            }
+            Text {
+                text: App.chord-title;
+                color: Theme.text;
+                font-weight: 600;
+                font-size: Theme.font;
+                vertical-alignment: center;
+            }
+            Rectangle { horizontal-stretch: 1; }
+            Text {
+                text: "Esc to cancel";
+                color: Theme.text-faint;
+                font-size: 11px;
+                vertical-alignment: center;
+            }
+        }
+        GridLayout {
+            spacing-horizontal: 18px;
+            spacing-vertical: 6px;
+            for o[i] in App.chord-options: HorizontalLayout {
+                row: floor(i / 3);
+                col: mod(i, 3);
+                spacing: 8px;
+                Keycap { text: o.key; accent: true; }
+                Text {
+                    text: o.label;
+                    color: Theme.text-muted;
+                    font-size: 12px;
+                    vertical-alignment: center;
+                    overflow: elide;
+                    max-width: 150px;
+                }
+            }
+        }
+    }
+}
+
+export component ShortcutsList inherits ScrollView {
+    VerticalLayout {
+        padding-right: 12px;
+        spacing: 2px;
+        for r[i] in App.shortcut-rows: VerticalLayout {
+            if i == 0 || App.shortcut-rows[i - 1].section != r.section: Text {
+                text: r.section;
+                color: Theme.accent;
+                font-weight: 700;
+                font-size: 12px;
+                height: 30px;
+                vertical-alignment: bottom;
+            }
+            HorizontalLayout {
+                height: 26px;
+                spacing: 10px;
+                Text {
+                    text: r.title;
+                    color: Theme.text;
+                    font-size: Theme.font;
+                    vertical-alignment: center;
+                    horizontal-stretch: 1;
+                }
+                KeyList {
+                    keys: r.keys;
+                    chord: r.chord;
+                    y: 3px;
+                    height: 20px;
+                }
+            }
+        }
+    }
+}

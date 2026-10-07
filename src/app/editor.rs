@@ -58,6 +58,11 @@ pub struct Editor {
     pub recent_files: Vec<std::path::PathBuf>,
     pub glyphs: Option<render::Glyphs>,
     pub base_cache: Option<render::BaseCache>,
+    pub chord: super::palette::ChordState,
+    pub palette_results: Vec<super::palette::Entry>,
+    pub recent_cmds: Vec<String>,
+    pub space_down: Option<Instant>,
+    pub space_panned: bool,
     #[allow(dead_code)]
     pub last_settings_save: Instant,
 }
@@ -153,6 +158,11 @@ pub fn run(files: Vec<std::path::PathBuf>) -> Result<(), slint::PlatformError> {
         recent_files: vec![],
         glyphs: None,
         base_cache: None,
+        chord: Default::default(),
+        palette_results: vec![],
+        recent_cmds: vec![],
+        space_down: None,
+        space_panned: false,
         last_settings_save: Instant::now(),
     }));
     EDITOR.with(|e| *e.borrow_mut() = Some(ed.clone()));
@@ -214,6 +224,11 @@ pub fn run(files: Vec<std::path::PathBuf>) -> Result<(), slint::PlatformError> {
     g.on_curve_reset(|| with_editor(|e| e.curve_reset()));
     g.on_confirm(|c| with_editor(|e| e.confirm(c)));
     g.on_jpeg_ok(|| with_editor(|e| e.jpeg_ok()));
+    g.on_palette_changed(|q| {
+        let q = q.to_string();
+        with_editor(move |e| e.palette_query(q))
+    });
+    g.on_palette_run(|i| with_editor(|e| e.palette_run(i)));
     g.on_export_file(|name, fmt| {
         let name = name.to_string();
         with_editor(move |e| e.export_file(name, fmt))
@@ -530,6 +545,7 @@ impl Editor {
             .enumerate()
             .rev()
             .map(|(i, l)| LayerItem {
+                number: i as i32 + 1,
                 name: l.name.as_str().into(),
                 visible: l.visible,
                 opacity: (l.opacity * 100.0).round() as i32,

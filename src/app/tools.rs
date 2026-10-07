@@ -164,6 +164,9 @@ impl Editor {
         if kind == DOWN && (button == 2 || (button == 0 && (self.space || tool == Tool::Pan))) {
             let v = self.doc().unwrap().view;
             self.drag = Drag::Pan { sx, sy, ox: v.ox, oy: v.oy };
+            if self.space {
+                self.space_panned = true;
+            }
             self.update_cursor();
             return;
         }
@@ -911,8 +914,21 @@ impl Editor {
     // Keyboard
 
     pub fn key(&mut self, text: &str, ctrl: bool, shift: bool, alt: bool, pressed: bool) -> bool {
+        // Space: tap opens the command palette, hold + drag pans.
         if text == " " && !matches!(self.session, Session::Text(_)) {
-            self.space = pressed;
+            if pressed {
+                if !self.space {
+                    self.space = true;
+                    self.space_down = Some(web_time::Instant::now());
+                    self.space_panned = false;
+                }
+            } else {
+                self.space = false;
+                let tap = self.space_down.take().map(|t| t.elapsed().as_millis() < 400).unwrap_or(false);
+                if tap && !self.space_panned && self.doc().is_some() {
+                    self.open_palette();
+                }
+            }
             self.update_cursor();
             return true;
         }
@@ -965,8 +981,54 @@ impl Editor {
             }
             return true;
         }
+        // While a dialog is open, Escape cancels it and other keys are left alone.
+        let dialog = self.ui().global::<App>().get_dialog().to_string();
+        if !dialog.is_empty() {
+            if text == esc {
+                match dialog.as_str() {
+                    "fx" | "curves" => self.fx_cancel(),
+                    "layer-props" => self.layer_props_cancel(),
+                    "confirm" => self.confirm(1),
+                    _ => self.ui().global::<App>().set_dialog("".into()),
+                }
+                return true;
+            }
+            return false;
+        }
+        // Function keys (menu shortcuts for these don't fire reliably).
+        if text == key_str(Key::F1) {
+            self.action(if shift { "help.about" } else { "help.shortcuts" });
+            return true;
+        }
+        if text == key_str(Key::F4) && !ctrl && !alt {
+            self.action("layer.properties");
+            return true;
+        }
+        // Alt+1..9 switches documents.
+        if alt && !ctrl && text.len() == 1 && text.chars().all(|c| c.is_ascii_digit() && c != '0') {
+            let i = text.parse::<usize>().unwrap() - 1;
+            if i < self.docs.len() {
+                self.switch_doc(i);
+            }
+            return true;
+        }
         if ctrl || alt {
             return false;
+        }
+        // Chords: L 2 T, F B G, A C, ...
+        if !self.chord.keys.is_empty() {
+            if text == esc {
+                self.cancel_chord();
+                return true;
+            }
+            if text == bksp {
+                self.chord.keys.pop();
+                self.sync_chord_hud();
+                return true;
+            }
+        }
+        if text.chars().count() == 1 && (text.chars().all(|c| c.is_ascii_alphanumeric()) || ((text == "[" || text == "]") && !self.chord.keys.is_empty())) && self.doc().is_some() && self.chord_key(text) {
+            return true;
         }
         if text == esc {
             if self.session.is_editing() {
@@ -1004,10 +1066,9 @@ impl Editor {
             "b" => Some(Tool::Brush),
             "p" => Some(Tool::Pencil),
             "e" => Some(Tool::Eraser),
-            "f" => Some(Tool::Bucket),
-            "g" => Some(Tool::Gradient),
+            "g" => Some(if t == Tool::Gradient { Tool::Bucket } else { Tool::Gradient }),
             "k" => Some(Tool::Picker),
-            "l" => Some(Tool::Clone),
+            "c" => Some(Tool::Clone),
             "r" => Some(Tool::Recolor),
             "t" => Some(Tool::Text),
             "o" => Some(if t == Tool::Line { Tool::Shape } else { Tool::Line }),

@@ -58,6 +58,11 @@ impl Editor {
                         self.recent_files.push(PathBuf::from(v));
                     }
                 }
+                "recent_cmd" => {
+                    if !v.is_empty() && self.recent_cmds.len() < 30 {
+                        self.recent_cmds.push(v.to_string());
+                    }
+                }
                 "recent_color" => {
                     if let Some(c) = parse_hex(v) {
                         self.recent.push(c);
@@ -95,6 +100,9 @@ impl Editor {
         s += &format!("secondary={}\n", hex(color_to_px(g.get_secondary())));
         for f in &self.recent_files {
             s += &format!("recent_file={}\n", f.display());
+        }
+        for c in &self.recent_cmds {
+            s += &format!("recent_cmd={c}\n");
         }
         for c in &self.recent {
             s += &format!("recent_color={}\n", hex(*c));

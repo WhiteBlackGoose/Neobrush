@@ -1,4 +1,6 @@
 mod actions;
+mod commands_gen;
+mod palette;
 mod editor;
 mod platform;
 mod render;

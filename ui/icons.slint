@@ -70,6 +70,11 @@ export global Icons {
     out property <image> blend: @image-url("icons/blend.svg");
     out property <image> sun: @image-url("icons/sun.svg");
     out property <image> contrast: @image-url("icons/contrast.svg");
+    out property <image> search: @image-url("icons/search.svg");
+    out property <image> ruler: @image-url("icons/ruler.svg");
+    out property <image> keyboard: @image-url("icons/keyboard.svg");
+    out property <image> command: @image-url("icons/command.svg");
+    out property <image> enter: @image-url("icons/corner-down-left.svg");
 
     public pure function named(name: string) -> image {
         if name == "brush" { return brush; }
@@ -111,6 +116,29 @@ export global Icons {
         if name == "layers-2" { return layers-2; }
         if name == "chevron-up" { return chevron-up; }
         if name == "chevron-down" { return chevron-down; }
-        return image;
+        if name == "file-plus" { return file-plus; }
+        if name == "folder-open" { return folder-open; }
+        if name == "save" { return save; }
+        if name == "undo" { return undo; }
+        if name == "redo" { return redo; }
+        if name == "copy" { return copy; }
+        if name == "zoom-in" { return zoom-in; }
+        if name == "zoom-out" { return zoom-out; }
+        if name == "maximize" { return maximize; }
+        if name == "grid" { return grid; }
+        if name == "sun" { return sun; }
+        if name == "palette" { return palette; }
+        if name == "history" { return history; }
+        if name == "info" { return info; }
+        if name == "search" { return search; }
+        if name == "ruler" { return ruler; }
+        if name == "keyboard" { return keyboard; }
+        if name == "hand" { return hand; }
+        if name == "pipette" { return pipette; }
+        if name == "swap" { return swap; }
+        if name == "reset" { return reset; }
+        if name == "minus" { return minus; }
+        if name == "image" { return image; }
+        return sparkles;
     }
 }

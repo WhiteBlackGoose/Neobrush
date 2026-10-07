@@ -45,14 +45,14 @@ export component ToolPalette inherits Card {
             }
             Row {
                 ToolBtn { t: Tool.eraser; icon: Icons.eraser; tip: "Eraser  E"; }
-                ToolBtn { t: Tool.bucket; icon: Icons.bucket; tip: "Paint Bucket  F"; }
+                ToolBtn { t: Tool.bucket; icon: Icons.bucket; tip: "Paint Bucket  G"; }
             }
             Row {
                 ToolBtn { t: Tool.gradient; icon: Icons.gradient; tip: "Gradient  G"; }
                 ToolBtn { t: Tool.picker; icon: Icons.pipette; tip: "Color Picker  K"; }
             }
             Row {
-                ToolBtn { t: Tool.clone; icon: Icons.stamp; tip: "Clone Stamp  L"; }
+                ToolBtn { t: Tool.clone; icon: Icons.stamp; tip: "Clone Stamp  C"; }
                 ToolBtn { t: Tool.recolor; icon: Icons.replace; tip: "Recolor  R"; }
             }
         }
@@ -429,6 +429,29 @@ export component LayersPanel inherits Card {
                         padding-left: 4px;
                         padding-right: 8px;
                         spacing: 8px;
+                        Rectangle {
+                            width: 18px;
+                            height: 18px;
+                            y: (parent.height - self.height) / 2;
+                            border-radius: 5px;
+                            background: l.selected ? Theme.accent : Theme.surface-3;
+                            Text {
+                                text: l.number;
+                                color: l.selected ? #ffffff : Theme.text-muted;
+                                font-size: 10.5px;
+                                font-weight: 700;
+                            }
+                            TouchArea {
+                                changed has-hover => {
+                                    if self.has-hover {
+                                        Tip.show("Layer " + l.number + "  ·  L " + l.number + " S switch · T toggle", parent.absolute-position.x, parent.absolute-position.y + 24px);
+                                    } else {
+                                        Tip.hide();
+                                    }
+                                }
+                                clicked => { App.layer-select(i); }
+                            }
+                        }
                         IconButton {
                             y: (parent.height - self.height) / 2;
                             size: 26px;

@@ -84,7 +84,7 @@ impl Editor {
             }
         }
         // Most actions end an active editing session first.
-        let keeps_session = id.starts_with("view.theme") || matches!(id, "view.zoom-in" | "view.zoom-out" | "view.fit" | "view.actual" | "view.refresh" | "edit.undo" | "color.swap" | "color.reset")
+        let keeps_session = id.starts_with("view.theme") || id == "palette.open" || id.starts_with("set.") || id.starts_with("tool:") || matches!(id, "view.zoom-in" | "view.zoom-out" | "view.fit" | "view.actual" | "view.refresh" | "edit.undo" | "color.swap" | "color.reset")
             || id.starts_with("color.hex:");
         if !keeps_session {
             self.finish_session(true);
@@ -168,6 +168,70 @@ impl Editor {
             "view.fit" if has_doc => self.fit_doc(self.cur, false),
             "view.actual" if has_doc => self.set_zoom_centered(1.0),
             "view.refresh" => self.redraw(),
+            "palette.open" => self.open_palette(),
+            "view.grid" => {
+                let ui = self.ui();
+                let g = ui.global::<App>();
+                g.set_pixel_grid(!g.get_pixel_grid());
+                self.redraw();
+            }
+            "view.rulers" => {
+                let ui = self.ui();
+                let g = ui.global::<App>();
+                g.set_show_rulers(!g.get_show_rulers());
+                self.redraw();
+            }
+            "view.panel-tools" | "view.panel-colors" | "view.panel-layers" | "view.panel-history" => {
+                let ui = self.ui();
+                let g = ui.global::<App>();
+                match id {
+                    "view.panel-tools" => g.set_show_tools(!g.get_show_tools()),
+                    "view.panel-colors" => g.set_show_colors(!g.get_show_colors()),
+                    "view.panel-layers" => g.set_show_layers(!g.get_show_layers()),
+                    _ => g.set_show_history(!g.get_show_history()),
+                }
+            }
+            "help.shortcuts" => {
+                self.sync_shortcuts();
+                self.ui().global::<App>().set_dialog("shortcuts".into());
+            }
+            "help.about" => self.ui().global::<App>().set_dialog("about".into()),
+            "brush.smaller" | "brush.bigger" => {
+                let ui = self.ui();
+                let g = ui.global::<App>();
+                let w = g.get_brush_width();
+                let step = (w / 10).max(1);
+                g.set_brush_width((if id == "brush.bigger" { w + step } else { w - step }).clamp(1, 500));
+                self.options_changed();
+            }
+            s if s.starts_with("tool:") => {
+                if let Some(t) = tool_by_name(&s[5..]) {
+                    self.select_tool(t);
+                }
+            }
+            s if s.starts_with("set.") => self.set_value(s),
+            s if s.starts_with("doc.switch:") => {
+                if let Ok(n) = s[11..].parse::<usize>() {
+                    if n >= 1 {
+                        self.switch_doc(n - 1);
+                    }
+                }
+            }
+            s if s.starts_with("image.new:") => {
+                if let Some((w, h)) = s[10..].split_once('x') {
+                    if let (Ok(w), Ok(h)) = (w.parse::<i32>(), h.parse::<i32>()) {
+                        self.new_image(w.clamp(1, 32000), h.clamp(1, 32000), 0);
+                    }
+                }
+            }
+            s if s.starts_with("layer.rename:") && has_doc => {
+                let name = s[13..].to_string();
+                let d = self.doc_mut().unwrap();
+                d.state.layer_mut().name = name;
+                d.commit("Rename Layer", "sliders");
+                self.panels();
+            }
+            s if s.starts_with("layer.") && s.contains(':') && has_doc => self.layer_number_action(s),
             "view.theme-system" => self.set_theme(0),
             "view.theme-light" => self.set_theme(1),
             "view.theme-dark" => self.set_theme(2),
@@ -1319,6 +1383,99 @@ impl Editor {
         }
         self.curve_sync();
         self.fx_preview();
+    }
+}
+
+fn tool_by_name(name: &str) -> Option<Tool> {
+    Some(match name {
+        "rect-select" => Tool::RectSelect,
+        "ellipse-select" => Tool::EllipseSelect,
+        "lasso-select" => Tool::LassoSelect,
+        "magic-wand" => Tool::MagicWand,
+        "move-pixels" => Tool::MovePixels,
+        "move-selection" => Tool::MoveSelection,
+        "brush" => Tool::Brush,
+        "pencil" => Tool::Pencil,
+        "eraser" => Tool::Eraser,
+        "gradient" => Tool::Gradient,
+        "bucket" => Tool::Bucket,
+        "picker" => Tool::Picker,
+        "clone" => Tool::Clone,
+        "recolor" => Tool::Recolor,
+        "text" => Tool::Text,
+        "line" => Tool::Line,
+        "shape" => Tool::Shape,
+        "pan" => Tool::Pan,
+        "zoom" => Tool::Zoom,
+        _ => return None,
+    })
+}
+
+impl Editor {
+    /// Quick commands from the palette: set.zoom:200, set.size:40, ...
+    fn set_value(&mut self, s: &str) {
+        let Some((key, val)) = s[4..].split_once(':') else { return };
+        let Ok(v) = val.parse::<f32>() else { return };
+        let ui = self.ui();
+        let g = ui.global::<App>();
+        match key {
+            "zoom" => self.set_zoom_centered((v / 100.0).clamp(0.01, 64.0)),
+            "size" => g.set_brush_width((v as i32).clamp(1, 500)),
+            "hardness" => g.set_hardness((v as i32).clamp(0, 100)),
+            "tolerance" => g.set_tolerance((v as i32).clamp(0, 100)),
+            "font-size" => g.set_font_size((v as i32).clamp(4, 400)),
+            "opacity" => {
+                self.layer_opacity((v as i32).clamp(0, 100), true);
+            }
+            _ => {}
+        }
+        self.options_changed();
+        self.panels();
+    }
+
+    /// Layer actions addressed by number (1 = bottom): layer.select:2, layer.toggle:3, ...
+    fn layer_number_action(&mut self, s: &str) {
+        let Some((act, n)) = s[6..].split_once(':') else { return };
+        let Ok(n) = n.parse::<usize>() else { return };
+        let Some(d) = self.doc_mut() else { return };
+        if n == 0 || n > d.state.layers.len() {
+            return;
+        }
+        let idx = n - 1;
+        match act {
+            "select" => {
+                d.state.active = idx;
+                let hi = d.history.index;
+                d.history.entries[hi].state.active = idx;
+            }
+            "toggle" => {
+                d.state.layers[idx].visible = !d.state.layers[idx].visible;
+                let name = if d.state.layers[idx].visible { "Show Layer" } else { "Hide Layer" };
+                d.invalidate_all();
+                d.commit(name, "eye");
+            }
+            "solo" => {
+                for (i, l) in d.state.layers.iter_mut().enumerate() {
+                    l.visible = i == idx;
+                }
+                d.state.active = idx;
+                d.invalidate_all();
+                d.commit("Show Only Layer", "eye");
+            }
+            "duplicate" | "delete" | "merge" | "properties" => {
+                d.state.active = idx;
+                let a = match act {
+                    "duplicate" => "layer.duplicate",
+                    "delete" => "layer.delete",
+                    "merge" => "layer.merge-down",
+                    _ => "layer.properties",
+                };
+                self.action(a);
+                return;
+            }
+            _ => {}
+        }
+        self.panels();
     }
 }
 

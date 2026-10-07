@@ -3,6 +3,7 @@ import { Icons } from "icons.slint";
 import { App, Tool, Tip } from "state.slint";
 import { IconButton, Divider, VDivider, Segmented, ValueSlider, Toggle, FieldLabel } from "widgets.slint";
 import { ComboBox } from "std-widgets.slint";
+import { SearchPill } from "palette.slint";
 
 export component TopBar inherits Rectangle {
     height: 46px;
@@ -49,6 +50,8 @@ export component TopBar inherits Rectangle {
         VDivider { height: 22px; y: 12px; }
         IconButton { y: 8px; icon: Icons.crop; tip: "Crop to selection  Ctrl+Shift+X"; enabled: App.has-selection; clicked => { App.action("image.crop"); } }
         IconButton { y: 8px; icon: Icons.x; tip: "Deselect  Ctrl+D"; enabled: App.has-selection; clicked => { App.action("edit.deselect"); } }
+        Rectangle { horizontal-stretch: 1; }
+        SearchPill { y: 7px; }
         Rectangle { horizontal-stretch: 1; }
         IconButton { y: 8px; icon: Icons.grid; tip: "Pixel grid"; active: App.pixel-grid; clicked => { App.pixel-grid = !App.pixel-grid; App.action("view.refresh"); } }
         IconButton { y: 8px; icon: Icons.zoom-out; tip: "Zoom out  Ctrl+-"; enabled: App.has-doc; clicked => { App.action("view.zoom-out"); } }

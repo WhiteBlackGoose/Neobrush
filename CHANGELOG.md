@@ -1,5 +1,30 @@
 # Changelog
 
+## v0.2.0-alpha
+
+### New
+- **Command palette.** Tap <kbd>Space</kbd> (or click the search bar) and type: fuzzy search over every command, tool, layer, open document and recent file, with matches highlighted and recently used commands ranked first. Every row shows its shortcut. Quick commands understand free text: `zoom 200`, `#ff6a00`, `size 40`, `opacity 50`, `rename Sky`, `new 1920x1080`, `layer 3`.
+- **Chords.** Key sequences for everything, with a hint panel showing what comes next: `L 2 T` toggles layer 2, `L 2 S` switches to it, `L 2 O` shows only layer 2, `F B G` opens Gaussian Blur, `A C` Curves, `I R` Resize, `V T D` dark theme.
+- **Every action has a shortcut**, shown in the menus, the palette and the new keyboard shortcut overview (<kbd>F1</kbd>).
+- Layers show their number (used by the chords). <kbd>Alt</kbd>+<kbd>1</kbd>…<kbd>9</kbd> switches documents.
+- A Tools menu. <kbd>Esc</kbd> closes dialogs.
+
+### Changed
+- Clone Stamp moved to <kbd>C</kbd>. <kbd>G</kbd> cycles Gradient and Paint Bucket. <kbd>F</kbd> starts effect chords.
+- Holding <kbd>Space</kbd> still pans; a short tap opens the palette.
+
+### Faster
+Measured on an 8K image:
+- Zoomed-out rendering 4× faster (mipmaps); moving the mouse no longer re-renders the canvas
+- Rectangle selection drag: 17 ms → ~0 per update; ellipse 34 → 8 ms
+- Undo/redo 7× faster (only changed tiles are recomposited)
+- Paint bucket and magic wand 60× faster
+- Effect previews only compute the visible area; gradients and moving pixels render the visible area while dragging
+- The web version is built with full optimization and WebAssembly SIMD
+
+### Fixed
+- Keyboard shortcuts work again right after closing a dialog or the palette.
+
 ## v0.1.1-alpha
 
 ### Fixed
