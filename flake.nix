@@ -35,7 +35,7 @@
 
         packages.default = pkgs.rustPlatform.buildRustPackage {
           pname = "neobrush";
-          version = "0.3.0-alpha";
+          version = "0.3.1-alpha";
           src = ./.;
           cargoLock.lockFile = ./Cargo.lock;
           nativeBuildInputs = with pkgs; [ pkg-config makeWrapper ];
