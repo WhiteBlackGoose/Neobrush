@@ -41,12 +41,12 @@ def raw(text):
     return dict(kind="raw", text=text)
 
 
-def fx(id, title, chord, kw=""):
-    return item(f"fx:{id}", title, "sparkles", chord=chord, kw=kw)
+def fx(id, title, chord, kw="", icon="sparkles"):
+    return item(f"fx:{id}", title, icon, chord=chord, kw=kw)
 
 
-def adj(id, title, keys, chord, kw=""):
-    return item(f"fx:{id}", title, "contrast", keys=keys, chord=chord, kw=kw)
+def adj(id, title, keys, chord, kw="", icon="contrast"):
+    return item(f"fx:{id}", title, icon, keys=keys, chord=chord, kw=kw)
 
 
 def tool(name, title, icon, key, kw=""):
@@ -123,7 +123,7 @@ MENUS = [
     ),
     menu(
         "Image",
-        item("image.crop", "Crop to Selection", "crop", keys="Control + Shift + X", chord="i c", kw="trim"),
+        item("image.crop", "Crop to Selection", "crop", keys="Control + Shift + X", chord="i c", kw="trim", enabled="App.has-selection"),
         item("image.autocrop", "Auto Crop", "crop", keys="Control + Alt + X", chord="i a", kw="trim borders"),
         item("image.resize", "Resize…", "scaling", keys="Control + R", chord="i r", kw="scale size dimensions"),
         item("image.canvas", "Canvas Size…", "frame", keys="Control + Shift + R", chord="i s", kw="expand border"),
@@ -140,9 +140,9 @@ MENUS = [
     menu(
         "Layers",
         item("layer.add", "Add New Layer", "plus", keys="Control + Shift + N", chord="l n", kw="create"),
-        item("layer.delete", "Delete Layer", "trash", chord="l x", kw="remove"),
+        item("layer.delete", "Delete Layer", "trash", chord="l x", kw="remove", enabled="App.layer-count > 1"),
         item("layer.duplicate", "Duplicate Layer", "copy-plus", keys="Control + Shift + D", chord="l d", kw="copy clone"),
-        item("layer.merge-down", "Merge Layer Down", "merge", keys="Control + M", chord="l m", kw="combine"),
+        item("layer.merge-down", "Merge Layer Down", "merge", keys="Control + M", chord="l m", kw="combine", enabled="App.layer-count > 1"),
         item("layer.import", "Import from File…", "image-plus", chord="l i", kw="open add picture"),
         SEP,
         item("layer.flip-h", "Flip Layer Horizontal", "flip-h", chord="l h", kw="mirror"),
@@ -156,13 +156,13 @@ MENUS = [
     ),
     menu(
         "Adjustments",
-        adj("auto-level", "Auto-Level", "Control + Shift + L", "a a", "levels automatic"),
+        adj("auto-level", "Auto-Level", "Control + Shift + L", "a a", "levels automatic", icon="wand"),
         adj("black-and-white", "Black and White", "Control + Shift + G", "a w", "grayscale greyscale desaturate monochrome"),
-        adj("brightness-contrast", "Brightness / Contrast…", None, "a b", "lighter darker"),
-        adj("curves", "Curves…", "Control + Shift + M", "a c", "tone"),
-        adj("hue-saturation", "Hue / Saturation…", "Control + Shift + U", "a h", "color lightness"),
+        adj("brightness-contrast", "Brightness / Contrast…", None, "a b", "lighter darker", icon="sun"),
+        adj("curves", "Curves…", "Control + Shift + M", "a c", "tone", icon="chart-spline"),
+        adj("hue-saturation", "Hue / Saturation…", "Control + Shift + U", "a h", "color lightness", icon="palette"),
         adj("invert-colors", "Invert Colors", "Control + Shift + I", "a i", "negative"),
-        adj("levels", "Levels…", "Control + L", "a l", "gamma input output"),
+        adj("levels", "Levels…", "Control + L", "a l", "gamma input output", icon="chart-column"),
         adj("posterize", "Posterize…", "Control + Shift + P", "a p", "reduce colors"),
         adj("sepia", "Sepia", "Control + Shift + E", "a s", "vintage old photo brown"),
         SEP,
@@ -171,13 +171,13 @@ MENUS = [
     ),
     menu(
         "Effects",
-        item("fx.repeat", "Repeat Last Effect", "sparkles", keys="Control + F", chord="f f", kw="again"),
+        item("fx.repeat", "Repeat Last Effect", "repeat", keys="Control + F", chord="f f", kw="again"),
         SEP,
         menu("Artistic", fx("ink-sketch", "Ink Sketch…", "f a i"), fx("oil-painting", "Oil Painting…", "f a o"), fx("pencil-sketch", "Pencil Sketch…", "f a p", "drawing")),
         menu(
             "Blurs",
             fx("fragment", "Fragment…", "f b f"),
-            fx("gaussian-blur", "Gaussian Blur…", "f b g", "soft smooth"),
+            fx("gaussian-blur", "Gaussian Blur…", "f b g", "soft smooth", icon="droplets"),
             fx("motion-blur", "Motion Blur…", "f b m", "speed"),
             fx("radial-blur", "Radial Blur…", "f b r", "spin"),
             fx("surface-blur", "Surface Blur…", "f b s", "bilateral smooth skin"),
@@ -199,9 +199,9 @@ MENUS = [
             "Photo",
             fx("glow", "Glow…", "f p g", "bloom"),
             fx("red-eye", "Red Eye Removal…", "f p r"),
-            fx("sharpen", "Sharpen…", "f p s", "unsharp detail"),
+            fx("sharpen", "Sharpen…", "f p s", "unsharp detail", icon="focus"),
             fx("soft-portrait", "Soft Portrait…", "f p p", "skin"),
-            fx("vignette", "Vignette…", "f p v", "dark corners"),
+            fx("vignette", "Vignette…", "f p v", "dark corners", icon="aperture"),
         ),
         menu("Render", fx("clouds", "Clouds…", "f r c", "perlin noise"), fx("julia", "Julia Fractal…", "f r j"), fx("mandelbrot", "Mandelbrot Fractal…", "f r m")),
         menu("Stylize", fx("edge-detect", "Edge Detect…", "f s e"), fx("emboss", "Emboss…", "f s m"), fx("outline", "Outline…", "f s o"), fx("relief", "Relief…", "f s r")),
@@ -305,29 +305,86 @@ def gen_context(entries, indent):
     return "\n".join(out)
 
 
-MENU_ICONS = {"File": "folder-open", "Edit": "scissors", "View": "eye", "Image": "image", "Layers": "layers", "Adjustments": "contrast", "Effects": "sparkles", "Tools": "brush", "Help": "info"}
+# Toolbar sections: menu title -> commands shown as buttons ("@zoom" is the zoom percentage).
+# Everything else of that menu goes into the section's "more" popup.
+BAR = [
+    ("View", ["view.zoom-out", "@zoom", "view.zoom-in", "view.fit", "view.grid", "view.rulers"]),
+    ("Image", ["image.crop", "image.resize", "image.canvas", "image.rot-cw", "image.flip-h"]),
+    ("Layers", ["layer.add", "layer.duplicate", "layer.merge-down", "layer.properties"]),
+    ("Adjustments", ["fx:auto-level", "fx:curves", "fx:hue-saturation", "fx:brightness-contrast"]),
+    ("Effects", ["fx.repeat", "fx:gaussian-blur", "fx:sharpen", "fx:vignette"]),
+    ("Tools", ["color.swap", "color.reset", "brush.smaller", "brush.bigger"]),
+]
 
 
-def gen_toolbar_menus():
-    chips = []
-    for m in MENUS:
-        chips.append(f"""    MenuChip {{
-        title: "{m['title']}";
-        clicked(x, y) => {{ cm-{m['title'].lower()}.show({{ x: x, y: y }}); }}
-        cm-{m['title'].lower()} := ContextMenuArea {{
-            Menu {{
-{gen_context(m['children'], 16)}
-            }}
+def strip_bar(entries, ids):
+    """Menu entries without the ones shown as buttons (and without dangling separators)."""
+    out = []
+    for e in entries:
+        if e["kind"] == "item" and e["id"] in ids:
+            continue
+        if e["kind"] == "menu":
+            e = dict(e, children=strip_bar(e["children"], ids))
+        if e["kind"] == "sep" and (not out or out[-1]["kind"] == "sep"):
+            continue
+        out.append(e)
+    while out and out[-1]["kind"] == "sep":
+        out.pop()
+    return out
+
+
+def gen_toolbar_sections():
+    items = {e["id"]: e for e, _ in walk(MENUS, [])}
+    groups = []
+    for title, ids in BAR:
+        m = next(m for m in MENUS if m["title"] == title)
+        buttons = []
+        for n, i in enumerate(ids):
+            # The first two buttons of each section always show; the rest only on wide windows.
+            cond = "" if n < 2 else "if root.wide: "
+            if i == "@zoom":
+                buttons.append(f"""            {cond}ZoomLabel {{ }}""")
+                continue
+            e = items[i]
+            sc = shortcut_text(e)
+            tip = e["title"].rstrip("…") + (f"  ·  {sc}" if sc else "")
+            enabled = e.get("enabled") or "App.has-doc"
+            if e.get("enabled"):
+                enabled = f"App.has-doc && ({e['enabled']})"
+            active = f" active: {e['checked']};" if e.get("checked") else ""
+            buttons.append(f'            {cond}IconButton {{ icon: Icons.named("{e["icon"]}"); tip: "{tip}"; enabled: {enabled};{active} clicked => {{ App.action("{e["id"]}"); }} }}')
+        rest = strip_bar(m["children"], set(ids))
+        more = ""
+        if rest:
+            more = f"""            MoreButton {{
+                tip: "More {title.lower()} commands";
+                clicked(x, y) => {{ cm-{title.lower()}.show({{ x: x, y: y }}); }}
+                cm-{title.lower()} := ContextMenuArea {{
+                    Menu {{
+{gen_context(rest, 24)}
+                    }}
+                }}
+            }}"""
+        if groups:
+            groups.append("    VDivider { height: 30px; y: 4px; }")
+        groups.append(f"""    ToolbarSection {{
+        title: "{title}";
+        HorizontalLayout {{
+            spacing: 1px;
+{chr(10).join(buttons)}
+{more}
         }}
     }}""")
     return f"""// @generated by tools/gen_commands.py - do not edit by hand.
 import {{ App }} from "state.slint";
-import {{ MenuChip }} from "widgets.slint";
+import {{ Icons }} from "icons.slint";
+import {{ IconButton, MoreButton, ToolbarSection, ZoomLabel, VDivider }} from "widgets.slint";
 
-/// The main menu as dropdown buttons for the toolbar.
-export component ToolbarMenus inherits HorizontalLayout {{
-    spacing: 2px;
-{chr(10).join(chips)}
+/// Toolbar sections (View, Image, Layers, ...) with their most used commands as buttons.
+export component ToolbarSections inherits HorizontalLayout {{
+    in property <bool> wide: true;
+    spacing: 6px;
+{chr(10).join(groups)}
 }}
 """
 
@@ -421,7 +478,7 @@ def main():
     (ROOT / "src/app/commands_gen.rs").write_text(gen_rust())
     app = (ROOT / "ui/app.slint").read_text()
     menubar = "    MenuBar {\n        visible: App.show-menubar;\n" + gen_slint(MENUS, 8) + "\n    }"
-    (ROOT / "ui/menus.slint").write_text(gen_toolbar_menus())
+    (ROOT / "ui/menus.slint").write_text(gen_toolbar_sections())
     new, n = re.subn(
         r"    // BEGIN GENERATED MENU.*?    // END GENERATED MENU",
         "    // BEGIN GENERATED MENU (tools/gen_commands.py)\n" + menubar + "\n    // END GENERATED MENU",

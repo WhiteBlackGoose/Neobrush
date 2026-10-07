@@ -32,7 +32,10 @@ impl Editor {
                 "theme" => theme = int.unwrap_or(0),
                 "pixel_grid" => g.set_pixel_grid(b),
                 "rulers" => g.set_show_rulers(b),
-                "show_menubar" => g.set_show_menubar(b),
+                "show_menubar" => {
+                    self.menubar_pinned = b;
+                    g.set_show_menubar(b);
+                }
                 "show_tools" => g.set_show_tools(b),
                 "show_colors" => g.set_show_colors(b),
                 "show_layers" => g.set_show_layers(b),
@@ -86,7 +89,7 @@ impl Editor {
         s += &format!("theme={}\n", g.get_theme_mode());
         s += &format!("pixel_grid={}\n", b(g.get_pixel_grid()));
         s += &format!("rulers={}\n", b(g.get_show_rulers()));
-        s += &format!("show_menubar={}\n", b(g.get_show_menubar()));
+        s += &format!("show_menubar={}\n", b(self.menubar_pinned));
         s += &format!("show_tools={}\n", b(g.get_show_tools()));
         s += &format!("show_colors={}\n", b(g.get_show_colors()));
         s += &format!("show_layers={}\n", b(g.get_show_layers()));

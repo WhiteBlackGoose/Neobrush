@@ -3,7 +3,8 @@ import { Icons } from "icons.slint";
 import { App, Tool, Tip } from "state.slint";
 import { IconButton, Divider, VDivider, Segmented, ValueSlider, Toggle, FieldLabel, Card, IconSegmented, IconItem } from "widgets.slint";
 import { ComboBox } from "std-widgets.slint";
-import { ToolbarMenus } from "menus.slint";
+import { ToolbarSections } from "menus.slint";
+import { ToolbarSection } from "widgets.slint";
 
 /// The command palette button: a gradient ring that spins and glows on hover.
 export component PaletteButton inherits Rectangle {
@@ -56,13 +57,14 @@ export component PaletteButton inherits Rectangle {
 }
 
 export component TopBar inherits Rectangle {
-    height: 46px;
+    height: 54px;
     HorizontalLayout {
         padding-left: 10px;
         padding-right: 12px;
-        spacing: 4px;
+        spacing: 6px;
+        alignment: start;
         Rectangle {
-            width: 30px;
+            width: 28px;
             Rectangle {
                 width: 24px;
                 height: 24px;
@@ -76,41 +78,32 @@ export component TopBar inherits Rectangle {
                 }
             }
         }
-        VDivider { height: 22px; y: 12px; }
-        IconButton { y: 8px; icon: Icons.file-plus; tip: "New image  Ctrl+N"; clicked => { App.action("file.new"); } }
-        IconButton { y: 8px; icon: Icons.folder-open; tip: "Open  Ctrl+O"; clicked => { App.action("file.open"); } }
-        IconButton { y: 8px; icon: Icons.save; tip: "Save  Ctrl+S"; enabled: App.has-doc; clicked => { App.action("file.save"); } }
-        VDivider { height: 22px; y: 12px; }
-        IconButton { y: 8px; icon: Icons.undo; tip: "Undo  Ctrl+Z"; enabled: App.can-undo || App.is-editing; clicked => { App.action("edit.undo"); } }
-        IconButton { y: 8px; icon: Icons.redo; tip: "Redo  Ctrl+Y"; enabled: App.can-redo; clicked => { App.action("edit.redo"); } }
-        VDivider { height: 22px; y: 12px; }
-        IconButton { y: 8px; icon: Icons.scissors; tip: "Cut  Ctrl+X"; enabled: App.has-doc; clicked => { App.action("edit.cut"); } }
-        IconButton { y: 8px; icon: Icons.copy; tip: "Copy  Ctrl+C"; enabled: App.has-doc; clicked => { App.action("edit.copy"); } }
-        IconButton { y: 8px; icon: Icons.paste; tip: "Paste  Ctrl+V"; clicked => { App.action("edit.paste"); } }
-        IconButton { y: 8px; icon: Icons.crop; tip: "Crop to selection  Ctrl+Shift+X"; enabled: App.has-selection; clicked => { App.action("image.crop"); } }
-        VDivider { height: 22px; y: 12px; }
-        ToolbarMenus { y: 8px; height: 30px; }
-        Rectangle { horizontal-stretch: 1; }
-        PaletteButton { y: 7px; }
-        Rectangle { horizontal-stretch: 1; }
-        IconButton { y: 8px; icon: Icons.grid; tip: "Pixel grid  V G"; active: App.pixel-grid; clicked => { App.action("view.grid"); } }
-        IconButton { y: 8px; icon: Icons.zoom-out; tip: "Zoom out  Ctrl+-"; enabled: App.has-doc; clicked => { App.action("view.zoom-out"); } }
-        Rectangle {
-            width: 52px;
-            Text {
-                text: round(App.zoom) + "%";
-                color: Theme.text;
-                font-size: Theme.font;
-                font-weight: 600;
-                horizontal-alignment: center;
-                vertical-alignment: center;
-            }
-            TouchArea {
-                clicked => { App.action("view.actual"); }
+        VDivider { height: 30px; y: 12px; }
+        ToolbarSection {
+            title: "File";
+            HorizontalLayout {
+                spacing: 1px;
+                IconButton { icon: Icons.file-plus; tip: "New image  ·  Ctrl+N"; clicked => { App.action("file.new"); } }
+                IconButton { icon: Icons.folder-open; tip: "Open  ·  Ctrl+O"; clicked => { App.action("file.open"); } }
+                IconButton { icon: Icons.save; tip: "Save  ·  Ctrl+S"; enabled: App.has-doc; clicked => { App.action("file.save"); } }
             }
         }
-        IconButton { y: 8px; icon: Icons.zoom-in; tip: "Zoom in  Ctrl++"; enabled: App.has-doc; clicked => { App.action("view.zoom-in"); } }
-        IconButton { y: 8px; icon: Icons.maximize; tip: "Zoom to window  Ctrl+B"; enabled: App.has-doc; clicked => { App.action("view.fit"); } }
+        VDivider { height: 30px; y: 12px; }
+        ToolbarSection {
+            title: "Edit";
+            HorizontalLayout {
+                spacing: 1px;
+                IconButton { icon: Icons.undo; tip: "Undo  ·  Ctrl+Z"; enabled: App.can-undo || App.is-editing; clicked => { App.action("edit.undo"); } }
+                IconButton { icon: Icons.redo; tip: "Redo  ·  Ctrl+Y"; enabled: App.can-redo; clicked => { App.action("edit.redo"); } }
+                IconButton { icon: Icons.scissors; tip: "Cut  ·  Ctrl+X"; enabled: App.has-doc; clicked => { App.action("edit.cut"); } }
+                IconButton { icon: Icons.copy; tip: "Copy  ·  Ctrl+C"; enabled: App.has-doc; clicked => { App.action("edit.copy"); } }
+                IconButton { icon: Icons.paste; tip: "Paste  ·  Ctrl+V"; clicked => { App.action("edit.paste"); } }
+            }
+        }
+        if App.has-doc: VDivider { height: 30px; y: 12px; }
+        if App.has-doc: ToolbarSections { wide: root.width >= 1420px; }
+        VDivider { height: 30px; y: 12px; }
+        PaletteButton { y: 11px; }
     }
 }
 

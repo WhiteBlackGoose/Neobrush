@@ -63,6 +63,10 @@ pub struct Editor {
     pub recent_cmds: Vec<String>,
     pub space_down: Option<Instant>,
     pub space_panned: bool,
+    /// Alt was pressed with no other key yet (a tap toggles the menu bar).
+    pub alt_tap: bool,
+    /// Menu bar permanently shown (View › Menu Bar) rather than revealed by Alt.
+    pub menubar_pinned: bool,
     #[allow(dead_code)]
     pub last_settings_save: Instant,
 }
@@ -165,6 +169,8 @@ pub fn run(files: Vec<std::path::PathBuf>) -> Result<(), slint::PlatformError> {
         recent_cmds: vec![],
         space_down: None,
         space_panned: false,
+        alt_tap: false,
+        menubar_pinned: cfg!(target_os = "macos"),
         last_settings_save: Instant::now(),
     }));
     EDITOR.with(|e| *e.borrow_mut() = Some(ed.clone()));
@@ -768,6 +774,22 @@ impl Editor {
         });
         ui.global::<App>().set_theme_mode(mode);
         self.panels();
+    }
+
+    /// Alt tap: show or hide the menu bar until the next action.
+    pub fn toggle_temp_menubar(&mut self) {
+        if self.menubar_pinned {
+            return;
+        }
+        let ui = self.ui();
+        let g = ui.global::<App>();
+        g.set_show_menubar(!g.get_show_menubar());
+    }
+
+    pub fn hide_temp_menubar(&mut self) {
+        if !self.menubar_pinned {
+            self.ui().global::<App>().set_show_menubar(false);
+        }
     }
 
     pub fn refocus(&self) {

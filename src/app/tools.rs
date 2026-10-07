@@ -143,6 +143,10 @@ impl Editor {
         }
         let p = self.to_doc(lx, ly);
         self.hover = Some(p);
+        if kind == DOWN {
+            self.alt_tap = false;
+            self.hide_temp_menubar();
+        }
         let sx = lx * self.scale;
         let sy = ly * self.scale;
 
@@ -914,6 +918,18 @@ impl Editor {
     // Keyboard
 
     pub fn key(&mut self, text: &str, ctrl: bool, shift: bool, alt: bool, pressed: bool) -> bool {
+        // Tapping Alt on its own reveals the main menu (like most desktop apps).
+        if text == key_str(Key::Alt) || text == key_str(Key::AltGr) {
+            if pressed {
+                self.alt_tap = true;
+            } else if std::mem::take(&mut self.alt_tap) {
+                self.toggle_temp_menubar();
+            }
+            return true;
+        }
+        if pressed {
+            self.alt_tap = false;
+        }
         // Space: tap opens the command palette, hold + drag pans.
         if text == " " && !matches!(self.session, Session::Text(_)) {
             if pressed {
@@ -1031,6 +1047,7 @@ impl Editor {
             return true;
         }
         if text == esc {
+            self.hide_temp_menubar();
             if self.session.is_editing() {
                 self.finish_session(true);
             } else if matches!(self.session, Session::Move(_)) {

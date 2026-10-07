@@ -199,9 +199,9 @@ impl Editor {
             "help.github" => super::platform::open_url("https://github.com/WhiteBlackGoose/Neobrush"),
             "help.donate" => super::platform::open_url("https://voices.org.ua/en/"),
             "view.menubar" => {
-                let ui = self.ui();
-                let g = ui.global::<App>();
-                g.set_show_menubar(!g.get_show_menubar());
+                self.menubar_pinned = !self.menubar_pinned;
+                let pinned = self.menubar_pinned;
+                self.ui().global::<App>().set_show_menubar(pinned);
             }
             "brush.smaller" | "brush.bigger" => {
                 let ui = self.ui();
@@ -413,6 +413,9 @@ impl Editor {
                 self.open_fx(&fid);
             }
             _ => {}
+        }
+        if id != "view.menubar" {
+            self.hide_temp_menubar();
         }
         self.refocus();
     }

@@ -224,7 +224,7 @@ export component AppWindow inherits Window {
         }
         Menu {
             title: "Image";
-            MenuItem { title: "Crop to Selection"; shortcut: @keys(Control + Shift + X); activated => { App.action("image.crop"); } }
+            MenuItem { title: "Crop to Selection"; shortcut: @keys(Control + Shift + X); enabled: App.has-selection; activated => { App.action("image.crop"); } }
             MenuItem { title: "Auto Crop"; shortcut: @keys(Control + Alt + X); activated => { App.action("image.autocrop"); } }
             MenuItem { title: "Resize…"; shortcut: @keys(Control + R); activated => { App.action("image.resize"); } }
             MenuItem { title: "Canvas Size…"; shortcut: @keys(Control + Shift + R); activated => { App.action("image.canvas"); } }
@@ -241,9 +241,9 @@ export component AppWindow inherits Window {
         Menu {
             title: "Layers";
             MenuItem { title: "Add New Layer"; shortcut: @keys(Control + Shift + N); activated => { App.action("layer.add"); } }
-            MenuItem { title: "Delete Layer      L X"; activated => { App.action("layer.delete"); } }
+            MenuItem { title: "Delete Layer      L X"; enabled: App.layer-count > 1; activated => { App.action("layer.delete"); } }
             MenuItem { title: "Duplicate Layer"; shortcut: @keys(Control + Shift + D); activated => { App.action("layer.duplicate"); } }
-            MenuItem { title: "Merge Layer Down"; shortcut: @keys(Control + M); activated => { App.action("layer.merge-down"); } }
+            MenuItem { title: "Merge Layer Down"; shortcut: @keys(Control + M); enabled: App.layer-count > 1; activated => { App.action("layer.merge-down"); } }
             MenuItem { title: "Import from File…      L I"; activated => { App.action("layer.import"); } }
             MenuSeparator { }
             MenuItem { title: "Flip Layer Horizontal      L H"; activated => { App.action("layer.flip-h"); } }
