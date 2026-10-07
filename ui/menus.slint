@@ -92,6 +92,8 @@ export component ToolbarSections inherits HorizontalLayout {
                         MenuItem { title: "Flip Layer Vertical      L V"; activated => { App.action("layer.flip-v"); } }
                         MenuItem { title: "Rotate / Zoom…      Ctrl+Shift+Z"; activated => { App.action("fx:rotate-zoom"); } }
                         MenuSeparator { }
+                        MenuItem { title: "Select Layer Above      L K"; activated => { App.action("layer.select-up"); } }
+                        MenuItem { title: "Select Layer Below      L J"; activated => { App.action("layer.select-down"); } }
                         MenuItem { title: "Move Layer Up      Ctrl+PgUp"; activated => { App.action("layer.up"); } }
                         MenuItem { title: "Move Layer Down      Ctrl+PgDn"; activated => { App.action("layer.down"); } }
                     }

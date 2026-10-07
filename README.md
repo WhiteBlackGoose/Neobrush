@@ -194,8 +194,11 @@ Neobrush is built to be driven from the keyboard.
 
 | Chord | Action |
 | --- | --- |
-| <kbd>L</kbd> <kbd>2</kbd> <kbd>T</kbd> | toggle layer 2 (<kbd>S</kbd> switch to it, <kbd>O</kbd> show only it, <kbd>D</kbd> duplicate, <kbd>X</kbd> delete, <kbd>M</kbd> merge down) |
-| <kbd>L</kbd> <kbd>N</kbd> / <kbd>L</kbd> <kbd>K</kbd> / <kbd>L</kbd> <kbd>J</kbd> | new layer / move up / move down |
+| <kbd>L</kbd> <kbd>2</kbd> <kbd>2</kbd> | switch to layer 2 (same digit twice) |
+| <kbd>L</kbd> <kbd>2</kbd> <kbd>T</kbd> | toggle layer 2 (<kbd>O</kbd> show only it, <kbd>D</kbd> duplicate, <kbd>X</kbd> delete, <kbd>M</kbd> merge down, <kbd>P</kbd> properties) |
+| <kbd>L</kbd> <kbd>K</kbd> / <kbd>L</kbd> <kbd>J</kbd> | switch to the layer above / below |
+| <kbd>L</kbd> <kbd>⇧K</kbd> / <kbd>L</kbd> <kbd>⇧J</kbd> | move the layer up / down |
+| <kbd>L</kbd> <kbd>N</kbd> | new layer |
 | <kbd>F</kbd> <kbd>B</kbd> <kbd>G</kbd> | Effects › Blurs › Gaussian Blur (every effect has one) |
 | <kbd>A</kbd> <kbd>C</kbd> · <kbd>A</kbd> <kbd>H</kbd> · <kbd>A</kbd> <kbd>L</kbd> | Curves · Hue / Saturation · Levels (every adjustment has one) |
 | <kbd>I</kbd> <kbd>R</kbd> · <kbd>I</kbd> <kbd>C</kbd> · <kbd>I</kbd> <kbd>]</kbd> | Resize · Crop to selection · Rotate clockwise |

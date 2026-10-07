@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+- Layer chords: <kbd>L</kbd> <kbd>K</kbd> / <kbd>L</kbd> <kbd>J</kbd> switch to the layer above / below; <kbd>L</kbd> <kbd>⇧K</kbd> / <kbd>L</kbd> <kbd>⇧J</kbd> move the active layer up / down.
+- <kbd>L</kbd> <kbd>1</kbd> <kbd>1</kbd>, <kbd>L</kbd> <kbd>2</kbd> <kbd>2</kbd>, … switch to layer 1, 2, …
+
 ## v0.3.0-alpha
 
 ### New

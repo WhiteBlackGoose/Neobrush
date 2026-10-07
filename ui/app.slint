@@ -250,6 +250,8 @@ export component AppWindow inherits Window {
             MenuItem { title: "Flip Layer Vertical      L V"; activated => { App.action("layer.flip-v"); } }
             MenuItem { title: "Rotate / Zoom…"; shortcut: @keys(Control + Shift + Z); activated => { App.action("fx:rotate-zoom"); } }
             MenuSeparator { }
+            MenuItem { title: "Select Layer Above      L K"; activated => { App.action("layer.select-up"); } }
+            MenuItem { title: "Select Layer Below      L J"; activated => { App.action("layer.select-down"); } }
             MenuItem { title: "Move Layer Up"; shortcut: @keys(Control + PageUp); activated => { App.action("layer.up"); } }
             MenuItem { title: "Move Layer Down"; shortcut: @keys(Control + PageDown); activated => { App.action("layer.down"); } }
             MenuSeparator { }

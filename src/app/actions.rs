@@ -384,6 +384,16 @@ impl Editor {
                 d.state.layer_mut().px = Tiled::from_surface(&transform::flip_surface(&s, h));
                 self.structural(if h { "Flip Layer Horizontal" } else { "Flip Layer Vertical" }, if h { "flip-h" } else { "flip-v" });
             }
+            "layer.select-up" | "layer.select-down" if has_doc => {
+                let d = self.doc_mut().unwrap();
+                let n = d.state.layers.len();
+                let a = d.state.active;
+                let idx = if id == "layer.select-up" { (a + 1).min(n - 1) } else { a.saturating_sub(1) };
+                d.state.active = idx;
+                let hi = d.history.index;
+                d.history.entries[hi].state.active = idx;
+                self.panels();
+            }
             "layer.up" if has_doc => {
                 let d = self.doc_mut().unwrap();
                 let a = d.state.active;

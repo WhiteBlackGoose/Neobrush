@@ -103,8 +103,17 @@ fn platform_keys(keys: &[&str]) -> Vec<String> {
         .collect()
 }
 
+/// Display form of a chord key: uppercase letters mean Shift.
+fn key_label(k: &str) -> String {
+    if k.chars().any(|c| c.is_uppercase()) {
+        format!("⇧{k}")
+    } else {
+        k.to_uppercase()
+    }
+}
+
 fn chord_keys(chord: &str) -> Vec<String> {
-    chord.split_whitespace().map(|c| c.to_uppercase()).collect()
+    chord.split_whitespace().map(key_label).collect()
 }
 
 impl Entry {
@@ -182,7 +191,11 @@ fn group_name(prefix: &[String]) -> String {
 pub fn chord_options(prefix: &[String], layer_names: &[String]) -> Vec<(String, String)> {
     // Layer number chords.
     if prefix.len() >= 2 && prefix[0] == "l" && prefix[1..].iter().all(|k| k.chars().all(|c| c.is_ascii_digit())) {
-        return LAYER_ACTIONS.iter().map(|(k, label, _)| (k.to_string(), label.to_string())).collect();
+        let mut v: Vec<(String, String)> = LAYER_ACTIONS.iter().map(|(k, label, _)| (k.to_string(), label.to_string())).collect();
+        if prefix.len() == 2 {
+            v.insert(0, (prefix[1].clone(), "Switch (repeat digit)".into()));
+        }
+        return v;
     }
     let p = prefix.join(" ");
     let mut out: Vec<(String, String)> = Vec::new();
@@ -202,14 +215,16 @@ pub fn chord_options(prefix: &[String], layer_names: &[String]) -> Vec<(String, 
 }
 
 pub fn chord_step(state: &mut ChordState, key: &str, layer_count: usize) -> ChordResult {
-    let key = key.to_lowercase();
+    // Letters keep their case after the leader: an uppercase letter means Shift was held.
     if state.keys.is_empty() {
+        let key = key.to_lowercase();
         if is_leader(&key) {
             state.keys.push(key);
             return ChordResult::Pending;
         }
         return ChordResult::None;
     }
+    let key = key.to_string();
     state.keys.push(key.clone());
     let keys = state.keys.clone();
     // Layer number chords: l <digits> <action>.
@@ -217,10 +232,15 @@ pub fn chord_step(state: &mut ChordState, key: &str, layer_count: usize) -> Chor
         let digits: Vec<&String> = keys[1..].iter().take_while(|k| k.chars().all(|c| c.is_ascii_digit())).collect();
         let n: usize = digits.iter().map(|s| s.as_str()).collect::<String>().parse().unwrap_or(0);
         if digits.len() == keys.len() - 1 {
+            // The same digit twice switches to that layer: L 2 2.
+            if digits.len() == 2 && digits[0] == digits[1] && n % 11 == 0 && n / 11 >= 1 && n / 11 <= layer_count {
+                state.keys.clear();
+                return ChordResult::Run(format!("layer.select:{}", n / 11));
+            }
             // Still typing the number.
             return if n >= 1 && n <= layer_count { ChordResult::Pending } else { state.keys.clear(); ChordResult::Cancelled };
         }
-        if let Some((_, _, act)) = LAYER_ACTIONS.iter().find(|(k, _, _)| **k == key) {
+        if let Some((_, _, act)) = LAYER_ACTIONS.iter().find(|(k, _, _)| **k == key.to_lowercase()) {
             if n >= 1 && n <= layer_count {
                 state.keys.clear();
                 return ChordResult::Run(format!("layer.{act}:{n}"));
@@ -268,9 +288,9 @@ impl Editor {
         } else {
             group_name(keys)
         };
-        let opts: Vec<ChordOption> = chord_options(keys, &names).into_iter().map(|(k, l)| ChordOption { key: k.to_uppercase().into(), label: l.into() }).collect();
+        let opts: Vec<ChordOption> = chord_options(keys, &names).into_iter().map(|(k, l)| ChordOption { key: key_label(&k).into(), label: l.into() }).collect();
         g.set_chord_title(title.into());
-        g.set_chord_keys(keys.iter().map(|k| k.to_uppercase()).collect::<Vec<_>>().join("  ").into());
+        g.set_chord_keys(keys.iter().map(|k| key_label(k)).collect::<Vec<_>>().join("  ").into());
         g.set_chord_options(ModelRc::new(VecModel::from(opts)));
         g.set_chord_active(true);
     }
@@ -550,6 +570,15 @@ mod tests {
         assert!(matches!(chord_step(&mut st, "t", 3), ChordResult::Run(a) if a == "layer.toggle:2"));
         assert!(matches!(chord_step(&mut st, "l", 3), ChordResult::Pending));
         assert!(matches!(chord_step(&mut st, "n", 3), ChordResult::Run(a) if a == "layer.add"));
+        assert!(matches!(chord_step(&mut st, "l", 3), ChordResult::Pending));
+        assert!(matches!(chord_step(&mut st, "2", 3), ChordResult::Pending));
+        assert!(matches!(chord_step(&mut st, "2", 3), ChordResult::Run(a) if a == "layer.select:2"));
+        assert!(matches!(chord_step(&mut st, "l", 3), ChordResult::Pending));
+        assert!(matches!(chord_step(&mut st, "k", 3), ChordResult::Run(a) if a == "layer.select-up"));
+        assert!(matches!(chord_step(&mut st, "l", 3), ChordResult::Pending));
+        assert!(matches!(chord_step(&mut st, "K", 3), ChordResult::Run(a) if a == "layer.up"));
+        assert!(matches!(chord_step(&mut st, "L", 3), ChordResult::Pending));
+        assert!(matches!(chord_step(&mut st, "J", 3), ChordResult::Run(a) if a == "layer.down"));
         assert!(matches!(chord_step(&mut st, "b", 3), ChordResult::None));
         assert!(matches!(chord_step(&mut st, "a", 3), ChordResult::Pending));
         assert!(matches!(chord_step(&mut st, "q", 3), ChordResult::Cancelled));

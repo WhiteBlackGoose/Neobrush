@@ -149,8 +149,10 @@ MENUS = [
         item("layer.flip-v", "Flip Layer Vertical", "flip-v", chord="l v", kw="mirror"),
         item("fx:rotate-zoom", "Rotate / Zoom…", "rotate-cw", keys="Control + Shift + Z", chord="l r", kw="layer angle scale pan"),
         SEP,
-        item("layer.up", "Move Layer Up", "chevron-up", keys="Control + PageUp", chord="l k", kw="raise order"),
-        item("layer.down", "Move Layer Down", "chevron-down", keys="Control + PageDown", chord="l j", kw="lower order"),
+        item("layer.select-up", "Select Layer Above", "chevron-up", chord="l k", kw="switch next go up"),
+        item("layer.select-down", "Select Layer Below", "chevron-down", chord="l j", kw="switch previous go down"),
+        item("layer.up", "Move Layer Up", "chevron-up", keys="Control + PageUp", chord="l K", kw="raise order"),
+        item("layer.down", "Move Layer Down", "chevron-down", keys="Control + PageDown", chord="l J", kw="lower order"),
         SEP,
         item("layer.properties", "Layer Properties…", "sliders", keys="F4", chord="l p", kw="name opacity blend mode rename"),
     ),
@@ -262,17 +264,22 @@ def display_keys(keys):
 def chord_title(it):
     t = it["title"]
     if it.get("chord") and not it.get("keys"):
-        return t + "      " + " ".join(c.upper() for c in it["chord"].split())
+        return t + "      " + chord_display(it["chord"])
     if it.get("key") and not it.get("keys"):
         return t + "      " + it["key"]
     return t
+
+
+def chord_display(chord):
+    """Chord keys for display; uppercase letters in the table mean Shift."""
+    return " ".join(("⇧" + c) if c.isalpha() and c.isupper() else c.upper() for c in chord.split())
 
 
 def shortcut_text(it):
     if it.get("keys"):
         return "+".join(display_keys(it["keys"]))
     if it.get("chord"):
-        return " ".join(c.upper() for c in it["chord"].split())
+        return chord_display(it["chord"])
     return it.get("key") or ""
 
 
