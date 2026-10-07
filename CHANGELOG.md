@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.3.0-alpha
+
+### New
+- **Toolbar sections**: File, Edit, View, Image, Layers, Adjustments, Effects and Tools, each with its most used commands as labelled icon buttons and a **⋯** popup with the rest. On narrow windows the less important buttons hide.
+- **Command palette button** with a spinning gradient ring on hover, right after the toolbar icons.
+- **Tool options moved into the left sidebar** below a six-column tool grid, so the canvas gets more height.
+- Help: link to the source code on GitHub. A small link in the status bar to donate to [Voices of Children](https://voices.org.ua/en/).
+
+### Changed
+- The main menu is hidden by default. **Tap Alt** to show it (like most desktop apps); it hides again after you pick something. View › Menu Bar keeps it visible. On macOS it stays in the system menu bar.
+- The toolbar no longer shows the “Neobrush” wordmark.
+
 ## v0.2.0-alpha
 
 ### New
