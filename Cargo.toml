@@ -1,6 +1,6 @@
 [package]
 name = "neobrush"
-version = "0.4.0-alpha"
+version = "1.0.0"
 edition = "2021"
 description = "A modern, cross-platform raster graphics editor"
 license = "MIT"
@@ -73,3 +73,15 @@ opt-level = 3
 lto = "fat"
 codegen-units = 1
 panic = "abort"
+
+# Quick local iteration: `cargo build --profile fast` (no LTO, light optimization).
+[profile.fast]
+inherits = "release"
+lto = false
+opt-level = 1
+codegen-units = 256
+incremental = true
+strip = false
+
+[profile.fast.package."*"]
+opt-level = 3

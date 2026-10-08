@@ -3,6 +3,10 @@ name: Web (GitHub Pages)
 on:
   push:
     branches: [main]
+  # Rebuild the apt repository once a release has its .deb files.
+  workflow_run:
+    workflows: [Release]
+    types: [completed]
   workflow_dispatch:
 
 permissions:
@@ -17,6 +21,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      APT_GPG_PRIVATE_KEY: ${{ secrets.APT_GPG_PRIVATE_KEY }}
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
@@ -32,6 +39,11 @@ jobs:
       - name: Install binaryen
         run: sudo apt-get update && sudo apt-get install -y binaryen
       - run: ./web/build.sh
+      - name: apt repository
+        if: env.APT_GPG_PRIVATE_KEY != ''
+        run: |
+          sudo apt-get install -y apt-utils jq
+          ./web/build-apt.sh site/apt
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site

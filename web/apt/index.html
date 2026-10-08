@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neobrush apt repository</title>
+<style>
+  :root { color-scheme: light dark; --bg: #f5f6f9; --fg: #1a1b22; --muted: #646778; --card: #fff; --code: #eef0f4; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #121216; --fg: #ececf2; --muted: #9a9aab; --card: #1b1b21; --code: #23232b; } }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.55 system-ui, sans-serif; }
+  main { max-width: 720px; margin: 48px auto; padding: 0 16px; }
+  h1 { font-size: 28px; margin: 0 0 8px; }
+  p { color: var(--muted); }
+  pre { background: var(--code); padding: 14px 16px; border-radius: 10px; overflow-x: auto; font-size: 14px; }
+  a { color: #6a4cf5; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Neobrush for Debian &amp; Ubuntu</h1>
+  <p>Add the repository once; after that, Neobrush updates together with the rest of your system.</p>
+  <pre>curl -fsSL https://neobrush.wbg.gg/apt/neobrush.gpg | sudo tee /usr/share/keyrings/neobrush.gpg &gt;/dev/null
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/neobrush.gpg] https://neobrush.wbg.gg/apt stable main" \
+  | sudo tee /etc/apt/sources.list.d/neobrush.list
+sudo apt update
+sudo apt install neobrush</pre>
+  <p>Signing key fingerprint: <code>0EB4 A34F F31B 9717 E3D0  E5A9 78E3 EFF2 E0FF 61AB</code></p>
+  <p><a href="https://github.com/WhiteBlackGoose/Neobrush">Neobrush on GitHub</a> · <a href="https://neobrush.wbg.gg/">Try it in the browser</a></p>
+</main>
+</body>
+</html>

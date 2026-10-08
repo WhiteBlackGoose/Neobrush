@@ -1,5 +1,6 @@
 import { Theme } from "theme.slint";
 import { Tip, App } from "state.slint";
+import { Icons } from "icons.slint";
 
 export component Divider inherits Rectangle {
     background: Theme.border;
@@ -361,9 +362,35 @@ export component ValueSlider inherits Rectangle {
     }
 }
 
+/// Chevron that folds a panel; points down when open, right when collapsed.
+export component CollapseButton inherits Rectangle {
+    in-out property <bool> collapsed;
+    callback toggled();
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: ta.pressed ? Theme.pressed : ta.has-hover ? Theme.hover : transparent;
+    Image {
+        source: root.collapsed ? Icons.chevron-right : Icons.chevron-down;
+        width: 14px;
+        height: 14px;
+        colorize: ta.has-hover ? Theme.text : Theme.text-faint;
+    }
+    ta := TouchArea {
+        mouse-cursor: pointer;
+        clicked => {
+            root.collapsed = !root.collapsed;
+            root.toggled();
+        }
+    }
+}
+
 export component PanelHeader inherits HorizontalLayout {
     in property <string> title;
     in property <image> icon;
+    in-out property <bool> collapsed;
+    in property <bool> collapsible: true;
+    callback toggled();
     spacing: 6px;
     height: 28px;
     Image {
@@ -379,9 +406,21 @@ export component PanelHeader inherits HorizontalLayout {
         font-weight: 600;
         color: Theme.text;
         vertical-alignment: center;
+        overflow: elide;
+        TouchArea {
+            enabled: root.collapsible;
+            clicked => {
+                root.collapsed = !root.collapsed;
+                root.toggled();
+            }
+        }
     }
     Rectangle { horizontal-stretch: 1; }
     @children
+    if root.collapsible: CollapseButton {
+        collapsed <=> root.collapsed;
+        toggled => { root.toggled(); }
+    }
 }
 
 export component Swatch inherits Rectangle {

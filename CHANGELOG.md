@@ -1,5 +1,18 @@
 # Changelog
 
+## v1.0.0
+
+The first stable release.
+
+### New
+- **Collapsible panels**: Tools, tool options, Colors, Layers and History fold to their header with the chevron (or a click on the title). The state is remembered.
+- **Windows installer** (`…-setup.exe`): Start menu entry, optional desktop shortcut, “Open with” for images, `.ora` association, clean uninstall. Installs per user without admin rights, or for all users. The portable `.zip` is still there.
+- **apt repository** for Debian and Ubuntu at `https://neobrush.wbg.gg/apt`, so Neobrush updates with `apt upgrade` (see the README).
+
+### Fixed
+- Large interface sizes and small windows: the side panels scroll instead of pushing History and the status bar off screen, the toolbar sections step aside when they don't fit, and the chord popup uses fewer columns when narrow.
+- Wrapped hint texts in the tool options no longer spill out of their card.
+
 ## v0.4.0-alpha
 
 ### New

@@ -74,21 +74,31 @@ Grab the latest build from the [**Releases page**](https://github.com/WhiteBlack
 
 | Platform | Package | Notes |
 | --- | --- | --- |
-| 🐧 **Linux** (Debian, Ubuntu, Mint…) | `neobrush_*_amd64.deb` | `sudo apt install ./neobrush_*.deb` |
+| 🐧 **Linux** (Debian, Ubuntu, Mint…) | [apt repository](#apt) or `neobrush_*_amd64.deb` | the repository keeps it updated with `apt upgrade` |
 | 🐧 **Linux** (any distro) | `Neobrush-*-x86_64.AppImage` | `chmod +x` it, then run |
 | 🌐 **Web** | [neobrush.wbg.gg](https://neobrush.wbg.gg) | runs in any modern browser with WebGL, nothing to install |
 | ❄️ **NixOS / Nix** | flake | `nix run github:WhiteBlackGoose/Neobrush` |
-| 🪟 **Windows** 10/11 | `Neobrush-*-windows-x86_64.exe` | portable, no installer needed |
+| 🪟 **Windows** 10/11 | `Neobrush-*-windows-x86_64-setup.exe` | installer (no admin rights needed); a portable `.zip` is there too |
 | 🍎 **macOS** 11+ (Apple Silicon & Intel) | `Neobrush-*-macos-universal.dmg` | drag to Applications |
 | 😈 **FreeBSD** | `neobrush-*-freebsd-x86_64.tar.gz` | |
 
 > [!NOTE]
-> Neobrush is in **alpha**. The Windows and macOS builds aren't code-signed yet.
+> The Windows and macOS builds aren't code-signed yet.
 > On macOS, right-click the app and choose **Open** the first time, or run
 > `xattr -dr com.apple.quarantine /Applications/Neobrush.app`.
 > On Windows, SmartScreen may ask you to confirm: choose **More info → Run anyway**.
 
 The web version is the full editor, compiled to WebAssembly. Open and save go through the browser's file picker and downloads. Text uses the bundled Inter font, and copy / paste only work inside the app.
+
+<a id="apt"></a>
+**Debian / Ubuntu apt repository** (updates come with `apt upgrade`):
+
+```sh
+curl -fsSL https://neobrush.wbg.gg/apt/neobrush.gpg | sudo tee /usr/share/keyrings/neobrush.gpg >/dev/null
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/neobrush.gpg] https://neobrush.wbg.gg/apt stable main" \
+  | sudo tee /etc/apt/sources.list.d/neobrush.list
+sudo apt update && sudo apt install neobrush
+```
 
 **Staying up to date on Nix:** `nix profile install github:WhiteBlackGoose/Neobrush` installs it, and `nix profile upgrade Neobrush` updates it.
 

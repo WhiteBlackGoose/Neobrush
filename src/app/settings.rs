@@ -46,6 +46,11 @@ impl Editor {
                 "show_donate" => g.set_show_donate(b),
                 "ui_scale" => self.ui_scale = v.parse::<f32>().unwrap_or(1.0).clamp(0.5, 3.0),
                 "show_tools" => g.set_show_tools(b),
+                "collapse_tools" => g.set_collapse_tools(b),
+                "collapse_options" => g.set_collapse_options(b),
+                "collapse_colors" => g.set_collapse_colors(b),
+                "collapse_layers" => g.set_collapse_layers(b),
+                "collapse_history" => g.set_collapse_history(b),
                 "show_colors" => g.set_show_colors(b),
                 "show_layers" => g.set_show_layers(b),
                 "show_history" => g.set_show_history(b),
@@ -107,6 +112,11 @@ impl Editor {
         s += &format!("show_donate={}\n", b(g.get_show_donate()));
         s += &format!("ui_scale={}\n", self.ui_scale);
         s += &format!("show_tools={}\n", b(g.get_show_tools()));
+        s += &format!("collapse_tools={}\n", b(g.get_collapse_tools()));
+        s += &format!("collapse_options={}\n", b(g.get_collapse_options()));
+        s += &format!("collapse_colors={}\n", b(g.get_collapse_colors()));
+        s += &format!("collapse_layers={}\n", b(g.get_collapse_layers()));
+        s += &format!("collapse_history={}\n", b(g.get_collapse_history()));
         s += &format!("show_colors={}\n", b(g.get_show_colors()));
         s += &format!("show_layers={}\n", b(g.get_show_layers()));
         s += &format!("show_history={}\n", b(g.get_show_history()));

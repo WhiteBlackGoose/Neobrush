@@ -289,6 +289,9 @@ pub fn run(files: Vec<std::path::PathBuf>) -> Result<(), slint::PlatformError> {
             super::i18n::set_language(&lang);
         }
         e.sync_static_models();
+        if let Some(v) = std::env::var("NEOBRUSH_UI_SCALE").ok().and_then(|v| v.parse::<f32>().ok()) {
+            e.ui_scale = v;
+        }
         match std::env::var("NEOBRUSH_THEME").as_deref() {
             Ok("light") => e.set_theme(1),
             Ok("dark") => e.set_theme(2),

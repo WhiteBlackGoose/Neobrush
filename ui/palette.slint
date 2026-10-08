@@ -291,7 +291,9 @@ export component PaletteDialog inherits Rectangle {
 
 /// Floating hint panel shown while a chord is being typed.
 export component ChordHud inherits Card {
-    width: min(560px, hl.preferred-width + 32px);
+    in property <length> max-w: 560px;
+    property <int> cols: max-w < 380px ? 1 : max-w < 520px ? 2 : 3;
+    width: min(max-w, hl.preferred-width + 32px);
     height: hl.preferred-height;
     border-radius: 12px;
     drop-shadow-blur: 30px;
@@ -331,8 +333,8 @@ export component ChordHud inherits Card {
             spacing-horizontal: 18px;
             spacing-vertical: 6px;
             for o[i] in App.chord-options: HorizontalLayout {
-                row: floor(i / 3);
-                col: mod(i, 3);
+                row: floor(i / root.cols);
+                col: mod(i, root.cols);
                 spacing: 8px;
                 Keycap { text: o.key; accent: true; }
                 Text {

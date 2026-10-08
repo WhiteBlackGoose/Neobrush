@@ -72,8 +72,18 @@ jobs:
           $dir = "neobrush-$v-windows-x86_64"
           New-Item -ItemType Directory -Force $dir | Out-Null
           Copy-Item target/release/neobrush.exe, README.md, LICENSE $dir
-          Compress-Archive -Path $dir -DestinationPath "dist/$dir.zip"
-          Copy-Item target/release/neobrush.exe "dist/Neobrush-$v-windows-x86_64.exe"
+          Compress-Archive -Path $dir -DestinationPath "dist/$dir-portable.zip"
+      - name: Installer (Inno Setup)
+        shell: pwsh
+        run: |
+          $v = "$env:GITHUB_REF_NAME".TrimStart('v')
+          $num = ($v -split '-')[0]
+          $find = { Get-ChildItem "${env:ProgramFiles(x86)}\Inno Setup *\ISCC.exe", "$env:ProgramFiles\Inno Setup *\ISCC.exe" -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName }
+          $iscc = & $find
+          if (-not $iscc) { choco install innosetup -y --no-progress; $iscc = & $find }
+          Write-Host "Using $iscc"
+          & $iscc "/DAppVersion=$v" "/DNumVersion=$num" "/DSourceExe=$PWD\target\release\neobrush.exe" "/DOutputDir=$PWD\dist" packaging\windows\neobrush.iss
+          if ($LASTEXITCODE -ne 0) { exit 1 }
       - uses: actions/upload-artifact@v4
         with:
           name: windows
@@ -124,6 +134,7 @@ jobs:
 
   freebsd:
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
       - name: Build on FreeBSD
@@ -159,9 +170,9 @@ jobs:
 
           | Platform | File |
           | --- | --- |
-          | Linux (Debian/Ubuntu) | `neobrush_*_amd64.deb` |
+          | Linux (Debian/Ubuntu) | `neobrush_*_amd64.deb`, or add the apt repository (see the README) to get updates with `apt upgrade` |
           | Linux (any distro) | `Neobrush-*-x86_64.AppImage` (make it executable, then run it) |
-          | Windows | `Neobrush-*-windows-x86_64.exe`, or the `.zip` |
+          | Windows | `Neobrush-*-windows-x86_64-setup.exe` (installer), or the portable `.zip` |
           | macOS (Apple Silicon + Intel) | `Neobrush-*-macos-universal.dmg` |
           | FreeBSD | `neobrush-*-freebsd-x86_64.tar.gz` |
 

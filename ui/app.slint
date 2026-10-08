@@ -151,8 +151,8 @@ export component AppWindow inherits Window {
     icon: @image-url("icons/app-icon.svg");
     preferred-width: 1440px;
     preferred-height: 900px;
-    min-width: 900px;
-    min-height: 560px;
+    min-width: 640px;
+    min-height: 420px;
     background: Theme.bg;
     default-font-family: App.ui-font;
     default-font-size: 12.5px;
@@ -386,12 +386,18 @@ export component AppWindow inherits Window {
         HorizontalLayout {
             padding: 10px;
             spacing: 10px;
-            if App.show-tools && App.has-doc: VerticalLayout {
+            // Sidebars scroll when the window is too short (small screens, large UI scale).
+            if App.show-tools && App.has-doc: left := Flickable {
                 width: 232px;
-                spacing: 10px;
-                alignment: start;
-                ToolPalette { }
-                ToolOptions { }
+                content-height: max(self.height, lcol.preferred-height);
+                lcol := VerticalLayout {
+                    width: left.width;
+                    height: left.content-height;
+                    spacing: 10px;
+                    alignment: start;
+                    ToolPalette { }
+                    ToolOptions { }
+                }
             }
             VerticalLayout {
                 spacing: 4px;
@@ -401,12 +407,17 @@ export component AppWindow inherits Window {
                     vertical-stretch: 1;
                 }
             }
-            if App.has-doc && (App.show-colors || App.show-layers || App.show-history): VerticalLayout {
+            if App.has-doc && (App.show-colors || App.show-layers || App.show-history): right := Flickable {
                 width: 284px;
-                spacing: 10px;
-                if App.show-colors: ColorsPanel { }
-                if App.show-layers: LayersPanel { vertical-stretch: 3; }
-                if App.show-history: HistoryPanel { vertical-stretch: 2; }
+                content-height: max(self.height, rcol.min-height);
+                rcol := VerticalLayout {
+                    width: right.width;
+                    height: right.content-height;
+                    spacing: 10px;
+                    if App.show-colors: ColorsPanel { }
+                    if App.show-layers: LayersPanel { vertical-stretch: App.collapse-layers ? 0 : 3; }
+                    if App.show-history: HistoryPanel { vertical-stretch: App.collapse-history ? 0 : 2; }
+                }
             }
         }
         StatusBar { }
@@ -428,6 +439,7 @@ export component AppWindow inherits Window {
     if App.dialog == "settings": SettingsDialog { }
 
     if App.chord-active: ChordHud {
+        max-w: min(560px, root.width - 24px);
         x: (root.width - self.width) / 2;
         y: root.height - self.height - 44px;
     }
