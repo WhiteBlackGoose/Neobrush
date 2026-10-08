@@ -477,3 +477,9 @@ current ⇒ atual
 navigate ⇒ navegar
 run ⇒ executar
 {} copy ⇒ {} cópia
+Don't recommend donating ⇒ Não recomendar doações
+Interface size ⇒ Tamanho da interface
+No arrowheads ⇒ Sem pontas de seta
+Arrowhead at the end ⇒ Ponta de seta no fim
+Arrowhead at the start ⇒ Ponta de seta no início
+Arrowheads at both ends ⇒ Pontas de seta nas duas pontas

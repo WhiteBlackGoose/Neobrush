@@ -479,3 +479,9 @@ current ⇒ поточний
 navigate ⇒ навігація
 run ⇒ виконати
 {} copy ⇒ {} копія
+Don't recommend donating ⇒ Не пропонувати пожертви
+Interface size ⇒ Розмір інтерфейсу
+No arrowheads ⇒ Без стрілок
+Arrowhead at the end ⇒ Стрілка в кінці
+Arrowhead at the start ⇒ Стрілка на початку
+Arrowheads at both ends ⇒ Стрілки з обох кінців

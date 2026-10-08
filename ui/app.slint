@@ -113,7 +113,7 @@ component StatusBar inherits Rectangle {
             Image { source: Icons.image; width: 12px; height: 12px; y: 8px; colorize: Theme.text-faint; }
             Text { text: App.status-size; color: Theme.text-muted; font-size: Theme.font-sm + 0.5px; vertical-alignment: center; }
         }
-        Rectangle {
+        if App.show-donate: Rectangle {
             width: donate.preferred-width;
             donate := HorizontalLayout {
                 spacing: 5px;
@@ -375,7 +375,7 @@ export component AppWindow inherits Window {
             MenuItem { title: @tr("About Neobrush"); shortcut: @keys(Shift + F1); activated => { App.action("help.about"); } }
             MenuSeparator { }
             MenuItem { title: @tr("Source Code on GitHub"); activated => { App.action("help.github"); } }
-            MenuItem { title: @tr("Donate to Voices of Children"); activated => { App.action("help.donate"); } }
+            if App.show-donate: MenuItem { title: @tr("Donate to Voices of Children"); activated => { App.action("help.donate"); } }
         }
     }
     // END GENERATED MENU

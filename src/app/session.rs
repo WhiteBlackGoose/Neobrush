@@ -31,6 +31,8 @@ pub struct Opts {
     pub fill_style: i32,
     pub radius: f32,
     pub dash: i32,
+    /// Arrowheads: 0 none, 1 end, 2 start, 3 both.
+    pub arrow: i32,
     pub text: TextStyle,
 }
 
@@ -369,14 +371,35 @@ impl LineSession {
         for p in &poly {
             r = r.union(&Rect::new(p.x.floor() as i32, p.y.floor() as i32, p.x.ceil() as i32 + 1, p.y.ceil() as i32 + 1));
         }
-        let r = r.inflate(o.width.ceil() as i32 + 3).intersect(&doc.state.rect());
+        let (alen, ahalf) = paint::arrow_size(o.width);
+        let pad = if o.arrow != 0 { alen.max(ahalf) } else { 0.0 };
+        let r = r.inflate((o.width + pad).ceil() as i32 + 3).intersect(&doc.state.rect());
         let mut cov = Cov::new(r);
         let dash = match o.dash {
             1 => o.width.max(1.0) * 3.0,
             2 => o.width.max(1.0) * 1.0,
             _ => 0.0,
         };
-        paint::polyline_cov(&mut cov, &poly, o.width, o.aa, dash);
+        let (end, start) = (o.arrow == 1 || o.arrow == 3, o.arrow == 2 || o.arrow == 3);
+        let mut rev = poly.clone();
+        rev.reverse();
+        // Shorten the stroke under each head so it doesn't stick out past the tip.
+        let mut stroke = poly.clone();
+        if end {
+            paint::trim_end(&mut stroke, alen * 0.6);
+        }
+        if start {
+            stroke.reverse();
+            paint::trim_end(&mut stroke, alen * 0.6);
+            stroke.reverse();
+        }
+        paint::polyline_cov(&mut cov, &stroke, o.width, o.aa, dash);
+        if end {
+            paint::arrow_cov(&mut cov, &poly, o.width, o.aa);
+        }
+        if start {
+            paint::arrow_cov(&mut cov, &rev, o.width, o.aa);
+        }
         let op = PaintOp::Color { c, overwrite: o.overwrite };
         let dirty = self.last.union(&r);
         let sel = doc.state.selection.clone();

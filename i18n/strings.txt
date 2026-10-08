@@ -23,6 +23,9 @@ Angle
 Antialias
 Apply
 Arrow
+Arrowhead at the end
+Arrowhead at the start
+Arrowheads at both ends
 Artistic
 Auto Crop
 Auto-Level
@@ -115,6 +118,7 @@ Distance
 Distort
 Documents
 Don't Save
+Don't recommend donating
 Donate to Voices of Children
 Donate to Voices of Children · voices.org.ua
 Done
@@ -206,6 +210,7 @@ Ink outline
 Input black
 Input white
 Intensity
+Interface size
 Intersect
 Invert Colors
 Invert Selection
@@ -274,6 +279,7 @@ New Image
 New image
 New image {} × {}
 New…
+No arrowheads
 No matching commands
 Noise
 Normal

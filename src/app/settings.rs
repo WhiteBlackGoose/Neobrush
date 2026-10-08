@@ -43,6 +43,8 @@ impl Editor {
                     self.menubar_pinned = b;
                     g.set_show_menubar(b);
                 }
+                "show_donate" => g.set_show_donate(b),
+                "ui_scale" => self.ui_scale = v.parse::<f32>().unwrap_or(1.0).clamp(0.5, 3.0),
                 "show_tools" => g.set_show_tools(b),
                 "show_colors" => g.set_show_colors(b),
                 "show_layers" => g.set_show_layers(b),
@@ -102,6 +104,8 @@ impl Editor {
         s += &format!("pixel_grid={}\n", b(g.get_pixel_grid()));
         s += &format!("rulers={}\n", b(g.get_show_rulers()));
         s += &format!("show_menubar={}\n", b(self.menubar_pinned));
+        s += &format!("show_donate={}\n", b(g.get_show_donate()));
+        s += &format!("ui_scale={}\n", self.ui_scale);
         s += &format!("show_tools={}\n", b(g.get_show_tools()));
         s += &format!("show_colors={}\n", b(g.get_show_colors()));
         s += &format!("show_layers={}\n", b(g.get_show_layers()));

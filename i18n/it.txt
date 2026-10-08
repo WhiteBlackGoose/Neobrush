@@ -477,3 +477,9 @@ current ⇒ attuale
 navigate ⇒ naviga
 run ⇒ esegui
 {} copy ⇒ {} copia
+Don't recommend donating ⇒ Non consigliare donazioni
+Interface size ⇒ Dimensione dell’interfaccia
+No arrowheads ⇒ Nessuna punta di freccia
+Arrowhead at the end ⇒ Punta di freccia alla fine
+Arrowhead at the start ⇒ Punta di freccia all’inizio
+Arrowheads at both ends ⇒ Punte di freccia a entrambe le estremità

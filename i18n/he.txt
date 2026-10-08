@@ -480,3 +480,9 @@ current ⇒ נוכחית
 navigate ⇒ ניווט
 run ⇒ הפעלה
 {} copy ⇒ {} עותק
+Don't recommend donating ⇒ לא להמליץ על תרומה
+Interface size ⇒ גודל הממשק
+No arrowheads ⇒ ללא ראשי חץ
+Arrowhead at the end ⇒ ראש חץ בסוף
+Arrowhead at the start ⇒ ראש חץ בהתחלה
+Arrowheads at both ends ⇒ ראשי חץ בשני הקצוות

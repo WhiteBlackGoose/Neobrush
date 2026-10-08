@@ -480,3 +480,9 @@ current ⇒ 現在
 navigate ⇒ 移動
 run ⇒ 実行
 {} copy ⇒ {} のコピー
+Don't recommend donating ⇒ 寄付を勧めない
+Interface size ⇒ インターフェースのサイズ
+No arrowheads ⇒ 矢印なし
+Arrowhead at the end ⇒ 終点に矢印
+Arrowhead at the start ⇒ 始点に矢印
+Arrowheads at both ends ⇒ 両端に矢印

@@ -156,6 +156,7 @@ export global App {
     in-out property <int> shape-type: 0;
     in-out property <int> fill-style: 0;
     in-out property <int> dash: 0;
+    in-out property <int> arrow: 0;
     in-out property <int> corner-radius: 20;
     in property <[string]> fonts;
     in property <[string]> shape-names;
@@ -240,10 +241,14 @@ export global App {
     callback confirm(int);
     callback jpeg-ok();
     callback export-file(string, int);
+    // Donation link in the status bar and Help menu (can be turned off in Settings).
+    in-out property <bool> show-donate: true;
     in property <[LangItem]> languages;
     in property <int> language-index;
     callback set-language(int);
     callback set-accent(int);
+    callback set-ui-scale(int);
+    in property <int> ui-scale-index: 2;
 
     // Command palette & chords
     in property <[PaletteItem]> palette-items;

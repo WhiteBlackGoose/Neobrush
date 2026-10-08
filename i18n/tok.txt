@@ -480,3 +480,9 @@ current ⇒ ni
 navigate ⇒ tawa
 run ⇒ pali
 {} copy ⇒ {} sama
+Don't recommend donating ⇒ o toki ala e pana mani
+Interface size ⇒ suli pi lipu ilo
+No arrowheads ⇒ palisa nasin ala
+Arrowhead at the end ⇒ palisa nasin lon pini
+Arrowhead at the start ⇒ palisa nasin lon open
+Arrowheads at both ends ⇒ palisa nasin lon open en pini

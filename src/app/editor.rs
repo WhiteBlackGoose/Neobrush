@@ -1,6 +1,6 @@
 //! The editor: owns documents and glues the Slint UI to the core engine.
 
-use super::i18n::{tr, trf};
+use super::i18n::tr;
 use super::render::{self, Overlay, RenderParams};
 use super::session::{Drag, Session};
 use crate::core::document::Document;
@@ -68,6 +68,9 @@ pub struct Editor {
     pub alt_tap: bool,
     /// Menu bar permanently shown (View › Menu Bar) rather than revealed by Alt.
     pub menubar_pinned: bool,
+    /// User UI scale on top of the system scale factor (1.0 = 100%).
+    pub ui_scale: f32,
+    ui_scale_applied: f32,
     #[allow(dead_code)]
     pub last_settings_save: Instant,
 }
@@ -97,6 +100,9 @@ pub fn color_to_px(c: slint::Color) -> Px {
 pub fn px_to_color(p: Px) -> slint::Color {
     slint::Color::from_argb_u8(p[3], p[0], p[1], p[2])
 }
+
+/// UI scale choices offered in Settings.
+pub const UI_SCALES: [f32; 7] = [0.75, 0.9, 1.0, 1.1, 1.25, 1.5, 2.0];
 
 pub fn run(files: Vec<std::path::PathBuf>) -> Result<(), slint::PlatformError> {
     let ui = AppWindow::new()?;
@@ -169,6 +175,8 @@ pub fn run(files: Vec<std::path::PathBuf>) -> Result<(), slint::PlatformError> {
         space_panned: false,
         alt_tap: false,
         menubar_pinned: cfg!(target_os = "macos"),
+        ui_scale: 1.0,
+        ui_scale_applied: 1.0,
         last_settings_save: Instant::now(),
     }));
     EDITOR.with(|e| *e.borrow_mut() = Some(ed.clone()));
@@ -243,6 +251,10 @@ pub fn run(files: Vec<std::path::PathBuf>) -> Result<(), slint::PlatformError> {
         })
     });
     g.on_set_accent(|i| with_editor(|e| e.set_accent(i)));
+    g.on_set_ui_scale(|i| {
+        let s = UI_SCALES.get(i as usize).copied().unwrap_or(1.0);
+        with_editor(move |e| e.set_ui_scale(s))
+    });
     g.on_export_file(|name, fmt| {
         let name = name.to_string();
         with_editor(move |e| e.export_file(name, fmt))
@@ -287,6 +299,13 @@ pub fn run(files: Vec<std::path::PathBuf>) -> Result<(), slint::PlatformError> {
         }
         e.sync_all();
     }
+    // The system scale factor is only known once the window is shown.
+    slint::Timer::single_shot(Duration::from_millis(30), || {
+        with_editor(|e| {
+            let s = e.ui_scale;
+            e.set_ui_scale(s);
+        })
+    });
 
     #[cfg(not(target_arch = "wasm32"))]
     {
@@ -846,6 +865,27 @@ impl Editor {
             self.ui().global::<App>().set_fx_title(title.into());
         }
         self.panels();
+    }
+
+    /// Scales the whole UI by `s` relative to the system scale factor.
+    pub fn set_ui_scale(&mut self, s: f32) {
+        let s = s.clamp(0.5, 3.0);
+        let ui = self.ui();
+        let w = ui.window();
+        let base = w.scale_factor() / self.ui_scale_applied;
+        if (s - self.ui_scale_applied).abs() > f32::EPSILON {
+            let phys = w.size();
+            let f = base * s;
+            w.dispatch_event(slint::platform::WindowEvent::ScaleFactorChanged { scale_factor: f });
+            // Same physical window, new logical size.
+            let size = slint::LogicalSize::new(phys.width as f32 / f, phys.height as f32 / f);
+            w.dispatch_event(slint::platform::WindowEvent::Resized { size });
+        }
+        self.ui_scale = s;
+        self.ui_scale_applied = s;
+        let idx = UI_SCALES.iter().position(|v| (v - s).abs() < 0.001).map(|i| i as i32).unwrap_or(-1);
+        ui.global::<App>().set_ui_scale_index(idx);
+        self.redraw();
     }
 
     /// 0 violet, 1 blue, 2 teal, 3 orange, 4 rose, 5 halloween

@@ -480,3 +480,9 @@ current ⇒ الحالية
 navigate ⇒ تنقل
 run ⇒ تشغيل
 {} copy ⇒ {} نسخة
+Don't recommend donating ⇒ عدم اقتراح التبرع
+Interface size ⇒ حجم الواجهة
+No arrowheads ⇒ بدون رؤوس أسهم
+Arrowhead at the end ⇒ رأس سهم في النهاية
+Arrowhead at the start ⇒ رأس سهم في البداية
+Arrowheads at both ends ⇒ رؤوس أسهم في الطرفين

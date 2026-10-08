@@ -479,3 +479,9 @@ current ⇒ текущий
 navigate ⇒ навигация
 run ⇒ выполнить
 {} copy ⇒ {} копия
+Don't recommend donating ⇒ Не предлагать пожертвования
+Interface size ⇒ Размер интерфейса
+No arrowheads ⇒ Без стрелок
+Arrowhead at the end ⇒ Стрелка в конце
+Arrowhead at the start ⇒ Стрелка в начале
+Arrowheads at both ends ⇒ Стрелки с обоих концов

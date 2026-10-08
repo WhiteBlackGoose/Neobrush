@@ -26,8 +26,8 @@ import textwrap
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 
-def item(id, title, icon="sparkles", keys=None, key=None, chord=None, kw="", checked=None, enabled=None):
-    return dict(kind="item", id=id, title=title, icon=icon, keys=keys, key=key, chord=chord, kw=kw, checked=checked, enabled=enabled)
+def item(id, title, icon="sparkles", keys=None, key=None, chord=None, kw="", checked=None, enabled=None, visible=None):
+    return dict(kind="item", id=id, title=title, icon=icon, keys=keys, key=key, chord=chord, kw=kw, checked=checked, enabled=enabled, visible=visible)
 
 
 def menu(title, *children, chord_prefix=None):
@@ -247,7 +247,7 @@ MENUS = [
         item("help.about", "About Neobrush", "info", keys="Shift + F1", kw="version credits"),
         SEP,
         item("help.github", "Source Code on GitHub", "github", kw="repository source issues bug report"),
-        item("help.donate", "Donate to Voices of Children", "heart", kw="support ukraine charity donate"),
+        item("help.donate", "Donate to Voices of Children", "heart", kw="support ukraine charity donate", visible="App.show-donate"),
     ),
 ]
 
@@ -310,7 +310,8 @@ def gen_context(entries, indent):
             if e.get("enabled"):
                 props.append(f"enabled: {e['enabled']};")
             props.append(f'activated => {{ App.action("{e["id"]}"); }}')
-            out.append(f"{pad}MenuItem {{ {' '.join(props)} }}")
+            cond = f"if {e['visible']}: " if e.get("visible") else ""
+            out.append(f"{pad}{cond}MenuItem {{ {' '.join(props)} }}")
     return "\n".join(out)
 
 
@@ -422,7 +423,8 @@ def gen_slint(entries, indent):
             if e.get("enabled"):
                 props.append(f"enabled: {e['enabled']};")
             props.append(f'activated => {{ App.action("{e["id"]}"); }}')
-            out.append(f"{pad}MenuItem {{ {' '.join(props)} }}")
+            cond = f"if {e['visible']}: " if e.get("visible") else ""
+            out.append(f"{pad}{cond}MenuItem {{ {' '.join(props)} }}")
     return "\n".join(out)
 
 

@@ -480,3 +480,9 @@ current ⇒ 当前
 navigate ⇒ 导航
 run ⇒ 执行
 {} copy ⇒ {} 副本
+Don't recommend donating ⇒ 不推荐捐款
+Interface size ⇒ 界面大小
+No arrowheads ⇒ 无箭头
+Arrowhead at the end ⇒ 末端箭头
+Arrowhead at the start ⇒ 起点箭头
+Arrowheads at both ends ⇒ 两端箭头

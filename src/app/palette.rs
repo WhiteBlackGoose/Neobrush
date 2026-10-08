@@ -349,7 +349,8 @@ impl Editor {
 
     /// All static and dynamic entries the palette can show.
     fn palette_entries(&self) -> Vec<Entry> {
-        let mut v: Vec<Entry> = COMMANDS.iter().map(Entry::from_cmd).collect();
+        let show_donate = self.ui().global::<App>().get_show_donate();
+        let mut v: Vec<Entry> = COMMANDS.iter().filter(|c| show_donate || c.id != "help.donate").map(Entry::from_cmd).collect();
         if let Some(d) = self.doc() {
             for (i, l) in d.state.layers.iter().enumerate().rev() {
                 let n = i + 1;

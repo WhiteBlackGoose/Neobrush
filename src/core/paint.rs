@@ -503,6 +503,87 @@ pub fn polyline_cov(cov: &mut Cov, pts: &[Pt], width: f32, aa: bool, dash: f32) 
     });
 }
 
+/// Arrowhead length and half-width for a stroke of `width`.
+pub fn arrow_size(width: f32) -> (f32, f32) {
+    let w = width.max(1.0);
+    (w * 3.0 + 8.0, w * 1.6 + 4.0)
+}
+
+/// The point `len` back along the polyline from its last point (or the first point).
+fn point_back(pts: &[Pt], len: f32) -> Pt {
+    let mut left = len;
+    for i in (1..pts.len()).rev() {
+        let d = pts[i].dist(pts[i - 1]);
+        if d >= left && d > 0.0 {
+            return pts[i].lerp(pts[i - 1], left / d);
+        }
+        left -= d;
+    }
+    pts[0]
+}
+
+/// Removes `len` of length from the end of a polyline.
+pub fn trim_end(pts: &mut Vec<Pt>, len: f32) {
+    let mut left = len;
+    while pts.len() >= 2 {
+        let n = pts.len();
+        let d = pts[n - 1].dist(pts[n - 2]);
+        if d > left {
+            pts[n - 1] = pts[n - 1].lerp(pts[n - 2], left / d);
+            return;
+        }
+        left -= d;
+        pts.pop();
+    }
+}
+
+/// Filled arrowhead at the end of the polyline, pointing along its last `len` of length.
+pub fn arrow_cov(cov: &mut Cov, pts: &[Pt], width: f32, aa: bool) {
+    if pts.len() < 2 {
+        return;
+    }
+    let (len, half) = arrow_size(width);
+    let tip = *pts.last().unwrap();
+    let back = point_back(pts, len);
+    let (dx, dy) = (tip.x - back.x, tip.y - back.y);
+    let l = (dx * dx + dy * dy).sqrt();
+    if l < 1e-3 {
+        return;
+    }
+    let (ux, uy) = (dx / l, dy / l);
+    let base = Pt::new(tip.x - ux * len, tip.y - uy * len);
+    let a = Pt::new(base.x - uy * half, base.y + ux * half);
+    let b = Pt::new(base.x + uy * half, base.y - ux * half);
+    let r = Rect::new(
+        tip.x.min(a.x).min(b.x).floor() as i32 - 2,
+        tip.y.min(a.y).min(b.y).floor() as i32 - 2,
+        tip.x.max(a.x).max(b.x).ceil() as i32 + 2,
+        tip.y.max(a.y).max(b.y).ceil() as i32 + 2,
+    );
+    cov.fill_with(r, |x, y| fill_cov(sd_triangle(Pt::new(x, y), tip, a, b), aa));
+    cov.touch(r);
+}
+
+/// Signed distance to a triangle (negative inside).
+fn sd_triangle(p: Pt, p0: Pt, p1: Pt, p2: Pt) -> f32 {
+    let sub = |a: Pt, b: Pt| (a.x - b.x, a.y - b.y);
+    let dot = |a: (f32, f32), b: (f32, f32)| a.0 * b.0 + a.1 * b.1;
+    let (e0, e1, e2) = (sub(p1, p0), sub(p2, p1), sub(p0, p2));
+    let (v0, v1, v2) = (sub(p, p0), sub(p, p1), sub(p, p2));
+    let pq = |v: (f32, f32), e: (f32, f32)| {
+        let t = (dot(v, e) / dot(e, e).max(1e-9)).clamp(0.0, 1.0);
+        (v.0 - e.0 * t, v.1 - e.1 * t)
+    };
+    let (q0, q1, q2) = (pq(v0, e0), pq(v1, e1), pq(v2, e2));
+    let s = (e0.0 * e2.1 - e0.1 * e2.0).signum();
+    let d0 = (dot(q0, q0), s * (v0.0 * e0.1 - v0.1 * e0.0));
+    let d1 = (dot(q1, q1), s * (v1.0 * e1.1 - v1.1 * e1.0));
+    let d2 = (dot(q2, q2), s * (v2.0 * e2.1 - v2.1 * e2.0));
+    let dist = d0.0.min(d1.0).min(d2.0).sqrt();
+    let inside = d0.1 > 0.0 && d1.1 > 0.0 && d2.1 > 0.0 || d0.1 < 0.0 && d1.1 < 0.0 && d2.1 < 0.0;
+    if inside { -dist } else { dist }
+}
+
 // ---------------------------------------------------------------------------------------------
 // Flood fill
 

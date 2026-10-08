@@ -480,3 +480,9 @@ current ⇒ 현재
 navigate ⇒ 이동
 run ⇒ 실행
 {} copy ⇒ {} 사본
+Don't recommend donating ⇒ 기부 권유 표시 안 함
+Interface size ⇒ 인터페이스 크기
+No arrowheads ⇒ 화살표 없음
+Arrowhead at the end ⇒ 끝에 화살표
+Arrowhead at the start ⇒ 시작에 화살표
+Arrowheads at both ends ⇒ 양쪽 끝에 화살표

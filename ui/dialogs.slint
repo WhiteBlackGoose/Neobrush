@@ -767,6 +767,12 @@ export component SettingsDialog inherits Overlay {
             App.action(i == 0 ? "view.theme-system" : i == 1 ? "view.theme-light" : "view.theme-dark");
         }
     }
+    FieldLabel { text: @tr("Interface size"); }
+    Segmented {
+        items: ["75%", "90%", "100%", "110%", "125%", "150%", "200%"];
+        selected: App.ui-scale-index;
+        changed(i) => { App.set-ui-scale(i); }
+    }
     FieldLabel { text: @tr("Accent color"); }
     HorizontalLayout {
         spacing: 12px;
@@ -787,6 +793,11 @@ export component SettingsDialog inherits Overlay {
     if Theme.halloween: FieldLabel {
         text: @tr("Happy Halloween! This theme is always dark.");
         wrap: word-wrap;
+    }
+    CheckBox {
+        text: @tr("Don't recommend donating");
+        checked: !App.show-donate;
+        toggled => { App.show-donate = !self.checked; }
     }
     Buttons {
         Btn { text: @tr("Done"); primary: true; clicked => { App.dialog = ""; } }

@@ -232,10 +232,30 @@ export component ToolOptions inherits Card {
             source: App.corner-radius;
             edited(v) => { App.corner-radius = v; App.option-changed(); }
         }
-        if root.t == Tool.line: Segmented {
-            items: [@tr("Solid"), @tr("Dashed"), @tr("Dotted")];
-            selected: App.dash;
-            changed(i) => { App.dash = i; App.option-changed(); }
+        if root.t == Tool.line: HorizontalLayout {
+            alignment: start;
+            IconSegmented {
+                items: [
+                    { icon: @image-url("icons/line-solid.svg"), tip: @tr("Solid") },
+                    { icon: @image-url("icons/line-dashed.svg"), tip: @tr("Dashed") },
+                    { icon: @image-url("icons/line-dotted.svg"), tip: @tr("Dotted") },
+                ];
+                selected: App.dash;
+                changed(i) => { App.dash = i; App.option-changed(); }
+            }
+        }
+        if root.t == Tool.line: HorizontalLayout {
+            alignment: start;
+            IconSegmented {
+                items: [
+                    { icon: @image-url("icons/line-solid.svg"), tip: @tr("No arrowheads") },
+                    { icon: @image-url("icons/arrow-end.svg"), tip: @tr("Arrowhead at the end") },
+                    { icon: @image-url("icons/arrow-start.svg"), tip: @tr("Arrowhead at the start") },
+                    { icon: @image-url("icons/arrow-both.svg"), tip: @tr("Arrowheads at both ends") },
+                ];
+                selected: App.arrow;
+                changed(i) => { App.arrow = i; App.option-changed(); }
+            }
         }
         if root.has-flood: Segmented {
             items: [@tr("Contiguous"), @tr("Global")];

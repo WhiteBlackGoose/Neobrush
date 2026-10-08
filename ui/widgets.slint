@@ -120,10 +120,13 @@ export component Segmented inherits Rectangle {
             background: i == root.selected ? Theme.surface : (ita.has-hover ? Theme.hover : transparent);
             drop-shadow-blur: i == root.selected ? 3px : 0px;
             drop-shadow-color: Theme.shadow;
-            min-width: max(root.item-min-width, t.preferred-width + 16px);
+            min-width: root.item-min-width;
+            preferred-width: t.preferred-width + 16px;
             horizontal-stretch: 1;
             t := Text {
                 text: it;
+                width: parent.width - 6px;
+                overflow: elide;
                 color: i == root.selected ? Theme.text : Theme.text-muted;
                 font-size: Theme.font-sm + 0.5px;
                 font-weight: i == root.selected ? 600 : 500;

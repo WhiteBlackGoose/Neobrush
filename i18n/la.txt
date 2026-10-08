@@ -480,3 +480,9 @@ current ⇒ hoc
 navigate ⇒ naviga
 run ⇒ exsequere
 {} copy ⇒ {} exemplar
+Don't recommend donating ⇒ Noli dona commendare
+Interface size ⇒ Magnitudo interfaciei
+No arrowheads ⇒ Sine cuspidibus
+Arrowhead at the end ⇒ Cuspis in fine
+Arrowhead at the start ⇒ Cuspis in initio
+Arrowheads at both ends ⇒ Cuspides in utroque fine

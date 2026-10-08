@@ -489,3 +489,9 @@ current ⇒ aktuell
 navigate ⇒ navigieren
 run ⇒ ausführen
 {} copy ⇒ {} Kopie
+Don't recommend donating ⇒ Keine Spendenempfehlung anzeigen
+Interface size ⇒ Oberflächengröße
+No arrowheads ⇒ Keine Pfeilspitzen
+Arrowhead at the end ⇒ Pfeilspitze am Ende
+Arrowhead at the start ⇒ Pfeilspitze am Anfang
+Arrowheads at both ends ⇒ Pfeilspitzen an beiden Enden

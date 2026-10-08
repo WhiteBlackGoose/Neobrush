@@ -1,12 +1,19 @@
 # Changelog
 
-## Unreleased
+## v0.4.0-alpha
 
 ### New
 - **Settings** (gear button, <kbd>Ctrl</kbd>+<kbd>,</kbd> or <kbd>V</kbd> <kbd>S</kbd>): language, theme and accent color.
 - **15 languages**: English, Deutsch, Español, Français, Italiano, Português, Українська, Русский, Latina, toki pona, 中文, 日本語, 한국어, עברית and العربية. The system language is picked on first start. Bundled Noto-based fonts cover Chinese, Japanese, Korean, Hebrew and Arabic, so they work in the web version too. The layout is not mirrored for right-to-left languages yet.
 - **Accent colors**: violet, blue, teal, orange, rose, and a **Halloween** theme (always dark, pumpkin orange on purple-black).
 - The bundled Inter font now includes Cyrillic and Greek, for the UI and the Text tool.
+- **Interface size**: scale the whole UI from 75% to 200% on top of the system scale.
+- **Arrowheads** for the Line / Curve tool: at the end, the start or both ends.
+- Settings option to stop recommending donations; it hides the status bar link and the Help menu entry.
+
+### Changed
+- Line styles (solid, dashed, dotted) are icon buttons now, so they fit in every language. Text in segmented switches is shortened with “…” instead of overflowing.
+- The settings button sits at the far right of the toolbar.
 
 ## v0.3.1-alpha
 

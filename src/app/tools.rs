@@ -43,6 +43,7 @@ impl Editor {
             fill_style: g.get_fill_style(),
             radius: g.get_corner_radius() as f32,
             dash: g.get_dash(),
+            arrow: g.get_arrow(),
             text: TextStyle {
                 family: g.get_font_family().to_string(),
                 size: g.get_font_size() as f32,
