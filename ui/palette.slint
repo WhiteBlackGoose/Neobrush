@@ -69,7 +69,7 @@ export component SearchPill inherits Rectangle {
             colorize: Theme.text-muted;
         }
         Text {
-            text: "Search commands, tools, layers…";
+            text: @tr("Search commands, tools, layers…");
             color: Theme.text-faint;
             font-size: Theme.font;
             vertical-alignment: center;
@@ -176,7 +176,7 @@ export component PaletteDialog inherits Rectangle {
                     }
                     Text {
                         visible: App.palette-query == "";
-                        text: "Type a command, tool, layer… or try “zoom 200”, “#ff6a00”, “size 40”";
+                        text: @tr("Type a command, tool, layer… or try “zoom 200”, “#ff6a00”, “size 40”");
                         color: Theme.text-faint;
                         font-size: 15px;
                         vertical-alignment: center;
@@ -254,7 +254,7 @@ export component PaletteDialog inherits Rectangle {
             }
             if App.palette-items.length == 0: Text {
                 height: 64px;
-                text: "No matching commands";
+                text: @tr("No matching commands");
                 color: Theme.text-faint;
                 horizontal-alignment: center;
                 vertical-alignment: center;
@@ -269,12 +269,12 @@ export component PaletteDialog inherits Rectangle {
                     spacing: 4px;
                     Keycap { text: "↑"; y: 7px; }
                     Keycap { text: "↓"; y: 7px; }
-                    Text { text: "navigate"; color: Theme.text-faint; font-size: 11px; vertical-alignment: center; }
+                    Text { text: @tr("navigate"); color: Theme.text-faint; font-size: 11px; vertical-alignment: center; }
                 }
                 HorizontalLayout {
                     spacing: 4px;
                     Keycap { text: "↵"; y: 7px; }
-                    Text { text: "run"; color: Theme.text-faint; font-size: 11px; vertical-alignment: center; }
+                    Text { text: @tr("run"); color: Theme.text-faint; font-size: 11px; vertical-alignment: center; }
                 }
                 Rectangle { horizontal-stretch: 1; }
                 HorizontalLayout {
@@ -282,7 +282,7 @@ export component PaletteDialog inherits Rectangle {
                     Keycap { text: "L"; accent: true; y: 7px; }
                     Keycap { text: "2"; accent: true; y: 7px; }
                     Keycap { text: "T"; accent: true; y: 7px; }
-                    Text { text: "chords work everywhere: toggle layer 2"; color: Theme.text-faint; font-size: 11px; vertical-alignment: center; }
+                    Text { text: @tr("chords work everywhere: toggle layer 2"); color: Theme.text-faint; font-size: 11px; vertical-alignment: center; }
                 }
             }
         }
@@ -321,7 +321,7 @@ export component ChordHud inherits Card {
             }
             Rectangle { horizontal-stretch: 1; }
             Text {
-                text: "Esc to cancel";
+                text: @tr("Esc to cancel");
                 color: Theme.text-faint;
                 font-size: 11px;
                 vertical-alignment: center;

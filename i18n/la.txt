@@ -1,0 +1,482 @@
+# Latin
+A modern, cross-platform raster graphics editor for Windows, macOS, Linux and FreeBSD. ⇒ Editor imaginum hodiernus pro Windows, macOS, Linux et FreeBSD.
+About ⇒ De programmate
+About Neobrush ⇒ De Neobrush
+Accent color ⇒ Color insignis
+Actual Size ⇒ Magnitudo vera
+Add (Ctrl) ⇒ Adde (Ctrl)
+Add New Layer ⇒ Stratum novum
+Add Noise ⇒ Strepitum adde
+Add Noise… ⇒ Strepitum adde…
+Add new layer ⇒ Stratum novum adde
+Additive ⇒ Additivum
+Adjustments ⇒ Correctiones
+After picking ⇒ Post captionem
+Align center ⇒ In medio
+Align left ⇒ Ad sinistram
+Align right ⇒ Ad dextram
+Alpha ⇒ Alpha
+Amount ⇒ Quantitas
+Anchor ⇒ Ancora
+Angle ⇒ Angulus
+Antialias ⇒ Margines leniti
+Apply ⇒ Adhibe
+Arrow ⇒ Sagitta
+Artistic ⇒ Artificiosa
+Auto Crop ⇒ Sponte reseca
+Auto-Level ⇒ Gradus sponte
+Background ⇒ Fundus
+Best quality ⇒ Optima qualitas
+Bicubic ⇒ Bicubicum
+Bigger Brush ⇒ Penicillum maius
+Bilinear ⇒ Bilineare
+Black and White ⇒ Niger et albus
+Blend ⇒ Mixtura
+Blend mode ⇒ Modus mixturae
+Blue ⇒ Caeruleus
+Blur ⇒ Obscura
+Blurs ⇒ Obscurationes
+Bold ⇒ Crassus
+Both ⇒ Ambo
+Brightness ⇒ Claritas
+Brightness / Contrast ⇒ Claritas / Discrimen
+Brightness / Contrast… ⇒ Claritas / Discrimen…
+Brush size ⇒ Magnitudo penicilli
+Bulge ⇒ Tumor
+Bulge… ⇒ Tumor…
+By absolute size ⇒ Magnitudine absoluta
+By percentage ⇒ Per centesimas
+Cancel ⇒ Rescinde
+Canvas Size ⇒ Magnitudo tabulae
+Canvas Size… ⇒ Magnitudo tabulae…
+Cell size ⇒ Magnitudo cellae
+Center X ⇒ Centrum X
+Center Y ⇒ Centrum Y
+Centered ⇒ In medio
+Click to add points · drag to move · right-click to remove ⇒ Preme ut puncta addas · trahe ut moveas · dextro preme ut deleas
+Click to fill an area. Right-click uses the secondary color. ⇒ Preme ut regionem impleas. Dextro premens colore secundo uteris.
+Click to pick the primary color, right-click for secondary. ⇒ Preme ut colorem primum capias, dextro secundum.
+Click to place text, then type. ⇒ Preme ut textum ponas, deinde scribe.
+Click to place text. Enter for a new line, Esc to finish. ⇒ Preme ut textum ponas. Enter versum novum, Esc finem facit.
+Click to select a region of similar color. ⇒ Preme ut regionem coloris similis seligas.
+Click to zoom in, right-click to zoom out, drag a rectangle to zoom to it. ⇒ Preme ut augeas, dextro ut minuas, rectangulum trahe ut eo appropinques.
+Click to zoom in, right-click to zoom out. ⇒ Preme ut augeas, dextro ut minuas.
+Clipboard {}×{} ⇒ Tabella transcriptionis {}×{}
+Clone Stamp ⇒ Signum clonans
+Close ⇒ Claude
+Clouds ⇒ Nubes
+Clouds… ⇒ Nubes…
+Coarseness ⇒ Asperitas
+Color ⇒ Color
+Color Burn ⇒ Color adustus
+Color Dodge ⇒ Color elusus
+Color Picker ⇒ Captor colorum
+Color range ⇒ Ambitus colorum
+Color saturation ⇒ Satietas coloris
+Coloring ⇒ Coloratio
+Colors ⇒ Colores
+Colors Panel ⇒ Tabula colorum
+Command Palette ⇒ Tabula mandatorum
+Command Palette… ⇒ Tabula mandatorum…
+Command palette ⇒ Tabula mandatorum
+Conical ⇒ Conicum
+Contiguous ⇒ Contiguum
+Contrast ⇒ Discrimen
+Copy ⇒ Exscribe
+Copy Merged ⇒ Exscribe conflata
+Corner radius ⇒ Radius angulorum
+Could not import file ⇒ Fasciculus importari non potuit
+Could not open file ⇒ Fasciculus aperiri non potuit
+Could not save file ⇒ Fasciculus servari non potuit
+Coverage ⇒ Tegumen
+Create ⇒ Crea
+Create a new image or open an existing one to get started. ⇒ Imaginem novam crea vel exstantem aperi ut incipias.
+Crop to Selection ⇒ Ad delectum reseca
+Ctrl+click to set the clone source first. ⇒ Primum Ctrl+preme ut fontem statuas.
+Ctrl+click to set the source, then paint. ⇒ Ctrl+preme ut fontem statuas, deinde pinge.
+Curvature ⇒ Curvatura
+Curves ⇒ Curvae
+Curves… ⇒ Curvae…
+Cut ⇒ Seca
+Dark ⇒ Obscurum
+Darken ⇒ Obscura
+Dashed ⇒ Lineolis
+Delete ⇒ Dele
+Delete Layer ⇒ Stratum dele
+Delete layer ⇒ Stratum dele
+Dents ⇒ Cavernae
+Dents… ⇒ Cavernae…
+Deselect ⇒ Delectum remove
+Diamond ⇒ Rhombus
+Difference ⇒ Differentia
+Distance ⇒ Distantia
+Distort ⇒ Distorque
+Documents ⇒ Documenta
+Don't Save ⇒ Noli servare
+Donate to Voices of Children ⇒ Dona Voices of Children
+Donate to Voices of Children · voices.org.ua ⇒ Dona Voices of Children · voices.org.ua
+Done ⇒ Factum
+Dotted ⇒ Punctis
+Download ⇒ Depone
+Drag the selection to move its pixels. ⇒ Delectum trahe ut puncta eius moveas.
+Drag to draw a freeform selection. ⇒ Trahe ut delectum liberum describas.
+Drag to draw a gradient. Right-drag swaps the colors. ⇒ Trahe ut gradientem pingas. Dextro trahens colores permutas.
+Drag to draw a line, then drag the handles to bend it. ⇒ Trahe ut lineam ducas, deinde ansas trahe ut flectas.
+Drag to draw a shape, then adjust with the handles. ⇒ Trahe ut figuram pingas, deinde ansis corrige.
+Drag to draw, then adjust with the handles. Shift constrains, Enter finishes. ⇒ Trahe ut pingas, deinde ansis corrige. Shift coercet, Enter finit.
+Drag to erase to transparency. ⇒ Trahe ut ad perspicuitatem deleas.
+Drag to move the selection outline. ⇒ Trahe ut ambitum delectus moveas.
+Drag to move. Drag corner handles to scale, right-drag to rotate. Shift constrains. ⇒ Trahe ut moveas. Ansas angulorum trahe ut magnitudinem mutes, dextro ut vertas. Shift coercet.
+Drag to paint. Shift+click draws a straight line. ⇒ Trahe ut pingas. Shift+preme lineam rectam ducit.
+Drag to pan the view. ⇒ Trahe ut conspectum moveas.
+Drag to pan. Middle mouse or holding Space pans with any tool. ⇒ Trahe ut conspectum moveas. Medius muris vel Spatium tentum cum quovis instrumento movet.
+Drag to select a rectangle. Click to deselect. ⇒ Trahe ut rectangulum seligas. Preme ut delectum removeas.
+Drag to select an ellipse. Hold Shift for a circle. ⇒ Trahe ut ellipsim seligas. Shift tene pro circulo.
+Draw single pixel, aliased lines. ⇒ Lineas unius puncti sine lenitione ducit.
+Drop Shadow ⇒ Umbra
+Drop Shadow… ⇒ Umbra…
+Duplicate ⇒ Duplica
+Duplicate Layer ⇒ Stratum duplica
+Duplicate layer ⇒ Stratum duplica
+Edge Detect ⇒ Margines inveni
+Edge Detect… ⇒ Margines inveni…
+Edit ⇒ Recense
+Effects ⇒ Effectus
+Ellipse ⇒ Ellipsis
+Ellipse Select ⇒ Delectus ellipticus
+Emboss ⇒ Caelatura
+Emboss… ⇒ Caelatura…
+Erase Selection ⇒ Delectum dele
+Eraser ⇒ Deletrix
+Esc to cancel ⇒ Esc rescindit
+Exit ⇒ Exi
+Factor ⇒ Factor
+File ⇒ Fasciculus
+File name ⇒ Nomen fasciculi
+Fill ⇒ Imple
+Fill Selection ⇒ Delectum imple
+Flatten ⇒ Complana
+Flip Horizontal ⇒ Inverte in latitudinem
+Flip Layer Horizontal ⇒ Stratum in latitudinem inverte
+Flip Layer Vertical ⇒ Stratum in altitudinem inverte
+Flip Vertical ⇒ Inverte in altitudinem
+Follow System ⇒ Systema sequere
+Follow system ⇒ Systema sequere
+Format ⇒ Forma
+Fragment ⇒ Frange
+Fragments ⇒ Fragmenta
+Fragment… ⇒ Frange…
+Frosted Glass ⇒ Vitrum gelidum
+Frosted Glass… ⇒ Vitrum gelidum…
+Gamma ⇒ Gamma
+Gaussian Blur ⇒ Obscuratio Gaussiana
+Gaussian Blur… ⇒ Obscuratio Gaussiana…
+Global ⇒ Universale
+Glow ⇒ Fulgor
+Glow… ⇒ Fulgor…
+Go to document: {} ⇒ Ad documentum i: {}
+Gradient ⇒ Gradiens
+Green ⇒ Viridis
+Halloween ⇒ Vigilia Omnium Sanctorum
+Happy Halloween! This theme is always dark. ⇒ Felicem Vigiliam Omnium Sanctorum! Hoc thema semper obscurum est.
+Hard Light ⇒ Lux dura
+Hardness ⇒ Duritia
+Heart ⇒ Cor
+Height ⇒ Altitudo
+Help ⇒ Auxilium
+Hexagon ⇒ Hexagonum
+Hide Layer ⇒ Stratum cela
+Hide layer {}: {} ⇒ Stratum {} cela: {}
+Higher quality means larger files. Transparency is flattened onto white. ⇒ Qualitas maior fasciculos maiores facit. Perspicuitas in album complanatur.
+History ⇒ Historia
+History Panel ⇒ Tabula historiae
+Hold Ctrl to add, Alt to subtract. ⇒ Ctrl tene ut addas, Alt ut demas.
+Hue ⇒ Tinctura
+Hue / Saturation ⇒ Tinctura / Satietas
+Hue / Saturation… ⇒ Tinctura / Satietas…
+Icons by Lucide (ISC). Inter typeface (OFL). ⇒ Icones a Lucide (ISC). Litterae Inter (OFL).
+Image ⇒ Imago
+Import from File ⇒ E fasciculo importa
+Import from File… ⇒ E fasciculo importa…
+Ink Sketch ⇒ Adumbratio atramento
+Ink Sketch… ⇒ Adumbratio atramento…
+Ink outline ⇒ Ambitus atramenti
+Input black ⇒ Nigrum initii
+Input white ⇒ Album initii
+Intensity ⇒ Vehementia
+Intersect ⇒ Interseca
+Invert Colors ⇒ Colores inverte
+Invert Selection ⇒ Delectum inverte
+Invert colors ⇒ Colores inverte
+Invert overlap ⇒ Superpositionem inverte
+Italic ⇒ Obliquus
+Julia Fractal ⇒ Fractale Iuliae
+Julia Fractal… ⇒ Fractale Iuliae…
+Keyboard Shortcuts ⇒ Compendia claviaturae
+Language ⇒ Lingua
+Lasso Select ⇒ Delectus laquei
+Layer ⇒ Stratum
+Layer Blend Mode ⇒ Modus mixturae strati
+Layer Opacity ⇒ Opacitas strati
+Layer Properties ⇒ Proprietates strati
+Layer Properties… ⇒ Proprietates strati…
+Layer Rotate / Zoom ⇒ Stratum verte / amplifica
+Layer number ({} layers) ⇒ Numerus strati ({} strata)
+Layer properties ⇒ Proprietates strati
+Layer {} ⇒ Stratum {}
+Layer {}  ·  L {} {} switch · L {} T toggle ⇒ Stratum {}  ·  L {} {} transi · L {} T monstra/cela
+Layers ⇒ Strata
+Layers Panel ⇒ Tabula stratorum
+Layers are flattened in this format. ⇒ Hac forma strata complanantur.
+Levels ⇒ Gradus
+Levels… ⇒ Gradus…
+Light ⇒ Lucidum
+Lighten ⇒ Illustra
+Lighting ⇒ Illuminatio
+Lightness ⇒ Luciditas
+Line / Curve ⇒ Linea / Curva
+Linear ⇒ Lineare
+Magic Wand ⇒ Virga magica
+Magic Wand Select ⇒ Delectus virgae magicae
+Maintain aspect ratio ⇒ Proportionem serva
+Mandelbrot Fractal ⇒ Fractale Mandelbrotianum
+Mandelbrot Fractal… ⇒ Fractale Mandelbrotianum…
+Median ⇒ Media
+Median… ⇒ Media…
+Menu Bar ⇒ Taenia indicis
+Merge Layer Down ⇒ Cum strato inferiore confla
+Merge down ⇒ Deorsum confla
+Merge layer down ⇒ Deorsum confla
+More adjustments commands ⇒ Plures correctiones
+More effects commands ⇒ Plures effectus
+More image commands ⇒ Plura mandata imaginis
+More layers commands ⇒ Plura mandata stratorum
+More tools commands ⇒ Plura mandata instrumentorum
+More view commands ⇒ Plura mandata conspectus
+Motion Blur ⇒ Obscuratio motus
+Motion Blur… ⇒ Obscuratio motus…
+Move Layer Down ⇒ Stratum deorsum move
+Move Layer Up ⇒ Stratum sursum move
+Move Pixels ⇒ Puncta move
+Move Selected Pixels ⇒ Puncta selecta move
+Move Selection ⇒ Delectum move
+Move layer down ⇒ Stratum deorsum move
+Move layer up ⇒ Stratum sursum move
+Multiply ⇒ Multiplica
+Name ⇒ Nomen
+Nearest neighbor ⇒ Vicinus proximus
+Negation ⇒ Negatio
+New ⇒ Novum
+New Image ⇒ Imago nova
+New image ⇒ Imago nova
+New image {} × {} ⇒ Imago nova {} × {}
+New… ⇒ Novum…
+No matching commands ⇒ Nulla mandata congruunt
+Noise ⇒ Strepitus
+Normal ⇒ Normale
+Nothing to paste ⇒ Nihil inserendum
+OK ⇒ Bene
+Object ⇒ Res
+Offset X ⇒ Translatio X
+Offset Y ⇒ Translatio Y
+Oil Painting ⇒ Pictura olearia
+Oil Painting… ⇒ Pictura olearia…
+Opacity ⇒ Opacitas
+Open ⇒ Aperi
+Open Image ⇒ Imaginem aperi
+Open recent: {} ⇒ Recens aperi: {}
+OpenRaster keeps your layers and opens in GIMP, Krita and MyPaint. ⇒ OpenRaster strata tua servat et in GIMP, Krita, MyPaint aperitur.
+Open… ⇒ Aperi…
+Orange ⇒ Aurantius
+Original: {} × {} px  →  New: {} × {} px ⇒ Pristina: {} × {} px  →  Nova: {} × {} px
+Outline ⇒ Ambitus
+Outline… ⇒ Ambitus…
+Output black ⇒ Nigrum exitus
+Output white ⇒ Album exitus
+Overlay ⇒ Superpositio
+Overwrite ⇒ Superscribe
+Paint ⇒ Pinge
+Paint Bucket ⇒ Situla pigmenti
+Paintbrush ⇒ Penicillum
+Pan ⇒ Manus
+Pan X ⇒ Motus X
+Pan Y ⇒ Motus Y
+Paste ⇒ Insere
+Paste into New Image ⇒ In imaginem novam insere
+Paste into New Layer ⇒ In stratum novum insere
+Pencil ⇒ Graphium
+Pencil Sketch ⇒ Adumbratio graphio
+Pencil Sketch… ⇒ Adumbratio graphio…
+Pencil tip size ⇒ Magnitudo cuspidis
+Pentagon ⇒ Pentagonum
+Percentage ⇒ Centesimae
+Percentile ⇒ Centesimum
+Photo ⇒ Photographia
+Pixel Grid ⇒ Cancelli punctorum
+Pixelate ⇒ In quadrula divide
+Pixelate… ⇒ In quadrula divide…
+Polar Inversion ⇒ Inversio polaris
+Polar Inversion… ⇒ Inversio polaris…
+Posterize ⇒ Colores minue
+Posterize… ⇒ Colores minue…
+Presets ⇒ Praestituta
+Previous tool ⇒ Instrumentum prius
+Properties ⇒ Proprietates
+Purple keys are chords: press them one after another (e.g. F, then B, then G). Tap Space for the command palette; hold Space to pan. ⇒ Claves coloratae sunt chordae: alteram post alteram preme (e.g. F, deinde B, deinde G). Spatium breviter preme pro tabula mandatorum; tene ut conspectum moveas.
+Quality ⇒ Qualitas
+Quick command ⇒ Mandatum celere
+Radial ⇒ Radiale
+Radial Blur ⇒ Obscuratio radialis
+Radial Blur… ⇒ Obscuratio radialis…
+Radius ⇒ Radius
+Recolor ⇒ Recolora
+Rectangle ⇒ Rectangulum
+Rectangle Select ⇒ Delectus rectangulus
+Red ⇒ Ruber
+Red Eye Removal ⇒ Oculos rubros remove
+Red Eye Removal… ⇒ Oculos rubros remove…
+Redo ⇒ Refice
+Reduce Noise ⇒ Strepitum minue
+Reduce Noise… ⇒ Strepitum minue…
+Reflect ⇒ Reflecte
+Reflected ⇒ Reflexum
+Refraction ⇒ Refractio
+Relief ⇒ Anaglyphum
+Relief… ⇒ Anaglyphum…
+Rename Layer ⇒ Stratum renomina
+Rename current layer to “{}” ⇒ Stratum hoc renomina “{}”
+Render ⇒ Genera
+Repeat Last Effect ⇒ Effectum ultimum repete
+Replace ⇒ Substitue
+Replaces the secondary color with the primary color. ⇒ Colorem secundum primo substituit.
+Resampling ⇒ Resumptio
+Reset ⇒ Restitue
+Reset Colors ⇒ Colores restitue
+Reset to black & white ⇒ Ad nigrum et album restitue
+Resize ⇒ Magnitudinem muta
+Resize Image ⇒ Magnitudinem imaginis muta
+Resize… ⇒ Magnitudinem muta…
+Right Triangle ⇒ Triangulum rectum
+Rose ⇒ Roseus
+Rotate / Zoom ⇒ Verte / Amplifica
+Rotate / Zoom… ⇒ Verte / Amplifica…
+Rotate 180° ⇒ Verte 180°
+Rotate 90° Clockwise ⇒ Verte 90° dextrorsum
+Rotate 90° Counter-clockwise ⇒ Verte 90° sinistrorsum
+Rotation ⇒ Conversio
+Roughness ⇒ Asperitas
+Rounded Rectangle ⇒ Rectangulum rotundatum
+Rulers ⇒ Regulae
+Sample from ⇒ Cape ex
+Sampling ⇒ Exemplatio
+Saturation ⇒ Satietas
+Save ⇒ Serva
+Save As ⇒ Serva ut
+Save As… ⇒ Serva ut…
+Save Configuration ⇒ Optiones servandi
+Save changes to “{}” before closing? ⇒ Mutationesne in “{}” servare vis antequam claudas?
+Scale ⇒ Scala
+Screen ⇒ Velum
+Search commands, tools, layers… ⇒ Quaere mandata, instrumenta, strata…
+Secondary color ⇒ Color secundus
+Seed ⇒ Semen
+Select All ⇒ Omnia selige
+Select Layer Above ⇒ Stratum superius selige
+Select Layer Below ⇒ Stratum inferius selige
+Selection mode ⇒ Modus delectus
+Sepia ⇒ Sepia
+Set brush hardness to {}% ⇒ Duritia penicilli {}%
+Set brush size to {} px ⇒ Magnitudo penicilli {} px
+Set color to #{} ⇒ Color #{}
+Set font size to {} pt ⇒ Magnitudo litterarum {} pt
+Set layer opacity to {}% ⇒ Opacitas strati {}%
+Set tolerance to {}% ⇒ Tolerantia {}%
+Settings ⇒ Optiones
+Settings… ⇒ Optiones…
+Shape ⇒ Figura
+Shapes ⇒ Figurae
+Sharpen ⇒ Acue
+Sharpen… ⇒ Acue…
+Shift+click draws a straight line from the last point. [ and ] change the size. ⇒ Shift+preme lineam rectam a puncto ultimo ducit. [ et ] magnitudinem mutant.
+Show Layer ⇒ Stratum monstra
+Show Only Layer ⇒ Solum hoc stratum monstra
+Show layer {}: {} ⇒ Stratum {} monstra: {}
+Show only layer {}: {} ⇒ Solum stratum {} monstra: {}
+Show only this layer ⇒ Solum hoc stratum monstra
+Size ⇒ Magnitudo
+Smaller Brush ⇒ Penicillum minus
+Soft Light ⇒ Lux mollis
+Soft Portrait ⇒ Effigies mollis
+Soft Portrait… ⇒ Effigies mollis…
+Softness ⇒ Mollitia
+Solid ⇒ Continuum
+Source Code on GitHub ⇒ Codex fontis in GitHub
+Star ⇒ Stella
+Stay on picker ⇒ Apud captorem mane
+Strength ⇒ Vis
+Stylize ⇒ Stilus
+Subtract (Alt) ⇒ Deme (Alt)
+Support Ukraine's children ⇒ Pueros Ucrainae adiuva
+Surface Blur ⇒ Obscuratio superficiei
+Surface Blur… ⇒ Obscuratio superficiei…
+Swap Colors ⇒ Colores permuta
+Swap colors ⇒ Colores permuta
+Switch (repeat digit) ⇒ Transi (numerum repete)
+Switch to layer ⇒ Ad stratum transi
+Switch to layer {}: {} ⇒ Ad stratum {} transi: {}
+Teal ⇒ Glaucus
+Temperature ⇒ Calor
+Temperature / Tint ⇒ Calor / Tinctus
+Temperature / Tint… ⇒ Calor / Tinctus…
+Text ⇒ Textus
+The clipboard does not contain an image. ⇒ Tabella transcriptionis imaginem non continet.
+Theme ⇒ Thema
+Thickness ⇒ Crassitudo
+Threshold ⇒ Limen
+Tile ⇒ Tessella
+Tile Reflection ⇒ Reflexio tessellarum
+Tile Reflection… ⇒ Reflexio tessellarum…
+Tile size ⇒ Magnitudo tessellae
+Tiling ⇒ Tessellatio
+Tint ⇒ Tinctus
+Toggle visibility ⇒ Monstra / cela
+Tolerance ⇒ Tolerantia
+Tools ⇒ Instrumenta
+Tools Panel ⇒ Tabula instrumentorum
+Transparency ⇒ Perspicuitas
+Transparent ⇒ Perspicuum
+Triangle ⇒ Triangulum
+Twist ⇒ Torque
+Twist… ⇒ Torque…
+Type a command, tool, layer… or try “zoom 200”, “#ff6a00”, “size 40” ⇒ Scribe mandatum, instrumentum, stratum… vel tempta “zoom 200”, “#ff6a00”, “size 40”
+Underline ⇒ Sublinea
+Undo ⇒ Infectum fac
+Unfocus ⇒ Confunde
+Unfocus… ⇒ Confunde…
+Unsaved changes ⇒ Mutationes non servatae
+Untitled {} ⇒ Sine titulo {}
+Version {} ⇒ Versio {}
+Vibrance ⇒ Vivacitas
+Vibrance… ⇒ Vivacitas…
+View ⇒ Conspectus
+Vignette ⇒ Margines obscurati
+Vignette… ⇒ Margines obscurati…
+Violet ⇒ Violaceus
+Visible ⇒ Visibile
+Warmth ⇒ Tepor
+Welcome to Neobrush ⇒ Salve in Neobrush
+White ⇒ Albus
+Width ⇒ Latitudo
+Your changes will be lost if you don't save them. ⇒ Mutationes tuae peribunt nisi eas servaveris.
+Zoom ⇒ Amplificatio
+Zoom Blur ⇒ Obscuratio amplificationis
+Zoom Blur… ⇒ Obscuratio amplificationis…
+Zoom In ⇒ Amplifica
+Zoom Out ⇒ Minue
+Zoom to Window ⇒ Ad fenestram accommoda
+Zoom to {}% ⇒ Amplifica ad {}%
+chords work everywhere: toggle layer 2 ⇒ chordae ubique valent: stratum 2 monstra/cela
+current ⇒ hoc
+navigate ⇒ naviga
+run ⇒ exsequere
+{} copy ⇒ {} exemplar

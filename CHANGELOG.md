@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+### New
+- **Settings** (gear button, <kbd>Ctrl</kbd>+<kbd>,</kbd> or <kbd>V</kbd> <kbd>S</kbd>): language, theme and accent color.
+- **15 languages**: English, Deutsch, Español, Français, Italiano, Português, Українська, Русский, Latina, toki pona, 中文, 日本語, 한국어, עברית and العربية. The system language is picked on first start. Bundled Noto-based fonts cover Chinese, Japanese, Korean, Hebrew and Arabic, so they work in the web version too. The layout is not mirrored for right-to-left languages yet.
+- **Accent colors**: violet, blue, teal, orange, rose, and a **Halloween** theme (always dark, pumpkin orange on purple-black).
+- The bundled Inter font now includes Cyrillic and Greek, for the UI and the Text tool.
+
 ## v0.3.1-alpha
 
 ### Changed

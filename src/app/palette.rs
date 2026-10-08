@@ -3,6 +3,7 @@
 
 use super::commands_gen::{Cmd, COMMANDS};
 use super::editor::Editor;
+use super::i18n::{tr, trf};
 use crate::{App, ChordOption, PaletteItem, Seg, ShortcutRow};
 use slint::{ComponentHandle, ModelRc, SharedString, VecModel};
 
@@ -120,14 +121,19 @@ impl Entry {
     fn from_cmd(c: &Cmd) -> Entry {
         Entry {
             action: c.id.to_string(),
-            title: c.title.trim_end_matches('…').to_string(),
-            subtitle: c.path.to_string(),
+            title: tr(c.title).trim_end_matches('…').to_string(),
+            subtitle: translate_path(c.path),
             icon: c.icon,
             keys: platform_keys(c.keys),
             chord: chord_keys(c.chord),
-            keywords: c.keywords.to_string(),
+            // English title and path stay searchable in every language.
+            keywords: format!("{} {} {}", c.keywords, c.title, c.path),
         }
     }
+}
+
+fn translate_path(p: &str) -> String {
+    p.split(" › ").map(tr).collect::<Vec<_>>().join(" › ")
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -182,18 +188,18 @@ fn group_name(prefix: &[String]) -> String {
         ("v t", "Theme"),
     ];
     if let Some((_, n)) = named.iter().find(|(k, _)| *k == p) {
-        return n.to_string();
+        return tr(n);
     }
-    LEADERS.iter().find(|(l, _)| *l == p).map(|(_, n)| n.to_string()).unwrap_or_default()
+    LEADERS.iter().find(|(l, _)| *l == p).map(|(_, n)| tr(n)).unwrap_or_default()
 }
 
 /// Options for the next key after `prefix`: (key, label).
 pub fn chord_options(prefix: &[String], layer_names: &[String]) -> Vec<(String, String)> {
     // Layer number chords.
     if prefix.len() >= 2 && prefix[0] == "l" && prefix[1..].iter().all(|k| k.chars().all(|c| c.is_ascii_digit())) {
-        let mut v: Vec<(String, String)> = LAYER_ACTIONS.iter().map(|(k, label, _)| (k.to_string(), label.to_string())).collect();
+        let mut v: Vec<(String, String)> = LAYER_ACTIONS.iter().map(|(k, label, _)| (k.to_string(), tr(label))).collect();
         if prefix.len() == 2 {
-            v.insert(0, (prefix[1].clone(), "Switch (repeat digit)".into()));
+            v.insert(0, (prefix[1].clone(), tr("Switch (repeat digit)")));
         }
         return v;
     }
@@ -205,11 +211,11 @@ pub fn chord_options(prefix: &[String], layer_names: &[String]) -> Vec<(String, 
         if out.iter().any(|(k, _)| *k == next) {
             continue;
         }
-        let label = if rest.contains(' ') { group_name(&[prefix.to_vec(), vec![next.clone()]].concat()) + " …" } else { c.title.trim_end_matches('…').to_string() };
+        let label = if rest.contains(' ') { group_name(&[prefix.to_vec(), vec![next.clone()]].concat()) + " …" } else { tr(c.title).trim_end_matches('…').to_string() };
         out.push((next, label));
     }
     if prefix == ["l"] && !layer_names.is_empty() {
-        out.push(("1–9".into(), format!("Layer number ({} layers)", layer_names.len())));
+        out.push(("1–9".into(), trf("Layer number ({} layers)", &[&layer_names.len()])));
     }
     out
 }
@@ -282,8 +288,8 @@ impl Editor {
         let title = if keys[0] == "l" && keys.len() >= 2 && keys[1].chars().all(|c| c.is_ascii_digit()) {
             let n: usize = keys[1..].concat().parse().unwrap_or(0);
             match names.get(n.wrapping_sub(1)) {
-                Some(name) => format!("Layer {n} · {name}"),
-                None => format!("Layer {n}"),
+                Some(name) => format!("{} · {name}", trf("Layer {}", &[&n])),
+                None => trf("Layer {}", &[&n]),
             }
         } else {
             group_name(keys)
@@ -347,11 +353,11 @@ impl Editor {
         if let Some(d) = self.doc() {
             for (i, l) in d.state.layers.iter().enumerate().rev() {
                 let n = i + 1;
-                let current = if i == d.state.active { " (current)" } else { "" };
+                let current = if i == d.state.active { format!(" ({})", tr("current")) } else { String::new() };
                 v.push(Entry {
                     action: format!("layer.select:{n}"),
-                    title: format!("Switch to layer {n}: {}{current}", l.name),
-                    subtitle: "Layers".into(),
+                    title: format!("{}{current}", trf("Switch to layer {}: {}", &[&n, &l.name])),
+                    subtitle: tr("Layers"),
                     icon: "layers",
                     keys: vec![],
                     chord: chord_keys(&format!("l {n} s")),
@@ -359,8 +365,8 @@ impl Editor {
                 });
                 v.push(Entry {
                     action: format!("layer.toggle:{n}"),
-                    title: format!("{} layer {n}: {}", if l.visible { "Hide" } else { "Show" }, l.name),
-                    subtitle: "Layers".into(),
+                    title: trf(if l.visible { "Hide layer {}: {}" } else { "Show layer {}: {}" }, &[&n, &l.name]),
+                    subtitle: tr("Layers"),
                     icon: "eye",
                     keys: vec![],
                     chord: chord_keys(&format!("l {n} t")),
@@ -368,8 +374,8 @@ impl Editor {
                 });
                 v.push(Entry {
                     action: format!("layer.solo:{n}"),
-                    title: format!("Show only layer {n}: {}", l.name),
-                    subtitle: "Layers".into(),
+                    title: trf("Show only layer {}: {}", &[&n, &l.name]),
+                    subtitle: tr("Layers"),
                     icon: "eye",
                     keys: vec![],
                     chord: chord_keys(&format!("l {n} o")),
@@ -380,8 +386,8 @@ impl Editor {
         for (i, d) in self.docs.iter().enumerate() {
             v.push(Entry {
                 action: format!("doc.switch:{}", i + 1),
-                title: format!("Go to document: {}", d.title),
-                subtitle: "Documents".into(),
+                title: trf("Go to document: {}", &[&d.title]),
+                subtitle: tr("Documents"),
                 icon: "image",
                 keys: if i < 9 { vec![if cfg!(target_os = "macos") { "⌥".into() } else { "Alt".into() }, (i + 1).to_string()] } else { vec![] },
                 chord: vec![],
@@ -392,7 +398,7 @@ impl Editor {
             for p in &self.recent_files {
                 v.push(Entry {
                     action: format!("file.recent:{}", p.display()),
-                    title: format!("Open recent: {}", p.file_name().map(|s| s.to_string_lossy().to_string()).unwrap_or_default()),
+                    title: trf("Open recent: {}", &[&p.file_name().map(|s| s.to_string_lossy().to_string()).unwrap_or_default()]),
                     subtitle: p.parent().map(|p| p.display().to_string()).unwrap_or_default(),
                     icon: "folder-open",
                     keys: vec![],
@@ -420,45 +426,45 @@ impl Editor {
             }
             None
         };
-        let smart = |action: String, title: String, icon: &'static str| Entry { action, title, subtitle: "Quick command".into(), icon, keys: vec![], chord: vec![], keywords: String::new() };
+        let smart = |action: String, title: String, icon: &'static str| Entry { action, title, subtitle: tr("Quick command"), icon, keys: vec![], chord: vec![], keywords: String::new() };
         let hex = q.trim_start_matches('#');
         if q.starts_with('#') && (hex.len() == 3 || hex.len() == 6 || hex.len() == 8) && hex.chars().all(|c| c.is_ascii_hexdigit()) {
-            out.push(smart(format!("color.hex:{hex}"), format!("Set color to #{}", hex.to_uppercase()), "palette"));
+            out.push(smart(format!("color.hex:{hex}"), trf("Set color to #{}", &[&hex.to_uppercase()]), "palette"));
         }
         if let Some(z) = num_after(&["zoom", "z "]).or_else(|| if lower.ends_with('%') { lower.trim_end_matches('%').trim().parse().ok() } else { None }) {
-            out.push(smart(format!("set.zoom:{z}"), format!("Zoom to {z}%"), "zoom-in"));
+            out.push(smart(format!("set.zoom:{z}"), trf("Zoom to {}%", &[&z]), "zoom-in"));
         }
         if let Some(s) = num_after(&["size", "brush", "width"]) {
-            out.push(smart(format!("set.size:{}", s.round()), format!("Set brush size to {} px", s.round()), "brush"));
+            out.push(smart(format!("set.size:{}", s.round()), trf("Set brush size to {} px", &[&s.round()]), "brush"));
         }
         if let Some(s) = num_after(&["opacity"]) {
-            out.push(smart(format!("set.opacity:{}", s.round()), format!("Set layer opacity to {}%", s.round()), "sliders"));
+            out.push(smart(format!("set.opacity:{}", s.round()), trf("Set layer opacity to {}%", &[&s.round()]), "sliders"));
         }
         if let Some(s) = num_after(&["hardness"]) {
-            out.push(smart(format!("set.hardness:{}", s.round()), format!("Set brush hardness to {}%", s.round()), "brush"));
+            out.push(smart(format!("set.hardness:{}", s.round()), trf("Set brush hardness to {}%", &[&s.round()]), "brush"));
         }
         if let Some(s) = num_after(&["tolerance"]) {
-            out.push(smart(format!("set.tolerance:{}", s.round()), format!("Set tolerance to {}%", s.round()), "wand"));
+            out.push(smart(format!("set.tolerance:{}", s.round()), trf("Set tolerance to {}%", &[&s.round()]), "wand"));
         }
         if let Some(s) = num_after(&["font size", "fontsize", "text size"]) {
-            out.push(smart(format!("set.font-size:{}", s.round()), format!("Set font size to {} pt", s.round()), "type"));
+            out.push(smart(format!("set.font-size:{}", s.round()), trf("Set font size to {} pt", &[&s.round()]), "type"));
         }
         if let Some(rest) = q.strip_prefix("rename ").or_else(|| q.strip_prefix("Rename ")) {
             if !rest.trim().is_empty() {
-                out.push(smart(format!("layer.rename:{}", rest.trim()), format!("Rename current layer to “{}”", rest.trim()), "sliders"));
+                out.push(smart(format!("layer.rename:{}", rest.trim()), trf("Rename current layer to “{}”", &[&rest.trim()]), "sliders"));
             }
         }
         if let Some(rest) = lower.strip_prefix("new ") {
             if let Some((w, h)) = rest.trim().split_once(['x', '×', '*']) {
                 if let (Ok(w), Ok(h)) = (w.trim().parse::<u32>(), h.trim().parse::<u32>()) {
-                    out.push(smart(format!("image.new:{w}x{h}"), format!("New image {w} × {h}"), "file-plus"));
+                    out.push(smart(format!("image.new:{w}x{h}"), trf("New image {} × {}", &[&w, &h]), "file-plus"));
                 }
             }
         }
         if let Some(n) = num_after(&["layer "]) {
             let n = n as usize;
             if let Some(name) = self.layer_names().get(n.wrapping_sub(1)) {
-                out.push(smart(format!("layer.select:{n}"), format!("Switch to layer {n}: {name}"), "layers"));
+                out.push(smart(format!("layer.select:{n}"), trf("Switch to layer {}: {}", &[&n, name]), "layers"));
             }
         }
         out
@@ -535,8 +541,8 @@ impl Editor {
             .iter()
             .filter(|c| !c.keys.is_empty() || !c.chord.is_empty())
             .map(|c| ShortcutRow {
-                section: c.path.split(" › ").next().unwrap_or("").into(),
-                title: c.title.trim_end_matches('…').into(),
+                section: tr(c.path.split(" › ").next().unwrap_or("")).into(),
+                title: tr(c.title).trim_end_matches('…').into(),
                 keys: ModelRc::new(VecModel::from(platform_keys(c.keys).into_iter().map(SharedString::from).collect::<Vec<_>>())),
                 chord: ModelRc::new(VecModel::from(chord_keys(c.chord).into_iter().map(SharedString::from).collect::<Vec<_>>())),
             })

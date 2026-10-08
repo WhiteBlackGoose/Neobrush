@@ -1,6 +1,9 @@
 import "fonts/Inter-400.ttf";
 import "fonts/Inter-500.ttf";
 import "fonts/Inter-600.ttf";
+import "fonts/NeobrushCJK.otf";
+import "fonts/NeobrushHebrew.ttf";
+import "fonts/NeobrushArabic.ttf";
 
 import { Theme } from "theme.slint";
 import { Icons } from "icons.slint";
@@ -10,12 +13,12 @@ import { ToolPalette, ColorsPanel, LayersPanel, HistoryPanel } from "panels.slin
 import { TopBar, ToolOptions } from "toolbar.slint";
 import { CanvasView } from "canvas.slint";
 import { PaletteDialog, ChordHud } from "palette.slint";
-import { NewImageDialog, ResizeDialog, CanvasSizeDialog, FxDialog, CurvesDialog, LayerPropsDialog, ConfirmDialog, MessageDialog, JpegDialog, AboutDialog, ShortcutsDialog, ExportDialog } from "dialogs.slint";
+import { NewImageDialog, ResizeDialog, CanvasSizeDialog, FxDialog, CurvesDialog, LayerPropsDialog, ConfirmDialog, MessageDialog, JpegDialog, AboutDialog, ShortcutsDialog, ExportDialog, SettingsDialog } from "dialogs.slint";
 
 import { Palette } from "std-widgets.slint";
 export { Palette }
 export { App, Tip, Tool, Theme, LayerItem, HistoryItem, DocTab, ParamItem, CurvePoint }
-export { Seg, PaletteItem, ChordOption, ShortcutRow } from "state.slint";
+export { Seg, PaletteItem, ChordOption, ShortcutRow, LangItem } from "state.slint";
 
 component DocTabs inherits Rectangle {
     height: 44px;
@@ -73,7 +76,7 @@ component DocTabs inherits Rectangle {
                     size: 22px;
                     icon-size: 12px;
                     icon: Icons.x;
-                    tip: "Close  Ctrl+W";
+                    tip: @tr("Close") + "  Ctrl+W";
                     clicked => { App.tab-close(i); }
                 }
             }
@@ -122,7 +125,7 @@ component StatusBar inherits Rectangle {
                     colorize: dta.has-hover ? #f43f5e : Theme.text-faint;
                 }
                 Text {
-                    text: "Support Ukraine's children";
+                    text: @tr("Support Ukraine's children");
                     color: dta.has-hover ? Theme.text : Theme.text-faint;
                     font-size: Theme.font-sm + 0.5px;
                     vertical-alignment: center;
@@ -133,7 +136,7 @@ component StatusBar inherits Rectangle {
                 clicked => { App.action("help.donate"); }
                 changed has-hover => {
                     if self.has-hover {
-                        Tip.show("Donate to Voices of Children · voices.org.ua", self.absolute-position.x - 100px, self.absolute-position.y - 30px);
+                        Tip.show(@tr("Donate to Voices of Children · voices.org.ua"), self.absolute-position.x - 100px, self.absolute-position.y - 30px);
                     } else {
                         Tip.hide();
                     }
@@ -151,16 +154,16 @@ export component AppWindow inherits Window {
     min-width: 900px;
     min-height: 560px;
     background: Theme.bg;
-    default-font-family: "Inter";
+    default-font-family: App.ui-font;
     default-font-size: 12.5px;
 
     // BEGIN GENERATED MENU (tools/gen_commands.py)
     MenuBar {
         visible: App.show-menubar;
         Menu {
-            title: "File";
-            MenuItem { title: "New…"; shortcut: @keys(Control + N); activated => { App.action("file.new"); } }
-            MenuItem { title: "Open…"; shortcut: @keys(Control + O); activated => { App.action("file.open"); } }
+            title: @tr("File");
+            MenuItem { title: @tr("New…"); shortcut: @keys(Control + N); activated => { App.action("file.new"); } }
+            MenuItem { title: @tr("Open…"); shortcut: @keys(Control + O); activated => { App.action("file.open"); } }
             Menu {
                 title: "Open Recent";
                 enabled: App.recent-files.length > 0;
@@ -172,205 +175,207 @@ export component AppWindow inherits Window {
                 MenuItem { title: "Clear Recent"; activated => { App.action("file.clear-recent"); } }
             }
             MenuSeparator { }
-            MenuItem { title: "Save"; shortcut: @keys(Control + S); activated => { App.action("file.save"); } }
-            MenuItem { title: "Save As…"; shortcut: @keys(Control + Shift + S); activated => { App.action("file.save-as"); } }
+            MenuItem { title: @tr("Save"); shortcut: @keys(Control + S); activated => { App.action("file.save"); } }
+            MenuItem { title: @tr("Save As…"); shortcut: @keys(Control + Shift + S); activated => { App.action("file.save-as"); } }
             MenuSeparator { }
-            MenuItem { title: "Close"; shortcut: @keys(Control + W); activated => { App.action("file.close"); } }
-            MenuItem { title: "Exit"; shortcut: @keys(Control + Q); enabled: !App.is-web; activated => { App.action("file.exit"); } }
+            MenuItem { title: @tr("Settings…"); shortcut: @keys(Control + ","); activated => { App.action("app.settings"); } }
+            MenuSeparator { }
+            MenuItem { title: @tr("Close"); shortcut: @keys(Control + W); activated => { App.action("file.close"); } }
+            MenuItem { title: @tr("Exit"); shortcut: @keys(Control + Q); enabled: !App.is-web; activated => { App.action("file.exit"); } }
         }
         Menu {
-            title: "Edit";
-            MenuItem { title: "Undo"; shortcut: @keys(Control + Z); activated => { App.action("edit.undo"); } }
-            MenuItem { title: "Redo"; shortcut: @keys(Control + Y); activated => { App.action("edit.redo"); } }
+            title: @tr("Edit");
+            MenuItem { title: @tr("Undo"); shortcut: @keys(Control + Z); activated => { App.action("edit.undo"); } }
+            MenuItem { title: @tr("Redo"); shortcut: @keys(Control + Y); activated => { App.action("edit.redo"); } }
             MenuSeparator { }
-            MenuItem { title: "Cut"; shortcut: @keys(Control + X); activated => { App.action("edit.cut"); } }
-            MenuItem { title: "Copy"; shortcut: @keys(Control + C); activated => { App.action("edit.copy"); } }
-            MenuItem { title: "Copy Merged"; shortcut: @keys(Control + Shift + C); activated => { App.action("edit.copy-merged"); } }
-            MenuItem { title: "Paste"; shortcut: @keys(Control + V); activated => { App.action("edit.paste"); } }
-            MenuItem { title: "Paste into New Layer"; shortcut: @keys(Control + Shift + V); activated => { App.action("edit.paste-new-layer"); } }
-            MenuItem { title: "Paste into New Image"; shortcut: @keys(Control + Alt + V); activated => { App.action("edit.paste-new-image"); } }
+            MenuItem { title: @tr("Cut"); shortcut: @keys(Control + X); activated => { App.action("edit.cut"); } }
+            MenuItem { title: @tr("Copy"); shortcut: @keys(Control + C); activated => { App.action("edit.copy"); } }
+            MenuItem { title: @tr("Copy Merged"); shortcut: @keys(Control + Shift + C); activated => { App.action("edit.copy-merged"); } }
+            MenuItem { title: @tr("Paste"); shortcut: @keys(Control + V); activated => { App.action("edit.paste"); } }
+            MenuItem { title: @tr("Paste into New Layer"); shortcut: @keys(Control + Shift + V); activated => { App.action("edit.paste-new-layer"); } }
+            MenuItem { title: @tr("Paste into New Image"); shortcut: @keys(Control + Alt + V); activated => { App.action("edit.paste-new-image"); } }
             MenuSeparator { }
-            MenuItem { title: "Select All"; shortcut: @keys(Control + A); activated => { App.action("edit.select-all"); } }
-            MenuItem { title: "Deselect"; shortcut: @keys(Control + D); activated => { App.action("edit.deselect"); } }
-            MenuItem { title: "Invert Selection"; shortcut: @keys(Control + I); activated => { App.action("edit.invert-selection"); } }
+            MenuItem { title: @tr("Select All"); shortcut: @keys(Control + A); activated => { App.action("edit.select-all"); } }
+            MenuItem { title: @tr("Deselect"); shortcut: @keys(Control + D); activated => { App.action("edit.deselect"); } }
+            MenuItem { title: @tr("Invert Selection"); shortcut: @keys(Control + I); activated => { App.action("edit.invert-selection"); } }
             MenuSeparator { }
-            MenuItem { title: "Erase Selection      Delete"; activated => { App.action("edit.erase"); } }
-            MenuItem { title: "Fill Selection      Backspace"; activated => { App.action("edit.fill"); } }
+            MenuItem { title: @tr("Erase Selection") + "      Delete"; activated => { App.action("edit.erase"); } }
+            MenuItem { title: @tr("Fill Selection") + "      Backspace"; activated => { App.action("edit.fill"); } }
         }
         Menu {
-            title: "View";
-            MenuItem { title: "Command Palette…      Space"; activated => { App.action("palette.open"); } }
-            MenuItem { title: "Menu Bar      V M"; checkable: true; checked: App.show-menubar; activated => { App.action("view.menubar"); } }
+            title: @tr("View");
+            MenuItem { title: @tr("Command Palette…") + "      Space"; activated => { App.action("palette.open"); } }
+            MenuItem { title: @tr("Menu Bar") + "      V M"; checkable: true; checked: App.show-menubar; activated => { App.action("view.menubar"); } }
             MenuSeparator { }
-            MenuItem { title: "Zoom In"; shortcut: @keys(Control + Plus); activated => { App.action("view.zoom-in"); } }
-            MenuItem { title: "Zoom Out"; shortcut: @keys(Control + HyphenMinus); activated => { App.action("view.zoom-out"); } }
-            MenuItem { title: "Zoom to Window"; shortcut: @keys(Control + B); activated => { App.action("view.fit"); } }
-            MenuItem { title: "Actual Size"; shortcut: @keys(Control + "0"); activated => { App.action("view.actual"); } }
+            MenuItem { title: @tr("Zoom In"); shortcut: @keys(Control + Plus); activated => { App.action("view.zoom-in"); } }
+            MenuItem { title: @tr("Zoom Out"); shortcut: @keys(Control + HyphenMinus); activated => { App.action("view.zoom-out"); } }
+            MenuItem { title: @tr("Zoom to Window"); shortcut: @keys(Control + B); activated => { App.action("view.fit"); } }
+            MenuItem { title: @tr("Actual Size"); shortcut: @keys(Control + "0"); activated => { App.action("view.actual"); } }
             MenuSeparator { }
             Menu {
-                title: "Theme";
-                MenuItem { title: "Follow System      V T S"; checkable: true; checked: App.theme-mode == 0; activated => { App.action("view.theme-system"); } }
-                MenuItem { title: "Light      V T L"; checkable: true; checked: App.theme-mode == 1; activated => { App.action("view.theme-light"); } }
-                MenuItem { title: "Dark      V T D"; checkable: true; checked: App.theme-mode == 2; activated => { App.action("view.theme-dark"); } }
+                title: @tr("Theme");
+                MenuItem { title: @tr("Follow System") + "      V T S"; checkable: true; checked: App.theme-mode == 0; activated => { App.action("view.theme-system"); } }
+                MenuItem { title: @tr("Light") + "      V T L"; checkable: true; checked: App.theme-mode == 1; activated => { App.action("view.theme-light"); } }
+                MenuItem { title: @tr("Dark") + "      V T D"; checkable: true; checked: App.theme-mode == 2; activated => { App.action("view.theme-dark"); } }
             }
             MenuSeparator { }
-            MenuItem { title: "Pixel Grid      V G"; checkable: true; checked: App.pixel-grid; activated => { App.action("view.grid"); } }
-            MenuItem { title: "Rulers"; shortcut: @keys(Control + Alt + R); checkable: true; checked: App.show-rulers; activated => { App.action("view.rulers"); } }
+            MenuItem { title: @tr("Pixel Grid") + "      V G"; checkable: true; checked: App.pixel-grid; activated => { App.action("view.grid"); } }
+            MenuItem { title: @tr("Rulers"); shortcut: @keys(Control + Alt + R); checkable: true; checked: App.show-rulers; activated => { App.action("view.rulers"); } }
             MenuSeparator { }
-            MenuItem { title: "Tools Panel      V 1"; checkable: true; checked: App.show-tools; activated => { App.action("view.panel-tools"); } }
-            MenuItem { title: "Colors Panel      V 2"; checkable: true; checked: App.show-colors; activated => { App.action("view.panel-colors"); } }
-            MenuItem { title: "Layers Panel      V 3"; checkable: true; checked: App.show-layers; activated => { App.action("view.panel-layers"); } }
-            MenuItem { title: "History Panel      V 4"; checkable: true; checked: App.show-history; activated => { App.action("view.panel-history"); } }
+            MenuItem { title: @tr("Tools Panel") + "      V 1"; checkable: true; checked: App.show-tools; activated => { App.action("view.panel-tools"); } }
+            MenuItem { title: @tr("Colors Panel") + "      V 2"; checkable: true; checked: App.show-colors; activated => { App.action("view.panel-colors"); } }
+            MenuItem { title: @tr("Layers Panel") + "      V 3"; checkable: true; checked: App.show-layers; activated => { App.action("view.panel-layers"); } }
+            MenuItem { title: @tr("History Panel") + "      V 4"; checkable: true; checked: App.show-history; activated => { App.action("view.panel-history"); } }
         }
         Menu {
-            title: "Image";
-            MenuItem { title: "Crop to Selection"; shortcut: @keys(Control + Shift + X); enabled: App.has-selection; activated => { App.action("image.crop"); } }
-            MenuItem { title: "Auto Crop"; shortcut: @keys(Control + Alt + X); activated => { App.action("image.autocrop"); } }
-            MenuItem { title: "Resize…"; shortcut: @keys(Control + R); activated => { App.action("image.resize"); } }
-            MenuItem { title: "Canvas Size…"; shortcut: @keys(Control + Shift + R); activated => { App.action("image.canvas"); } }
+            title: @tr("Image");
+            MenuItem { title: @tr("Crop to Selection"); shortcut: @keys(Control + Shift + X); enabled: App.has-selection; activated => { App.action("image.crop"); } }
+            MenuItem { title: @tr("Auto Crop"); shortcut: @keys(Control + Alt + X); activated => { App.action("image.autocrop"); } }
+            MenuItem { title: @tr("Resize…"); shortcut: @keys(Control + R); activated => { App.action("image.resize"); } }
+            MenuItem { title: @tr("Canvas Size…"); shortcut: @keys(Control + Shift + R); activated => { App.action("image.canvas"); } }
             MenuSeparator { }
-            MenuItem { title: "Flip Horizontal      I H"; activated => { App.action("image.flip-h"); } }
-            MenuItem { title: "Flip Vertical      I V"; activated => { App.action("image.flip-v"); } }
+            MenuItem { title: @tr("Flip Horizontal") + "      I H"; activated => { App.action("image.flip-h"); } }
+            MenuItem { title: @tr("Flip Vertical") + "      I V"; activated => { App.action("image.flip-v"); } }
             MenuSeparator { }
-            MenuItem { title: "Rotate 90° Clockwise"; shortcut: @keys(Control + H); activated => { App.action("image.rot-cw"); } }
-            MenuItem { title: "Rotate 90° Counter-clockwise"; shortcut: @keys(Control + G); activated => { App.action("image.rot-ccw"); } }
-            MenuItem { title: "Rotate 180°"; shortcut: @keys(Control + J); activated => { App.action("image.rot-180"); } }
+            MenuItem { title: @tr("Rotate 90° Clockwise"); shortcut: @keys(Control + H); activated => { App.action("image.rot-cw"); } }
+            MenuItem { title: @tr("Rotate 90° Counter-clockwise"); shortcut: @keys(Control + G); activated => { App.action("image.rot-ccw"); } }
+            MenuItem { title: @tr("Rotate 180°"); shortcut: @keys(Control + J); activated => { App.action("image.rot-180"); } }
             MenuSeparator { }
-            MenuItem { title: "Flatten"; shortcut: @keys(Control + Shift + F); activated => { App.action("image.flatten"); } }
+            MenuItem { title: @tr("Flatten"); shortcut: @keys(Control + Shift + F); activated => { App.action("image.flatten"); } }
         }
         Menu {
-            title: "Layers";
-            MenuItem { title: "Add New Layer"; shortcut: @keys(Control + Shift + N); activated => { App.action("layer.add"); } }
-            MenuItem { title: "Delete Layer      L X"; enabled: App.layer-count > 1; activated => { App.action("layer.delete"); } }
-            MenuItem { title: "Duplicate Layer"; shortcut: @keys(Control + Shift + D); activated => { App.action("layer.duplicate"); } }
-            MenuItem { title: "Merge Layer Down"; shortcut: @keys(Control + M); enabled: App.layer-count > 1; activated => { App.action("layer.merge-down"); } }
-            MenuItem { title: "Import from File…      L I"; activated => { App.action("layer.import"); } }
+            title: @tr("Layers");
+            MenuItem { title: @tr("Add New Layer"); shortcut: @keys(Control + Shift + N); activated => { App.action("layer.add"); } }
+            MenuItem { title: @tr("Delete Layer") + "      L X"; enabled: App.layer-count > 1; activated => { App.action("layer.delete"); } }
+            MenuItem { title: @tr("Duplicate Layer"); shortcut: @keys(Control + Shift + D); activated => { App.action("layer.duplicate"); } }
+            MenuItem { title: @tr("Merge Layer Down"); shortcut: @keys(Control + M); enabled: App.layer-count > 1; activated => { App.action("layer.merge-down"); } }
+            MenuItem { title: @tr("Import from File…") + "      L I"; activated => { App.action("layer.import"); } }
             MenuSeparator { }
-            MenuItem { title: "Flip Layer Horizontal      L H"; activated => { App.action("layer.flip-h"); } }
-            MenuItem { title: "Flip Layer Vertical      L V"; activated => { App.action("layer.flip-v"); } }
-            MenuItem { title: "Rotate / Zoom…"; shortcut: @keys(Control + Shift + Z); activated => { App.action("fx:rotate-zoom"); } }
+            MenuItem { title: @tr("Flip Layer Horizontal") + "      L H"; activated => { App.action("layer.flip-h"); } }
+            MenuItem { title: @tr("Flip Layer Vertical") + "      L V"; activated => { App.action("layer.flip-v"); } }
+            MenuItem { title: @tr("Rotate / Zoom…"); shortcut: @keys(Control + Shift + Z); activated => { App.action("fx:rotate-zoom"); } }
             MenuSeparator { }
-            MenuItem { title: "Select Layer Above      L K"; activated => { App.action("layer.select-up"); } }
-            MenuItem { title: "Select Layer Below      L J"; activated => { App.action("layer.select-down"); } }
-            MenuItem { title: "Move Layer Up"; shortcut: @keys(Control + PageUp); activated => { App.action("layer.up"); } }
-            MenuItem { title: "Move Layer Down"; shortcut: @keys(Control + PageDown); activated => { App.action("layer.down"); } }
+            MenuItem { title: @tr("Select Layer Above") + "      L K"; activated => { App.action("layer.select-up"); } }
+            MenuItem { title: @tr("Select Layer Below") + "      L J"; activated => { App.action("layer.select-down"); } }
+            MenuItem { title: @tr("Move Layer Up"); shortcut: @keys(Control + PageUp); activated => { App.action("layer.up"); } }
+            MenuItem { title: @tr("Move Layer Down"); shortcut: @keys(Control + PageDown); activated => { App.action("layer.down"); } }
             MenuSeparator { }
-            MenuItem { title: "Layer Properties…"; shortcut: @keys(F4); activated => { App.action("layer.properties"); } }
+            MenuItem { title: @tr("Layer Properties…"); shortcut: @keys(F4); activated => { App.action("layer.properties"); } }
         }
         Menu {
-            title: "Adjustments";
-            MenuItem { title: "Auto-Level"; shortcut: @keys(Control + Shift + L); activated => { App.action("fx:auto-level"); } }
-            MenuItem { title: "Black and White"; shortcut: @keys(Control + Shift + G); activated => { App.action("fx:black-and-white"); } }
-            MenuItem { title: "Brightness / Contrast…      A B"; activated => { App.action("fx:brightness-contrast"); } }
-            MenuItem { title: "Curves…"; shortcut: @keys(Control + Shift + M); activated => { App.action("fx:curves"); } }
-            MenuItem { title: "Hue / Saturation…"; shortcut: @keys(Control + Shift + U); activated => { App.action("fx:hue-saturation"); } }
-            MenuItem { title: "Invert Colors"; shortcut: @keys(Control + Shift + I); activated => { App.action("fx:invert-colors"); } }
-            MenuItem { title: "Levels…"; shortcut: @keys(Control + L); activated => { App.action("fx:levels"); } }
-            MenuItem { title: "Posterize…"; shortcut: @keys(Control + Shift + P); activated => { App.action("fx:posterize"); } }
-            MenuItem { title: "Sepia"; shortcut: @keys(Control + Shift + E); activated => { App.action("fx:sepia"); } }
+            title: @tr("Adjustments");
+            MenuItem { title: @tr("Auto-Level"); shortcut: @keys(Control + Shift + L); activated => { App.action("fx:auto-level"); } }
+            MenuItem { title: @tr("Black and White"); shortcut: @keys(Control + Shift + G); activated => { App.action("fx:black-and-white"); } }
+            MenuItem { title: @tr("Brightness / Contrast…") + "      A B"; activated => { App.action("fx:brightness-contrast"); } }
+            MenuItem { title: @tr("Curves…"); shortcut: @keys(Control + Shift + M); activated => { App.action("fx:curves"); } }
+            MenuItem { title: @tr("Hue / Saturation…"); shortcut: @keys(Control + Shift + U); activated => { App.action("fx:hue-saturation"); } }
+            MenuItem { title: @tr("Invert Colors"); shortcut: @keys(Control + Shift + I); activated => { App.action("fx:invert-colors"); } }
+            MenuItem { title: @tr("Levels…"); shortcut: @keys(Control + L); activated => { App.action("fx:levels"); } }
+            MenuItem { title: @tr("Posterize…"); shortcut: @keys(Control + Shift + P); activated => { App.action("fx:posterize"); } }
+            MenuItem { title: @tr("Sepia"); shortcut: @keys(Control + Shift + E); activated => { App.action("fx:sepia"); } }
             MenuSeparator { }
-            MenuItem { title: "Vibrance…      A V"; activated => { App.action("fx:vibrance"); } }
-            MenuItem { title: "Temperature / Tint…      A T"; activated => { App.action("fx:temperature"); } }
+            MenuItem { title: @tr("Vibrance…") + "      A V"; activated => { App.action("fx:vibrance"); } }
+            MenuItem { title: @tr("Temperature / Tint…") + "      A T"; activated => { App.action("fx:temperature"); } }
         }
         Menu {
-            title: "Effects";
-            MenuItem { title: "Repeat Last Effect"; shortcut: @keys(Control + F); activated => { App.action("fx.repeat"); } }
+            title: @tr("Effects");
+            MenuItem { title: @tr("Repeat Last Effect"); shortcut: @keys(Control + F); activated => { App.action("fx.repeat"); } }
             MenuSeparator { }
             Menu {
-                title: "Artistic";
-                MenuItem { title: "Ink Sketch…      F A I"; activated => { App.action("fx:ink-sketch"); } }
-                MenuItem { title: "Oil Painting…      F A O"; activated => { App.action("fx:oil-painting"); } }
-                MenuItem { title: "Pencil Sketch…      F A P"; activated => { App.action("fx:pencil-sketch"); } }
+                title: @tr("Artistic");
+                MenuItem { title: @tr("Ink Sketch…") + "      F A I"; activated => { App.action("fx:ink-sketch"); } }
+                MenuItem { title: @tr("Oil Painting…") + "      F A O"; activated => { App.action("fx:oil-painting"); } }
+                MenuItem { title: @tr("Pencil Sketch…") + "      F A P"; activated => { App.action("fx:pencil-sketch"); } }
             }
             Menu {
-                title: "Blurs";
-                MenuItem { title: "Fragment…      F B F"; activated => { App.action("fx:fragment"); } }
-                MenuItem { title: "Gaussian Blur…      F B G"; activated => { App.action("fx:gaussian-blur"); } }
-                MenuItem { title: "Motion Blur…      F B M"; activated => { App.action("fx:motion-blur"); } }
-                MenuItem { title: "Radial Blur…      F B R"; activated => { App.action("fx:radial-blur"); } }
-                MenuItem { title: "Surface Blur…      F B S"; activated => { App.action("fx:surface-blur"); } }
-                MenuItem { title: "Unfocus…      F B U"; activated => { App.action("fx:unfocus"); } }
-                MenuItem { title: "Zoom Blur…      F B Z"; activated => { App.action("fx:zoom-blur"); } }
+                title: @tr("Blurs");
+                MenuItem { title: @tr("Fragment…") + "      F B F"; activated => { App.action("fx:fragment"); } }
+                MenuItem { title: @tr("Gaussian Blur…") + "      F B G"; activated => { App.action("fx:gaussian-blur"); } }
+                MenuItem { title: @tr("Motion Blur…") + "      F B M"; activated => { App.action("fx:motion-blur"); } }
+                MenuItem { title: @tr("Radial Blur…") + "      F B R"; activated => { App.action("fx:radial-blur"); } }
+                MenuItem { title: @tr("Surface Blur…") + "      F B S"; activated => { App.action("fx:surface-blur"); } }
+                MenuItem { title: @tr("Unfocus…") + "      F B U"; activated => { App.action("fx:unfocus"); } }
+                MenuItem { title: @tr("Zoom Blur…") + "      F B Z"; activated => { App.action("fx:zoom-blur"); } }
             }
             Menu {
-                title: "Distort";
-                MenuItem { title: "Bulge…      F D B"; activated => { App.action("fx:bulge"); } }
-                MenuItem { title: "Dents…      F D D"; activated => { App.action("fx:dents"); } }
-                MenuItem { title: "Frosted Glass…      F D F"; activated => { App.action("fx:frosted-glass"); } }
-                MenuItem { title: "Pixelate…      F D P"; activated => { App.action("fx:pixelate"); } }
-                MenuItem { title: "Polar Inversion…      F D I"; activated => { App.action("fx:polar-inversion"); } }
-                MenuItem { title: "Tile Reflection…      F D T"; activated => { App.action("fx:tile-reflection"); } }
-                MenuItem { title: "Twist…      F D W"; activated => { App.action("fx:twist"); } }
+                title: @tr("Distort");
+                MenuItem { title: @tr("Bulge…") + "      F D B"; activated => { App.action("fx:bulge"); } }
+                MenuItem { title: @tr("Dents…") + "      F D D"; activated => { App.action("fx:dents"); } }
+                MenuItem { title: @tr("Frosted Glass…") + "      F D F"; activated => { App.action("fx:frosted-glass"); } }
+                MenuItem { title: @tr("Pixelate…") + "      F D P"; activated => { App.action("fx:pixelate"); } }
+                MenuItem { title: @tr("Polar Inversion…") + "      F D I"; activated => { App.action("fx:polar-inversion"); } }
+                MenuItem { title: @tr("Tile Reflection…") + "      F D T"; activated => { App.action("fx:tile-reflection"); } }
+                MenuItem { title: @tr("Twist…") + "      F D W"; activated => { App.action("fx:twist"); } }
             }
             Menu {
-                title: "Noise";
-                MenuItem { title: "Add Noise…      F N A"; activated => { App.action("fx:add-noise"); } }
-                MenuItem { title: "Median…      F N M"; activated => { App.action("fx:median"); } }
-                MenuItem { title: "Reduce Noise…      F N R"; activated => { App.action("fx:reduce-noise"); } }
+                title: @tr("Noise");
+                MenuItem { title: @tr("Add Noise…") + "      F N A"; activated => { App.action("fx:add-noise"); } }
+                MenuItem { title: @tr("Median…") + "      F N M"; activated => { App.action("fx:median"); } }
+                MenuItem { title: @tr("Reduce Noise…") + "      F N R"; activated => { App.action("fx:reduce-noise"); } }
             }
             Menu {
-                title: "Photo";
-                MenuItem { title: "Glow…      F P G"; activated => { App.action("fx:glow"); } }
-                MenuItem { title: "Red Eye Removal…      F P R"; activated => { App.action("fx:red-eye"); } }
-                MenuItem { title: "Sharpen…      F P S"; activated => { App.action("fx:sharpen"); } }
-                MenuItem { title: "Soft Portrait…      F P P"; activated => { App.action("fx:soft-portrait"); } }
-                MenuItem { title: "Vignette…      F P V"; activated => { App.action("fx:vignette"); } }
+                title: @tr("Photo");
+                MenuItem { title: @tr("Glow…") + "      F P G"; activated => { App.action("fx:glow"); } }
+                MenuItem { title: @tr("Red Eye Removal…") + "      F P R"; activated => { App.action("fx:red-eye"); } }
+                MenuItem { title: @tr("Sharpen…") + "      F P S"; activated => { App.action("fx:sharpen"); } }
+                MenuItem { title: @tr("Soft Portrait…") + "      F P P"; activated => { App.action("fx:soft-portrait"); } }
+                MenuItem { title: @tr("Vignette…") + "      F P V"; activated => { App.action("fx:vignette"); } }
             }
             Menu {
-                title: "Render";
-                MenuItem { title: "Clouds…      F R C"; activated => { App.action("fx:clouds"); } }
-                MenuItem { title: "Julia Fractal…      F R J"; activated => { App.action("fx:julia"); } }
-                MenuItem { title: "Mandelbrot Fractal…      F R M"; activated => { App.action("fx:mandelbrot"); } }
+                title: @tr("Render");
+                MenuItem { title: @tr("Clouds…") + "      F R C"; activated => { App.action("fx:clouds"); } }
+                MenuItem { title: @tr("Julia Fractal…") + "      F R J"; activated => { App.action("fx:julia"); } }
+                MenuItem { title: @tr("Mandelbrot Fractal…") + "      F R M"; activated => { App.action("fx:mandelbrot"); } }
             }
             Menu {
-                title: "Stylize";
-                MenuItem { title: "Edge Detect…      F S E"; activated => { App.action("fx:edge-detect"); } }
-                MenuItem { title: "Emboss…      F S M"; activated => { App.action("fx:emboss"); } }
-                MenuItem { title: "Outline…      F S O"; activated => { App.action("fx:outline"); } }
-                MenuItem { title: "Relief…      F S R"; activated => { App.action("fx:relief"); } }
+                title: @tr("Stylize");
+                MenuItem { title: @tr("Edge Detect…") + "      F S E"; activated => { App.action("fx:edge-detect"); } }
+                MenuItem { title: @tr("Emboss…") + "      F S M"; activated => { App.action("fx:emboss"); } }
+                MenuItem { title: @tr("Outline…") + "      F S O"; activated => { App.action("fx:outline"); } }
+                MenuItem { title: @tr("Relief…") + "      F S R"; activated => { App.action("fx:relief"); } }
             }
             Menu {
-                title: "Object";
-                MenuItem { title: "Drop Shadow…      F O D"; activated => { App.action("fx:drop-shadow"); } }
+                title: @tr("Object");
+                MenuItem { title: @tr("Drop Shadow…") + "      F O D"; activated => { App.action("fx:drop-shadow"); } }
             }
         }
         Menu {
-            title: "Tools";
-            MenuItem { title: "Rectangle Select      S"; activated => { App.action("tool:rect-select"); } }
-            MenuItem { title: "Ellipse Select      S"; activated => { App.action("tool:ellipse-select"); } }
-            MenuItem { title: "Lasso Select      S"; activated => { App.action("tool:lasso-select"); } }
-            MenuItem { title: "Magic Wand      S"; activated => { App.action("tool:magic-wand"); } }
-            MenuItem { title: "Move Selected Pixels      M"; activated => { App.action("tool:move-pixels"); } }
-            MenuItem { title: "Move Selection      M"; activated => { App.action("tool:move-selection"); } }
+            title: @tr("Tools");
+            MenuItem { title: @tr("Rectangle Select") + "      S"; activated => { App.action("tool:rect-select"); } }
+            MenuItem { title: @tr("Ellipse Select") + "      S"; activated => { App.action("tool:ellipse-select"); } }
+            MenuItem { title: @tr("Lasso Select") + "      S"; activated => { App.action("tool:lasso-select"); } }
+            MenuItem { title: @tr("Magic Wand") + "      S"; activated => { App.action("tool:magic-wand"); } }
+            MenuItem { title: @tr("Move Selected Pixels") + "      M"; activated => { App.action("tool:move-pixels"); } }
+            MenuItem { title: @tr("Move Selection") + "      M"; activated => { App.action("tool:move-selection"); } }
             MenuSeparator { }
-            MenuItem { title: "Paintbrush      B"; activated => { App.action("tool:brush"); } }
-            MenuItem { title: "Pencil      P"; activated => { App.action("tool:pencil"); } }
-            MenuItem { title: "Eraser      E"; activated => { App.action("tool:eraser"); } }
-            MenuItem { title: "Gradient      G"; activated => { App.action("tool:gradient"); } }
-            MenuItem { title: "Paint Bucket      G"; activated => { App.action("tool:bucket"); } }
-            MenuItem { title: "Color Picker      K"; activated => { App.action("tool:picker"); } }
-            MenuItem { title: "Clone Stamp      C"; activated => { App.action("tool:clone"); } }
-            MenuItem { title: "Recolor      R"; activated => { App.action("tool:recolor"); } }
+            MenuItem { title: @tr("Paintbrush") + "      B"; activated => { App.action("tool:brush"); } }
+            MenuItem { title: @tr("Pencil") + "      P"; activated => { App.action("tool:pencil"); } }
+            MenuItem { title: @tr("Eraser") + "      E"; activated => { App.action("tool:eraser"); } }
+            MenuItem { title: @tr("Gradient") + "      G"; activated => { App.action("tool:gradient"); } }
+            MenuItem { title: @tr("Paint Bucket") + "      G"; activated => { App.action("tool:bucket"); } }
+            MenuItem { title: @tr("Color Picker") + "      K"; activated => { App.action("tool:picker"); } }
+            MenuItem { title: @tr("Clone Stamp") + "      C"; activated => { App.action("tool:clone"); } }
+            MenuItem { title: @tr("Recolor") + "      R"; activated => { App.action("tool:recolor"); } }
             MenuSeparator { }
-            MenuItem { title: "Text      T"; activated => { App.action("tool:text"); } }
-            MenuItem { title: "Line / Curve      O"; activated => { App.action("tool:line"); } }
-            MenuItem { title: "Shapes      O"; activated => { App.action("tool:shape"); } }
+            MenuItem { title: @tr("Text") + "      T"; activated => { App.action("tool:text"); } }
+            MenuItem { title: @tr("Line / Curve") + "      O"; activated => { App.action("tool:line"); } }
+            MenuItem { title: @tr("Shapes") + "      O"; activated => { App.action("tool:shape"); } }
             MenuSeparator { }
-            MenuItem { title: "Pan      H"; activated => { App.action("tool:pan"); } }
-            MenuItem { title: "Zoom      Z"; activated => { App.action("tool:zoom"); } }
+            MenuItem { title: @tr("Pan") + "      H"; activated => { App.action("tool:pan"); } }
+            MenuItem { title: @tr("Zoom") + "      Z"; activated => { App.action("tool:zoom"); } }
             MenuSeparator { }
-            MenuItem { title: "Swap Colors      X"; activated => { App.action("color.swap"); } }
-            MenuItem { title: "Reset Colors      D"; activated => { App.action("color.reset"); } }
-            MenuItem { title: "Smaller Brush      ["; activated => { App.action("brush.smaller"); } }
-            MenuItem { title: "Bigger Brush      ]"; activated => { App.action("brush.bigger"); } }
+            MenuItem { title: @tr("Swap Colors") + "      X"; activated => { App.action("color.swap"); } }
+            MenuItem { title: @tr("Reset Colors") + "      D"; activated => { App.action("color.reset"); } }
+            MenuItem { title: @tr("Smaller Brush") + "      ["; activated => { App.action("brush.smaller"); } }
+            MenuItem { title: @tr("Bigger Brush") + "      ]"; activated => { App.action("brush.bigger"); } }
         }
         Menu {
-            title: "Help";
-            MenuItem { title: "Keyboard Shortcuts"; shortcut: @keys(F1); activated => { App.action("help.shortcuts"); } }
-            MenuItem { title: "About Neobrush"; shortcut: @keys(Shift + F1); activated => { App.action("help.about"); } }
+            title: @tr("Help");
+            MenuItem { title: @tr("Keyboard Shortcuts"); shortcut: @keys(F1); activated => { App.action("help.shortcuts"); } }
+            MenuItem { title: @tr("About Neobrush"); shortcut: @keys(Shift + F1); activated => { App.action("help.about"); } }
             MenuSeparator { }
-            MenuItem { title: "Source Code on GitHub"; activated => { App.action("help.github"); } }
-            MenuItem { title: "Donate to Voices of Children"; activated => { App.action("help.donate"); } }
+            MenuItem { title: @tr("Source Code on GitHub"); activated => { App.action("help.github"); } }
+            MenuItem { title: @tr("Donate to Voices of Children"); activated => { App.action("help.donate"); } }
         }
     }
     // END GENERATED MENU
@@ -420,6 +425,7 @@ export component AppWindow inherits Window {
     if App.dialog == "shortcuts": ShortcutsDialog { }
     if App.dialog == "export": ExportDialog { }
     if App.dialog == "palette": PaletteDialog { }
+    if App.dialog == "settings": SettingsDialog { }
 
     if App.chord-active: ChordHud {
         x: (root.width - self.width) / 2;

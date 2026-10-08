@@ -74,6 +74,8 @@ MENUS = [
         item("file.save", "Save", "save", keys="Control + S", kw="write export"),
         item("file.save-as", "Save As…", "save", keys="Control + Shift + S", kw="export download format"),
         SEP,
+        item("app.settings", "Settings…", "settings", keys='Control + ","', chord="v s", kw="preferences options language accent color theme"),
+        SEP,
         item("file.close", "Close", "x", keys="Control + W", kw="close document tab"),
         item("file.exit", "Exit", "x", keys="Control + Q", kw="quit", enabled="!App.is-web"),
     ),
@@ -262,11 +264,11 @@ def display_keys(keys):
 
 
 def chord_title(it):
-    t = it["title"]
+    t = f'@tr("{it["title"]}")'
     if it.get("chord") and not it.get("keys"):
-        return t + "      " + chord_display(it["chord"])
+        return t + f' + "      {chord_display(it["chord"])}"'
     if it.get("key") and not it.get("keys"):
-        return t + "      " + it["key"]
+        return t + f' + "      {it["key"]}"'
     return t
 
 
@@ -295,13 +297,13 @@ def gen_context(entries, indent):
             first, rest = text.split("\n", 1)
             out.append(pad + first + "\n" + textwrap.indent(textwrap.dedent(rest), pad))
         elif e["kind"] == "menu":
-            out.append(f'{pad}Menu {{\n{pad}    title: "{e["title"]}";')
+            out.append(f'{pad}Menu {{\n{pad}    title: @tr("{e["title"]}");')
             out.append(gen_context(e["children"], indent + 4))
             out.append(f"{pad}}}")
         else:
             sc = shortcut_text(e)
-            title = e["title"] + ("      " + sc if sc else "")
-            props = [f'title: "{title}";']
+            title = f'@tr("{e["title"]}")' + (f' + "      {sc}"' if sc else "")
+            props = [f"title: {title};"]
             if e.get("checked"):
                 props.append("checkable: true;")
                 props.append(f"checked: {e['checked']};")
@@ -354,17 +356,17 @@ def gen_toolbar_sections():
                 continue
             e = items[i]
             sc = shortcut_text(e)
-            tip = e["title"].rstrip("…") + (f"  ·  {sc}" if sc else "")
+            tip = f'@tr("{e["title"].rstrip("…")}")' + (f' + "  ·  {sc}"' if sc else "")
             enabled = e.get("enabled") or "App.has-doc"
             if e.get("enabled"):
                 enabled = f"App.has-doc && ({e['enabled']})"
             active = f" active: {e['checked']};" if e.get("checked") else ""
-            buttons.append(f'            {cond}IconButton {{ icon: Icons.named("{e["icon"]}"); tip: "{tip}"; enabled: {enabled};{active} clicked => {{ App.action("{e["id"]}"); }} }}')
+            buttons.append(f'            {cond}IconButton {{ icon: Icons.named("{e["icon"]}"); tip: {tip}; enabled: {enabled};{active} clicked => {{ App.action("{e["id"]}"); }} }}')
         rest = strip_bar(m["children"], set(ids))
         more = ""
         if rest:
             more = f"""            MoreButton {{
-                tip: "More {title.lower()} commands";
+                tip: @tr("More {title.lower()} commands");
                 clicked(x, y) => {{ cm-{title.lower()}.show({{ x: x, y: y }}); }}
                 cm-{title.lower()} := ContextMenuArea {{
                     Menu {{
@@ -375,7 +377,7 @@ def gen_toolbar_sections():
         if groups:
             groups.append("    VDivider { height: 30px; y: 4px; }")
         groups.append(f"""    ToolbarSection {{
-        title: "{title}";
+        title: @tr("{title}");
         HorizontalLayout {{
             spacing: 1px;
 {chr(10).join(buttons)}
@@ -407,11 +409,11 @@ def gen_slint(entries, indent):
             first, rest = text.split("\n", 1)
             out.append(pad + first + "\n" + textwrap.indent(textwrap.dedent(rest), pad))
         elif e["kind"] == "menu":
-            out.append(f'{pad}Menu {{\n{pad}    title: "{e["title"]}";')
+            out.append(f'{pad}Menu {{\n{pad}    title: @tr("{e["title"]}");')
             out.append(gen_slint(e["children"], indent + 4))
             out.append(f"{pad}}}")
         else:
-            props = [f'title: "{chord_title(e)}";']
+            props = [f"title: {chord_title(e)};"]
             if e.get("keys"):
                 props.append(f"shortcut: @keys({e['keys']});")
             if e.get("checked"):

@@ -1,0 +1,479 @@
+# Italian
+A modern, cross-platform raster graphics editor for Windows, macOS, Linux and FreeBSD. ⇒ Un editor di grafica raster moderno e multipiattaforma per Windows, macOS, Linux e FreeBSD.
+About ⇒ Informazioni
+About Neobrush ⇒ Informazioni su Neobrush
+Accent color ⇒ Colore d’accento
+Actual Size ⇒ Dimensioni reali
+Add (Ctrl) ⇒ Aggiungi (Ctrl)
+Add New Layer ⇒ Nuovo livello
+Add Noise ⇒ Aggiungi disturbo
+Add Noise… ⇒ Aggiungi disturbo…
+Add new layer ⇒ Nuovo livello
+Additive ⇒ Additivo
+Adjustments ⇒ Regolazioni
+After picking ⇒ Dopo il prelievo
+Align center ⇒ Centra
+Align left ⇒ Allinea a sinistra
+Align right ⇒ Allinea a destra
+Amount ⇒ Quantità
+Anchor ⇒ Ancoraggio
+Angle ⇒ Angolo
+Antialias ⇒ Antialiasing
+Apply ⇒ Applica
+Arrow ⇒ Freccia
+Artistic ⇒ Artistici
+Auto Crop ⇒ Ritaglio automatico
+Auto-Level ⇒ Livelli automatici
+Background ⇒ Sfondo
+Best quality ⇒ Qualità migliore
+Bicubic ⇒ Bicubica
+Bigger Brush ⇒ Pennello più grande
+Bilinear ⇒ Bilineare
+Black and White ⇒ Bianco e nero
+Blend ⇒ Fusione
+Blend mode ⇒ Metodo di fusione
+Blue ⇒ Blu
+Blur ⇒ Sfocatura
+Blurs ⇒ Sfocature
+Bold ⇒ Grassetto
+Both ⇒ Entrambi
+Brightness ⇒ Luminosità
+Brightness / Contrast ⇒ Luminosità / Contrasto
+Brightness / Contrast… ⇒ Luminosità / Contrasto…
+Brush size ⇒ Dimensione pennello
+Bulge ⇒ Rigonfiamento
+Bulge… ⇒ Rigonfiamento…
+By absolute size ⇒ Dimensione assoluta
+By percentage ⇒ Percentuale
+Cancel ⇒ Annulla
+Canvas Size ⇒ Dimensione tela
+Canvas Size… ⇒ Dimensione tela…
+Cell size ⇒ Dimensione cella
+Center X ⇒ Centro X
+Center Y ⇒ Centro Y
+Centered ⇒ Centrato
+Click to add points · drag to move · right-click to remove ⇒ Clic per aggiungere punti · trascina per spostare · clic destro per rimuovere
+Click to fill an area. Right-click uses the secondary color. ⇒ Fai clic per riempire un’area. Il clic destro usa il colore secondario.
+Click to pick the primary color, right-click for secondary. ⇒ Fai clic per prelevare il colore primario, clic destro per il secondario.
+Click to place text, then type. ⇒ Fai clic per inserire il testo, poi digita.
+Click to place text. Enter for a new line, Esc to finish. ⇒ Fai clic per inserire il testo. Invio per andare a capo, Esc per terminare.
+Click to select a region of similar color. ⇒ Fai clic per selezionare un’area di colore simile.
+Click to zoom in, right-click to zoom out, drag a rectangle to zoom to it. ⇒ Clic per ingrandire, clic destro per ridurre, trascina un rettangolo per ingrandirlo.
+Click to zoom in, right-click to zoom out. ⇒ Clic per ingrandire, clic destro per ridurre.
+Clipboard {}×{} ⇒ Appunti {}×{}
+Clone Stamp ⇒ Timbro clone
+Close ⇒ Chiudi
+Clouds ⇒ Nuvole
+Clouds… ⇒ Nuvole…
+Coarseness ⇒ Grossolanità
+Color ⇒ Colore
+Color Burn ⇒ Brucia colore
+Color Dodge ⇒ Scherma colore
+Color Picker ⇒ Contagocce
+Color range ⇒ Intervallo colori
+Color saturation ⇒ Saturazione colore
+Coloring ⇒ Colorazione
+Colors ⇒ Colori
+Colors Panel ⇒ Pannello Colori
+Command Palette ⇒ Tavolozza comandi
+Command Palette… ⇒ Tavolozza comandi…
+Command palette ⇒ Tavolozza comandi
+Conical ⇒ Conico
+Contiguous ⇒ Contiguo
+Contrast ⇒ Contrasto
+Copy ⇒ Copia
+Copy Merged ⇒ Copia unita
+Corner radius ⇒ Raggio angoli
+Could not import file ⇒ Impossibile importare il file
+Could not open file ⇒ Impossibile aprire il file
+Could not save file ⇒ Impossibile salvare il file
+Coverage ⇒ Copertura
+Create ⇒ Crea
+Create a new image or open an existing one to get started. ⇒ Crea una nuova immagine o aprine una esistente per iniziare.
+Crop to Selection ⇒ Ritaglia alla selezione
+Ctrl+click to set the clone source first. ⇒ Prima Ctrl+clic per impostare la sorgente.
+Ctrl+click to set the source, then paint. ⇒ Ctrl+clic per impostare la sorgente, poi dipingi.
+Curvature ⇒ Curvatura
+Curves ⇒ Curve
+Curves… ⇒ Curve…
+Cut ⇒ Taglia
+Dark ⇒ Scuro
+Darken ⇒ Scurisci
+Dashed ⇒ Tratteggiata
+Delete ⇒ Elimina
+Delete Layer ⇒ Elimina livello
+Delete layer ⇒ Elimina livello
+Dents ⇒ Ammaccature
+Dents… ⇒ Ammaccature…
+Deselect ⇒ Deseleziona
+Diamond ⇒ Rombo
+Difference ⇒ Differenza
+Distance ⇒ Distanza
+Distort ⇒ Distorsione
+Documents ⇒ Documenti
+Don't Save ⇒ Non salvare
+Donate to Voices of Children ⇒ Dona a Voices of Children
+Donate to Voices of Children · voices.org.ua ⇒ Dona a Voices of Children · voices.org.ua
+Done ⇒ Fatto
+Dotted ⇒ Punteggiata
+Download ⇒ Scarica
+Drag the selection to move its pixels. ⇒ Trascina la selezione per spostarne i pixel.
+Drag to draw a freeform selection. ⇒ Trascina per disegnare una selezione libera.
+Drag to draw a gradient. Right-drag swaps the colors. ⇒ Trascina per disegnare una sfumatura. Col tasto destro i colori si invertono.
+Drag to draw a line, then drag the handles to bend it. ⇒ Trascina per disegnare una linea, poi curvala con le maniglie.
+Drag to draw a shape, then adjust with the handles. ⇒ Trascina per disegnare una forma, poi regolala con le maniglie.
+Drag to draw, then adjust with the handles. Shift constrains, Enter finishes. ⇒ Trascina per disegnare, poi regola con le maniglie. Maiusc vincola, Invio conclude.
+Drag to erase to transparency. ⇒ Trascina per cancellare in trasparenza.
+Drag to move the selection outline. ⇒ Trascina per spostare il contorno della selezione.
+Drag to move. Drag corner handles to scale, right-drag to rotate. Shift constrains. ⇒ Trascina per spostare. Gli angoli ridimensionano, il tasto destro ruota. Maiusc vincola.
+Drag to paint. Shift+click draws a straight line. ⇒ Trascina per dipingere. Maiusc+clic traccia una linea retta.
+Drag to pan the view. ⇒ Trascina per spostare la vista.
+Drag to pan. Middle mouse or holding Space pans with any tool. ⇒ Trascina per spostare la vista. Il tasto centrale o Spazio tenuto premuto funzionano con ogni strumento.
+Drag to select a rectangle. Click to deselect. ⇒ Trascina per selezionare un rettangolo. Clic per deselezionare.
+Drag to select an ellipse. Hold Shift for a circle. ⇒ Trascina per selezionare un’ellisse. Tieni Maiusc per un cerchio.
+Draw single pixel, aliased lines. ⇒ Disegna linee di un pixel senza antialiasing.
+Drop Shadow ⇒ Ombra esterna
+Drop Shadow… ⇒ Ombra esterna…
+Duplicate ⇒ Duplica
+Duplicate Layer ⇒ Duplica livello
+Duplicate layer ⇒ Duplica livello
+Edge Detect ⇒ Rileva bordi
+Edge Detect… ⇒ Rileva bordi…
+Edit ⇒ Modifica
+Effects ⇒ Effetti
+Ellipse ⇒ Ellisse
+Ellipse Select ⇒ Selezione ellittica
+Emboss ⇒ Rilievo
+Emboss… ⇒ Rilievo…
+Erase Selection ⇒ Cancella selezione
+Eraser ⇒ Gomma
+Esc to cancel ⇒ Esc per annullare
+Exit ⇒ Esci
+Factor ⇒ Fattore
+File ⇒ File
+File name ⇒ Nome file
+Fill ⇒ Riempimento
+Fill Selection ⇒ Riempi selezione
+Flatten ⇒ Unisci livelli
+Flip Horizontal ⇒ Rifletti orizzontalmente
+Flip Layer Horizontal ⇒ Rifletti livello orizzontalmente
+Flip Layer Vertical ⇒ Rifletti livello verticalmente
+Flip Vertical ⇒ Rifletti verticalmente
+Follow System ⇒ Come il sistema
+Follow system ⇒ Come il sistema
+Format ⇒ Formato
+Fragment ⇒ Frammenta
+Fragments ⇒ Frammenti
+Fragment… ⇒ Frammenta…
+Frosted Glass ⇒ Vetro smerigliato
+Frosted Glass… ⇒ Vetro smerigliato…
+Gaussian Blur ⇒ Sfocatura gaussiana
+Gaussian Blur… ⇒ Sfocatura gaussiana…
+Global ⇒ Globale
+Glow ⇒ Bagliore
+Glow… ⇒ Bagliore…
+Go to document: {} ⇒ Vai al documento: {}
+Gradient ⇒ Sfumatura
+Green ⇒ Verde
+Happy Halloween! This theme is always dark. ⇒ Buon Halloween! Questo tema è sempre scuro.
+Hard Light ⇒ Luce intensa
+Hardness ⇒ Durezza
+Heart ⇒ Cuore
+Height ⇒ Altezza
+Help ⇒ Aiuto
+Hexagon ⇒ Esagono
+Hide Layer ⇒ Nascondi livello
+Hide layer {}: {} ⇒ Nascondi livello {}: {}
+Higher quality means larger files. Transparency is flattened onto white. ⇒ Più qualità significa file più grandi. La trasparenza viene unita su bianco.
+History ⇒ Cronologia
+History Panel ⇒ Pannello Cronologia
+Hold Ctrl to add, Alt to subtract. ⇒ Tieni Ctrl per aggiungere, Alt per sottrarre.
+Hue ⇒ Tonalità
+Hue / Saturation ⇒ Tonalità / Saturazione
+Hue / Saturation… ⇒ Tonalità / Saturazione…
+Icons by Lucide (ISC). Inter typeface (OFL). ⇒ Icone di Lucide (ISC). Carattere Inter (OFL).
+Image ⇒ Immagine
+Import from File ⇒ Importa da file
+Import from File… ⇒ Importa da file…
+Ink Sketch ⇒ Schizzo a inchiostro
+Ink Sketch… ⇒ Schizzo a inchiostro…
+Ink outline ⇒ Contorno a inchiostro
+Input black ⇒ Nero in ingresso
+Input white ⇒ Bianco in ingresso
+Intensity ⇒ Intensità
+Intersect ⇒ Interseca
+Invert Colors ⇒ Inverti colori
+Invert Selection ⇒ Inverti selezione
+Invert colors ⇒ Inverti colori
+Invert overlap ⇒ Inverti sovrapposizione
+Italic ⇒ Corsivo
+Julia Fractal ⇒ Frattale di Julia
+Julia Fractal… ⇒ Frattale di Julia…
+Keyboard Shortcuts ⇒ Scorciatoie da tastiera
+Language ⇒ Lingua
+Lasso Select ⇒ Selezione a lazo
+Layer ⇒ Livello
+Layer Blend Mode ⇒ Metodo di fusione del livello
+Layer Opacity ⇒ Opacità del livello
+Layer Properties ⇒ Proprietà livello
+Layer Properties… ⇒ Proprietà livello…
+Layer Rotate / Zoom ⇒ Ruota / ingrandisci livello
+Layer number ({} layers) ⇒ Numero livello ({} livelli)
+Layer properties ⇒ Proprietà livello
+Layer {} ⇒ Livello {}
+Layer {}  ·  L {} {} switch · L {} T toggle ⇒ Livello {}  ·  L {} {} attiva · L {} T mostra/nascondi
+Layers ⇒ Livelli
+Layers Panel ⇒ Pannello Livelli
+Layers are flattened in this format. ⇒ In questo formato i livelli vengono uniti.
+Levels ⇒ Livelli tonali
+Levels… ⇒ Livelli tonali…
+Light ⇒ Chiaro
+Lighten ⇒ Schiarisci
+Lighting ⇒ Illuminazione
+Lightness ⇒ Luminosità
+Line / Curve ⇒ Linea / Curva
+Linear ⇒ Lineare
+Magic Wand ⇒ Bacchetta magica
+Magic Wand Select ⇒ Selezione con bacchetta magica
+Maintain aspect ratio ⇒ Mantieni proporzioni
+Mandelbrot Fractal ⇒ Frattale di Mandelbrot
+Mandelbrot Fractal… ⇒ Frattale di Mandelbrot…
+Median ⇒ Mediana
+Median… ⇒ Mediana…
+Menu Bar ⇒ Barra dei menu
+Merge Layer Down ⇒ Unisci al livello sottostante
+Merge down ⇒ Unisci verso il basso
+Merge layer down ⇒ Unisci verso il basso
+More adjustments commands ⇒ Altre regolazioni
+More effects commands ⇒ Altri effetti
+More image commands ⇒ Altri comandi immagine
+More layers commands ⇒ Altri comandi livelli
+More tools commands ⇒ Altri comandi strumenti
+More view commands ⇒ Altri comandi vista
+Motion Blur ⇒ Sfocatura di movimento
+Motion Blur… ⇒ Sfocatura di movimento…
+Move Layer Down ⇒ Sposta livello giù
+Move Layer Up ⇒ Sposta livello su
+Move Pixels ⇒ Sposta pixel
+Move Selected Pixels ⇒ Sposta pixel selezionati
+Move Selection ⇒ Sposta selezione
+Move layer down ⇒ Sposta livello giù
+Move layer up ⇒ Sposta livello su
+Multiply ⇒ Moltiplica
+Name ⇒ Nome
+Nearest neighbor ⇒ Vicino più prossimo
+Negation ⇒ Negazione
+New ⇒ Nuovo
+New Image ⇒ Nuova immagine
+New image ⇒ Nuova immagine
+New image {} × {} ⇒ Nuova immagine {} × {}
+New… ⇒ Nuovo…
+No matching commands ⇒ Nessun comando corrispondente
+Noise ⇒ Disturbo
+Normal ⇒ Normale
+Nothing to paste ⇒ Niente da incollare
+OK ⇒ OK
+Object ⇒ Oggetto
+Offset X ⇒ Spostamento X
+Offset Y ⇒ Spostamento Y
+Oil Painting ⇒ Pittura a olio
+Oil Painting… ⇒ Pittura a olio…
+Opacity ⇒ Opacità
+Open ⇒ Apri
+Open Image ⇒ Immagine aperta
+Open recent: {} ⇒ Apri recente: {}
+OpenRaster keeps your layers and opens in GIMP, Krita and MyPaint. ⇒ OpenRaster conserva i livelli e si apre in GIMP, Krita e MyPaint.
+Open… ⇒ Apri…
+Orange ⇒ Arancione
+Original: {} × {} px  →  New: {} × {} px ⇒ Originale: {} × {} px  →  Nuovo: {} × {} px
+Outline ⇒ Contorno
+Outline… ⇒ Contorno…
+Output black ⇒ Nero in uscita
+Output white ⇒ Bianco in uscita
+Overlay ⇒ Sovrapponi
+Overwrite ⇒ Sovrascrivi
+Paint ⇒ Dipingi
+Paint Bucket ⇒ Secchiello
+Paintbrush ⇒ Pennello
+Pan ⇒ Sposta vista
+Pan X ⇒ Spostamento X
+Pan Y ⇒ Spostamento Y
+Paste ⇒ Incolla
+Paste into New Image ⇒ Incolla in nuova immagine
+Paste into New Layer ⇒ Incolla in nuovo livello
+Pencil ⇒ Matita
+Pencil Sketch ⇒ Schizzo a matita
+Pencil Sketch… ⇒ Schizzo a matita…
+Pencil tip size ⇒ Dimensione punta
+Pentagon ⇒ Pentagono
+Percentage ⇒ Percentuale
+Percentile ⇒ Percentile
+Photo ⇒ Foto
+Pixel Grid ⇒ Griglia pixel
+Pixelate ⇒ Pixelizza
+Pixelate… ⇒ Pixelizza…
+Polar Inversion ⇒ Inversione polare
+Polar Inversion… ⇒ Inversione polare…
+Posterize ⇒ Posterizza
+Posterize… ⇒ Posterizza…
+Presets ⇒ Predefiniti
+Previous tool ⇒ Strumento precedente
+Properties ⇒ Proprietà
+Purple keys are chords: press them one after another (e.g. F, then B, then G). Tap Space for the command palette; hold Space to pan. ⇒ I tasti colorati sono accordi: premili uno dopo l’altro (es. F, poi B, poi G). Premi Spazio per la tavolozza comandi; tienilo premuto per spostare la vista.
+Quality ⇒ Qualità
+Quick command ⇒ Comando rapido
+Radial ⇒ Radiale
+Radial Blur ⇒ Sfocatura radiale
+Radial Blur… ⇒ Sfocatura radiale…
+Radius ⇒ Raggio
+Recolor ⇒ Ricolora
+Rectangle ⇒ Rettangolo
+Rectangle Select ⇒ Selezione rettangolare
+Red ⇒ Rosso
+Red Eye Removal ⇒ Rimozione occhi rossi
+Red Eye Removal… ⇒ Rimozione occhi rossi…
+Redo ⇒ Ripeti
+Reduce Noise ⇒ Riduci disturbo
+Reduce Noise… ⇒ Riduci disturbo…
+Reflect ⇒ Rifletti
+Reflected ⇒ Riflesso
+Refraction ⇒ Rifrazione
+Relief ⇒ Bassorilievo
+Relief… ⇒ Bassorilievo…
+Rename Layer ⇒ Rinomina livello
+Rename current layer to “{}” ⇒ Rinomina il livello corrente in «{}»
+Render ⇒ Rendering
+Repeat Last Effect ⇒ Ripeti ultimo effetto
+Replace ⇒ Sostituisci
+Replaces the secondary color with the primary color. ⇒ Sostituisce il colore secondario con quello primario.
+Resampling ⇒ Ricampionamento
+Reset ⇒ Ripristina
+Reset Colors ⇒ Ripristina colori
+Reset to black & white ⇒ Ripristina bianco e nero
+Resize ⇒ Ridimensiona
+Resize Image ⇒ Ridimensiona immagine
+Resize… ⇒ Ridimensiona…
+Right Triangle ⇒ Triangolo rettangolo
+Rose ⇒ Rosa
+Rotate / Zoom ⇒ Ruota / Ingrandisci
+Rotate / Zoom… ⇒ Ruota / Ingrandisci…
+Rotate 180° ⇒ Ruota di 180°
+Rotate 90° Clockwise ⇒ Ruota di 90° in senso orario
+Rotate 90° Counter-clockwise ⇒ Ruota di 90° in senso antiorario
+Rotation ⇒ Rotazione
+Roughness ⇒ Ruvidità
+Rounded Rectangle ⇒ Rettangolo arrotondato
+Rulers ⇒ Righelli
+Sample from ⇒ Campiona da
+Sampling ⇒ Campionamento
+Saturation ⇒ Saturazione
+Save ⇒ Salva
+Save As ⇒ Salva con nome
+Save As… ⇒ Salva con nome…
+Save Configuration ⇒ Opzioni di salvataggio
+Save changes to “{}” before closing? ⇒ Salvare le modifiche a «{}» prima di chiudere?
+Scale ⇒ Scala
+Screen ⇒ Scolora
+Search commands, tools, layers… ⇒ Cerca comandi, strumenti, livelli…
+Secondary color ⇒ Colore secondario
+Seed ⇒ Seme
+Select All ⇒ Seleziona tutto
+Select Layer Above ⇒ Seleziona livello sopra
+Select Layer Below ⇒ Seleziona livello sotto
+Selection mode ⇒ Modalità selezione
+Sepia ⇒ Seppia
+Set brush hardness to {}% ⇒ Durezza pennello al {}%
+Set brush size to {} px ⇒ Dimensione pennello a {} px
+Set color to #{} ⇒ Colore #{}
+Set font size to {} pt ⇒ Dimensione carattere a {} pt
+Set layer opacity to {}% ⇒ Opacità livello al {}%
+Set tolerance to {}% ⇒ Tolleranza al {}%
+Settings ⇒ Impostazioni
+Settings… ⇒ Impostazioni…
+Shape ⇒ Forma
+Shapes ⇒ Forme
+Sharpen ⇒ Nitidezza
+Sharpen… ⇒ Nitidezza…
+Shift+click draws a straight line from the last point. [ and ] change the size. ⇒ Maiusc+clic traccia una linea retta dall’ultimo punto. [ e ] cambiano la dimensione.
+Show Layer ⇒ Mostra livello
+Show Only Layer ⇒ Mostra solo questo livello
+Show layer {}: {} ⇒ Mostra livello {}: {}
+Show only layer {}: {} ⇒ Mostra solo il livello {}: {}
+Show only this layer ⇒ Mostra solo questo livello
+Size ⇒ Dimensione
+Smaller Brush ⇒ Pennello più piccolo
+Soft Light ⇒ Luce soffusa
+Soft Portrait ⇒ Ritratto morbido
+Soft Portrait… ⇒ Ritratto morbido…
+Softness ⇒ Morbidezza
+Solid ⇒ Continua
+Source Code on GitHub ⇒ Codice sorgente su GitHub
+Star ⇒ Stella
+Stay on picker ⇒ Resta sul contagocce
+Strength ⇒ Forza
+Stylize ⇒ Stilizzazione
+Subtract (Alt) ⇒ Sottrai (Alt)
+Support Ukraine's children ⇒ Sostieni i bambini dell’Ucraina
+Surface Blur ⇒ Sfocatura superficie
+Surface Blur… ⇒ Sfocatura superficie…
+Swap Colors ⇒ Scambia colori
+Swap colors ⇒ Scambia colori
+Switch (repeat digit) ⇒ Attiva (ripeti la cifra)
+Switch to layer ⇒ Attiva livello
+Switch to layer {}: {} ⇒ Attiva livello {}: {}
+Teal ⇒ Verde acqua
+Temperature ⇒ Temperatura
+Temperature / Tint ⇒ Temperatura / Tinta
+Temperature / Tint… ⇒ Temperatura / Tinta…
+Text ⇒ Testo
+The clipboard does not contain an image. ⇒ Gli appunti non contengono un’immagine.
+Theme ⇒ Tema
+Thickness ⇒ Spessore
+Threshold ⇒ Soglia
+Tile ⇒ Affianca
+Tile Reflection ⇒ Riflesso a piastrelle
+Tile Reflection… ⇒ Riflesso a piastrelle…
+Tile size ⇒ Dimensione piastrelle
+Tiling ⇒ Affiancamento
+Tint ⇒ Tinta
+Toggle visibility ⇒ Mostra / nascondi
+Tolerance ⇒ Tolleranza
+Tools ⇒ Strumenti
+Tools Panel ⇒ Pannello Strumenti
+Transparency ⇒ Trasparenza
+Transparent ⇒ Trasparente
+Triangle ⇒ Triangolo
+Twist ⇒ Vortice
+Twist… ⇒ Vortice…
+Type a command, tool, layer… or try “zoom 200”, “#ff6a00”, “size 40” ⇒ Digita un comando, strumento, livello… o prova «zoom 200», «#ff6a00», «size 40»
+Underline ⇒ Sottolineato
+Undo ⇒ Annulla
+Unfocus ⇒ Sfuocatura
+Unfocus… ⇒ Sfuocatura…
+Unsaved changes ⇒ Modifiche non salvate
+Untitled {} ⇒ Senza titolo {}
+Version {} ⇒ Versione {}
+Vibrance ⇒ Vividezza
+Vibrance… ⇒ Vividezza…
+View ⇒ Visualizza
+Vignette ⇒ Vignettatura
+Vignette… ⇒ Vignettatura…
+Violet ⇒ Viola
+Visible ⇒ Visibile
+Warmth ⇒ Calore
+Welcome to Neobrush ⇒ Benvenuto in Neobrush
+White ⇒ Bianco
+Width ⇒ Larghezza
+Your changes will be lost if you don't save them. ⇒ Se non salvi, le modifiche andranno perse.
+Zoom ⇒ Zoom
+Zoom Blur ⇒ Sfocatura zoom
+Zoom Blur… ⇒ Sfocatura zoom…
+Zoom In ⇒ Ingrandisci
+Zoom Out ⇒ Riduci
+Zoom to Window ⇒ Adatta alla finestra
+Zoom to {}% ⇒ Zoom al {}%
+chords work everywhere: toggle layer 2 ⇒ gli accordi funzionano ovunque: mostra/nascondi livello 2
+current ⇒ attuale
+navigate ⇒ naviga
+run ⇒ esegui
+{} copy ⇒ {} copia

@@ -46,7 +46,7 @@ fn perf_8k() {
     t("render 1600x1000 viewport @ 100%", 10, || render::render(&doc, 1600, 1000, &rp, &ov));
     doc.view.zoom = 0.2;
     // What the app does per frame now: copy the cached base and draw overlays on it.
-    let key = render::BaseKey::new(&doc, 1600, 1000, true, false);
+    let key = render::BaseKey::new(&doc, 1600, 1000, true, false, [13, 13, 16]);
     let base = render::render(&doc, 1600, 1000, &rp, &ov);
     t("frame from cache (copy + overlays)", 20, || {
         let mut f = base.clone();

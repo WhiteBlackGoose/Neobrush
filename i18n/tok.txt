@@ -1,0 +1,482 @@
+# toki pona (sitelen Lasina). ilo = tool, sitelen = image, lipu = layer, kule = color, leko = pixel, kon = blur
+A modern, cross-platform raster graphics editor for Windows, macOS, Linux and FreeBSD. ⇒ ilo sin pi pali sitelen. ona li pali lon ilo Windows en ilo macOS en ilo Linux en ilo FreeBSD.
+About ⇒ sona
+About Neobrush ⇒ sona pi ilo Neobrush
+Accent color ⇒ kule suli
+Actual Size ⇒ suli lon
+Add (Ctrl) ⇒ namako (Ctrl)
+Add New Layer ⇒ lipu sin
+Add Noise ⇒ o pana e kalama lukin
+Add Noise… ⇒ o pana e kalama lukin…
+Add new layer ⇒ lipu sin
+Additive ⇒ namako
+Adjustments ⇒ ante kule
+After picking ⇒ kama jo la
+Align center ⇒ lon insa
+Align left ⇒ lon poka open
+Align right ⇒ lon poka pini
+Alpha ⇒ alpa
+Amount ⇒ mute
+Anchor ⇒ ma awen
+Angle ⇒ nasin
+Antialias ⇒ selo suwi
+Apply ⇒ o kepeken
+Arrow ⇒ palisa nasin
+Artistic ⇒ musi
+Auto Crop ⇒ o kipisi kepeken nasin ilo
+Auto-Level ⇒ kule pona kepeken nasin ilo
+Background ⇒ monsi
+Best quality ⇒ pona nanpa wan
+Bicubic ⇒ nasin pi leko tu tu
+Bigger Brush ⇒ ilo kule suli
+Bilinear ⇒ nasin pi linja tu
+Black and White ⇒ pimeja en walo
+Blend ⇒ kulupu
+Blend mode ⇒ nasin kulupu
+Blue ⇒ laso telo
+Blur ⇒ kon
+Blurs ⇒ kon
+Bold ⇒ wawa
+Both ⇒ tu
+Brightness ⇒ suno
+Brightness / Contrast ⇒ suno / ante kule
+Brightness / Contrast… ⇒ suno / ante kule…
+Brush size ⇒ suli pi ilo kule
+Bulge ⇒ sike suli
+Bulge… ⇒ sike suli…
+By absolute size ⇒ kepeken leko
+By percentage ⇒ kepeken kipisi
+Cancel ⇒ ala
+Canvas Size ⇒ suli pi supa sitelen
+Canvas Size… ⇒ suli pi supa sitelen…
+Cell size ⇒ suli leko
+Center X ⇒ insa X
+Center Y ⇒ insa Y
+Centered ⇒ lon insa
+Click to add points · drag to move · right-click to remove ⇒ o luka la, sike lili li kama · o tawa la, ona li tawa · o luka poka la, ona li weka
+Click to fill an area. Right-click uses the secondary color. ⇒ o luka la, ma li kama kule. luka poka li kepeken kule nanpa tu.
+Click to pick the primary color, right-click for secondary. ⇒ o luka la, sina jo e kule nanpa wan. luka poka la, kule nanpa tu.
+Click to place text, then type. ⇒ o luka e ma, o sitelen e toki.
+Click to place text. Enter for a new line, Esc to finish. ⇒ o luka e ma pi toki. Enter li linja sin. Esc li pini.
+Click to select a region of similar color. ⇒ o luka la, sina jo e ma pi kule sama.
+Click to zoom in, right-click to zoom out, drag a rectangle to zoom to it. ⇒ o luka la, lukin li suli. luka poka la, ona li lili. o tawa e leko la, lukin li tawa ona.
+Click to zoom in, right-click to zoom out. ⇒ o luka la, lukin li suli. luka poka la, ona li lili.
+Clipboard {}×{} ⇒ poki sama {}×{}
+Clone Stamp ⇒ ilo sama
+Close ⇒ o pini
+Clouds ⇒ kon sewi
+Clouds… ⇒ kon sewi…
+Coarseness ⇒ ike selo
+Color ⇒ kule
+Color Burn ⇒ kule seli
+Color Dodge ⇒ kule suno
+Color Picker ⇒ ilo pi kama jo kule
+Color range ⇒ kule ale ni
+Color saturation ⇒ wawa kule
+Coloring ⇒ kule
+Colors ⇒ kule
+Colors Panel ⇒ lipu kule
+Command Palette ⇒ lipu wile
+Command Palette… ⇒ lipu wile…
+Command palette ⇒ lipu wile
+Conical ⇒ nasin sike
+Contiguous ⇒ poka taso
+Contrast ⇒ ante kule
+Copy ⇒ o sama
+Copy Merged ⇒ o sama e lipu ale
+Corner radius ⇒ sike pi poka leko
+Could not import file ⇒ mi ken ala kama jo e poki
+Could not open file ⇒ mi ken ala open e poki
+Could not save file ⇒ mi ken ala awen e poki
+Coverage ⇒ len
+Create ⇒ o pali
+Create a new image or open an existing one to get started. ⇒ o pali e sitelen sin anu o open e sitelen.
+Crop to Selection ⇒ o kipisi tawa ma jo
+Ctrl+click to set the clone source first. ⇒ nanpa wan la, o Ctrl+luka e mama.
+Ctrl+click to set the source, then paint. ⇒ o Ctrl+luka e mama, o pali e kule.
+Curvature ⇒ sike linja
+Curves ⇒ linja sike
+Curves… ⇒ linja sike…
+Cut ⇒ o kipisi
+Dark ⇒ pimeja
+Darken ⇒ pimeja
+Dashed ⇒ linja kipisi
+Delete ⇒ o weka
+Delete Layer ⇒ o weka e lipu
+Delete layer ⇒ o weka e lipu
+Dents ⇒ lupa
+Dents… ⇒ lupa…
+Deselect ⇒ o jo ala
+Diamond ⇒ leko nasa
+Difference ⇒ ante
+Distance ⇒ weka
+Distort ⇒ nasa
+Documents ⇒ sitelen ale
+Don't Save ⇒ o awen ala
+Donate to Voices of Children ⇒ o pana e mani tawa kulupu Voices of Children
+Donate to Voices of Children · voices.org.ua ⇒ o pana e mani tawa kulupu Voices of Children · voices.org.ua
+Done ⇒ pini
+Dotted ⇒ linja pi sike lili
+Download ⇒ o kama jo
+Drag the selection to move its pixels. ⇒ o tawa e ma jo. leko ona li tawa.
+Drag to draw a freeform selection. ⇒ o tawa la, sina jo e ma pi selo nasa.
+Drag to draw a gradient. Right-drag swaps the colors. ⇒ o tawa la, kule li ante lon nasin. tawa poka li ante e kule tu.
+Drag to draw a line, then drag the handles to bend it. ⇒ o tawa e linja, o tawa e sike lili la, linja li sike.
+Drag to draw a shape, then adjust with the handles. ⇒ o tawa e selo, o ante kepeken sike lili.
+Drag to draw, then adjust with the handles. Shift constrains, Enter finishes. ⇒ o tawa e selo, o ante kepeken sike lili. Shift li awen e nasin. Enter li pini.
+Drag to erase to transparency. ⇒ o tawa la, kule li weka.
+Drag to move the selection outline. ⇒ o tawa e selo pi ma jo.
+Drag to move. Drag corner handles to scale, right-drag to rotate. Shift constrains. ⇒ o tawa. sike lili lon poka li ante e suli. tawa poka li sike. Shift li awen e nasin.
+Drag to paint. Shift+click draws a straight line. ⇒ o tawa la, kule li kama. Shift+luka li linja.
+Drag to pan the view. ⇒ o tawa e lukin.
+Drag to pan. Middle mouse or holding Space pans with any tool. ⇒ o tawa e lukin. luka insa anu Space awen li tawa e lukin kepeken ilo ale.
+Drag to select a rectangle. Click to deselect. ⇒ o tawa la, sina jo e leko. luka la, sina jo ala.
+Drag to select an ellipse. Hold Shift for a circle. ⇒ o tawa la, sina jo e sike. Shift la, sike pona.
+Draw single pixel, aliased lines. ⇒ linja pi leko wan.
+Drop Shadow ⇒ pimeja anpa
+Drop Shadow… ⇒ pimeja anpa…
+Duplicate ⇒ o tu
+Duplicate Layer ⇒ o tu e lipu
+Duplicate layer ⇒ o tu e lipu
+Edge Detect ⇒ o lukin e selo
+Edge Detect… ⇒ o lukin e selo…
+Edit ⇒ ante
+Effects ⇒ nasa
+Ellipse ⇒ sike
+Ellipse Select ⇒ jo sike
+Emboss ⇒ selo kiwen
+Emboss… ⇒ selo kiwen…
+Erase Selection ⇒ o weka e ma jo
+Eraser ⇒ ilo weka
+Esc to cancel ⇒ Esc li ala
+Exit ⇒ o tawa weka
+Factor ⇒ mute
+File ⇒ poki
+File name ⇒ nimi poki
+Fill ⇒ o kule
+Fill Selection ⇒ o kule e ma jo
+Flatten ⇒ o wan e lipu
+Flip Horizontal ⇒ o lukin poka ante
+Flip Layer Horizontal ⇒ o lukin poka ante e lipu
+Flip Layer Vertical ⇒ o lukin sewi ante e lipu
+Flip Vertical ⇒ o lukin sewi ante
+Follow System ⇒ sama ilo
+Follow system ⇒ sama ilo
+Format ⇒ nasin poki
+Fragment ⇒ kipisi
+Fragments ⇒ kipisi
+Fragment… ⇒ kipisi…
+Frosted Glass ⇒ kiwen lukin kon
+Frosted Glass… ⇒ kiwen lukin kon…
+Gamma ⇒ kama
+Gaussian Blur ⇒ kon pi jan Gauss
+Gaussian Blur… ⇒ kon pi jan Gauss…
+Global ⇒ ale
+Glow ⇒ suno
+Glow… ⇒ suno…
+Go to document: {} ⇒ o tawa sitelen: {}
+Gradient ⇒ kule tawa
+Green ⇒ laso kasi
+Halloween ⇒ tenpo pi jan moli
+Happy Halloween! This theme is always dark. ⇒ tenpo pona pi jan moli! nasin lukin ni li pimeja lon tenpo ale.
+Hard Light ⇒ suno wawa
+Hardness ⇒ kiwen
+Heart ⇒ pilin
+Height ⇒ suli sewi
+Help ⇒ pona
+Hexagon ⇒ leko pi poka luka wan
+Hide Layer ⇒ o len e lipu
+Hide layer {}: {} ⇒ o len e lipu {}: {}
+Higher quality means larger files. Transparency is flattened onto white. ⇒ pona mute la, poki li suli. kule ala li kama walo.
+History ⇒ tenpo pini
+History Panel ⇒ lipu pi tenpo pini
+Hold Ctrl to add, Alt to subtract. ⇒ Ctrl li namako. Alt li weka.
+Hue ⇒ kule
+Hue / Saturation ⇒ kule / wawa kule
+Hue / Saturation… ⇒ kule / wawa kule…
+Icons by Lucide (ISC). Inter typeface (OFL). ⇒ sitelen lili li tan Lucide (ISC). sitelen toki li Inter (OFL).
+Image ⇒ sitelen
+Import from File ⇒ o kama jo tan poki
+Import from File… ⇒ o kama jo tan poki…
+Ink Sketch ⇒ sitelen pi telo pimeja
+Ink Sketch… ⇒ sitelen pi telo pimeja…
+Ink outline ⇒ selo pi telo pimeja
+Input black ⇒ pimeja open
+Input white ⇒ walo open
+Intensity ⇒ wawa
+Intersect ⇒ sama taso
+Invert Colors ⇒ o ante e kule
+Invert Selection ⇒ o ante e ma jo
+Invert colors ⇒ o ante e kule
+Invert overlap ⇒ o ante e ma sama
+Italic ⇒ tawa poka
+Julia Fractal ⇒ sitelen nasa pi jan Julia
+Julia Fractal… ⇒ sitelen nasa pi jan Julia…
+Keyboard Shortcuts ⇒ nena pi tenpo lili
+Language ⇒ toki
+Lasso Select ⇒ jo linja
+Layer ⇒ lipu
+Layer Blend Mode ⇒ nasin kulupu lipu
+Layer Opacity ⇒ len lipu
+Layer Properties ⇒ nasin lipu
+Layer Properties… ⇒ nasin lipu…
+Layer Rotate / Zoom ⇒ o sike / suli e lipu
+Layer number ({} layers) ⇒ nanpa lipu (lipu {})
+Layer properties ⇒ nasin lipu
+Layer {} ⇒ lipu {}
+Layer {}  ·  L {} {} switch · L {} T toggle ⇒ lipu {}  ·  L {} {} tawa · L {} T lukin
+Layers ⇒ lipu
+Layers Panel ⇒ lipu pi lipu ale
+Layers are flattened in this format. ⇒ lon nasin poki ni la, lipu ale li kama wan.
+Levels ⇒ suno mute
+Levels… ⇒ suno mute…
+Light ⇒ walo
+Lighten ⇒ suno
+Lighting ⇒ suno
+Lightness ⇒ walo
+Line / Curve ⇒ linja
+Linear ⇒ linja
+Magic Wand ⇒ palisa nasa
+Magic Wand Select ⇒ jo kepeken palisa nasa
+Maintain aspect ratio ⇒ o awen e nasin suli
+Mandelbrot Fractal ⇒ sitelen nasa pi jan Mandelbrot
+Mandelbrot Fractal… ⇒ sitelen nasa pi jan Mandelbrot…
+Median ⇒ insa
+Median… ⇒ insa…
+Menu Bar ⇒ linja wile
+Merge Layer Down ⇒ o wan e lipu anpa
+Merge down ⇒ o wan anpa
+Merge layer down ⇒ o wan anpa
+More adjustments commands ⇒ ante kule ante
+More effects commands ⇒ nasa ante
+More image commands ⇒ wile sitelen ante
+More layers commands ⇒ wile lipu ante
+More tools commands ⇒ ilo ante
+More view commands ⇒ wile lukin ante
+Motion Blur ⇒ kon tawa
+Motion Blur… ⇒ kon tawa…
+Move Layer Down ⇒ o anpa e lipu
+Move Layer Up ⇒ o sewi e lipu
+Move Pixels ⇒ o tawa e leko
+Move Selected Pixels ⇒ o tawa e leko jo
+Move Selection ⇒ o tawa e ma jo
+Move layer down ⇒ o anpa e lipu
+Move layer up ⇒ o sewi e lipu
+Multiply ⇒ mute
+Name ⇒ nimi
+Nearest neighbor ⇒ poka lili
+Negation ⇒ ala
+New ⇒ sin
+New Image ⇒ sitelen sin
+New image ⇒ sitelen sin
+New image {} × {} ⇒ sitelen sin {} × {}
+New… ⇒ sin…
+No matching commands ⇒ wile ala
+Noise ⇒ kalama lukin
+Normal ⇒ nasin pi tenpo ale
+Nothing to paste ⇒ ala li lon poki sama
+OK ⇒ pona
+Object ⇒ ijo
+Offset X ⇒ tawa X
+Offset Y ⇒ tawa Y
+Oil Painting ⇒ sitelen pi telo kasi
+Oil Painting… ⇒ sitelen pi telo kasi…
+Opacity ⇒ len
+Open ⇒ o open
+Open Image ⇒ o open e sitelen
+Open recent: {} ⇒ o open e sitelen pini: {}
+OpenRaster keeps your layers and opens in GIMP, Krita and MyPaint. ⇒ nasin OpenRaster li awen e lipu. ilo GIMP en ilo Krita en ilo MyPaint li ken open e ona.
+Open… ⇒ o open…
+Orange ⇒ loje jelo
+Original: {} × {} px  →  New: {} × {} px ⇒ open: leko {} × {}  →  sin: leko {} × {}
+Outline ⇒ selo
+Outline… ⇒ selo…
+Output black ⇒ pimeja pini
+Output white ⇒ walo pini
+Overlay ⇒ len sewi
+Overwrite ⇒ o sitelen sin
+Paint ⇒ kule
+Paint Bucket ⇒ poki kule
+Paintbrush ⇒ ilo kule
+Pan ⇒ luka
+Pan X ⇒ tawa X
+Pan Y ⇒ tawa Y
+Paste ⇒ o pana
+Paste into New Image ⇒ o pana lon sitelen sin
+Paste into New Layer ⇒ o pana lon lipu sin
+Pencil ⇒ palisa sitelen
+Pencil Sketch ⇒ sitelen pi palisa sitelen
+Pencil Sketch… ⇒ sitelen pi palisa sitelen…
+Pencil tip size ⇒ suli pi lawa palisa
+Pentagon ⇒ leko pi poka luka
+Percentage ⇒ kipisi
+Percentile ⇒ kipisi
+Photo ⇒ sitelen suno
+Pixel Grid ⇒ linja leko
+Pixelate ⇒ leko suli
+Pixelate… ⇒ leko suli…
+Polar Inversion ⇒ sike nasa
+Polar Inversion… ⇒ sike nasa…
+Posterize ⇒ kule lili
+Posterize… ⇒ kule lili…
+Presets ⇒ nasin pini
+Previous tool ⇒ ilo pini
+Properties ⇒ nasin
+Purple keys are chords: press them one after another (e.g. F, then B, then G). Tap Space for the command palette; hold Space to pan. ⇒ nena kule li kalama musi: o luka e ona lon nasin (sama F, B, G). o luka lili e Space la, lipu wile li open. o awen e Space la, lukin li tawa.
+Quality ⇒ pona
+Quick command ⇒ wile wawa
+Radial ⇒ sike
+Radial Blur ⇒ kon sike
+Radial Blur… ⇒ kon sike…
+Radius ⇒ suli sike
+Recolor ⇒ kule sin
+Rectangle ⇒ leko
+Rectangle Select ⇒ jo leko
+Red ⇒ loje
+Red Eye Removal ⇒ o weka e oko loje
+Red Eye Removal… ⇒ o weka e oko loje…
+Redo ⇒ o pali sin
+Reduce Noise ⇒ o lili e kalama lukin
+Reduce Noise… ⇒ o lili e kalama lukin…
+Reflect ⇒ sinpin lukin
+Reflected ⇒ sinpin lukin
+Refraction ⇒ telo lukin
+Relief ⇒ selo nena
+Relief… ⇒ selo nena…
+Rename Layer ⇒ o nimi sin e lipu
+Rename current layer to “{}” ⇒ o pana e nimi “{}” tawa lipu ni
+Render ⇒ o pali
+Repeat Last Effect ⇒ o sin e nasa pini
+Replace ⇒ o ante
+Replaces the secondary color with the primary color. ⇒ kule nanpa tu li kama kule nanpa wan.
+Resampling ⇒ nasin leko
+Reset ⇒ o sin
+Reset Colors ⇒ o sin e kule
+Reset to black & white ⇒ o pimeja en walo
+Resize ⇒ o ante e suli
+Resize Image ⇒ o ante e suli sitelen
+Resize… ⇒ o ante e suli…
+Right Triangle ⇒ nena pi poka pona
+Rose ⇒ loje walo
+Rotate / Zoom ⇒ sike / suli
+Rotate / Zoom… ⇒ sike / suli…
+Rotate 180° ⇒ o sike 180°
+Rotate 90° Clockwise ⇒ o sike 90° sama ilo tenpo
+Rotate 90° Counter-clockwise ⇒ o sike 90° ante ilo tenpo
+Rotation ⇒ sike
+Roughness ⇒ ike selo
+Rounded Rectangle ⇒ leko sike
+Rulers ⇒ palisa nanpa
+Sample from ⇒ kama jo tan
+Sampling ⇒ kama jo
+Saturation ⇒ wawa kule
+Save ⇒ o awen
+Save As ⇒ o awen sin
+Save As… ⇒ o awen sin…
+Save Configuration ⇒ nasin awen
+Save changes to “{}” before closing? ⇒ sina wile ala wile awen e ante pi “{}”?
+Scale ⇒ suli
+Screen ⇒ sinpin
+Search commands, tools, layers… ⇒ o alasa e wile, e ilo, e lipu…
+Secondary color ⇒ kule nanpa tu
+Seed ⇒ open nasa
+Select All ⇒ o jo e ale
+Select Layer Above ⇒ o jo e lipu sewi
+Select Layer Below ⇒ o jo e lipu anpa
+Selection mode ⇒ nasin jo
+Sepia ⇒ kule pi tenpo pini
+Set brush hardness to {}% ⇒ kiwen pi ilo kule li {}%
+Set brush size to {} px ⇒ suli pi ilo kule li leko {}
+Set color to #{} ⇒ kule li #{}
+Set font size to {} pt ⇒ suli toki li {} pt
+Set layer opacity to {}% ⇒ len lipu li {}%
+Set tolerance to {}% ⇒ ken ante li {}%
+Settings ⇒ nasin
+Settings… ⇒ nasin…
+Shape ⇒ selo
+Shapes ⇒ selo
+Sharpen ⇒ o wawa e selo
+Sharpen… ⇒ o wawa e selo…
+Shift+click draws a straight line from the last point. [ and ] change the size. ⇒ Shift+luka li linja tan ma pini. [ en ] li ante e suli.
+Show Layer ⇒ o lukin e lipu
+Show Only Layer ⇒ o lukin e lipu ni taso
+Show layer {}: {} ⇒ o lukin e lipu {}: {}
+Show only layer {}: {} ⇒ o lukin e lipu {} taso: {}
+Show only this layer ⇒ o lukin e lipu ni taso
+Size ⇒ suli
+Smaller Brush ⇒ ilo kule lili
+Soft Light ⇒ suno suwi
+Soft Portrait ⇒ sitelen jan suwi
+Soft Portrait… ⇒ sitelen jan suwi…
+Softness ⇒ suwi
+Solid ⇒ linja wan
+Source Code on GitHub ⇒ toki ilo lon GitHub
+Star ⇒ mun
+Stay on picker ⇒ o awen lon ilo kule
+Strength ⇒ wawa
+Stylize ⇒ nasin musi
+Subtract (Alt) ⇒ weka (Alt)
+Support Ukraine's children ⇒ o pona e jan lili pi ma Ukawina
+Surface Blur ⇒ kon selo
+Surface Blur… ⇒ kon selo…
+Swap Colors ⇒ o ante e kule tu
+Swap colors ⇒ o ante e kule tu
+Switch (repeat digit) ⇒ tawa (o sin e nanpa)
+Switch to layer ⇒ o tawa lipu
+Switch to layer {}: {} ⇒ o tawa lipu {}: {}
+Teal ⇒ laso
+Temperature ⇒ seli
+Temperature / Tint ⇒ seli / kule
+Temperature / Tint… ⇒ seli / kule…
+Text ⇒ toki
+The clipboard does not contain an image. ⇒ sitelen li lon ala poki sama.
+Theme ⇒ nasin lukin
+Thickness ⇒ suli linja
+Threshold ⇒ selo nanpa
+Tile ⇒ leko
+Tile Reflection ⇒ sinpin leko
+Tile Reflection… ⇒ sinpin leko…
+Tile size ⇒ suli leko
+Tiling ⇒ leko mute
+Tint ⇒ kule
+Toggle visibility ⇒ lukin / len
+Tolerance ⇒ ken ante
+Tools ⇒ ilo
+Tools Panel ⇒ lipu ilo
+Transparency ⇒ kule ala
+Transparent ⇒ kule ala
+Triangle ⇒ nena
+Twist ⇒ sike nasa
+Twist… ⇒ sike nasa…
+Type a command, tool, layer… or try “zoom 200”, “#ff6a00”, “size 40” ⇒ o sitelen e wile, e ilo, e lipu… anu “zoom 200”, “#ff6a00”, “size 40”
+Underline ⇒ linja anpa
+Undo ⇒ o weka e ante
+Unfocus ⇒ lukin pi sona ala
+Unfocus… ⇒ lukin pi sona ala…
+Unsaved changes ⇒ ante li awen ala
+Untitled {} ⇒ nimi ala {}
+Version {} ⇒ nanpa {}
+Vibrance ⇒ kule wawa
+Vibrance… ⇒ kule wawa…
+View ⇒ lukin
+Vignette ⇒ poka pimeja
+Vignette… ⇒ poka pimeja…
+Violet ⇒ laso loje
+Visible ⇒ lukin
+Warmth ⇒ seli
+Welcome to Neobrush ⇒ kama pona tawa ilo Neobrush
+White ⇒ walo
+Width ⇒ suli poka
+Your changes will be lost if you don't save them. ⇒ sina awen ala la, ante li weka.
+Zoom ⇒ suli lukin
+Zoom Blur ⇒ kon suli
+Zoom Blur… ⇒ kon suli…
+Zoom In ⇒ o suli e lukin
+Zoom Out ⇒ o lili e lukin
+Zoom to Window ⇒ suli sama lupa
+Zoom to {}% ⇒ suli lukin {}%
+chords work everywhere: toggle layer 2 ⇒ kalama musi li pali lon ma ale: lukin pi lipu 2
+current ⇒ ni
+navigate ⇒ tawa
+run ⇒ pali
+{} copy ⇒ {} sama

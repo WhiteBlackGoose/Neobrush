@@ -1,0 +1,482 @@
+# Korean
+A modern, cross-platform raster graphics editor for Windows, macOS, Linux and FreeBSD. ⇒ Windows, macOS, Linux, FreeBSD를 위한 현대적인 크로스 플랫폼 래스터 그래픽 편집기.
+About ⇒ 정보
+About Neobrush ⇒ Neobrush 정보
+Accent color ⇒ 강조 색상
+Actual Size ⇒ 실제 크기
+Add (Ctrl) ⇒ 추가 (Ctrl)
+Add New Layer ⇒ 새 레이어
+Add Noise ⇒ 노이즈 추가
+Add Noise… ⇒ 노이즈 추가…
+Add new layer ⇒ 새 레이어
+Additive ⇒ 더하기
+Adjustments ⇒ 조정
+After picking ⇒ 색 추출 후
+Align center ⇒ 가운데 정렬
+Align left ⇒ 왼쪽 정렬
+Align right ⇒ 오른쪽 정렬
+Alpha ⇒ 알파
+Amount ⇒ 양
+Anchor ⇒ 기준점
+Angle ⇒ 각도
+Antialias ⇒ 앤티앨리어스
+Apply ⇒ 적용
+Arrow ⇒ 화살표
+Artistic ⇒ 예술 효과
+Auto Crop ⇒ 자동 자르기
+Auto-Level ⇒ 자동 레벨
+Background ⇒ 배경
+Best quality ⇒ 최고 품질
+Bicubic ⇒ 쌍입방
+Bigger Brush ⇒ 브러시 크게
+Bilinear ⇒ 쌍선형
+Black and White ⇒ 흑백
+Blend ⇒ 혼합
+Blend mode ⇒ 혼합 모드
+Blue ⇒ 파랑
+Blur ⇒ 흐림
+Blurs ⇒ 흐림 효과
+Bold ⇒ 굵게
+Both ⇒ 둘 다
+Brightness ⇒ 밝기
+Brightness / Contrast ⇒ 밝기 / 대비
+Brightness / Contrast… ⇒ 밝기 / 대비…
+Brush size ⇒ 브러시 크기
+Bulge ⇒ 볼록
+Bulge… ⇒ 볼록…
+By absolute size ⇒ 픽셀 단위
+By percentage ⇒ 백분율
+Cancel ⇒ 취소
+Canvas Size ⇒ 캔버스 크기
+Canvas Size… ⇒ 캔버스 크기…
+Cell size ⇒ 셀 크기
+Center X ⇒ 중심 X
+Center Y ⇒ 중심 Y
+Centered ⇒ 가운데
+Click to add points · drag to move · right-click to remove ⇒ 클릭하여 점 추가 · 드래그하여 이동 · 오른쪽 클릭으로 제거
+Click to fill an area. Right-click uses the secondary color. ⇒ 클릭하여 영역을 채웁니다. 오른쪽 클릭은 보조 색을 사용합니다.
+Click to pick the primary color, right-click for secondary. ⇒ 클릭하면 기본 색, 오른쪽 클릭하면 보조 색을 추출합니다.
+Click to place text, then type. ⇒ 클릭하여 텍스트를 놓고 입력하세요.
+Click to place text. Enter for a new line, Esc to finish. ⇒ 클릭하여 텍스트를 놓습니다. Enter로 줄 바꿈, Esc로 완료.
+Click to select a region of similar color. ⇒ 클릭하여 비슷한 색 영역을 선택합니다.
+Click to zoom in, right-click to zoom out, drag a rectangle to zoom to it. ⇒ 클릭하면 확대, 오른쪽 클릭하면 축소, 사각형을 드래그하면 그 영역을 확대합니다.
+Click to zoom in, right-click to zoom out. ⇒ 클릭하면 확대, 오른쪽 클릭하면 축소.
+Clipboard {}×{} ⇒ 클립보드 {}×{}
+Clone Stamp ⇒ 복제 도장
+Close ⇒ 닫기
+Clouds ⇒ 구름
+Clouds… ⇒ 구름…
+Coarseness ⇒ 거칠기
+Color ⇒ 색상
+Color Burn ⇒ 색상 번
+Color Dodge ⇒ 색상 닷지
+Color Picker ⇒ 스포이트
+Color range ⇒ 색상 범위
+Color saturation ⇒ 색 채도
+Coloring ⇒ 채색
+Colors ⇒ 색상
+Colors Panel ⇒ 색상 패널
+Command Palette ⇒ 명령 팔레트
+Command Palette… ⇒ 명령 팔레트…
+Command palette ⇒ 명령 팔레트
+Conical ⇒ 원뿔형
+Contiguous ⇒ 인접
+Contrast ⇒ 대비
+Copy ⇒ 복사
+Copy Merged ⇒ 병합 복사
+Corner radius ⇒ 모서리 반경
+Could not import file ⇒ 파일을 가져올 수 없습니다
+Could not open file ⇒ 파일을 열 수 없습니다
+Could not save file ⇒ 파일을 저장할 수 없습니다
+Coverage ⇒ 범위
+Create ⇒ 만들기
+Create a new image or open an existing one to get started. ⇒ 새 이미지를 만들거나 기존 이미지를 열어 시작하세요.
+Crop to Selection ⇒ 선택 영역으로 자르기
+Ctrl+click to set the clone source first. ⇒ 먼저 Ctrl+클릭으로 복제 원본을 지정하세요.
+Ctrl+click to set the source, then paint. ⇒ Ctrl+클릭으로 원본을 지정한 후 칠하세요.
+Curvature ⇒ 곡률
+Curves ⇒ 곡선
+Curves… ⇒ 곡선…
+Cut ⇒ 잘라내기
+Dark ⇒ 어둡게
+Darken ⇒ 어둡게 하기
+Dashed ⇒ 파선
+Delete ⇒ 삭제
+Delete Layer ⇒ 레이어 삭제
+Delete layer ⇒ 레이어 삭제
+Dents ⇒ 움푹 패기
+Dents… ⇒ 움푹 패기…
+Deselect ⇒ 선택 해제
+Diamond ⇒ 마름모
+Difference ⇒ 차이
+Distance ⇒ 거리
+Distort ⇒ 왜곡
+Documents ⇒ 문서
+Don't Save ⇒ 저장 안 함
+Donate to Voices of Children ⇒ Voices of Children에 기부하기
+Donate to Voices of Children · voices.org.ua ⇒ Voices of Children에 기부하기 · voices.org.ua
+Done ⇒ 완료
+Dotted ⇒ 점선
+Download ⇒ 다운로드
+Drag the selection to move its pixels. ⇒ 선택 영역을 드래그하여 픽셀을 이동합니다.
+Drag to draw a freeform selection. ⇒ 드래그하여 자유형 선택 영역을 그립니다.
+Drag to draw a gradient. Right-drag swaps the colors. ⇒ 드래그하여 그라디언트를 그립니다. 오른쪽 드래그는 색을 바꿉니다.
+Drag to draw a line, then drag the handles to bend it. ⇒ 드래그하여 선을 그린 후 핸들로 구부립니다.
+Drag to draw a shape, then adjust with the handles. ⇒ 드래그하여 도형을 그린 후 핸들로 조정합니다.
+Drag to draw, then adjust with the handles. Shift constrains, Enter finishes. ⇒ 드래그하여 그린 후 핸들로 조정합니다. Shift로 제한, Enter로 완료.
+Drag to erase to transparency. ⇒ 드래그하여 투명하게 지웁니다.
+Drag to move the selection outline. ⇒ 드래그하여 선택 윤곽을 이동합니다.
+Drag to move. Drag corner handles to scale, right-drag to rotate. Shift constrains. ⇒ 드래그하여 이동. 모서리 핸들로 크기 조정, 오른쪽 드래그로 회전. Shift로 제한.
+Drag to paint. Shift+click draws a straight line. ⇒ 드래그하여 칠합니다. Shift+클릭으로 직선을 그립니다.
+Drag to pan the view. ⇒ 드래그하여 화면을 이동합니다.
+Drag to pan. Middle mouse or holding Space pans with any tool. ⇒ 드래그하여 화면을 이동합니다. 가운데 버튼이나 Space를 누른 채로 어떤 도구에서든 이동할 수 있습니다.
+Drag to select a rectangle. Click to deselect. ⇒ 드래그하여 사각형을 선택합니다. 클릭하면 선택 해제.
+Drag to select an ellipse. Hold Shift for a circle. ⇒ 드래그하여 타원을 선택합니다. Shift를 누르면 원.
+Draw single pixel, aliased lines. ⇒ 앤티앨리어스 없는 1픽셀 선을 그립니다.
+Drop Shadow ⇒ 그림자
+Drop Shadow… ⇒ 그림자…
+Duplicate ⇒ 복제
+Duplicate Layer ⇒ 레이어 복제
+Duplicate layer ⇒ 레이어 복제
+Edge Detect ⇒ 가장자리 검출
+Edge Detect… ⇒ 가장자리 검출…
+Edit ⇒ 편집
+Effects ⇒ 효과
+Ellipse ⇒ 타원
+Ellipse Select ⇒ 타원 선택
+Emboss ⇒ 엠보스
+Emboss… ⇒ 엠보스…
+Erase Selection ⇒ 선택 영역 지우기
+Eraser ⇒ 지우개
+Esc to cancel ⇒ Esc로 취소
+Exit ⇒ 종료
+Factor ⇒ 계수
+File ⇒ 파일
+File name ⇒ 파일 이름
+Fill ⇒ 채우기
+Fill Selection ⇒ 선택 영역 채우기
+Flatten ⇒ 이미지 병합
+Flip Horizontal ⇒ 좌우 뒤집기
+Flip Layer Horizontal ⇒ 레이어 좌우 뒤집기
+Flip Layer Vertical ⇒ 레이어 상하 뒤집기
+Flip Vertical ⇒ 상하 뒤집기
+Follow System ⇒ 시스템 설정 따름
+Follow system ⇒ 시스템 설정 따름
+Format ⇒ 형식
+Fragment ⇒ 조각
+Fragments ⇒ 조각 수
+Fragment… ⇒ 조각…
+Frosted Glass ⇒ 젖빛 유리
+Frosted Glass… ⇒ 젖빛 유리…
+Gamma ⇒ 감마
+Gaussian Blur ⇒ 가우시안 흐림
+Gaussian Blur… ⇒ 가우시안 흐림…
+Global ⇒ 전체
+Glow ⇒ 광선
+Glow… ⇒ 광선…
+Go to document: {} ⇒ 문서로 이동: {}
+Gradient ⇒ 그라디언트
+Green ⇒ 초록
+Halloween ⇒ 할로윈
+Happy Halloween! This theme is always dark. ⇒ 해피 할로윈! 이 테마는 항상 어둡습니다.
+Hard Light ⇒ 하드 라이트
+Hardness ⇒ 경도
+Heart ⇒ 하트
+Height ⇒ 높이
+Help ⇒ 도움말
+Hexagon ⇒ 육각형
+Hide Layer ⇒ 레이어 숨기기
+Hide layer {}: {} ⇒ 레이어 {} 숨기기: {}
+Higher quality means larger files. Transparency is flattened onto white. ⇒ 품질이 높을수록 파일이 커집니다. 투명한 부분은 흰색으로 병합됩니다.
+History ⇒ 작업 내역
+History Panel ⇒ 작업 내역 패널
+Hold Ctrl to add, Alt to subtract. ⇒ Ctrl을 누르면 추가, Alt를 누르면 빼기.
+Hue ⇒ 색조
+Hue / Saturation ⇒ 색조 / 채도
+Hue / Saturation… ⇒ 색조 / 채도…
+Icons by Lucide (ISC). Inter typeface (OFL). ⇒ 아이콘: Lucide (ISC). 서체: Inter (OFL).
+Image ⇒ 이미지
+Import from File ⇒ 파일에서 가져오기
+Import from File… ⇒ 파일에서 가져오기…
+Ink Sketch ⇒ 잉크 스케치
+Ink Sketch… ⇒ 잉크 스케치…
+Ink outline ⇒ 잉크 윤곽
+Input black ⇒ 입력 검정
+Input white ⇒ 입력 흰색
+Intensity ⇒ 강도
+Intersect ⇒ 교차
+Invert Colors ⇒ 색 반전
+Invert Selection ⇒ 선택 반전
+Invert colors ⇒ 색 반전
+Invert overlap ⇒ 겹침 반전
+Italic ⇒ 기울임
+Julia Fractal ⇒ 줄리아 프랙탈
+Julia Fractal… ⇒ 줄리아 프랙탈…
+Keyboard Shortcuts ⇒ 단축키
+Language ⇒ 언어
+Lasso Select ⇒ 올가미 선택
+Layer ⇒ 레이어
+Layer Blend Mode ⇒ 레이어 혼합 모드
+Layer Opacity ⇒ 레이어 불투명도
+Layer Properties ⇒ 레이어 속성
+Layer Properties… ⇒ 레이어 속성…
+Layer Rotate / Zoom ⇒ 레이어 회전 / 확대
+Layer number ({} layers) ⇒ 레이어 번호 ({}개 레이어)
+Layer properties ⇒ 레이어 속성
+Layer {} ⇒ 레이어 {}
+Layer {}  ·  L {} {} switch · L {} T toggle ⇒ 레이어 {}  ·  L {} {} 전환 · L {} T 표시/숨기기
+Layers ⇒ 레이어
+Layers Panel ⇒ 레이어 패널
+Layers are flattened in this format. ⇒ 이 형식에서는 레이어가 병합됩니다.
+Levels ⇒ 레벨
+Levels… ⇒ 레벨…
+Light ⇒ 밝게
+Lighten ⇒ 밝게 하기
+Lighting ⇒ 조명
+Lightness ⇒ 명도
+Line / Curve ⇒ 선 / 곡선
+Linear ⇒ 선형
+Magic Wand ⇒ 자동 선택
+Magic Wand Select ⇒ 자동 선택
+Maintain aspect ratio ⇒ 가로세로 비율 유지
+Mandelbrot Fractal ⇒ 망델브로 프랙탈
+Mandelbrot Fractal… ⇒ 망델브로 프랙탈…
+Median ⇒ 중간값
+Median… ⇒ 중간값…
+Menu Bar ⇒ 메뉴 막대
+Merge Layer Down ⇒ 아래 레이어와 병합
+Merge down ⇒ 아래와 병합
+Merge layer down ⇒ 아래와 병합
+More adjustments commands ⇒ 기타 조정
+More effects commands ⇒ 기타 효과
+More image commands ⇒ 기타 이미지 명령
+More layers commands ⇒ 기타 레이어 명령
+More tools commands ⇒ 기타 도구 명령
+More view commands ⇒ 기타 보기 명령
+Motion Blur ⇒ 동작 흐림
+Motion Blur… ⇒ 동작 흐림…
+Move Layer Down ⇒ 레이어 아래로
+Move Layer Up ⇒ 레이어 위로
+Move Pixels ⇒ 픽셀 이동
+Move Selected Pixels ⇒ 선택한 픽셀 이동
+Move Selection ⇒ 선택 영역 이동
+Move layer down ⇒ 레이어 아래로
+Move layer up ⇒ 레이어 위로
+Multiply ⇒ 곱하기
+Name ⇒ 이름
+Nearest neighbor ⇒ 최근접 이웃
+Negation ⇒ 부정
+New ⇒ 새로 만들기
+New Image ⇒ 새 이미지
+New image ⇒ 새 이미지
+New image {} × {} ⇒ 새 이미지 {} × {}
+New… ⇒ 새로 만들기…
+No matching commands ⇒ 일치하는 명령이 없습니다
+Noise ⇒ 노이즈
+Normal ⇒ 표준
+Nothing to paste ⇒ 붙여 넣을 내용이 없습니다
+OK ⇒ 확인
+Object ⇒ 개체
+Offset X ⇒ 오프셋 X
+Offset Y ⇒ 오프셋 Y
+Oil Painting ⇒ 유화
+Oil Painting… ⇒ 유화…
+Opacity ⇒ 불투명도
+Open ⇒ 열기
+Open Image ⇒ 이미지 열기
+Open recent: {} ⇒ 최근 파일 열기: {}
+OpenRaster keeps your layers and opens in GIMP, Krita and MyPaint. ⇒ OpenRaster는 레이어를 유지하며 GIMP, Krita, MyPaint에서 열립니다.
+Open… ⇒ 열기…
+Orange ⇒ 주황
+Original: {} × {} px  →  New: {} × {} px ⇒ 원본: {} × {} px  →  새 크기: {} × {} px
+Outline ⇒ 윤곽선
+Outline… ⇒ 윤곽선…
+Output black ⇒ 출력 검정
+Output white ⇒ 출력 흰색
+Overlay ⇒ 오버레이
+Overwrite ⇒ 덮어쓰기
+Paint ⇒ 칠하기
+Paint Bucket ⇒ 페인트 통
+Paintbrush ⇒ 브러시
+Pan ⇒ 손바닥
+Pan X ⇒ 이동 X
+Pan Y ⇒ 이동 Y
+Paste ⇒ 붙여넣기
+Paste into New Image ⇒ 새 이미지로 붙여넣기
+Paste into New Layer ⇒ 새 레이어로 붙여넣기
+Pencil ⇒ 연필
+Pencil Sketch ⇒ 연필 스케치
+Pencil Sketch… ⇒ 연필 스케치…
+Pencil tip size ⇒ 연필 끝 크기
+Pentagon ⇒ 오각형
+Percentage ⇒ 백분율
+Percentile ⇒ 백분위수
+Photo ⇒ 사진
+Pixel Grid ⇒ 픽셀 격자
+Pixelate ⇒ 모자이크
+Pixelate… ⇒ 모자이크…
+Polar Inversion ⇒ 극좌표 반전
+Polar Inversion… ⇒ 극좌표 반전…
+Posterize ⇒ 포스터화
+Posterize… ⇒ 포스터화…
+Presets ⇒ 사전 설정
+Previous tool ⇒ 이전 도구
+Properties ⇒ 속성
+Purple keys are chords: press them one after another (e.g. F, then B, then G). Tap Space for the command palette; hold Space to pan. ⇒ 색이 있는 키는 코드입니다. 차례로 누르세요(예: F, B, G). Space를 짧게 누르면 명령 팔레트, 길게 누르면 화면 이동.
+Quality ⇒ 품질
+Quick command ⇒ 빠른 명령
+Radial ⇒ 방사형
+Radial Blur ⇒ 방사형 흐림
+Radial Blur… ⇒ 방사형 흐림…
+Radius ⇒ 반경
+Recolor ⇒ 색 바꾸기
+Rectangle ⇒ 사각형
+Rectangle Select ⇒ 사각형 선택
+Red ⇒ 빨강
+Red Eye Removal ⇒ 적목 현상 제거
+Red Eye Removal… ⇒ 적목 현상 제거…
+Redo ⇒ 다시 실행
+Reduce Noise ⇒ 노이즈 감소
+Reduce Noise… ⇒ 노이즈 감소…
+Reflect ⇒ 반사
+Reflected ⇒ 반사형
+Refraction ⇒ 굴절
+Relief ⇒ 양각
+Relief… ⇒ 양각…
+Rename Layer ⇒ 레이어 이름 바꾸기
+Rename current layer to “{}” ⇒ 현재 레이어 이름을 “{}”(으)로 바꾸기
+Render ⇒ 렌더
+Repeat Last Effect ⇒ 마지막 효과 반복
+Replace ⇒ 바꾸기
+Replaces the secondary color with the primary color. ⇒ 보조 색을 기본 색으로 바꿉니다.
+Resampling ⇒ 리샘플링
+Reset ⇒ 초기화
+Reset Colors ⇒ 색 초기화
+Reset to black & white ⇒ 검정과 흰색으로 초기화
+Resize ⇒ 크기 조정
+Resize Image ⇒ 이미지 크기 조정
+Resize… ⇒ 크기 조정…
+Right Triangle ⇒ 직각삼각형
+Rose ⇒ 로즈
+Rotate / Zoom ⇒ 회전 / 확대
+Rotate / Zoom… ⇒ 회전 / 확대…
+Rotate 180° ⇒ 180° 회전
+Rotate 90° Clockwise ⇒ 시계 방향으로 90° 회전
+Rotate 90° Counter-clockwise ⇒ 시계 반대 방향으로 90° 회전
+Rotation ⇒ 회전
+Roughness ⇒ 거칠기
+Rounded Rectangle ⇒ 둥근 사각형
+Rulers ⇒ 눈금자
+Sample from ⇒ 추출 대상
+Sampling ⇒ 샘플링
+Saturation ⇒ 채도
+Save ⇒ 저장
+Save As ⇒ 다른 이름으로 저장
+Save As… ⇒ 다른 이름으로 저장…
+Save Configuration ⇒ 저장 옵션
+Save changes to “{}” before closing? ⇒ 닫기 전에 “{}”의 변경 사항을 저장할까요?
+Scale ⇒ 배율
+Screen ⇒ 스크린
+Search commands, tools, layers… ⇒ 명령, 도구, 레이어 검색…
+Secondary color ⇒ 보조 색
+Seed ⇒ 시드
+Select All ⇒ 모두 선택
+Select Layer Above ⇒ 위 레이어 선택
+Select Layer Below ⇒ 아래 레이어 선택
+Selection mode ⇒ 선택 모드
+Sepia ⇒ 세피아
+Set brush hardness to {}% ⇒ 브러시 경도를 {}%로
+Set brush size to {} px ⇒ 브러시 크기를 {} px로
+Set color to #{} ⇒ 색을 #{}(으)로
+Set font size to {} pt ⇒ 글꼴 크기를 {} pt로
+Set layer opacity to {}% ⇒ 레이어 불투명도를 {}%로
+Set tolerance to {}% ⇒ 허용치를 {}%로
+Settings ⇒ 설정
+Settings… ⇒ 설정…
+Shape ⇒ 도형
+Shapes ⇒ 도형
+Sharpen ⇒ 선명하게
+Sharpen… ⇒ 선명하게…
+Shift+click draws a straight line from the last point. [ and ] change the size. ⇒ Shift+클릭으로 마지막 점에서 직선을 그립니다. [ 와 ] 로 크기를 바꿉니다.
+Show Layer ⇒ 레이어 표시
+Show Only Layer ⇒ 이 레이어만 표시
+Show layer {}: {} ⇒ 레이어 {} 표시: {}
+Show only layer {}: {} ⇒ 레이어 {}만 표시: {}
+Show only this layer ⇒ 이 레이어만 표시
+Size ⇒ 크기
+Smaller Brush ⇒ 브러시 작게
+Soft Light ⇒ 소프트 라이트
+Soft Portrait ⇒ 부드러운 인물
+Soft Portrait… ⇒ 부드러운 인물…
+Softness ⇒ 부드러움
+Solid ⇒ 실선
+Source Code on GitHub ⇒ GitHub의 소스 코드
+Star ⇒ 별
+Stay on picker ⇒ 스포이트 유지
+Strength ⇒ 강도
+Stylize ⇒ 스타일
+Subtract (Alt) ⇒ 빼기 (Alt)
+Support Ukraine's children ⇒ 우크라이나 어린이 돕기
+Surface Blur ⇒ 표면 흐림
+Surface Blur… ⇒ 표면 흐림…
+Swap Colors ⇒ 색 바꾸기
+Swap colors ⇒ 색 바꾸기
+Switch (repeat digit) ⇒ 전환 (숫자 반복)
+Switch to layer ⇒ 레이어로 전환
+Switch to layer {}: {} ⇒ 레이어 {}(으)로 전환: {}
+Teal ⇒ 청록
+Temperature ⇒ 색온도
+Temperature / Tint ⇒ 색온도 / 색조
+Temperature / Tint… ⇒ 색온도 / 색조…
+Text ⇒ 텍스트
+The clipboard does not contain an image. ⇒ 클립보드에 이미지가 없습니다.
+Theme ⇒ 테마
+Thickness ⇒ 두께
+Threshold ⇒ 임계값
+Tile ⇒ 타일
+Tile Reflection ⇒ 타일 반사
+Tile Reflection… ⇒ 타일 반사…
+Tile size ⇒ 타일 크기
+Tiling ⇒ 타일링
+Tint ⇒ 색조
+Toggle visibility ⇒ 표시 전환
+Tolerance ⇒ 허용치
+Tools ⇒ 도구
+Tools Panel ⇒ 도구 패널
+Transparency ⇒ 투명도
+Transparent ⇒ 투명
+Triangle ⇒ 삼각형
+Twist ⇒ 소용돌이
+Twist… ⇒ 소용돌이…
+Type a command, tool, layer… or try “zoom 200”, “#ff6a00”, “size 40” ⇒ 명령, 도구, 레이어를 입력하거나 “zoom 200”, “#ff6a00”, “size 40”을 시도해 보세요
+Underline ⇒ 밑줄
+Undo ⇒ 실행 취소
+Unfocus ⇒ 초점 흐림
+Unfocus… ⇒ 초점 흐림…
+Unsaved changes ⇒ 저장되지 않은 변경 사항
+Untitled {} ⇒ 제목 없음 {}
+Version {} ⇒ 버전 {}
+Vibrance ⇒ 활기
+Vibrance… ⇒ 활기…
+View ⇒ 보기
+Vignette ⇒ 비네팅
+Vignette… ⇒ 비네팅…
+Violet ⇒ 보라
+Visible ⇒ 표시
+Warmth ⇒ 따뜻함
+Welcome to Neobrush ⇒ Neobrush에 오신 것을 환영합니다
+White ⇒ 흰색
+Width ⇒ 너비
+Your changes will be lost if you don't save them. ⇒ 저장하지 않으면 변경 사항이 사라집니다.
+Zoom ⇒ 확대/축소
+Zoom Blur ⇒ 확대 흐림
+Zoom Blur… ⇒ 확대 흐림…
+Zoom In ⇒ 확대
+Zoom Out ⇒ 축소
+Zoom to Window ⇒ 창에 맞추기
+Zoom to {}% ⇒ {}%로 확대/축소
+chords work everywhere: toggle layer 2 ⇒ 코드는 어디서나 동작합니다: 레이어 2 표시 전환
+current ⇒ 현재
+navigate ⇒ 이동
+run ⇒ 실행
+{} copy ⇒ {} 사본

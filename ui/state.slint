@@ -20,6 +20,11 @@ export enum Tool {
     shape,
 }
 
+export struct LangItem {
+    name: string,
+    font: string,
+}
+
 export struct Seg {
     text: string,
     hl: bool,
@@ -141,6 +146,8 @@ export global App {
     in-out property <int> picker-size: 0;
     in-out property <int> picker-after: 0;
     in-out property <string> font-family: "Inter";
+    // UI typeface; switched for scripts Inter lacks (CJK, Hebrew, Arabic).
+    in property <string> ui-font: "Inter";
     in-out property <int> font-size: 32;
     in-out property <bool> bold: false;
     in-out property <bool> italic: false;
@@ -233,6 +240,10 @@ export global App {
     callback confirm(int);
     callback jpeg-ok();
     callback export-file(string, int);
+    in property <[LangItem]> languages;
+    in property <int> language-index;
+    callback set-language(int);
+    callback set-accent(int);
 
     // Command palette & chords
     in property <[PaletteItem]> palette-items;

@@ -1,0 +1,491 @@
+1 px
+A modern, cross-platform raster graphics editor for Windows, macOS, Linux and FreeBSD.
+A4 @300dpi
+About
+About Neobrush
+Accent color
+Actual Size
+Add (Ctrl)
+Add New Layer
+Add Noise
+Add Noise…
+Add new layer
+Additive
+Adjustments
+After picking
+Align center
+Align left
+Align right
+Alpha
+Amount
+Anchor
+Angle
+Antialias
+Apply
+Arrow
+Artistic
+Auto Crop
+Auto-Level
+BMP
+Background
+Best quality
+Bicubic
+Bigger Brush
+Bilinear
+Black and White
+Blend
+Blend mode
+Blue
+Blur
+Blurs
+Bold
+Both
+Brightness
+Brightness / Contrast
+Brightness / Contrast…
+Brush size
+Bulge
+Bulge…
+By absolute size
+By percentage
+Cancel
+Canvas Size
+Canvas Size…
+Cell size
+Center X
+Center Y
+Centered
+Click to add points · drag to move · right-click to remove
+Click to fill an area. Right-click uses the secondary color.
+Click to pick the primary color, right-click for secondary.
+Click to place text, then type.
+Click to place text. Enter for a new line, Esc to finish.
+Click to select a region of similar color.
+Click to zoom in, right-click to zoom out, drag a rectangle to zoom to it.
+Click to zoom in, right-click to zoom out.
+Clipboard {}×{}
+Clone Stamp
+Close
+Clouds
+Clouds…
+Coarseness
+Color
+Color Burn
+Color Dodge
+Color Picker
+Color range
+Color saturation
+Coloring
+Colors
+Colors Panel
+Command Palette
+Command Palette…
+Command palette
+Conical
+Contiguous
+Contrast
+Copy
+Copy Merged
+Corner radius
+Could not import file
+Could not open file
+Could not save file
+Coverage
+Create
+Create a new image or open an existing one to get started.
+Crop to Selection
+Ctrl+click to set the clone source first.
+Ctrl+click to set the source, then paint.
+Curvature
+Curves
+Curves…
+Cut
+Dark
+Darken
+Dashed
+Delete
+Delete Layer
+Delete layer
+Dents
+Dents…
+Deselect
+Diamond
+Difference
+Distance
+Distort
+Documents
+Don't Save
+Donate to Voices of Children
+Donate to Voices of Children · voices.org.ua
+Done
+Dotted
+Download
+Drag the selection to move its pixels.
+Drag to draw a freeform selection.
+Drag to draw a gradient. Right-drag swaps the colors.
+Drag to draw a line, then drag the handles to bend it.
+Drag to draw a shape, then adjust with the handles.
+Drag to draw, then adjust with the handles. Shift constrains, Enter finishes.
+Drag to erase to transparency.
+Drag to move the selection outline.
+Drag to move. Drag corner handles to scale, right-drag to rotate. Shift constrains.
+Drag to paint. Shift+click draws a straight line.
+Drag to pan the view.
+Drag to pan. Middle mouse or holding Space pans with any tool.
+Drag to select a rectangle. Click to deselect.
+Drag to select an ellipse. Hold Shift for a circle.
+Draw single pixel, aliased lines.
+Drop Shadow
+Drop Shadow…
+Duplicate
+Duplicate Layer
+Duplicate layer
+Edge Detect
+Edge Detect…
+Edit
+Effects
+Ellipse
+Ellipse Select
+Emboss
+Emboss…
+Erase Selection
+Eraser
+Esc to cancel
+Exit
+Factor
+File
+File name
+Fill
+Fill Selection
+Flatten
+Flip Horizontal
+Flip Layer Horizontal
+Flip Layer Vertical
+Flip Vertical
+Follow System
+Follow system
+Format
+Fragment
+Fragments
+Fragment…
+Frosted Glass
+Frosted Glass…
+Gamma
+Gaussian Blur
+Gaussian Blur…
+Global
+Glow
+Glow…
+Go to document: {}
+Gradient
+Green
+Halloween
+Happy Halloween! This theme is always dark.
+Hard Light
+Hardness
+Heart
+Height
+Help
+Hexagon
+Hide Layer
+Hide layer {}: {}
+Higher quality means larger files. Transparency is flattened onto white.
+History
+History Panel
+Hold Ctrl to add, Alt to subtract.
+Hue
+Hue / Saturation
+Hue / Saturation…
+Icons by Lucide (ISC). Inter typeface (OFL).
+Image
+Import from File
+Import from File…
+Ink Sketch
+Ink Sketch…
+Ink outline
+Input black
+Input white
+Intensity
+Intersect
+Invert Colors
+Invert Selection
+Invert colors
+Invert overlap
+Italic
+JPEG
+Julia Fractal
+Julia Fractal…
+Keyboard Shortcuts
+Language
+Lasso Select
+Layer
+Layer Blend Mode
+Layer Opacity
+Layer Properties
+Layer Properties…
+Layer Rotate / Zoom
+Layer number ({} layers)
+Layer properties
+Layer {}
+Layer {}  ·  L {} {} switch · L {} T toggle
+Layers
+Layers Panel
+Layers are flattened in this format.
+Levels
+Levels…
+Light
+Lighten
+Lighting
+Lightness
+Line / Curve
+Linear
+Magic Wand
+Magic Wand Select
+Maintain aspect ratio
+Mandelbrot Fractal
+Mandelbrot Fractal…
+Median
+Median…
+Menu Bar
+Merge Layer Down
+Merge down
+Merge layer down
+More adjustments commands
+More effects commands
+More image commands
+More layers commands
+More tools commands
+More view commands
+Motion Blur
+Motion Blur…
+Move Layer Down
+Move Layer Up
+Move Pixels
+Move Selected Pixels
+Move Selection
+Move layer down
+Move layer up
+Multiply
+Name
+Nearest neighbor
+Negation
+New
+New Image
+New image
+New image {} × {}
+New…
+No matching commands
+Noise
+Normal
+Nothing to paste
+OK
+Object
+Offset X
+Offset Y
+Oil Painting
+Oil Painting…
+Opacity
+Open
+Open Image
+Open recent: {}
+OpenRaster
+OpenRaster keeps your layers and opens in GIMP, Krita and MyPaint.
+Open…
+Orange
+Original: {} × {} px  →  New: {} × {} px
+Outline
+Outline…
+Output black
+Output white
+Overlay
+Overwrite
+PNG
+Paint Bucket
+Paintbrush
+Pan
+Pan X
+Pan Y
+Paste
+Paste into New Image
+Paste into New Layer
+Pencil
+Pencil Sketch
+Pencil Sketch…
+Pencil tip size
+Pentagon
+Percentage
+Percentile
+Photo
+Pixel Grid
+Pixelate
+Pixelate…
+Polar Inversion
+Polar Inversion…
+Posterize
+Posterize…
+Presets
+Previous tool
+Properties
+Purple keys are chords: press them one after another (e.g. F, then B, then G). Tap Space for the command palette; hold Space to pan.
+Quality
+Quick command
+RGB
+Radial
+Radial Blur
+Radial Blur…
+Radius
+Recolor
+Rectangle
+Rectangle Select
+Red
+Red Eye Removal
+Red Eye Removal…
+Redo
+Reduce Noise
+Reduce Noise…
+Reflect
+Reflected
+Refraction
+Relief
+Relief…
+Rename Layer
+Rename current layer to “{}”
+Render
+Repeat Last Effect
+Replace
+Replaces the secondary color with the primary color.
+Resampling
+Reset
+Reset Colors
+Reset to black & white
+Resize
+Resize Image
+Resize…
+Right Triangle
+Rose
+Rotate / Zoom
+Rotate / Zoom…
+Rotate 180°
+Rotate 90° Clockwise
+Rotate 90° Counter-clockwise
+Rotation
+Roughness
+Rounded Rectangle
+Rulers
+Sample from
+Sampling
+Saturation
+Save
+Save As
+Save As…
+Save Configuration
+Save changes to “{}” before closing?
+Scale
+Screen
+Search commands, tools, layers…
+Secondary color
+Seed
+Select All
+Select Layer Above
+Select Layer Below
+Selection mode
+Sepia
+Set brush hardness to {}%
+Set brush size to {} px
+Set color to #{}
+Set font size to {} pt
+Set layer opacity to {}%
+Set tolerance to {}%
+Settings
+Settings…
+Shape
+Shapes
+Sharpen
+Sharpen…
+Shift+click draws a straight line from the last point. [ and ] change the size.
+Show Layer
+Show Only Layer
+Show layer {}: {}
+Show only layer {}: {}
+Show only this layer
+Size
+Smaller Brush
+Soft Light
+Soft Portrait
+Soft Portrait…
+Softness
+Solid
+Source Code on GitHub
+Star
+Stay on picker
+Strength
+Stylize
+Subtract (Alt)
+Support Ukraine's children
+Surface Blur
+Surface Blur…
+Swap Colors
+Swap colors
+Switch (repeat digit)
+Switch to layer
+Switch to layer {}: {}
+Teal
+Temperature
+Temperature / Tint
+Temperature / Tint…
+Text
+The clipboard does not contain an image.
+Theme
+Thickness
+Threshold
+Tile
+Tile Reflection
+Tile Reflection…
+Tile size
+Tiling
+Tint
+Toggle visibility
+Tolerance
+Tools
+Tools Panel
+Transparency
+Transparent
+Triangle
+Twist
+Twist…
+Type a command, tool, layer… or try “zoom 200”, “#ff6a00”, “size 40”
+Underline
+Undo
+Unfocus
+Unfocus…
+Unsaved changes
+Untitled {}
+Version {}
+Vibrance
+Vibrance…
+View
+Vignette
+Vignette…
+Violet
+Visible
+Warmth
+WebP
+Welcome to Neobrush
+White
+Width
+Xor
+Your changes will be lost if you don't save them.
+Zoom
+Zoom Blur
+Zoom Blur…
+Zoom In
+Zoom Out
+Zoom to Window
+Zoom to {}%
+chords work everywhere: toggle layer 2
+current
+edit.erase
+image
+navigate
+run
+{} copy

@@ -19,6 +19,7 @@ pub const COMMANDS: &[Cmd] = &[
     Cmd { id: "file.open", title: "Open…", path: "File", icon: "folder-open", keys: &["Ctrl", "O"], chord: "", keywords: "load image file" },
     Cmd { id: "file.save", title: "Save", path: "File", icon: "save", keys: &["Ctrl", "S"], chord: "", keywords: "write export" },
     Cmd { id: "file.save-as", title: "Save As…", path: "File", icon: "save", keys: &["Ctrl", "Shift", "S"], chord: "", keywords: "export download format" },
+    Cmd { id: "app.settings", title: "Settings…", path: "File", icon: "settings", keys: &["Ctrl", ","], chord: "v s", keywords: "preferences options language accent color theme" },
     Cmd { id: "file.close", title: "Close", path: "File", icon: "x", keys: &["Ctrl", "W"], chord: "", keywords: "close document tab" },
     Cmd { id: "file.exit", title: "Exit", path: "File", icon: "x", keys: &["Ctrl", "Q"], chord: "", keywords: "quit" },
     Cmd { id: "edit.undo", title: "Undo", path: "Edit", icon: "undo", keys: &["Ctrl", "Z"], chord: "", keywords: "back revert" },

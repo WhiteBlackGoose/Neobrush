@@ -1,12 +1,13 @@
 //! The editor: owns documents and glues the Slint UI to the core engine.
 
+use super::i18n::{tr, trf};
 use super::render::{self, Overlay, RenderParams};
 use super::session::{Drag, Session};
 use crate::core::document::Document;
 use crate::core::geom::Pt;
 use crate::core::surface::{Px, Surface};
 use crate::core::text::FontLib;
-use crate::{App, AppWindow, CurvePoint, DocTab, HistoryItem, LayerItem, ParamItem, Theme, Tool};
+use crate::{App, AppWindow, CurvePoint, DocTab, HistoryItem, LangItem, LayerItem, ParamItem, Theme, Tool};
 use slint::{ComponentHandle, Model, ModelRc, SharedString, VecModel};
 use std::cell::RefCell;
 use std::rc::Rc;
@@ -120,10 +121,7 @@ pub fn run(files: Vec<std::path::PathBuf>) -> Result<(), slint::PlatformError> {
     g.set_recent(ModelRc::from(models.recent.clone()));
     let palette: Vec<slint::Color> = PALETTE.iter().map(|c| slint::Color::from_rgb_u8((c >> 16) as u8, (c >> 8) as u8, *c as u8)).collect();
     g.set_palette(ModelRc::new(VecModel::from(palette)));
-    let blend: Vec<SharedString> = crate::core::blend::BLEND_MODES.iter().map(|m| m.name().into()).collect();
-    g.set_blend_modes(ModelRc::new(VecModel::from(blend)));
-    let shapes: Vec<SharedString> = crate::core::paint::SHAPES.iter().map(|s| s.name().into()).collect();
-    g.set_shape_names(ModelRc::new(VecModel::from(shapes)));
+
 
     let fonts = FontLib::new();
     let fam: Vec<SharedString> = fonts.families.iter().map(|f| f.as_str().into()).collect();
@@ -237,6 +235,14 @@ pub fn run(files: Vec<std::path::PathBuf>) -> Result<(), slint::PlatformError> {
         with_editor(move |e| e.palette_query(q))
     });
     g.on_palette_run(|i| with_editor(|e| e.palette_run(i)));
+    g.on_set_language(|i| {
+        with_editor(|e| {
+            if let Some((code, _)) = super::i18n::LANGUAGES.get(i.max(0) as usize) {
+                e.set_language(code);
+            }
+        })
+    });
+    g.on_set_accent(|i| with_editor(|e| e.set_accent(i)));
     g.on_export_file(|name, fmt| {
         let name = name.to_string();
         with_editor(move |e| e.export_file(name, fmt))
@@ -265,7 +271,12 @@ pub fn run(files: Vec<std::path::PathBuf>) -> Result<(), slint::PlatformError> {
 
     {
         let mut e = ed.borrow_mut();
+        super::i18n::set_language(super::i18n::detect());
         e.load_settings();
+        if let Ok(lang) = std::env::var("NEOBRUSH_LANG") {
+            super::i18n::set_language(&lang);
+        }
+        e.sync_static_models();
         match std::env::var("NEOBRUSH_THEME").as_deref() {
             Ok("light") => e.set_theme(1),
             Ok("dark") => e.set_theme(2),
@@ -399,7 +410,11 @@ impl Editor {
         let g = ui.global::<App>();
         self.scale = ui.window().scale_factor();
         let (cw, ch) = self.canvas_px();
-        let dark = ui.global::<Theme>().get_dark();
+        let theme = ui.global::<Theme>();
+        let dark = theme.get_dark();
+        let rgb = |c: slint::Color| [c.red(), c.green(), c.blue()];
+        let canvas_bg = rgb(theme.get_canvas_bg());
+        render::set_accent(rgb(theme.get_accent()));
         let grid = g.get_pixel_grid();
         let overlay = self.overlay();
         let phase = self.phase;
@@ -420,7 +435,7 @@ impl Editor {
             return;
         }
         doc.update_composite();
-        let key = render::BaseKey::new(doc, cw, ch, dark, grid);
+        let key = render::BaseKey::new(doc, cw, ch, dark, grid, canvas_bg);
         // Re-render the cached base only where something changed; overlays go on a copy.
         match &mut self.base_cache {
             Some(c) if c.key == key => {
@@ -492,8 +507,8 @@ impl Editor {
         }
     }
 
-    pub fn status_hint(&self, t: Tool) -> &'static str {
-        match t {
+    pub fn status_hint(&self, t: Tool) -> String {
+        tr(match t {
             Tool::RectSelect => "Drag to select a rectangle. Click to deselect.",
             Tool::EllipseSelect => "Drag to select an ellipse. Hold Shift for a circle.",
             Tool::LassoSelect => "Drag to draw a freeform selection.",
@@ -513,7 +528,7 @@ impl Editor {
             Tool::Text => "Click to place text, then type.",
             Tool::Line => "Drag to draw a line, then drag the handles to bend it.",
             Tool::Shape => "Drag to draw a shape, then adjust with the handles.",
-        }
+        })
     }
 
     /// Updates layers, history, tabs and the misc UI properties.
@@ -557,7 +572,7 @@ impl Editor {
                 name: l.name.as_str().into(),
                 visible: l.visible,
                 opacity: (l.opacity * 100.0).round() as i32,
-                blend: l.blend.name().into(),
+                blend: tr(l.blend.name()).into(),
                 thumb: render::thumbnail(st.w, st.h, 76, |x, y| l.px.get(x, y)),
                 selected: i == st.active,
             })
@@ -568,7 +583,7 @@ impl Editor {
             .entries
             .iter()
             .enumerate()
-            .map(|(i, e)| HistoryItem { name: e.name.as_str().into(), icon: e.icon.into(), undone: i > h.index, current: i == h.index })
+            .map(|(i, e)| HistoryItem { name: tr(&e.name).into(), icon: e.icon.into(), undone: i > h.index, current: i == h.index })
             .collect();
         if self.models.history.row_count() != hist.len() || hist.iter().enumerate().any(|(i, it)| self.models.history.row_data(i).as_ref() != Some(it)) {
             self.models.history.set_vec(hist);
@@ -580,7 +595,7 @@ impl Editor {
         g.set_is_editing(self.session.is_editing());
         g.set_layer_count(st.layers.len() as i32);
         let l = st.layer();
-        g.set_active_layer_blend(l.blend.name().into());
+        g.set_active_layer_blend(tr(l.blend.name()).into());
         g.set_active_layer_opacity((l.opacity * 100.0).round() as i32);
         g.set_image_w(st.w as i32);
         g.set_image_h(st.h as i32);
@@ -593,7 +608,7 @@ impl Editor {
 
     pub fn sync_all(&mut self) {
         let t = self.tool();
-        let hint = if self.docs.is_empty() { "" } else { self.status_hint(t) };
+        let hint = if self.docs.is_empty() { String::new() } else { self.status_hint(t) };
         self.ui().global::<App>().set_status_hint(hint.into());
         self.update_cursor();
         self.panels();
@@ -767,7 +782,9 @@ impl Editor {
         use slint::language::ColorScheme;
         let ui = self.ui();
         let p = ui.global::<crate::Palette>();
+        let halloween = ui.global::<Theme>().get_accent_scheme() == 5;
         p.set_color_scheme(match mode {
+            _ if halloween => ColorScheme::Dark,
             1 => ColorScheme::Light,
             2 => ColorScheme::Dark,
             _ => self.system_scheme,
@@ -790,6 +807,56 @@ impl Editor {
         if !self.menubar_pinned {
             self.ui().global::<App>().set_show_menubar(false);
         }
+    }
+
+    /// Lists whose labels come from Rust (blend modes, shapes, languages).
+    pub fn sync_static_models(&self) {
+        let ui = self.ui();
+        let g = ui.global::<App>();
+        g.set_ui_font(super::i18n::ui_font(&super::i18n::current()).into());
+        let blend: Vec<SharedString> = crate::core::blend::BLEND_MODES.iter().map(|m| tr(m.name()).into()).collect();
+        g.set_blend_modes(ModelRc::new(VecModel::from(blend)));
+        let shapes: Vec<SharedString> = crate::core::paint::SHAPES.iter().map(|s| tr(s.name()).into()).collect();
+        g.set_shape_names(ModelRc::new(VecModel::from(shapes)));
+        let langs: Vec<LangItem> = super::i18n::LANGUAGES
+            .iter()
+            .map(|(c, n)| LangItem { name: (*n).into(), font: super::i18n::ui_font(c).into() })
+            .collect();
+        g.set_languages(ModelRc::new(VecModel::from(langs)));
+        let cur = super::i18n::current();
+        g.set_language_index(super::i18n::LANGUAGES.iter().position(|(c, _)| *c == cur).unwrap_or(0) as i32);
+    }
+
+    /// Switches the UI language and refreshes everything that holds translated text.
+    pub fn set_language(&mut self, code: &str) {
+        super::i18n::set_language(code);
+        self.sync_static_models();
+        let t = self.tool();
+        let hint = if self.docs.is_empty() { String::new() } else { self.status_hint(t) };
+        self.ui().global::<App>().set_status_hint(hint.into());
+        self.sync_fx_params();
+        self.sync_shortcuts();
+        self.sync_chord_hud();
+        if self.ui().global::<App>().get_dialog() == "palette" {
+            let q = self.ui().global::<App>().get_palette_query().to_string();
+            self.palette_query(q);
+        }
+        if let Some(fx) = &self.fx {
+            let title = tr(&fx.name);
+            self.ui().global::<App>().set_fx_title(title.into());
+        }
+        self.panels();
+    }
+
+    /// 0 violet, 1 blue, 2 teal, 3 orange, 4 rose, 5 halloween
+    pub fn set_accent(&mut self, i: i32) {
+        let ui = self.ui();
+        ui.global::<Theme>().set_accent_scheme(i.clamp(0, 5));
+        // Halloween is a dark theme; keep the standard widgets dark too.
+        let mode = ui.global::<App>().get_theme_mode();
+        self.set_theme(mode);
+        self.base_cache = None;
+        self.redraw();
     }
 
     pub fn refocus(&self) {

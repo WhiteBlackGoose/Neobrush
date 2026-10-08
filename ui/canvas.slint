@@ -89,9 +89,9 @@ export component CanvasView inherits Rectangle {
                 width: 72px;
                 height: 72px;
                 border-radius: 20px;
-                background: @linear-gradient(135deg, #a78bfa 0%, #6a4cf5 55%, #ec4899 100%);
+                background: @linear-gradient(135deg, Theme.brand-1 0%, Theme.brand-2 55%, Theme.brand-3 100%);
                 drop-shadow-blur: 24px;
-                drop-shadow-color: #6a4cf566;
+                drop-shadow-color: Theme.brand-2.with-alpha(0.4);
                 Image {
                     source: Icons.brush;
                     width: 36px;
@@ -101,14 +101,14 @@ export component CanvasView inherits Rectangle {
             }
         }
         Text {
-            text: "Welcome to Neobrush";
+            text: @tr("Welcome to Neobrush");
             font-size: 22px;
             font-weight: 600;
             color: Theme.text;
             horizontal-alignment: center;
         }
         Text {
-            text: "Create a new image or open an existing one to get started.";
+            text: @tr("Create a new image or open an existing one to get started.");
             font-size: Theme.font;
             color: Theme.text-muted;
             horizontal-alignment: center;
@@ -117,16 +117,16 @@ export component CanvasView inherits Rectangle {
             alignment: center;
             spacing: 10px;
             Btn {
-                text: "New Image";
+                text: @tr("New Image");
                 primary: true;
                 clicked => { App.action("file.new"); }
             }
             Btn {
-                text: "Open…";
+                text: @tr("Open…");
                 clicked => { App.action("file.open"); }
             }
             Btn {
-                text: "Paste";
+                text: @tr("Paste");
                 clicked => { App.action("edit.paste-new-image"); }
             }
         }

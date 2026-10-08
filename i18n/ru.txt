@@ -1,0 +1,481 @@
+# Russian
+A modern, cross-platform raster graphics editor for Windows, macOS, Linux and FreeBSD. ⇒ Современный кроссплатформенный редактор растровой графики для Windows, macOS, Linux и FreeBSD.
+About ⇒ О программе
+About Neobrush ⇒ О Neobrush
+Accent color ⇒ Акцентный цвет
+Actual Size ⇒ Реальный размер
+Add (Ctrl) ⇒ Добавить (Ctrl)
+Add New Layer ⇒ Новый слой
+Add Noise ⇒ Добавить шум
+Add Noise… ⇒ Добавить шум…
+Add new layer ⇒ Новый слой
+Additive ⇒ Сложение
+Adjustments ⇒ Коррекция
+After picking ⇒ После выбора
+Align center ⇒ По центру
+Align left ⇒ По левому краю
+Align right ⇒ По правому краю
+Amount ⇒ Сила
+Anchor ⇒ Привязка
+Angle ⇒ Угол
+Antialias ⇒ Сглаживание
+Apply ⇒ Применить
+Arrow ⇒ Стрелка
+Artistic ⇒ Художественные
+Auto Crop ⇒ Автообрезка
+Auto-Level ⇒ Автоуровни
+Background ⇒ Фон
+Best quality ⇒ Наилучшее качество
+Bicubic ⇒ Бикубическая
+Bigger Brush ⇒ Кисть больше
+Bilinear ⇒ Билинейная
+Black and White ⇒ Чёрно-белое
+Blend ⇒ Смешивание
+Blend mode ⇒ Режим наложения
+Blue ⇒ Синий
+Blur ⇒ Размытие
+Blurs ⇒ Размытие
+Bold ⇒ Жирный
+Both ⇒ Оба
+Brightness ⇒ Яркость
+Brightness / Contrast ⇒ Яркость / Контраст
+Brightness / Contrast… ⇒ Яркость / Контраст…
+Brush size ⇒ Размер кисти
+Bulge ⇒ Выпуклость
+Bulge… ⇒ Выпуклость…
+By absolute size ⇒ По абсолютному размеру
+By percentage ⇒ В процентах
+Cancel ⇒ Отмена
+Canvas Size ⇒ Размер холста
+Canvas Size… ⇒ Размер холста…
+Cell size ⇒ Размер ячейки
+Center X ⇒ Центр X
+Center Y ⇒ Центр Y
+Centered ⇒ По центру
+Click to add points · drag to move · right-click to remove ⇒ Щелчок добавляет точку · перетаскивание двигает · правый щелчок удаляет
+Click to fill an area. Right-click uses the secondary color. ⇒ Щёлкните, чтобы залить область. Правый щелчок использует дополнительный цвет.
+Click to pick the primary color, right-click for secondary. ⇒ Щёлкните, чтобы взять основной цвет, правый щелчок — дополнительный.
+Click to place text, then type. ⇒ Щёлкните, чтобы разместить текст, и печатайте.
+Click to place text. Enter for a new line, Esc to finish. ⇒ Щёлкните, чтобы разместить текст. Enter — новая строка, Esc — завершить.
+Click to select a region of similar color. ⇒ Щёлкните, чтобы выделить область похожего цвета.
+Click to zoom in, right-click to zoom out, drag a rectangle to zoom to it. ⇒ Щелчок — увеличить, правый щелчок — уменьшить, рамка — приблизить к области.
+Click to zoom in, right-click to zoom out. ⇒ Щелчок — увеличить, правый щелчок — уменьшить.
+Clipboard {}×{} ⇒ Буфер обмена {}×{}
+Clone Stamp ⇒ Штамп
+Close ⇒ Закрыть
+Clouds ⇒ Облака
+Clouds… ⇒ Облака…
+Coarseness ⇒ Грубость
+Color ⇒ Цвет
+Color Burn ⇒ Затемнение основы
+Color Dodge ⇒ Осветление основы
+Color Picker ⇒ Пипетка
+Color range ⇒ Цветовой диапазон
+Color saturation ⇒ Насыщенность цвета
+Coloring ⇒ Раскраска
+Colors ⇒ Цвета
+Colors Panel ⇒ Панель цветов
+Command Palette ⇒ Палитра команд
+Command Palette… ⇒ Палитра команд…
+Command palette ⇒ Палитра команд
+Conical ⇒ Конический
+Contiguous ⇒ Смежные
+Contrast ⇒ Контраст
+Copy ⇒ Копировать
+Copy Merged ⇒ Копировать сведённое
+Corner radius ⇒ Радиус углов
+Could not import file ⇒ Не удалось импортировать файл
+Could not open file ⇒ Не удалось открыть файл
+Could not save file ⇒ Не удалось сохранить файл
+Coverage ⇒ Покрытие
+Create ⇒ Создать
+Create a new image or open an existing one to get started. ⇒ Создайте новое изображение или откройте существующее, чтобы начать.
+Crop to Selection ⇒ Обрезать по выделению
+Ctrl+click to set the clone source first. ⇒ Сначала Ctrl+щелчок, чтобы задать источник.
+Ctrl+click to set the source, then paint. ⇒ Ctrl+щелчок задаёт источник, затем рисуйте.
+Curvature ⇒ Кривизна
+Curves ⇒ Кривые
+Curves… ⇒ Кривые…
+Cut ⇒ Вырезать
+Dark ⇒ Тёмная
+Darken ⇒ Затемнение
+Dashed ⇒ Штриховая
+Delete ⇒ Удалить
+Delete Layer ⇒ Удалить слой
+Delete layer ⇒ Удалить слой
+Dents ⇒ Вмятины
+Dents… ⇒ Вмятины…
+Deselect ⇒ Снять выделение
+Diamond ⇒ Ромб
+Difference ⇒ Разница
+Distance ⇒ Расстояние
+Distort ⇒ Искажение
+Documents ⇒ Документы
+Don't Save ⇒ Не сохранять
+Donate to Voices of Children ⇒ Пожертвовать фонду Voices of Children
+Donate to Voices of Children · voices.org.ua ⇒ Пожертвовать фонду Voices of Children · voices.org.ua
+Done ⇒ Готово
+Dotted ⇒ Пунктир
+Download ⇒ Скачать
+Drag the selection to move its pixels. ⇒ Перетащите выделение, чтобы переместить его пиксели.
+Drag to draw a freeform selection. ⇒ Перетаскивайте, чтобы нарисовать произвольное выделение.
+Drag to draw a gradient. Right-drag swaps the colors. ⇒ Перетаскивайте, чтобы нарисовать градиент. Правой кнопкой цвета меняются местами.
+Drag to draw a line, then drag the handles to bend it. ⇒ Перетаскивайте, чтобы нарисовать линию, затем изогните её маркерами.
+Drag to draw a shape, then adjust with the handles. ⇒ Перетаскивайте, чтобы нарисовать фигуру, затем настройте маркерами.
+Drag to draw, then adjust with the handles. Shift constrains, Enter finishes. ⇒ Перетаскивайте, чтобы рисовать, затем настройте маркерами. Shift ограничивает, Enter завершает.
+Drag to erase to transparency. ⇒ Перетаскивайте, чтобы стереть до прозрачности.
+Drag to move the selection outline. ⇒ Перетаскивайте, чтобы сдвинуть контур выделения.
+Drag to move. Drag corner handles to scale, right-drag to rotate. Shift constrains. ⇒ Перетаскивайте для перемещения. Угловые маркеры масштабируют, правая кнопка вращает. Shift ограничивает.
+Drag to paint. Shift+click draws a straight line. ⇒ Перетаскивайте, чтобы рисовать. Shift+щелчок рисует прямую линию.
+Drag to pan the view. ⇒ Перетаскивайте, чтобы сдвинуть вид.
+Drag to pan. Middle mouse or holding Space pans with any tool. ⇒ Перетаскивайте, чтобы сдвинуть вид. Средняя кнопка или зажатый пробел работают с любым инструментом.
+Drag to select a rectangle. Click to deselect. ⇒ Перетаскивайте, чтобы выделить прямоугольник. Щелчок снимает выделение.
+Drag to select an ellipse. Hold Shift for a circle. ⇒ Перетаскивайте, чтобы выделить эллипс. Shift — круг.
+Draw single pixel, aliased lines. ⇒ Рисует линии толщиной в пиксель без сглаживания.
+Drop Shadow ⇒ Тень
+Drop Shadow… ⇒ Тень…
+Duplicate ⇒ Дублировать
+Duplicate Layer ⇒ Дублировать слой
+Duplicate layer ⇒ Дублировать слой
+Edge Detect ⇒ Выделение краёв
+Edge Detect… ⇒ Выделение краёв…
+Edit ⇒ Правка
+Effects ⇒ Эффекты
+Ellipse ⇒ Эллипс
+Ellipse Select ⇒ Овальное выделение
+Emboss ⇒ Тиснение
+Emboss… ⇒ Тиснение…
+Erase Selection ⇒ Стереть выделенное
+Eraser ⇒ Ластик
+Esc to cancel ⇒ Esc — отмена
+Exit ⇒ Выход
+Factor ⇒ Коэффициент
+File ⇒ Файл
+File name ⇒ Имя файла
+Fill ⇒ Заливка
+Fill Selection ⇒ Залить выделенное
+Flatten ⇒ Свести слои
+Flip Horizontal ⇒ Отразить по горизонтали
+Flip Layer Horizontal ⇒ Отразить слой по горизонтали
+Flip Layer Vertical ⇒ Отразить слой по вертикали
+Flip Vertical ⇒ Отразить по вертикали
+Follow System ⇒ Как в системе
+Follow system ⇒ Как в системе
+Format ⇒ Формат
+Fragment ⇒ Фрагментация
+Fragments ⇒ Фрагменты
+Fragment… ⇒ Фрагментация…
+Frosted Glass ⇒ Матовое стекло
+Frosted Glass… ⇒ Матовое стекло…
+Gamma ⇒ Гамма
+Gaussian Blur ⇒ Размытие по Гауссу
+Gaussian Blur… ⇒ Размытие по Гауссу…
+Global ⇒ Глобально
+Glow ⇒ Свечение
+Glow… ⇒ Свечение…
+Go to document: {} ⇒ Перейти к документу: {}
+Gradient ⇒ Градиент
+Green ⇒ Зелёный
+Halloween ⇒ Хеллоуин
+Happy Halloween! This theme is always dark. ⇒ С Хеллоуином! Эта тема всегда тёмная.
+Hard Light ⇒ Жёсткий свет
+Hardness ⇒ Жёсткость
+Heart ⇒ Сердце
+Height ⇒ Высота
+Help ⇒ Справка
+Hexagon ⇒ Шестиугольник
+Hide Layer ⇒ Скрыть слой
+Hide layer {}: {} ⇒ Скрыть слой {}: {}
+Higher quality means larger files. Transparency is flattened onto white. ⇒ Выше качество — больше файл. Прозрачность сводится на белый.
+History ⇒ История
+History Panel ⇒ Панель истории
+Hold Ctrl to add, Alt to subtract. ⇒ Ctrl — добавить, Alt — вычесть.
+Hue ⇒ Тон
+Hue / Saturation ⇒ Тон / Насыщенность
+Hue / Saturation… ⇒ Тон / Насыщенность…
+Icons by Lucide (ISC). Inter typeface (OFL). ⇒ Значки Lucide (ISC). Шрифт Inter (OFL).
+Image ⇒ Изображение
+Import from File ⇒ Импорт из файла
+Import from File… ⇒ Импорт из файла…
+Ink Sketch ⇒ Набросок тушью
+Ink Sketch… ⇒ Набросок тушью…
+Ink outline ⇒ Контур тушью
+Input black ⇒ Входной чёрный
+Input white ⇒ Входной белый
+Intensity ⇒ Интенсивность
+Intersect ⇒ Пересечение
+Invert Colors ⇒ Инвертировать цвета
+Invert Selection ⇒ Инвертировать выделение
+Invert colors ⇒ Инвертировать цвета
+Invert overlap ⇒ Инвертировать пересечение
+Italic ⇒ Курсив
+Julia Fractal ⇒ Фрактал Жюлиа
+Julia Fractal… ⇒ Фрактал Жюлиа…
+Keyboard Shortcuts ⇒ Сочетания клавиш
+Language ⇒ Язык
+Lasso Select ⇒ Лассо
+Layer ⇒ Слой
+Layer Blend Mode ⇒ Режим наложения слоя
+Layer Opacity ⇒ Непрозрачность слоя
+Layer Properties ⇒ Свойства слоя
+Layer Properties… ⇒ Свойства слоя…
+Layer Rotate / Zoom ⇒ Поворот / масштаб слоя
+Layer number ({} layers) ⇒ Номер слоя (слоёв: {})
+Layer properties ⇒ Свойства слоя
+Layer {} ⇒ Слой {}
+Layer {}  ·  L {} {} switch · L {} T toggle ⇒ Слой {}  ·  L {} {} перейти · L {} T показать/скрыть
+Layers ⇒ Слои
+Layers Panel ⇒ Панель слоёв
+Layers are flattened in this format. ⇒ В этом формате слои сводятся.
+Levels ⇒ Уровни
+Levels… ⇒ Уровни…
+Light ⇒ Светлая
+Lighten ⇒ Осветление
+Lighting ⇒ Освещение
+Lightness ⇒ Светлота
+Line / Curve ⇒ Линия / Кривая
+Linear ⇒ Линейный
+Magic Wand ⇒ Волшебная палочка
+Magic Wand Select ⇒ Выделение волшебной палочкой
+Maintain aspect ratio ⇒ Сохранять пропорции
+Mandelbrot Fractal ⇒ Фрактал Мандельброта
+Mandelbrot Fractal… ⇒ Фрактал Мандельброта…
+Median ⇒ Медиана
+Median… ⇒ Медиана…
+Menu Bar ⇒ Строка меню
+Merge Layer Down ⇒ Объединить с нижним
+Merge down ⇒ Объединить с нижним
+Merge layer down ⇒ Объединить с нижним
+More adjustments commands ⇒ Ещё коррекция
+More effects commands ⇒ Ещё эффекты
+More image commands ⇒ Ещё команды изображения
+More layers commands ⇒ Ещё команды слоёв
+More tools commands ⇒ Ещё команды инструментов
+More view commands ⇒ Ещё команды вида
+Motion Blur ⇒ Размытие в движении
+Motion Blur… ⇒ Размытие в движении…
+Move Layer Down ⇒ Слой ниже
+Move Layer Up ⇒ Слой выше
+Move Pixels ⇒ Перемещение пикселей
+Move Selected Pixels ⇒ Переместить выделенные пиксели
+Move Selection ⇒ Переместить выделение
+Move layer down ⇒ Слой ниже
+Move layer up ⇒ Слой выше
+Multiply ⇒ Умножение
+Name ⇒ Имя
+Nearest neighbor ⇒ Ближайший сосед
+Negation ⇒ Отрицание
+New ⇒ Создать
+New Image ⇒ Новое изображение
+New image ⇒ Новое изображение
+New image {} × {} ⇒ Новое изображение {} × {}
+New… ⇒ Создать…
+No matching commands ⇒ Нет подходящих команд
+Noise ⇒ Шум
+Normal ⇒ Обычный
+Nothing to paste ⇒ Нечего вставлять
+OK ⇒ ОК
+Object ⇒ Объект
+Offset X ⇒ Смещение X
+Offset Y ⇒ Смещение Y
+Oil Painting ⇒ Масляная живопись
+Oil Painting… ⇒ Масляная живопись…
+Opacity ⇒ Непрозрачность
+Open ⇒ Открыть
+Open Image ⇒ Открыто изображение
+Open recent: {} ⇒ Открыть недавнее: {}
+OpenRaster keeps your layers and opens in GIMP, Krita and MyPaint. ⇒ OpenRaster сохраняет слои и открывается в GIMP, Krita и MyPaint.
+Open… ⇒ Открыть…
+Orange ⇒ Оранжевый
+Original: {} × {} px  →  New: {} × {} px ⇒ Было: {} × {} px  →  Станет: {} × {} px
+Outline ⇒ Контур
+Outline… ⇒ Контур…
+Output black ⇒ Выходной чёрный
+Output white ⇒ Выходной белый
+Overlay ⇒ Перекрытие
+Overwrite ⇒ Замена
+Paint ⇒ Рисование
+Paint Bucket ⇒ Заливка
+Paintbrush ⇒ Кисть
+Pan ⇒ Рука
+Pan X ⇒ Сдвиг X
+Pan Y ⇒ Сдвиг Y
+Paste ⇒ Вставить
+Paste into New Image ⇒ Вставить в новое изображение
+Paste into New Layer ⇒ Вставить в новый слой
+Pencil ⇒ Карандаш
+Pencil Sketch ⇒ Набросок карандашом
+Pencil Sketch… ⇒ Набросок карандашом…
+Pencil tip size ⇒ Размер грифеля
+Pentagon ⇒ Пятиугольник
+Percentage ⇒ Процент
+Percentile ⇒ Процентиль
+Photo ⇒ Фото
+Pixel Grid ⇒ Пиксельная сетка
+Pixelate ⇒ Пикселизация
+Pixelate… ⇒ Пикселизация…
+Polar Inversion ⇒ Полярная инверсия
+Polar Inversion… ⇒ Полярная инверсия…
+Posterize ⇒ Постеризация
+Posterize… ⇒ Постеризация…
+Presets ⇒ Шаблоны
+Previous tool ⇒ Предыдущий инструмент
+Properties ⇒ Свойства
+Purple keys are chords: press them one after another (e.g. F, then B, then G). Tap Space for the command palette; hold Space to pan. ⇒ Цветные клавиши — это аккорды: нажимайте их по очереди (напр. F, затем B, затем G). Пробел открывает палитру команд; удерживайте его, чтобы сдвигать вид.
+Quality ⇒ Качество
+Quick command ⇒ Быстрая команда
+Radial ⇒ Радиальный
+Radial Blur ⇒ Радиальное размытие
+Radial Blur… ⇒ Радиальное размытие…
+Radius ⇒ Радиус
+Recolor ⇒ Перекраска
+Rectangle ⇒ Прямоугольник
+Rectangle Select ⇒ Прямоугольное выделение
+Red ⇒ Красный
+Red Eye Removal ⇒ Удаление красных глаз
+Red Eye Removal… ⇒ Удаление красных глаз…
+Redo ⇒ Повторить
+Reduce Noise ⇒ Уменьшить шум
+Reduce Noise… ⇒ Уменьшить шум…
+Reflect ⇒ Отражение
+Reflected ⇒ Зеркальный
+Refraction ⇒ Преломление
+Relief ⇒ Рельеф
+Relief… ⇒ Рельеф…
+Rename Layer ⇒ Переименовать слой
+Rename current layer to “{}” ⇒ Переименовать текущий слой в «{}»
+Render ⇒ Рендеринг
+Repeat Last Effect ⇒ Повторить последний эффект
+Replace ⇒ Заменить
+Replaces the secondary color with the primary color. ⇒ Заменяет дополнительный цвет основным.
+Resampling ⇒ Интерполяция
+Reset ⇒ Сбросить
+Reset Colors ⇒ Сбросить цвета
+Reset to black & white ⇒ Сбросить на чёрный и белый
+Resize ⇒ Изменить размер
+Resize Image ⇒ Размер изображения
+Resize… ⇒ Изменить размер…
+Right Triangle ⇒ Прямоугольный треугольник
+Rose ⇒ Розовый
+Rotate / Zoom ⇒ Поворот / Масштаб
+Rotate / Zoom… ⇒ Поворот / Масштаб…
+Rotate 180° ⇒ Повернуть на 180°
+Rotate 90° Clockwise ⇒ Повернуть на 90° по часовой
+Rotate 90° Counter-clockwise ⇒ Повернуть на 90° против часовой
+Rotation ⇒ Поворот
+Roughness ⇒ Шероховатость
+Rounded Rectangle ⇒ Скруглённый прямоугольник
+Rulers ⇒ Линейки
+Sample from ⇒ Брать из
+Sampling ⇒ Образец
+Saturation ⇒ Насыщенность
+Save ⇒ Сохранить
+Save As ⇒ Сохранить как
+Save As… ⇒ Сохранить как…
+Save Configuration ⇒ Параметры сохранения
+Save changes to “{}” before closing? ⇒ Сохранить изменения в «{}» перед закрытием?
+Scale ⇒ Масштаб
+Screen ⇒ Экран
+Search commands, tools, layers… ⇒ Поиск команд, инструментов, слоёв…
+Secondary color ⇒ Дополнительный цвет
+Seed ⇒ Зерно
+Select All ⇒ Выделить всё
+Select Layer Above ⇒ Выбрать слой выше
+Select Layer Below ⇒ Выбрать слой ниже
+Selection mode ⇒ Режим выделения
+Sepia ⇒ Сепия
+Set brush hardness to {}% ⇒ Жёсткость кисти {}%
+Set brush size to {} px ⇒ Размер кисти {} px
+Set color to #{} ⇒ Цвет #{}
+Set font size to {} pt ⇒ Размер шрифта {} pt
+Set layer opacity to {}% ⇒ Непрозрачность слоя {}%
+Set tolerance to {}% ⇒ Допуск {}%
+Settings ⇒ Настройки
+Settings… ⇒ Настройки…
+Shape ⇒ Фигура
+Shapes ⇒ Фигуры
+Sharpen ⇒ Резкость
+Sharpen… ⇒ Резкость…
+Shift+click draws a straight line from the last point. [ and ] change the size. ⇒ Shift+щелчок рисует прямую от последней точки. [ и ] меняют размер.
+Show Layer ⇒ Показать слой
+Show Only Layer ⇒ Показать только этот слой
+Show layer {}: {} ⇒ Показать слой {}: {}
+Show only layer {}: {} ⇒ Показать только слой {}: {}
+Show only this layer ⇒ Показать только этот слой
+Size ⇒ Размер
+Smaller Brush ⇒ Кисть меньше
+Soft Light ⇒ Мягкий свет
+Soft Portrait ⇒ Мягкий портрет
+Soft Portrait… ⇒ Мягкий портрет…
+Softness ⇒ Мягкость
+Solid ⇒ Сплошная
+Source Code on GitHub ⇒ Исходный код на GitHub
+Star ⇒ Звезда
+Stay on picker ⇒ Оставаться на пипетке
+Strength ⇒ Сила
+Stylize ⇒ Стилизация
+Subtract (Alt) ⇒ Вычесть (Alt)
+Support Ukraine's children ⇒ Поддержите детей Украины
+Surface Blur ⇒ Размытие поверхности
+Surface Blur… ⇒ Размытие поверхности…
+Swap Colors ⇒ Поменять цвета
+Swap colors ⇒ Поменять цвета
+Switch (repeat digit) ⇒ Перейти (повторите цифру)
+Switch to layer ⇒ Перейти к слою
+Switch to layer {}: {} ⇒ Перейти к слою {}: {}
+Teal ⇒ Бирюзовый
+Temperature ⇒ Температура
+Temperature / Tint ⇒ Температура / Оттенок
+Temperature / Tint… ⇒ Температура / Оттенок…
+Text ⇒ Текст
+The clipboard does not contain an image. ⇒ В буфере обмена нет изображения.
+Theme ⇒ Тема
+Thickness ⇒ Толщина
+Threshold ⇒ Порог
+Tile ⇒ Мозаика
+Tile Reflection ⇒ Отражение плиткой
+Tile Reflection… ⇒ Отражение плиткой…
+Tile size ⇒ Размер плитки
+Tiling ⇒ Мозаика
+Tint ⇒ Оттенок
+Toggle visibility ⇒ Показать / скрыть
+Tolerance ⇒ Допуск
+Tools ⇒ Инструменты
+Tools Panel ⇒ Панель инструментов
+Transparency ⇒ Прозрачность
+Transparent ⇒ Прозрачный
+Triangle ⇒ Треугольник
+Twist ⇒ Скручивание
+Twist… ⇒ Скручивание…
+Type a command, tool, layer… or try “zoom 200”, “#ff6a00”, “size 40” ⇒ Введите команду, инструмент, слой… или попробуйте «zoom 200», «#ff6a00», «size 40»
+Underline ⇒ Подчёркнутый
+Undo ⇒ Отменить
+Unfocus ⇒ Расфокусировка
+Unfocus… ⇒ Расфокусировка…
+Unsaved changes ⇒ Несохранённые изменения
+Untitled {} ⇒ Без названия {}
+Version {} ⇒ Версия {}
+Vibrance ⇒ Сочность
+Vibrance… ⇒ Сочность…
+View ⇒ Вид
+Vignette ⇒ Виньетка
+Vignette… ⇒ Виньетка…
+Violet ⇒ Фиолетовый
+Visible ⇒ Видимый
+Warmth ⇒ Теплота
+Welcome to Neobrush ⇒ Добро пожаловать в Neobrush
+White ⇒ Белый
+Width ⇒ Ширина
+Your changes will be lost if you don't save them. ⇒ Если не сохранить, изменения будут потеряны.
+Zoom ⇒ Масштаб
+Zoom Blur ⇒ Размытие наездом
+Zoom Blur… ⇒ Размытие наездом…
+Zoom In ⇒ Увеличить
+Zoom Out ⇒ Уменьшить
+Zoom to Window ⇒ По размеру окна
+Zoom to {}% ⇒ Масштаб {}%
+chords work everywhere: toggle layer 2 ⇒ аккорды работают везде: показать/скрыть слой 2
+current ⇒ текущий
+navigate ⇒ навигация
+run ⇒ выполнить
+{} copy ⇒ {} копия

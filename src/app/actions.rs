@@ -1,6 +1,7 @@
 //! Menu actions, dialogs, file handling and effects.
 
 use super::editor::{px_to_color, with_editor, Editor};
+use super::i18n::{tr, trf};
 use super::session::Session;
 use crate::core::blend::BlendMode;
 use crate::core::document::{DocState, Document, Layer};
@@ -84,7 +85,7 @@ impl Editor {
             }
         }
         // Most actions end an active editing session first.
-        let keeps_session = id.starts_with("view.theme") || id.starts_with("help.") || id == "view.menubar" || id == "palette.open" || id.starts_with("set.") || id.starts_with("tool:") || matches!(id, "view.zoom-in" | "view.zoom-out" | "view.fit" | "view.actual" | "view.refresh" | "edit.undo" | "color.swap" | "color.reset")
+        let keeps_session = id.starts_with("view.theme") || id == "app.settings" || id.starts_with("help.") || id == "view.menubar" || id == "palette.open" || id.starts_with("set.") || id.starts_with("tool:") || matches!(id, "view.zoom-in" | "view.zoom-out" | "view.fit" | "view.actual" | "view.refresh" | "edit.undo" | "color.swap" | "color.reset")
             || id.starts_with("color.hex:");
         if !keeps_session {
             self.finish_session(true);
@@ -196,6 +197,7 @@ impl Editor {
                 self.ui().global::<App>().set_dialog("shortcuts".into());
             }
             "help.about" => self.ui().global::<App>().set_dialog("about".into()),
+            "app.settings" => self.ui().global::<App>().set_dialog("settings".into()),
             "help.github" => super::platform::open_url("https://github.com/WhiteBlackGoose/Neobrush"),
             "help.donate" => super::platform::open_url("https://voices.org.ua/en/"),
             "view.menubar" => {
@@ -325,7 +327,7 @@ impl Editor {
                 let d = self.doc_mut().unwrap();
                 if d.state.layers.len() > 1 {
                     let flat = d.state.flatten();
-                    d.state.layers = vec![Layer::from_surface("Background", &flat)];
+                    d.state.layers = vec![Layer::from_surface(tr("Background"), &flat)];
                     d.state.active = 0;
                     self.structural("Flatten", "layers-2");
                 }
@@ -333,7 +335,7 @@ impl Editor {
             "layer.add" if has_doc => {
                 let d = self.doc_mut().unwrap();
                 let n = d.state.layers.len() + 1;
-                let l = Layer::new(format!("Layer {n}"), d.state.w, d.state.h);
+                let l = Layer::new(trf("Layer {}", &[&n]), d.state.w, d.state.h);
                 let at = d.state.active + 1;
                 d.state.layers.insert(at, l);
                 d.state.active = at;
@@ -350,7 +352,7 @@ impl Editor {
             "layer.duplicate" if has_doc => {
                 let d = self.doc_mut().unwrap();
                 let mut l = d.state.layer().clone();
-                l.name = format!("{} copy", l.name);
+                l.name = trf("{} copy", &[&l.name]);
                 let at = d.state.active + 1;
                 d.state.layers.insert(at, l);
                 d.state.active = at;
@@ -482,7 +484,7 @@ impl Editor {
     fn next_untitled(&self) -> String {
         let mut n = 1;
         loop {
-            let t = format!("Untitled {n}");
+            let t = trf("Untitled {}", &[&n]);
             if !self.docs.iter().any(|d| d.title == t) {
                 return t;
             }
@@ -496,7 +498,9 @@ impl Editor {
             1 => [0, 0, 0, 0],
             _ => self.secondary(),
         };
-        let doc = Document::blank(self.next_untitled(), w.max(1) as u32, h.max(1) as u32, bgc);
+        let mut doc = Document::blank(self.next_untitled(), w.max(1) as u32, h.max(1) as u32, bgc);
+        doc.state.layers[0].name = tr("Background");
+        doc.history.entries[0].state.layers[0].name = tr("Background");
         self.ui().global::<App>().set_dialog("".into());
         self.add_doc(doc);
     }
@@ -507,14 +511,17 @@ impl Editor {
                 let name = path.file_name().map(|s| s.to_string_lossy().to_string()).unwrap_or_else(|| "Image".into());
                 self.open_bytes(name, &bytes, Some(path.to_path_buf()));
             }
-            Err(e) => self.message("Could not open file", &format!("{}\n\n{}", path.display(), e)),
+            Err(e) => self.message(&tr("Could not open file"), &format!("{}\n\n{}", path.display(), e)),
         }
     }
 
     pub fn open_bytes(&mut self, name: String, bytes: &[u8], path: Option<PathBuf>) {
         let ext = io::ext_of(Path::new(&name));
         match io::load_bytes(&ext, bytes) {
-            Ok(st) => {
+            Ok(mut st) => {
+                if ext != "ora" {
+                    st.layers[0].name = tr("Background");
+                }
                 let mut doc = Document::new(name, st, "Open Image", true);
                 doc.path = path.clone();
                 self.add_doc(doc);
@@ -524,7 +531,7 @@ impl Editor {
                     }
                 }
             }
-            Err(e) => self.message("Could not open file", &format!("{name}\n\n{e}")),
+            Err(e) => self.message(&tr("Could not open file"), &format!("{name}\n\n{e}")),
         }
     }
 
@@ -546,7 +553,7 @@ impl Editor {
                 d.state.active = at;
                 self.structural("Import from File", "image-plus");
             }
-            Err(e) => self.message("Could not import file", &e),
+            Err(e) => self.message(&tr("Could not import file"), &e),
         }
     }
 
@@ -711,7 +718,7 @@ impl Editor {
             Err(e) => {
                 self.after_save = None;
                 self.exiting = false;
-                self.message("Could not save file", &format!("{}\n\n{}", path.display(), e));
+                self.message(&tr("Could not save file"), &format!("{}\n\n{}", path.display(), e));
             }
         }
     }
@@ -963,11 +970,11 @@ impl Editor {
     /// mode: 0 = into current layer, 1 = new layer, 2 = new image
     fn paste(&mut self, mode: i32) {
         let Some(img) = self.clipboard_image() else {
-            self.message("Nothing to paste", "The clipboard does not contain an image.");
+            self.message(&tr("Nothing to paste"), &tr("The clipboard does not contain an image."));
             return;
         };
         if mode == 2 || self.docs.is_empty() {
-            let st = DocState { w: img.w, h: img.h, layers: vec![Layer::from_surface("Background", &img)], active: 0, selection: Selection::none() };
+            let st = DocState { w: img.w, h: img.h, layers: vec![Layer::from_surface(tr("Background"), &img)], active: 0, selection: Selection::none() };
             let doc = Document::new(self.next_untitled(), st, "Paste into New Image", false);
             self.add_doc(doc);
             return;
@@ -983,7 +990,7 @@ impl Editor {
         if mode == 1 {
             let n = d.state.layers.len() + 1;
             let at = d.state.active + 1;
-            d.state.layers.insert(at, Layer::new(format!("Layer {n}"), d.state.w, d.state.h));
+            d.state.layers.insert(at, Layer::new(trf("Layer {}", &[&n]), d.state.w, d.state.h));
             d.state.active = at;
         }
         // Place at the top-left of the visible area (clamped into the image).
@@ -1135,7 +1142,7 @@ impl Editor {
         });
         let ui = self.ui();
         let g = ui.global::<App>();
-        g.set_fx_title(def.name.into());
+        g.set_fx_title(tr(def.name).into());
         self.sync_fx_params();
         if id == "curves" {
             g.set_curve_channel(0);
@@ -1147,7 +1154,7 @@ impl Editor {
         self.fx_preview();
     }
 
-    fn sync_fx_params(&mut self) {
+    pub fn sync_fx_params(&mut self) {
         let Some(fx) = &self.fx else { return };
         let items: Vec<ParamItem> = fx
             .params
@@ -1155,7 +1162,7 @@ impl Editor {
             .zip(fx.values.iter())
             .map(|(p, v)| match &p.kind {
                 ParamKind::Slider { min, max, step, decimals } => ParamItem {
-                    label: p.label.into(),
+                    label: tr(p.label).into(),
                     kind: 0,
                     value: *v,
                     min: *min,
@@ -1164,10 +1171,10 @@ impl Editor {
                     decimals: *decimals,
                     choices: ModelRc::default(),
                 },
-                ParamKind::Check => ParamItem { label: p.label.into(), kind: 1, value: *v, min: 0.0, max: 1.0, step: 1.0, decimals: 0, choices: ModelRc::default() },
+                ParamKind::Check => ParamItem { label: tr(p.label).into(), kind: 1, value: *v, min: 0.0, max: 1.0, step: 1.0, decimals: 0, choices: ModelRc::default() },
                 ParamKind::Choice(c) => {
-                    let ch: Vec<SharedString> = c.iter().map(|s| (*s).into()).collect();
-                    ParamItem { label: p.label.into(), kind: 2, value: *v, min: 0.0, max: c.len() as f32, step: 1.0, decimals: 0, choices: ModelRc::new(VecModel::from(ch)) }
+                    let ch: Vec<SharedString> = c.iter().map(|s| tr(s).into()).collect();
+                    ParamItem { label: tr(p.label).into(), kind: 2, value: *v, min: 0.0, max: c.len() as f32, step: 1.0, decimals: 0, choices: ModelRc::new(VecModel::from(ch)) }
                 }
             })
             .collect();

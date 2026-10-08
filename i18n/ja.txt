@@ -1,0 +1,482 @@
+# Japanese
+A modern, cross-platform raster graphics editor for Windows, macOS, Linux and FreeBSD. ⇒ Windows・macOS・Linux・FreeBSD 対応のモダンなラスター画像エディター。
+About ⇒ 情報
+About Neobrush ⇒ Neobrush について
+Accent color ⇒ アクセントカラー
+Actual Size ⇒ 実際のサイズ
+Add (Ctrl) ⇒ 追加（Ctrl）
+Add New Layer ⇒ 新規レイヤー
+Add Noise ⇒ ノイズを加える
+Add Noise… ⇒ ノイズを加える…
+Add new layer ⇒ 新規レイヤー
+Additive ⇒ 加算
+Adjustments ⇒ 色調補正
+After picking ⇒ 取得後
+Align center ⇒ 中央揃え
+Align left ⇒ 左揃え
+Align right ⇒ 右揃え
+Alpha ⇒ アルファ
+Amount ⇒ 量
+Anchor ⇒ 基準位置
+Angle ⇒ 角度
+Antialias ⇒ アンチエイリアス
+Apply ⇒ 適用
+Arrow ⇒ 矢印
+Artistic ⇒ アート
+Auto Crop ⇒ 自動切り抜き
+Auto-Level ⇒ 自動レベル補正
+Background ⇒ 背景
+Best quality ⇒ 最高画質
+Bicubic ⇒ バイキュービック
+Bigger Brush ⇒ ブラシを大きく
+Bilinear ⇒ バイリニア
+Black and White ⇒ 白黒
+Blend ⇒ 合成
+Blend mode ⇒ 描画モード
+Blue ⇒ 青
+Blur ⇒ ぼかし
+Blurs ⇒ ぼかし
+Bold ⇒ 太字
+Both ⇒ 両方
+Brightness ⇒ 明るさ
+Brightness / Contrast ⇒ 明るさ・コントラスト
+Brightness / Contrast… ⇒ 明るさ・コントラスト…
+Brush size ⇒ ブラシサイズ
+Bulge ⇒ 膨張
+Bulge… ⇒ 膨張…
+By absolute size ⇒ ピクセル指定
+By percentage ⇒ パーセント指定
+Cancel ⇒ キャンセル
+Canvas Size ⇒ キャンバスサイズ
+Canvas Size… ⇒ キャンバスサイズ…
+Cell size ⇒ セルサイズ
+Center X ⇒ 中心 X
+Center Y ⇒ 中心 Y
+Centered ⇒ 中央
+Click to add points · drag to move · right-click to remove ⇒ クリックで点を追加 · ドラッグで移動 · 右クリックで削除
+Click to fill an area. Right-click uses the secondary color. ⇒ クリックで領域を塗りつぶします。右クリックでセカンダリカラーを使用。
+Click to pick the primary color, right-click for secondary. ⇒ クリックでプライマリカラー、右クリックでセカンダリカラーを取得。
+Click to place text, then type. ⇒ クリックしてテキストを置き、入力します。
+Click to place text. Enter for a new line, Esc to finish. ⇒ クリックでテキストを配置。Enter で改行、Esc で確定。
+Click to select a region of similar color. ⇒ クリックで似た色の領域を選択します。
+Click to zoom in, right-click to zoom out, drag a rectangle to zoom to it. ⇒ クリックで拡大、右クリックで縮小、矩形をドラッグでその範囲を拡大。
+Click to zoom in, right-click to zoom out. ⇒ クリックで拡大、右クリックで縮小。
+Clipboard {}×{} ⇒ クリップボード {}×{}
+Clone Stamp ⇒ コピースタンプ
+Close ⇒ 閉じる
+Clouds ⇒ 雲模様
+Clouds… ⇒ 雲模様…
+Coarseness ⇒ 粗さ
+Color ⇒ 色
+Color Burn ⇒ 焼き込みカラー
+Color Dodge ⇒ 覆い焼きカラー
+Color Picker ⇒ スポイト
+Color range ⇒ 色の範囲
+Color saturation ⇒ 彩度
+Coloring ⇒ 色付け
+Colors ⇒ カラー
+Colors Panel ⇒ カラーパネル
+Command Palette ⇒ コマンドパレット
+Command Palette… ⇒ コマンドパレット…
+Command palette ⇒ コマンドパレット
+Conical ⇒ 円錐
+Contiguous ⇒ 隣接
+Contrast ⇒ コントラスト
+Copy ⇒ コピー
+Copy Merged ⇒ 結合部分をコピー
+Corner radius ⇒ 角の半径
+Could not import file ⇒ ファイルを読み込めませんでした
+Could not open file ⇒ ファイルを開けませんでした
+Could not save file ⇒ ファイルを保存できませんでした
+Coverage ⇒ 範囲
+Create ⇒ 作成
+Create a new image or open an existing one to get started. ⇒ 新しい画像を作成するか、既存の画像を開いて始めましょう。
+Crop to Selection ⇒ 選択範囲で切り抜き
+Ctrl+click to set the clone source first. ⇒ 先に Ctrl+クリックでコピー元を指定してください。
+Ctrl+click to set the source, then paint. ⇒ Ctrl+クリックでコピー元を指定し、描画します。
+Curvature ⇒ 曲率
+Curves ⇒ トーンカーブ
+Curves… ⇒ トーンカーブ…
+Cut ⇒ 切り取り
+Dark ⇒ ダーク
+Darken ⇒ 比較（暗）
+Dashed ⇒ 破線
+Delete ⇒ 削除
+Delete Layer ⇒ レイヤーを削除
+Delete layer ⇒ レイヤーを削除
+Dents ⇒ へこみ
+Dents… ⇒ へこみ…
+Deselect ⇒ 選択解除
+Diamond ⇒ ひし形
+Difference ⇒ 差の絶対値
+Distance ⇒ 距離
+Distort ⇒ 変形
+Documents ⇒ ドキュメント
+Don't Save ⇒ 保存しない
+Donate to Voices of Children ⇒ Voices of Children に寄付する
+Donate to Voices of Children · voices.org.ua ⇒ Voices of Children に寄付する · voices.org.ua
+Done ⇒ 完了
+Dotted ⇒ 点線
+Download ⇒ ダウンロード
+Drag the selection to move its pixels. ⇒ 選択範囲をドラッグしてピクセルを移動します。
+Drag to draw a freeform selection. ⇒ ドラッグして自由な形の選択範囲を描きます。
+Drag to draw a gradient. Right-drag swaps the colors. ⇒ ドラッグでグラデーションを描きます。右ドラッグで色を入れ替えます。
+Drag to draw a line, then drag the handles to bend it. ⇒ ドラッグで線を描き、ハンドルで曲げます。
+Drag to draw a shape, then adjust with the handles. ⇒ ドラッグで図形を描き、ハンドルで調整します。
+Drag to draw, then adjust with the handles. Shift constrains, Enter finishes. ⇒ ドラッグで描き、ハンドルで調整。Shift で制限、Enter で確定。
+Drag to erase to transparency. ⇒ ドラッグで透明に消去します。
+Drag to move the selection outline. ⇒ ドラッグで選択範囲の枠を移動します。
+Drag to move. Drag corner handles to scale, right-drag to rotate. Shift constrains. ⇒ ドラッグで移動。角のハンドルで拡大縮小、右ドラッグで回転。Shift で制限。
+Drag to paint. Shift+click draws a straight line. ⇒ ドラッグで描画。Shift+クリックで直線。
+Drag to pan the view. ⇒ ドラッグで表示を移動します。
+Drag to pan. Middle mouse or holding Space pans with any tool. ⇒ ドラッグで表示を移動。中ボタンまたはスペース長押しでどのツールでも移動できます。
+Drag to select a rectangle. Click to deselect. ⇒ ドラッグで長方形を選択。クリックで選択解除。
+Drag to select an ellipse. Hold Shift for a circle. ⇒ ドラッグで楕円を選択。Shift で正円。
+Draw single pixel, aliased lines. ⇒ アンチエイリアスなしの 1 ピクセルの線を描きます。
+Drop Shadow ⇒ ドロップシャドウ
+Drop Shadow… ⇒ ドロップシャドウ…
+Duplicate ⇒ 複製
+Duplicate Layer ⇒ レイヤーを複製
+Duplicate layer ⇒ レイヤーを複製
+Edge Detect ⇒ エッジ検出
+Edge Detect… ⇒ エッジ検出…
+Edit ⇒ 編集
+Effects ⇒ エフェクト
+Ellipse ⇒ 楕円
+Ellipse Select ⇒ 楕円選択
+Emboss ⇒ エンボス
+Emboss… ⇒ エンボス…
+Erase Selection ⇒ 選択範囲を消去
+Eraser ⇒ 消しゴム
+Esc to cancel ⇒ Esc でキャンセル
+Exit ⇒ 終了
+Factor ⇒ 係数
+File ⇒ ファイル
+File name ⇒ ファイル名
+Fill ⇒ 塗り
+Fill Selection ⇒ 選択範囲を塗りつぶし
+Flatten ⇒ 画像を統合
+Flip Horizontal ⇒ 左右反転
+Flip Layer Horizontal ⇒ レイヤーを左右反転
+Flip Layer Vertical ⇒ レイヤーを上下反転
+Flip Vertical ⇒ 上下反転
+Follow System ⇒ システムに合わせる
+Follow system ⇒ システムに合わせる
+Format ⇒ 形式
+Fragment ⇒ 分割
+Fragments ⇒ 分割数
+Fragment… ⇒ 分割…
+Frosted Glass ⇒ すりガラス
+Frosted Glass… ⇒ すりガラス…
+Gamma ⇒ ガンマ
+Gaussian Blur ⇒ ぼかし（ガウス）
+Gaussian Blur… ⇒ ぼかし（ガウス）…
+Global ⇒ 全体
+Glow ⇒ グロー
+Glow… ⇒ グロー…
+Go to document: {} ⇒ ドキュメントへ移動: {}
+Gradient ⇒ グラデーション
+Green ⇒ 緑
+Halloween ⇒ ハロウィン
+Happy Halloween! This theme is always dark. ⇒ ハッピーハロウィン！このテーマは常にダークです。
+Hard Light ⇒ ハードライト
+Hardness ⇒ 硬さ
+Heart ⇒ ハート
+Height ⇒ 高さ
+Help ⇒ ヘルプ
+Hexagon ⇒ 六角形
+Hide Layer ⇒ レイヤーを非表示
+Hide layer {}: {} ⇒ レイヤー {} を非表示: {}
+Higher quality means larger files. Transparency is flattened onto white. ⇒ 画質を上げるとファイルが大きくなります。透明部分は白で統合されます。
+History ⇒ ヒストリー
+History Panel ⇒ ヒストリーパネル
+Hold Ctrl to add, Alt to subtract. ⇒ Ctrl で追加、Alt で削除。
+Hue ⇒ 色相
+Hue / Saturation ⇒ 色相・彩度
+Hue / Saturation… ⇒ 色相・彩度…
+Icons by Lucide (ISC). Inter typeface (OFL). ⇒ アイコン: Lucide（ISC）。書体: Inter（OFL）。
+Image ⇒ 画像
+Import from File ⇒ ファイルから読み込み
+Import from File… ⇒ ファイルから読み込み…
+Ink Sketch ⇒ インクスケッチ
+Ink Sketch… ⇒ インクスケッチ…
+Ink outline ⇒ インクの輪郭
+Input black ⇒ 入力黒
+Input white ⇒ 入力白
+Intensity ⇒ 強さ
+Intersect ⇒ 交差
+Invert Colors ⇒ 階調の反転
+Invert Selection ⇒ 選択範囲を反転
+Invert colors ⇒ 色を反転
+Invert overlap ⇒ 重なりを反転
+Italic ⇒ 斜体
+Julia Fractal ⇒ ジュリア集合
+Julia Fractal… ⇒ ジュリア集合…
+Keyboard Shortcuts ⇒ キーボードショートカット
+Language ⇒ 言語
+Lasso Select ⇒ なげなわ選択
+Layer ⇒ レイヤー
+Layer Blend Mode ⇒ レイヤーの描画モード
+Layer Opacity ⇒ レイヤーの不透明度
+Layer Properties ⇒ レイヤーのプロパティ
+Layer Properties… ⇒ レイヤーのプロパティ…
+Layer Rotate / Zoom ⇒ レイヤーの回転・ズーム
+Layer number ({} layers) ⇒ レイヤー番号（{} 枚）
+Layer properties ⇒ レイヤーのプロパティ
+Layer {} ⇒ レイヤー {}
+Layer {}  ·  L {} {} switch · L {} T toggle ⇒ レイヤー {}  ·  L {} {} 切り替え · L {} T 表示切替
+Layers ⇒ レイヤー
+Layers Panel ⇒ レイヤーパネル
+Layers are flattened in this format. ⇒ この形式ではレイヤーが統合されます。
+Levels ⇒ レベル補正
+Levels… ⇒ レベル補正…
+Light ⇒ ライト
+Lighten ⇒ 比較（明）
+Lighting ⇒ 照明
+Lightness ⇒ 明度
+Line / Curve ⇒ 直線・曲線
+Linear ⇒ 線形
+Magic Wand ⇒ 自動選択
+Magic Wand Select ⇒ 自動選択
+Maintain aspect ratio ⇒ 縦横比を固定
+Mandelbrot Fractal ⇒ マンデルブロ集合
+Mandelbrot Fractal… ⇒ マンデルブロ集合…
+Median ⇒ 中間値
+Median… ⇒ 中間値…
+Menu Bar ⇒ メニューバー
+Merge Layer Down ⇒ 下のレイヤーと結合
+Merge down ⇒ 下と結合
+Merge layer down ⇒ 下と結合
+More adjustments commands ⇒ その他の色調補正
+More effects commands ⇒ その他のエフェクト
+More image commands ⇒ その他の画像コマンド
+More layers commands ⇒ その他のレイヤーコマンド
+More tools commands ⇒ その他のツールコマンド
+More view commands ⇒ その他の表示コマンド
+Motion Blur ⇒ ぼかし（移動）
+Motion Blur… ⇒ ぼかし（移動）…
+Move Layer Down ⇒ レイヤーを下へ
+Move Layer Up ⇒ レイヤーを上へ
+Move Pixels ⇒ ピクセルを移動
+Move Selected Pixels ⇒ 選択ピクセルを移動
+Move Selection ⇒ 選択範囲を移動
+Move layer down ⇒ レイヤーを下へ
+Move layer up ⇒ レイヤーを上へ
+Multiply ⇒ 乗算
+Name ⇒ 名前
+Nearest neighbor ⇒ ニアレストネイバー
+Negation ⇒ 除外
+New ⇒ 新規
+New Image ⇒ 新規画像
+New image ⇒ 新規画像
+New image {} × {} ⇒ 新規画像 {} × {}
+New… ⇒ 新規…
+No matching commands ⇒ 一致するコマンドはありません
+Noise ⇒ ノイズ
+Normal ⇒ 通常
+Nothing to paste ⇒ 貼り付けるものがありません
+OK ⇒ OK
+Object ⇒ オブジェクト
+Offset X ⇒ オフセット X
+Offset Y ⇒ オフセット Y
+Oil Painting ⇒ 油彩
+Oil Painting… ⇒ 油彩…
+Opacity ⇒ 不透明度
+Open ⇒ 開く
+Open Image ⇒ 画像を開く
+Open recent: {} ⇒ 最近使ったファイル: {}
+OpenRaster keeps your layers and opens in GIMP, Krita and MyPaint. ⇒ OpenRaster はレイヤーを保持し、GIMP・Krita・MyPaint で開けます。
+Open… ⇒ 開く…
+Orange ⇒ オレンジ
+Original: {} × {} px  →  New: {} × {} px ⇒ 元: {} × {} px  →  新: {} × {} px
+Outline ⇒ 輪郭
+Outline… ⇒ 輪郭…
+Output black ⇒ 出力黒
+Output white ⇒ 出力白
+Overlay ⇒ オーバーレイ
+Overwrite ⇒ 上書き
+Paint ⇒ ペイント
+Paint Bucket ⇒ 塗りつぶし
+Paintbrush ⇒ ブラシ
+Pan ⇒ 手のひら
+Pan X ⇒ 移動 X
+Pan Y ⇒ 移動 Y
+Paste ⇒ 貼り付け
+Paste into New Image ⇒ 新規画像に貼り付け
+Paste into New Layer ⇒ 新規レイヤーに貼り付け
+Pencil ⇒ 鉛筆
+Pencil Sketch ⇒ 鉛筆スケッチ
+Pencil Sketch… ⇒ 鉛筆スケッチ…
+Pencil tip size ⇒ 芯の太さ
+Pentagon ⇒ 五角形
+Percentage ⇒ パーセント
+Percentile ⇒ パーセンタイル
+Photo ⇒ 写真
+Pixel Grid ⇒ ピクセルグリッド
+Pixelate ⇒ モザイク
+Pixelate… ⇒ モザイク…
+Polar Inversion ⇒ 極座標反転
+Polar Inversion… ⇒ 極座標反転…
+Posterize ⇒ ポスタリゼーション
+Posterize… ⇒ ポスタリゼーション…
+Presets ⇒ プリセット
+Previous tool ⇒ 前のツール
+Properties ⇒ プロパティ
+Purple keys are chords: press them one after another (e.g. F, then B, then G). Tap Space for the command palette; hold Space to pan. ⇒ 色付きのキーはコードです。順番に押してください（例: F、B、G）。スペースを軽く押すとコマンドパレット、長押しで表示移動。
+Quality ⇒ 品質
+Quick command ⇒ クイックコマンド
+Radial ⇒ 放射
+Radial Blur ⇒ ぼかし（放射状）
+Radial Blur… ⇒ ぼかし（放射状）…
+Radius ⇒ 半径
+Recolor ⇒ 色の置き換え
+Rectangle ⇒ 長方形
+Rectangle Select ⇒ 長方形選択
+Red ⇒ 赤
+Red Eye Removal ⇒ 赤目補正
+Red Eye Removal… ⇒ 赤目補正…
+Redo ⇒ やり直し
+Reduce Noise ⇒ ノイズを軽減
+Reduce Noise… ⇒ ノイズを軽減…
+Reflect ⇒ 反射
+Reflected ⇒ 反射型
+Refraction ⇒ 屈折
+Relief ⇒ レリーフ
+Relief… ⇒ レリーフ…
+Rename Layer ⇒ レイヤー名を変更
+Rename current layer to “{}” ⇒ 現在のレイヤー名を「{}」に変更
+Render ⇒ 描画
+Repeat Last Effect ⇒ 最後のエフェクトを繰り返す
+Replace ⇒ 置き換え
+Replaces the secondary color with the primary color. ⇒ セカンダリカラーをプライマリカラーに置き換えます。
+Resampling ⇒ 再サンプル
+Reset ⇒ リセット
+Reset Colors ⇒ 色をリセット
+Reset to black & white ⇒ 白黒にリセット
+Resize ⇒ サイズ変更
+Resize Image ⇒ 画像サイズの変更
+Resize… ⇒ サイズ変更…
+Right Triangle ⇒ 直角三角形
+Rose ⇒ ローズ
+Rotate / Zoom ⇒ 回転・ズーム
+Rotate / Zoom… ⇒ 回転・ズーム…
+Rotate 180° ⇒ 180° 回転
+Rotate 90° Clockwise ⇒ 90° 時計回りに回転
+Rotate 90° Counter-clockwise ⇒ 90° 反時計回りに回転
+Rotation ⇒ 回転
+Roughness ⇒ 粗さ
+Rounded Rectangle ⇒ 角丸長方形
+Rulers ⇒ 定規
+Sample from ⇒ 取得元
+Sampling ⇒ サンプリング
+Saturation ⇒ 彩度
+Save ⇒ 保存
+Save As ⇒ 名前を付けて保存
+Save As… ⇒ 名前を付けて保存…
+Save Configuration ⇒ 保存オプション
+Save changes to “{}” before closing? ⇒ 閉じる前に「{}」の変更を保存しますか？
+Scale ⇒ スケール
+Screen ⇒ スクリーン
+Search commands, tools, layers… ⇒ コマンド・ツール・レイヤーを検索…
+Secondary color ⇒ セカンダリカラー
+Seed ⇒ シード
+Select All ⇒ すべて選択
+Select Layer Above ⇒ 上のレイヤーを選択
+Select Layer Below ⇒ 下のレイヤーを選択
+Selection mode ⇒ 選択モード
+Sepia ⇒ セピア
+Set brush hardness to {}% ⇒ ブラシの硬さを {}% に
+Set brush size to {} px ⇒ ブラシサイズを {} px に
+Set color to #{} ⇒ 色を #{} に
+Set font size to {} pt ⇒ フォントサイズを {} pt に
+Set layer opacity to {}% ⇒ レイヤーの不透明度を {}% に
+Set tolerance to {}% ⇒ 許容値を {}% に
+Settings ⇒ 設定
+Settings… ⇒ 設定…
+Shape ⇒ 図形
+Shapes ⇒ 図形
+Sharpen ⇒ シャープ
+Sharpen… ⇒ シャープ…
+Shift+click draws a straight line from the last point. [ and ] change the size. ⇒ Shift+クリックで最後の点から直線。[ と ] でサイズ変更。
+Show Layer ⇒ レイヤーを表示
+Show Only Layer ⇒ このレイヤーだけ表示
+Show layer {}: {} ⇒ レイヤー {} を表示: {}
+Show only layer {}: {} ⇒ レイヤー {} だけ表示: {}
+Show only this layer ⇒ このレイヤーだけ表示
+Size ⇒ サイズ
+Smaller Brush ⇒ ブラシを小さく
+Soft Light ⇒ ソフトライト
+Soft Portrait ⇒ ソフトポートレート
+Soft Portrait… ⇒ ソフトポートレート…
+Softness ⇒ 柔らかさ
+Solid ⇒ 実線
+Source Code on GitHub ⇒ GitHub のソースコード
+Star ⇒ 星形
+Stay on picker ⇒ スポイトのまま
+Strength ⇒ 強さ
+Stylize ⇒ 表現手法
+Subtract (Alt) ⇒ 削除（Alt）
+Support Ukraine's children ⇒ ウクライナの子どもたちを支援
+Surface Blur ⇒ ぼかし（表面）
+Surface Blur… ⇒ ぼかし（表面）…
+Swap Colors ⇒ 色を入れ替え
+Swap colors ⇒ 色を入れ替え
+Switch (repeat digit) ⇒ 切り替え（数字をもう一度）
+Switch to layer ⇒ レイヤーに切り替え
+Switch to layer {}: {} ⇒ レイヤー {} に切り替え: {}
+Teal ⇒ ティール
+Temperature ⇒ 色温度
+Temperature / Tint ⇒ 色温度・色かぶり
+Temperature / Tint… ⇒ 色温度・色かぶり…
+Text ⇒ テキスト
+The clipboard does not contain an image. ⇒ クリップボードに画像がありません。
+Theme ⇒ テーマ
+Thickness ⇒ 太さ
+Threshold ⇒ しきい値
+Tile ⇒ タイル
+Tile Reflection ⇒ タイル反射
+Tile Reflection… ⇒ タイル反射…
+Tile size ⇒ タイルサイズ
+Tiling ⇒ タイリング
+Tint ⇒ 色かぶり
+Toggle visibility ⇒ 表示を切り替え
+Tolerance ⇒ 許容値
+Tools ⇒ ツール
+Tools Panel ⇒ ツールパネル
+Transparency ⇒ 透明度
+Transparent ⇒ 透明
+Triangle ⇒ 三角形
+Twist ⇒ ねじれ
+Twist… ⇒ ねじれ…
+Type a command, tool, layer… or try “zoom 200”, “#ff6a00”, “size 40” ⇒ コマンド・ツール・レイヤーを入力… または「zoom 200」「#ff6a00」「size 40」を試してください
+Underline ⇒ 下線
+Undo ⇒ 元に戻す
+Unfocus ⇒ ピンぼけ
+Unfocus… ⇒ ピンぼけ…
+Unsaved changes ⇒ 未保存の変更
+Untitled {} ⇒ 無題 {}
+Version {} ⇒ バージョン {}
+Vibrance ⇒ 自然な彩度
+Vibrance… ⇒ 自然な彩度…
+View ⇒ 表示
+Vignette ⇒ 周辺減光
+Vignette… ⇒ 周辺減光…
+Violet ⇒ バイオレット
+Visible ⇒ 表示
+Warmth ⇒ 暖かさ
+Welcome to Neobrush ⇒ Neobrush へようこそ
+White ⇒ 白
+Width ⇒ 幅
+Your changes will be lost if you don't save them. ⇒ 保存しないと変更は失われます。
+Zoom ⇒ ズーム
+Zoom Blur ⇒ ぼかし（ズーム）
+Zoom Blur… ⇒ ぼかし（ズーム）…
+Zoom In ⇒ 拡大
+Zoom Out ⇒ 縮小
+Zoom to Window ⇒ ウィンドウに合わせる
+Zoom to {}% ⇒ {}% にズーム
+chords work everywhere: toggle layer 2 ⇒ コードはどこでも使えます: レイヤー 2 の表示切替
+current ⇒ 現在
+navigate ⇒ 移動
+run ⇒ 実行
+{} copy ⇒ {} のコピー

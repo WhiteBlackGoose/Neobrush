@@ -21,31 +21,31 @@ export component ToolPalette inherits Card {
         GridLayout {
             spacing: 3px;
             Row {
-                ToolBtn { t: Tool.rect-select; icon: Icons.square-dashed; tip: "Rectangle Select  S"; }
-                ToolBtn { t: Tool.ellipse-select; icon: Icons.circle-dashed; tip: "Ellipse Select  S"; }
-                ToolBtn { t: Tool.lasso-select; icon: Icons.lasso; tip: "Lasso Select  S"; }
-                ToolBtn { t: Tool.magic-wand; icon: Icons.wand; tip: "Magic Wand  S"; }
-                ToolBtn { t: Tool.move-pixels; icon: Icons.move; tip: "Move Selected Pixels  M"; }
-                ToolBtn { t: Tool.move-selection; icon: Icons.pointer; tip: "Move Selection  M"; }
+                ToolBtn { t: Tool.rect-select; icon: Icons.square-dashed; tip: @tr("Rectangle Select") + "  S"; }
+                ToolBtn { t: Tool.ellipse-select; icon: Icons.circle-dashed; tip: @tr("Ellipse Select") + "  S"; }
+                ToolBtn { t: Tool.lasso-select; icon: Icons.lasso; tip: @tr("Lasso Select") + "  S"; }
+                ToolBtn { t: Tool.magic-wand; icon: Icons.wand; tip: @tr("Magic Wand") + "  S"; }
+                ToolBtn { t: Tool.move-pixels; icon: Icons.move; tip: @tr("Move Selected Pixels") + "  M"; }
+                ToolBtn { t: Tool.move-selection; icon: Icons.pointer; tip: @tr("Move Selection") + "  M"; }
             }
             Row {
-                ToolBtn { t: Tool.brush; icon: Icons.brush; tip: "Paintbrush  B"; }
-                ToolBtn { t: Tool.pencil; icon: Icons.pencil; tip: "Pencil  P"; }
-                ToolBtn { t: Tool.eraser; icon: Icons.eraser; tip: "Eraser  E"; }
-                ToolBtn { t: Tool.gradient; icon: Icons.gradient; tip: "Gradient  G"; }
-                ToolBtn { t: Tool.bucket; icon: Icons.bucket; tip: "Paint Bucket  G"; }
-                ToolBtn { t: Tool.picker; icon: Icons.pipette; tip: "Color Picker  K"; }
+                ToolBtn { t: Tool.brush; icon: Icons.brush; tip: @tr("Paintbrush") + "  B"; }
+                ToolBtn { t: Tool.pencil; icon: Icons.pencil; tip: @tr("Pencil") + "  P"; }
+                ToolBtn { t: Tool.eraser; icon: Icons.eraser; tip: @tr("Eraser") + "  E"; }
+                ToolBtn { t: Tool.gradient; icon: Icons.gradient; tip: @tr("Gradient") + "  G"; }
+                ToolBtn { t: Tool.bucket; icon: Icons.bucket; tip: @tr("Paint Bucket") + "  G"; }
+                ToolBtn { t: Tool.picker; icon: Icons.pipette; tip: @tr("Color Picker") + "  K"; }
             }
             Row {
-                ToolBtn { t: Tool.clone; icon: Icons.stamp; tip: "Clone Stamp  C"; }
-                ToolBtn { t: Tool.recolor; icon: Icons.replace; tip: "Recolor  R"; }
-                ToolBtn { t: Tool.text; icon: Icons.type; tip: "Text  T"; }
-                ToolBtn { t: Tool.line; icon: Icons.spline; tip: "Line / Curve  O"; }
-                ToolBtn { t: Tool.shape; icon: Icons.shapes; tip: "Shapes  O"; }
-                ToolBtn { t: Tool.pan; icon: Icons.hand; tip: "Pan  H  (or hold Space)"; }
+                ToolBtn { t: Tool.clone; icon: Icons.stamp; tip: @tr("Clone Stamp") + "  C"; }
+                ToolBtn { t: Tool.recolor; icon: Icons.replace; tip: @tr("Recolor") + "  R"; }
+                ToolBtn { t: Tool.text; icon: Icons.type; tip: @tr("Text") + "  T"; }
+                ToolBtn { t: Tool.line; icon: Icons.spline; tip: @tr("Line / Curve") + "  O"; }
+                ToolBtn { t: Tool.shape; icon: Icons.shapes; tip: @tr("Shapes") + "  O"; }
+                ToolBtn { t: Tool.pan; icon: Icons.hand; tip: @tr("Pan") + "  H  (or hold Space)"; }
             }
             Row {
-                ToolBtn { t: Tool.zoom; icon: Icons.zoom-in; tip: "Zoom  Z"; }
+                ToolBtn { t: Tool.zoom; icon: Icons.zoom-in; tip: @tr("Zoom") + "  Z"; }
             }
         }
     }
@@ -163,7 +163,7 @@ export component ColorsPanel inherits Card {
         padding: 12px;
         spacing: 10px;
         PanelHeader {
-            title: "Colors";
+            title: @tr("Colors");
             icon: Icons.palette;
         }
         HorizontalLayout {
@@ -217,7 +217,7 @@ export component ColorsPanel inherits Card {
                     size: 20px;
                     icon-size: 12px;
                     icon: Icons.swap;
-                    tip: "Swap colors  X";
+                    tip: @tr("Swap colors") + "  X";
                     clicked => { App.action("color.swap"); }
                 }
                 IconButton {
@@ -226,7 +226,7 @@ export component ColorsPanel inherits Card {
                     size: 20px;
                     icon-size: 11px;
                     icon: Icons.reset;
-                    tip: "Reset to black & white  D";
+                    tip: @tr("Reset to black & white") + "  D";
                     clicked => { App.action("color.reset"); }
                 }
             }
@@ -257,7 +257,7 @@ export component ColorsPanel inherits Card {
                     }
                 }
                 ValueSlider {
-                    label: "Alpha";
+                    label: @tr("Alpha");
                     minimum: 0;
                     maximum: 255;
                     source: root.cur.alpha;
@@ -351,12 +351,12 @@ export component LayersPanel inherits Card {
         padding-bottom: 8px;
         spacing: 8px;
         PanelHeader {
-            title: "Layers";
+            title: @tr("Layers");
             icon: Icons.layers;
-            IconButton { size: 24px; icon-size: 14px; icon: Icons.plus; tip: "Add new layer"; clicked => { App.action("layer.add"); } }
-            IconButton { size: 24px; icon-size: 14px; icon: Icons.copy-plus; tip: "Duplicate layer"; clicked => { App.action("layer.duplicate"); } }
-            IconButton { size: 24px; icon-size: 14px; icon: Icons.merge; tip: "Merge layer down"; enabled: App.layer-count > 1; clicked => { App.action("layer.merge-down"); } }
-            IconButton { size: 24px; icon-size: 14px; icon: Icons.trash; tip: "Delete layer"; enabled: App.layer-count > 1; clicked => { App.action("layer.delete"); } }
+            IconButton { size: 24px; icon-size: 14px; icon: Icons.plus; tip: @tr("Add new layer"); clicked => { App.action("layer.add"); } }
+            IconButton { size: 24px; icon-size: 14px; icon: Icons.copy-plus; tip: @tr("Duplicate layer"); clicked => { App.action("layer.duplicate"); } }
+            IconButton { size: 24px; icon-size: 14px; icon: Icons.merge; tip: @tr("Merge layer down"); enabled: App.layer-count > 1; clicked => { App.action("layer.merge-down"); } }
+            IconButton { size: 24px; icon-size: 14px; icon: Icons.trash; tip: @tr("Delete layer"); enabled: App.layer-count > 1; clicked => { App.action("layer.delete"); } }
         }
         HorizontalLayout {
             spacing: 6px;
@@ -370,7 +370,7 @@ export component LayersPanel inherits Card {
                 }
             }
             ValueSlider {
-                label: "Opacity";
+                label: @tr("Opacity");
                 min-width: 80px;
                 horizontal-stretch: 1;
                 minimum: 0;
@@ -417,7 +417,7 @@ export component LayersPanel inherits Card {
                             TouchArea {
                                 changed has-hover => {
                                     if self.has-hover {
-                                        Tip.show("Layer " + l.number + "  ·  L " + l.number + " S switch · T toggle", parent.absolute-position.x, parent.absolute-position.y + 24px);
+                                        Tip.show(@tr("Layer {}  ·  L {} {} switch · L {} T toggle", l.number, l.number, l.number, l.number), parent.absolute-position.x, parent.absolute-position.y + 24px);
                                     } else {
                                         Tip.hide();
                                     }
@@ -472,9 +472,9 @@ export component LayersPanel inherits Card {
         HorizontalLayout {
             spacing: 2px;
             alignment: end;
-            IconButton { size: 24px; icon-size: 14px; icon: Icons.chevron-up; tip: "Move layer up"; clicked => { App.action("layer.up"); } }
-            IconButton { size: 24px; icon-size: 14px; icon: Icons.chevron-down; tip: "Move layer down"; clicked => { App.action("layer.down"); } }
-            IconButton { size: 24px; icon-size: 14px; icon: Icons.sliders; tip: "Layer properties  F4"; clicked => { App.action("layer.properties"); } }
+            IconButton { size: 24px; icon-size: 14px; icon: Icons.chevron-up; tip: @tr("Move layer up"); clicked => { App.action("layer.up"); } }
+            IconButton { size: 24px; icon-size: 14px; icon: Icons.chevron-down; tip: @tr("Move layer down"); clicked => { App.action("layer.down"); } }
+            IconButton { size: 24px; icon-size: 14px; icon: Icons.sliders; tip: @tr("Layer properties") + "  F4"; clicked => { App.action("layer.properties"); } }
         }
     }
 }
@@ -497,10 +497,10 @@ export component HistoryPanel inherits Card {
         padding-bottom: 8px;
         spacing: 8px;
         PanelHeader {
-            title: "History";
+            title: @tr("History");
             icon: Icons.history;
-            IconButton { size: 24px; icon-size: 14px; icon: Icons.undo; tip: "Undo  Ctrl+Z"; enabled: App.can-undo; clicked => { App.action("edit.undo"); } }
-            IconButton { size: 24px; icon-size: 14px; icon: Icons.redo; tip: "Redo  Ctrl+Y"; enabled: App.can-redo; clicked => { App.action("edit.redo"); } }
+            IconButton { size: 24px; icon-size: 14px; icon: Icons.undo; tip: @tr("Undo") + "  Ctrl+Z"; enabled: App.can-undo; clicked => { App.action("edit.undo"); } }
+            IconButton { size: 24px; icon-size: 14px; icon: Icons.redo; tip: @tr("Redo") + "  Ctrl+Y"; enabled: App.can-redo; clicked => { App.action("edit.redo"); } }
         }
         hsv := ScrollView {
             vertical-stretch: 1;

@@ -19,7 +19,17 @@ pub struct Overlay {
     pub caret: Option<Rect>,
 }
 
-pub const ACCENT: [u8; 3] = [124, 92, 255];
+/// Accent color for handles and ruler markers (set from the UI theme before rendering).
+static ACCENT_RGB: std::sync::atomic::AtomicU32 = std::sync::atomic::AtomicU32::new(0x7c5cff);
+
+pub fn set_accent(c: [u8; 3]) {
+    ACCENT_RGB.store(((c[0] as u32) << 16) | ((c[1] as u32) << 8) | c[2] as u32, std::sync::atomic::Ordering::Relaxed);
+}
+
+fn accent() -> [u8; 3] {
+    let v = ACCENT_RGB.load(std::sync::atomic::Ordering::Relaxed);
+    [(v >> 16) as u8, (v >> 8) as u8, v as u8]
+}
 
 pub struct Canvas<'a> {
     pub px: &'a mut [Rgba8Pixel],
@@ -90,7 +100,7 @@ impl Canvas<'_> {
                 let sh = (r + 2.0 - d).clamp(0.0, 1.0) * 0.25;
                 self.blend(x, y, [0, 0, 0], sh);
                 let fill = (r - d + 0.5).clamp(0.0, 1.0);
-                self.blend(x, y, ACCENT, fill);
+                self.blend(x, y, accent(), fill);
                 let inner = (r - 2.0 - d + 0.5).clamp(0.0, 1.0);
                 self.blend(x, y, [255, 255, 255], inner);
             }
@@ -248,7 +258,7 @@ fn draw_rulers(cv: &mut Canvas, g: &Glyphs, doc_w: u32, doc_h: u32, zoom: f32, o
         d += minor;
     }
     // Image extent and cursor markers.
-    let accent = ACCENT;
+    let accent = accent();
     let (ix0, ix1) = (ext_x(0.0) as i32, ext_x(doc_w as f32) as i32);
     let (iy0, iy1) = (ext_y(0.0) as i32, ext_y(doc_h as f32) as i32);
     for x in ix0.max(t)..ix1.min(w) {
@@ -291,6 +301,8 @@ pub struct BaseKey {
     pub img_h: u32,
     pub dark: bool,
     pub grid: bool,
+    /// Canvas background color.
+    pub bg: [u8; 3],
 }
 
 /// The rendered document without overlays, kept between frames.
@@ -300,7 +312,7 @@ pub struct BaseCache {
 }
 
 impl BaseKey {
-    pub fn new(doc: &Document, w: u32, h: u32, dark: bool, grid: bool) -> BaseKey {
+    pub fn new(doc: &Document, w: u32, h: u32, dark: bool, grid: bool, bg: [u8; 3]) -> BaseKey {
         BaseKey {
             doc: doc.id,
             w: w.max(1),
@@ -312,6 +324,7 @@ impl BaseKey {
             img_h: doc.composite.h,
             dark,
             grid,
+            bg,
         }
     }
 
@@ -335,8 +348,9 @@ pub fn render_base(doc: &Document, px: &mut [Rgba8Pixel], key: &BaseKey, region:
     if region.is_empty() {
         return;
     }
-    let bg: [u8; 3] = if key.dark { [13, 13, 16] } else { [227, 229, 234] };
-    let (c1, c2): ([u8; 3], [u8; 3]) = if key.dark { ([58, 58, 66], [74, 74, 84]) } else { ([255, 255, 255], [218, 220, 226]) };
+    let bg = key.bg;
+    let lift = |c: [u8; 3], d: u8| [c[0].saturating_add(d), c[1].saturating_add(d), c[2].saturating_add(d)];
+    let (c1, c2): ([u8; 3], [u8; 3]) = if key.dark { (lift(bg, 45), lift(bg, 61)) } else { ([255, 255, 255], [218, 220, 226]) };
     let z = key.zoom;
     let (x0, y0) = (key.ox, key.oy);
     let comp = &doc.composite;
@@ -506,7 +520,7 @@ pub fn draw_overlays(doc: &Document, px: &mut [Rgba8Pixel], key: &BaseKey, rp: &
 /// Renders a complete frame without caching (used by tests and benchmarks).
 #[allow(dead_code)]
 pub fn render(doc: &Document, cw: u32, ch: u32, rp: &RenderParams, ov: &Overlay) -> SharedPixelBuffer<Rgba8Pixel> {
-    let key = BaseKey::new(doc, cw, ch, rp.dark, rp.grid);
+    let key = BaseKey::new(doc, cw, ch, rp.dark, rp.grid, if rp.dark { [13, 13, 16] } else { [227, 229, 234] });
     let mut buf = SharedPixelBuffer::<Rgba8Pixel>::new(key.w, key.h);
     render_base(doc, buf.make_mut_slice(), &key, Rect::from_size(key.w, key.h));
     draw_overlays(doc, buf.make_mut_slice(), &key, rp, ov);

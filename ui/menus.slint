@@ -8,36 +8,36 @@ export component ToolbarSections inherits HorizontalLayout {
     in property <bool> wide: true;
     spacing: 6px;
     ToolbarSection {
-        title: "View";
+        title: @tr("View");
         HorizontalLayout {
             spacing: 1px;
-            IconButton { icon: Icons.named("zoom-out"); tip: "Zoom Out  ·  Ctrl+-"; enabled: App.has-doc; clicked => { App.action("view.zoom-out"); } }
+            IconButton { icon: Icons.named("zoom-out"); tip: @tr("Zoom Out") + "  ·  Ctrl+-"; enabled: App.has-doc; clicked => { App.action("view.zoom-out"); } }
             ZoomLabel { }
-            if root.wide: IconButton { icon: Icons.named("zoom-in"); tip: "Zoom In  ·  Ctrl++"; enabled: App.has-doc; clicked => { App.action("view.zoom-in"); } }
-            if root.wide: IconButton { icon: Icons.named("maximize"); tip: "Zoom to Window  ·  Ctrl+B"; enabled: App.has-doc; clicked => { App.action("view.fit"); } }
-            if root.wide: IconButton { icon: Icons.named("grid"); tip: "Pixel Grid  ·  V G"; enabled: App.has-doc; active: App.pixel-grid; clicked => { App.action("view.grid"); } }
-            if root.wide: IconButton { icon: Icons.named("ruler"); tip: "Rulers  ·  Ctrl+Alt+R"; enabled: App.has-doc; active: App.show-rulers; clicked => { App.action("view.rulers"); } }
+            if root.wide: IconButton { icon: Icons.named("zoom-in"); tip: @tr("Zoom In") + "  ·  Ctrl++"; enabled: App.has-doc; clicked => { App.action("view.zoom-in"); } }
+            if root.wide: IconButton { icon: Icons.named("maximize"); tip: @tr("Zoom to Window") + "  ·  Ctrl+B"; enabled: App.has-doc; clicked => { App.action("view.fit"); } }
+            if root.wide: IconButton { icon: Icons.named("grid"); tip: @tr("Pixel Grid") + "  ·  V G"; enabled: App.has-doc; active: App.pixel-grid; clicked => { App.action("view.grid"); } }
+            if root.wide: IconButton { icon: Icons.named("ruler"); tip: @tr("Rulers") + "  ·  Ctrl+Alt+R"; enabled: App.has-doc; active: App.show-rulers; clicked => { App.action("view.rulers"); } }
             MoreButton {
-                tip: "More view commands";
+                tip: @tr("More view commands");
                 clicked(x, y) => { cm-view.show({ x: x, y: y }); }
                 cm-view := ContextMenuArea {
                     Menu {
-                        MenuItem { title: "Command Palette…      Space"; activated => { App.action("palette.open"); } }
-                        MenuItem { title: "Menu Bar      V M"; checkable: true; checked: App.show-menubar; activated => { App.action("view.menubar"); } }
+                        MenuItem { title: @tr("Command Palette…") + "      Space"; activated => { App.action("palette.open"); } }
+                        MenuItem { title: @tr("Menu Bar") + "      V M"; checkable: true; checked: App.show-menubar; activated => { App.action("view.menubar"); } }
                         MenuSeparator { }
-                        MenuItem { title: "Actual Size      Ctrl+0"; activated => { App.action("view.actual"); } }
+                        MenuItem { title: @tr("Actual Size") + "      Ctrl+0"; activated => { App.action("view.actual"); } }
                         MenuSeparator { }
                         Menu {
-                            title: "Theme";
-                            MenuItem { title: "Follow System      V T S"; checkable: true; checked: App.theme-mode == 0; activated => { App.action("view.theme-system"); } }
-                            MenuItem { title: "Light      V T L"; checkable: true; checked: App.theme-mode == 1; activated => { App.action("view.theme-light"); } }
-                            MenuItem { title: "Dark      V T D"; checkable: true; checked: App.theme-mode == 2; activated => { App.action("view.theme-dark"); } }
+                            title: @tr("Theme");
+                            MenuItem { title: @tr("Follow System") + "      V T S"; checkable: true; checked: App.theme-mode == 0; activated => { App.action("view.theme-system"); } }
+                            MenuItem { title: @tr("Light") + "      V T L"; checkable: true; checked: App.theme-mode == 1; activated => { App.action("view.theme-light"); } }
+                            MenuItem { title: @tr("Dark") + "      V T D"; checkable: true; checked: App.theme-mode == 2; activated => { App.action("view.theme-dark"); } }
                         }
                         MenuSeparator { }
-                        MenuItem { title: "Tools Panel      V 1"; checkable: true; checked: App.show-tools; activated => { App.action("view.panel-tools"); } }
-                        MenuItem { title: "Colors Panel      V 2"; checkable: true; checked: App.show-colors; activated => { App.action("view.panel-colors"); } }
-                        MenuItem { title: "Layers Panel      V 3"; checkable: true; checked: App.show-layers; activated => { App.action("view.panel-layers"); } }
-                        MenuItem { title: "History Panel      V 4"; checkable: true; checked: App.show-history; activated => { App.action("view.panel-history"); } }
+                        MenuItem { title: @tr("Tools Panel") + "      V 1"; checkable: true; checked: App.show-tools; activated => { App.action("view.panel-tools"); } }
+                        MenuItem { title: @tr("Colors Panel") + "      V 2"; checkable: true; checked: App.show-colors; activated => { App.action("view.panel-colors"); } }
+                        MenuItem { title: @tr("Layers Panel") + "      V 3"; checkable: true; checked: App.show-layers; activated => { App.action("view.panel-layers"); } }
+                        MenuItem { title: @tr("History Panel") + "      V 4"; checkable: true; checked: App.show-history; activated => { App.action("view.panel-history"); } }
                     }
                 }
             }
@@ -45,27 +45,27 @@ export component ToolbarSections inherits HorizontalLayout {
     }
     VDivider { height: 30px; y: 4px; }
     ToolbarSection {
-        title: "Image";
+        title: @tr("Image");
         HorizontalLayout {
             spacing: 1px;
-            IconButton { icon: Icons.named("crop"); tip: "Crop to Selection  ·  Ctrl+Shift+X"; enabled: App.has-doc && (App.has-selection); clicked => { App.action("image.crop"); } }
-            IconButton { icon: Icons.named("scaling"); tip: "Resize  ·  Ctrl+R"; enabled: App.has-doc; clicked => { App.action("image.resize"); } }
-            if root.wide: IconButton { icon: Icons.named("frame"); tip: "Canvas Size  ·  Ctrl+Shift+R"; enabled: App.has-doc; clicked => { App.action("image.canvas"); } }
-            if root.wide: IconButton { icon: Icons.named("rotate-cw"); tip: "Rotate 90° Clockwise  ·  Ctrl+H"; enabled: App.has-doc; clicked => { App.action("image.rot-cw"); } }
-            if root.wide: IconButton { icon: Icons.named("flip-h"); tip: "Flip Horizontal  ·  I H"; enabled: App.has-doc; clicked => { App.action("image.flip-h"); } }
+            IconButton { icon: Icons.named("crop"); tip: @tr("Crop to Selection") + "  ·  Ctrl+Shift+X"; enabled: App.has-doc && (App.has-selection); clicked => { App.action("image.crop"); } }
+            IconButton { icon: Icons.named("scaling"); tip: @tr("Resize") + "  ·  Ctrl+R"; enabled: App.has-doc; clicked => { App.action("image.resize"); } }
+            if root.wide: IconButton { icon: Icons.named("frame"); tip: @tr("Canvas Size") + "  ·  Ctrl+Shift+R"; enabled: App.has-doc; clicked => { App.action("image.canvas"); } }
+            if root.wide: IconButton { icon: Icons.named("rotate-cw"); tip: @tr("Rotate 90° Clockwise") + "  ·  Ctrl+H"; enabled: App.has-doc; clicked => { App.action("image.rot-cw"); } }
+            if root.wide: IconButton { icon: Icons.named("flip-h"); tip: @tr("Flip Horizontal") + "  ·  I H"; enabled: App.has-doc; clicked => { App.action("image.flip-h"); } }
             MoreButton {
-                tip: "More image commands";
+                tip: @tr("More image commands");
                 clicked(x, y) => { cm-image.show({ x: x, y: y }); }
                 cm-image := ContextMenuArea {
                     Menu {
-                        MenuItem { title: "Auto Crop      Ctrl+Alt+X"; activated => { App.action("image.autocrop"); } }
+                        MenuItem { title: @tr("Auto Crop") + "      Ctrl+Alt+X"; activated => { App.action("image.autocrop"); } }
                         MenuSeparator { }
-                        MenuItem { title: "Flip Vertical      I V"; activated => { App.action("image.flip-v"); } }
+                        MenuItem { title: @tr("Flip Vertical") + "      I V"; activated => { App.action("image.flip-v"); } }
                         MenuSeparator { }
-                        MenuItem { title: "Rotate 90° Counter-clockwise      Ctrl+G"; activated => { App.action("image.rot-ccw"); } }
-                        MenuItem { title: "Rotate 180°      Ctrl+J"; activated => { App.action("image.rot-180"); } }
+                        MenuItem { title: @tr("Rotate 90° Counter-clockwise") + "      Ctrl+G"; activated => { App.action("image.rot-ccw"); } }
+                        MenuItem { title: @tr("Rotate 180°") + "      Ctrl+J"; activated => { App.action("image.rot-180"); } }
                         MenuSeparator { }
-                        MenuItem { title: "Flatten      Ctrl+Shift+F"; activated => { App.action("image.flatten"); } }
+                        MenuItem { title: @tr("Flatten") + "      Ctrl+Shift+F"; activated => { App.action("image.flatten"); } }
                     }
                 }
             }
@@ -73,29 +73,29 @@ export component ToolbarSections inherits HorizontalLayout {
     }
     VDivider { height: 30px; y: 4px; }
     ToolbarSection {
-        title: "Layers";
+        title: @tr("Layers");
         HorizontalLayout {
             spacing: 1px;
-            IconButton { icon: Icons.named("plus"); tip: "Add New Layer  ·  Ctrl+Shift+N"; enabled: App.has-doc; clicked => { App.action("layer.add"); } }
-            IconButton { icon: Icons.named("copy-plus"); tip: "Duplicate Layer  ·  Ctrl+Shift+D"; enabled: App.has-doc; clicked => { App.action("layer.duplicate"); } }
-            if root.wide: IconButton { icon: Icons.named("merge"); tip: "Merge Layer Down  ·  Ctrl+M"; enabled: App.has-doc && (App.layer-count > 1); clicked => { App.action("layer.merge-down"); } }
-            if root.wide: IconButton { icon: Icons.named("sliders"); tip: "Layer Properties  ·  F4"; enabled: App.has-doc; clicked => { App.action("layer.properties"); } }
+            IconButton { icon: Icons.named("plus"); tip: @tr("Add New Layer") + "  ·  Ctrl+Shift+N"; enabled: App.has-doc; clicked => { App.action("layer.add"); } }
+            IconButton { icon: Icons.named("copy-plus"); tip: @tr("Duplicate Layer") + "  ·  Ctrl+Shift+D"; enabled: App.has-doc; clicked => { App.action("layer.duplicate"); } }
+            if root.wide: IconButton { icon: Icons.named("merge"); tip: @tr("Merge Layer Down") + "  ·  Ctrl+M"; enabled: App.has-doc && (App.layer-count > 1); clicked => { App.action("layer.merge-down"); } }
+            if root.wide: IconButton { icon: Icons.named("sliders"); tip: @tr("Layer Properties") + "  ·  F4"; enabled: App.has-doc; clicked => { App.action("layer.properties"); } }
             MoreButton {
-                tip: "More layers commands";
+                tip: @tr("More layers commands");
                 clicked(x, y) => { cm-layers.show({ x: x, y: y }); }
                 cm-layers := ContextMenuArea {
                     Menu {
-                        MenuItem { title: "Delete Layer      L X"; enabled: App.layer-count > 1; activated => { App.action("layer.delete"); } }
-                        MenuItem { title: "Import from File…      L I"; activated => { App.action("layer.import"); } }
+                        MenuItem { title: @tr("Delete Layer") + "      L X"; enabled: App.layer-count > 1; activated => { App.action("layer.delete"); } }
+                        MenuItem { title: @tr("Import from File…") + "      L I"; activated => { App.action("layer.import"); } }
                         MenuSeparator { }
-                        MenuItem { title: "Flip Layer Horizontal      L H"; activated => { App.action("layer.flip-h"); } }
-                        MenuItem { title: "Flip Layer Vertical      L V"; activated => { App.action("layer.flip-v"); } }
-                        MenuItem { title: "Rotate / Zoom…      Ctrl+Shift+Z"; activated => { App.action("fx:rotate-zoom"); } }
+                        MenuItem { title: @tr("Flip Layer Horizontal") + "      L H"; activated => { App.action("layer.flip-h"); } }
+                        MenuItem { title: @tr("Flip Layer Vertical") + "      L V"; activated => { App.action("layer.flip-v"); } }
+                        MenuItem { title: @tr("Rotate / Zoom…") + "      Ctrl+Shift+Z"; activated => { App.action("fx:rotate-zoom"); } }
                         MenuSeparator { }
-                        MenuItem { title: "Select Layer Above      L K"; activated => { App.action("layer.select-up"); } }
-                        MenuItem { title: "Select Layer Below      L J"; activated => { App.action("layer.select-down"); } }
-                        MenuItem { title: "Move Layer Up      Ctrl+PgUp"; activated => { App.action("layer.up"); } }
-                        MenuItem { title: "Move Layer Down      Ctrl+PgDn"; activated => { App.action("layer.down"); } }
+                        MenuItem { title: @tr("Select Layer Above") + "      L K"; activated => { App.action("layer.select-up"); } }
+                        MenuItem { title: @tr("Select Layer Below") + "      L J"; activated => { App.action("layer.select-down"); } }
+                        MenuItem { title: @tr("Move Layer Up") + "      Ctrl+PgUp"; activated => { App.action("layer.up"); } }
+                        MenuItem { title: @tr("Move Layer Down") + "      Ctrl+PgDn"; activated => { App.action("layer.down"); } }
                     }
                 }
             }
@@ -103,26 +103,26 @@ export component ToolbarSections inherits HorizontalLayout {
     }
     VDivider { height: 30px; y: 4px; }
     ToolbarSection {
-        title: "Adjustments";
+        title: @tr("Adjustments");
         HorizontalLayout {
             spacing: 1px;
-            IconButton { icon: Icons.named("wand"); tip: "Auto-Level  ·  Ctrl+Shift+L"; enabled: App.has-doc; clicked => { App.action("fx:auto-level"); } }
-            IconButton { icon: Icons.named("chart-spline"); tip: "Curves  ·  Ctrl+Shift+M"; enabled: App.has-doc; clicked => { App.action("fx:curves"); } }
-            if root.wide: IconButton { icon: Icons.named("palette"); tip: "Hue / Saturation  ·  Ctrl+Shift+U"; enabled: App.has-doc; clicked => { App.action("fx:hue-saturation"); } }
-            if root.wide: IconButton { icon: Icons.named("sun"); tip: "Brightness / Contrast  ·  A B"; enabled: App.has-doc; clicked => { App.action("fx:brightness-contrast"); } }
+            IconButton { icon: Icons.named("wand"); tip: @tr("Auto-Level") + "  ·  Ctrl+Shift+L"; enabled: App.has-doc; clicked => { App.action("fx:auto-level"); } }
+            IconButton { icon: Icons.named("chart-spline"); tip: @tr("Curves") + "  ·  Ctrl+Shift+M"; enabled: App.has-doc; clicked => { App.action("fx:curves"); } }
+            if root.wide: IconButton { icon: Icons.named("palette"); tip: @tr("Hue / Saturation") + "  ·  Ctrl+Shift+U"; enabled: App.has-doc; clicked => { App.action("fx:hue-saturation"); } }
+            if root.wide: IconButton { icon: Icons.named("sun"); tip: @tr("Brightness / Contrast") + "  ·  A B"; enabled: App.has-doc; clicked => { App.action("fx:brightness-contrast"); } }
             MoreButton {
-                tip: "More adjustments commands";
+                tip: @tr("More adjustments commands");
                 clicked(x, y) => { cm-adjustments.show({ x: x, y: y }); }
                 cm-adjustments := ContextMenuArea {
                     Menu {
-                        MenuItem { title: "Black and White      Ctrl+Shift+G"; activated => { App.action("fx:black-and-white"); } }
-                        MenuItem { title: "Invert Colors      Ctrl+Shift+I"; activated => { App.action("fx:invert-colors"); } }
-                        MenuItem { title: "Levels…      Ctrl+L"; activated => { App.action("fx:levels"); } }
-                        MenuItem { title: "Posterize…      Ctrl+Shift+P"; activated => { App.action("fx:posterize"); } }
-                        MenuItem { title: "Sepia      Ctrl+Shift+E"; activated => { App.action("fx:sepia"); } }
+                        MenuItem { title: @tr("Black and White") + "      Ctrl+Shift+G"; activated => { App.action("fx:black-and-white"); } }
+                        MenuItem { title: @tr("Invert Colors") + "      Ctrl+Shift+I"; activated => { App.action("fx:invert-colors"); } }
+                        MenuItem { title: @tr("Levels…") + "      Ctrl+L"; activated => { App.action("fx:levels"); } }
+                        MenuItem { title: @tr("Posterize…") + "      Ctrl+Shift+P"; activated => { App.action("fx:posterize"); } }
+                        MenuItem { title: @tr("Sepia") + "      Ctrl+Shift+E"; activated => { App.action("fx:sepia"); } }
                         MenuSeparator { }
-                        MenuItem { title: "Vibrance…      A V"; activated => { App.action("fx:vibrance"); } }
-                        MenuItem { title: "Temperature / Tint…      A T"; activated => { App.action("fx:temperature"); } }
+                        MenuItem { title: @tr("Vibrance…") + "      A V"; activated => { App.action("fx:vibrance"); } }
+                        MenuItem { title: @tr("Temperature / Tint…") + "      A T"; activated => { App.action("fx:temperature"); } }
                     }
                 }
             }
@@ -130,71 +130,71 @@ export component ToolbarSections inherits HorizontalLayout {
     }
     VDivider { height: 30px; y: 4px; }
     ToolbarSection {
-        title: "Effects";
+        title: @tr("Effects");
         HorizontalLayout {
             spacing: 1px;
-            IconButton { icon: Icons.named("repeat"); tip: "Repeat Last Effect  ·  Ctrl+F"; enabled: App.has-doc; clicked => { App.action("fx.repeat"); } }
-            IconButton { icon: Icons.named("droplets"); tip: "Gaussian Blur  ·  F B G"; enabled: App.has-doc; clicked => { App.action("fx:gaussian-blur"); } }
-            if root.wide: IconButton { icon: Icons.named("focus"); tip: "Sharpen  ·  F P S"; enabled: App.has-doc; clicked => { App.action("fx:sharpen"); } }
-            if root.wide: IconButton { icon: Icons.named("aperture"); tip: "Vignette  ·  F P V"; enabled: App.has-doc; clicked => { App.action("fx:vignette"); } }
+            IconButton { icon: Icons.named("repeat"); tip: @tr("Repeat Last Effect") + "  ·  Ctrl+F"; enabled: App.has-doc; clicked => { App.action("fx.repeat"); } }
+            IconButton { icon: Icons.named("droplets"); tip: @tr("Gaussian Blur") + "  ·  F B G"; enabled: App.has-doc; clicked => { App.action("fx:gaussian-blur"); } }
+            if root.wide: IconButton { icon: Icons.named("focus"); tip: @tr("Sharpen") + "  ·  F P S"; enabled: App.has-doc; clicked => { App.action("fx:sharpen"); } }
+            if root.wide: IconButton { icon: Icons.named("aperture"); tip: @tr("Vignette") + "  ·  F P V"; enabled: App.has-doc; clicked => { App.action("fx:vignette"); } }
             MoreButton {
-                tip: "More effects commands";
+                tip: @tr("More effects commands");
                 clicked(x, y) => { cm-effects.show({ x: x, y: y }); }
                 cm-effects := ContextMenuArea {
                     Menu {
                         Menu {
-                            title: "Artistic";
-                            MenuItem { title: "Ink Sketch…      F A I"; activated => { App.action("fx:ink-sketch"); } }
-                            MenuItem { title: "Oil Painting…      F A O"; activated => { App.action("fx:oil-painting"); } }
-                            MenuItem { title: "Pencil Sketch…      F A P"; activated => { App.action("fx:pencil-sketch"); } }
+                            title: @tr("Artistic");
+                            MenuItem { title: @tr("Ink Sketch…") + "      F A I"; activated => { App.action("fx:ink-sketch"); } }
+                            MenuItem { title: @tr("Oil Painting…") + "      F A O"; activated => { App.action("fx:oil-painting"); } }
+                            MenuItem { title: @tr("Pencil Sketch…") + "      F A P"; activated => { App.action("fx:pencil-sketch"); } }
                         }
                         Menu {
-                            title: "Blurs";
-                            MenuItem { title: "Fragment…      F B F"; activated => { App.action("fx:fragment"); } }
-                            MenuItem { title: "Motion Blur…      F B M"; activated => { App.action("fx:motion-blur"); } }
-                            MenuItem { title: "Radial Blur…      F B R"; activated => { App.action("fx:radial-blur"); } }
-                            MenuItem { title: "Surface Blur…      F B S"; activated => { App.action("fx:surface-blur"); } }
-                            MenuItem { title: "Unfocus…      F B U"; activated => { App.action("fx:unfocus"); } }
-                            MenuItem { title: "Zoom Blur…      F B Z"; activated => { App.action("fx:zoom-blur"); } }
+                            title: @tr("Blurs");
+                            MenuItem { title: @tr("Fragment…") + "      F B F"; activated => { App.action("fx:fragment"); } }
+                            MenuItem { title: @tr("Motion Blur…") + "      F B M"; activated => { App.action("fx:motion-blur"); } }
+                            MenuItem { title: @tr("Radial Blur…") + "      F B R"; activated => { App.action("fx:radial-blur"); } }
+                            MenuItem { title: @tr("Surface Blur…") + "      F B S"; activated => { App.action("fx:surface-blur"); } }
+                            MenuItem { title: @tr("Unfocus…") + "      F B U"; activated => { App.action("fx:unfocus"); } }
+                            MenuItem { title: @tr("Zoom Blur…") + "      F B Z"; activated => { App.action("fx:zoom-blur"); } }
                         }
                         Menu {
-                            title: "Distort";
-                            MenuItem { title: "Bulge…      F D B"; activated => { App.action("fx:bulge"); } }
-                            MenuItem { title: "Dents…      F D D"; activated => { App.action("fx:dents"); } }
-                            MenuItem { title: "Frosted Glass…      F D F"; activated => { App.action("fx:frosted-glass"); } }
-                            MenuItem { title: "Pixelate…      F D P"; activated => { App.action("fx:pixelate"); } }
-                            MenuItem { title: "Polar Inversion…      F D I"; activated => { App.action("fx:polar-inversion"); } }
-                            MenuItem { title: "Tile Reflection…      F D T"; activated => { App.action("fx:tile-reflection"); } }
-                            MenuItem { title: "Twist…      F D W"; activated => { App.action("fx:twist"); } }
+                            title: @tr("Distort");
+                            MenuItem { title: @tr("Bulge…") + "      F D B"; activated => { App.action("fx:bulge"); } }
+                            MenuItem { title: @tr("Dents…") + "      F D D"; activated => { App.action("fx:dents"); } }
+                            MenuItem { title: @tr("Frosted Glass…") + "      F D F"; activated => { App.action("fx:frosted-glass"); } }
+                            MenuItem { title: @tr("Pixelate…") + "      F D P"; activated => { App.action("fx:pixelate"); } }
+                            MenuItem { title: @tr("Polar Inversion…") + "      F D I"; activated => { App.action("fx:polar-inversion"); } }
+                            MenuItem { title: @tr("Tile Reflection…") + "      F D T"; activated => { App.action("fx:tile-reflection"); } }
+                            MenuItem { title: @tr("Twist…") + "      F D W"; activated => { App.action("fx:twist"); } }
                         }
                         Menu {
-                            title: "Noise";
-                            MenuItem { title: "Add Noise…      F N A"; activated => { App.action("fx:add-noise"); } }
-                            MenuItem { title: "Median…      F N M"; activated => { App.action("fx:median"); } }
-                            MenuItem { title: "Reduce Noise…      F N R"; activated => { App.action("fx:reduce-noise"); } }
+                            title: @tr("Noise");
+                            MenuItem { title: @tr("Add Noise…") + "      F N A"; activated => { App.action("fx:add-noise"); } }
+                            MenuItem { title: @tr("Median…") + "      F N M"; activated => { App.action("fx:median"); } }
+                            MenuItem { title: @tr("Reduce Noise…") + "      F N R"; activated => { App.action("fx:reduce-noise"); } }
                         }
                         Menu {
-                            title: "Photo";
-                            MenuItem { title: "Glow…      F P G"; activated => { App.action("fx:glow"); } }
-                            MenuItem { title: "Red Eye Removal…      F P R"; activated => { App.action("fx:red-eye"); } }
-                            MenuItem { title: "Soft Portrait…      F P P"; activated => { App.action("fx:soft-portrait"); } }
+                            title: @tr("Photo");
+                            MenuItem { title: @tr("Glow…") + "      F P G"; activated => { App.action("fx:glow"); } }
+                            MenuItem { title: @tr("Red Eye Removal…") + "      F P R"; activated => { App.action("fx:red-eye"); } }
+                            MenuItem { title: @tr("Soft Portrait…") + "      F P P"; activated => { App.action("fx:soft-portrait"); } }
                         }
                         Menu {
-                            title: "Render";
-                            MenuItem { title: "Clouds…      F R C"; activated => { App.action("fx:clouds"); } }
-                            MenuItem { title: "Julia Fractal…      F R J"; activated => { App.action("fx:julia"); } }
-                            MenuItem { title: "Mandelbrot Fractal…      F R M"; activated => { App.action("fx:mandelbrot"); } }
+                            title: @tr("Render");
+                            MenuItem { title: @tr("Clouds…") + "      F R C"; activated => { App.action("fx:clouds"); } }
+                            MenuItem { title: @tr("Julia Fractal…") + "      F R J"; activated => { App.action("fx:julia"); } }
+                            MenuItem { title: @tr("Mandelbrot Fractal…") + "      F R M"; activated => { App.action("fx:mandelbrot"); } }
                         }
                         Menu {
-                            title: "Stylize";
-                            MenuItem { title: "Edge Detect…      F S E"; activated => { App.action("fx:edge-detect"); } }
-                            MenuItem { title: "Emboss…      F S M"; activated => { App.action("fx:emboss"); } }
-                            MenuItem { title: "Outline…      F S O"; activated => { App.action("fx:outline"); } }
-                            MenuItem { title: "Relief…      F S R"; activated => { App.action("fx:relief"); } }
+                            title: @tr("Stylize");
+                            MenuItem { title: @tr("Edge Detect…") + "      F S E"; activated => { App.action("fx:edge-detect"); } }
+                            MenuItem { title: @tr("Emboss…") + "      F S M"; activated => { App.action("fx:emboss"); } }
+                            MenuItem { title: @tr("Outline…") + "      F S O"; activated => { App.action("fx:outline"); } }
+                            MenuItem { title: @tr("Relief…") + "      F S R"; activated => { App.action("fx:relief"); } }
                         }
                         Menu {
-                            title: "Object";
-                            MenuItem { title: "Drop Shadow…      F O D"; activated => { App.action("fx:drop-shadow"); } }
+                            title: @tr("Object");
+                            MenuItem { title: @tr("Drop Shadow…") + "      F O D"; activated => { App.action("fx:drop-shadow"); } }
                         }
                     }
                 }
@@ -203,40 +203,40 @@ export component ToolbarSections inherits HorizontalLayout {
     }
     VDivider { height: 30px; y: 4px; }
     ToolbarSection {
-        title: "Tools";
+        title: @tr("Tools");
         HorizontalLayout {
             spacing: 1px;
-            IconButton { icon: Icons.named("swap"); tip: "Swap Colors  ·  X"; enabled: App.has-doc; clicked => { App.action("color.swap"); } }
-            IconButton { icon: Icons.named("reset"); tip: "Reset Colors  ·  D"; enabled: App.has-doc; clicked => { App.action("color.reset"); } }
-            if root.wide: IconButton { icon: Icons.named("minus"); tip: "Smaller Brush  ·  ["; enabled: App.has-doc; clicked => { App.action("brush.smaller"); } }
-            if root.wide: IconButton { icon: Icons.named("plus"); tip: "Bigger Brush  ·  ]"; enabled: App.has-doc; clicked => { App.action("brush.bigger"); } }
+            IconButton { icon: Icons.named("swap"); tip: @tr("Swap Colors") + "  ·  X"; enabled: App.has-doc; clicked => { App.action("color.swap"); } }
+            IconButton { icon: Icons.named("reset"); tip: @tr("Reset Colors") + "  ·  D"; enabled: App.has-doc; clicked => { App.action("color.reset"); } }
+            if root.wide: IconButton { icon: Icons.named("minus"); tip: @tr("Smaller Brush") + "  ·  ["; enabled: App.has-doc; clicked => { App.action("brush.smaller"); } }
+            if root.wide: IconButton { icon: Icons.named("plus"); tip: @tr("Bigger Brush") + "  ·  ]"; enabled: App.has-doc; clicked => { App.action("brush.bigger"); } }
             MoreButton {
-                tip: "More tools commands";
+                tip: @tr("More tools commands");
                 clicked(x, y) => { cm-tools.show({ x: x, y: y }); }
                 cm-tools := ContextMenuArea {
                     Menu {
-                        MenuItem { title: "Rectangle Select      S"; activated => { App.action("tool:rect-select"); } }
-                        MenuItem { title: "Ellipse Select      S"; activated => { App.action("tool:ellipse-select"); } }
-                        MenuItem { title: "Lasso Select      S"; activated => { App.action("tool:lasso-select"); } }
-                        MenuItem { title: "Magic Wand      S"; activated => { App.action("tool:magic-wand"); } }
-                        MenuItem { title: "Move Selected Pixels      M"; activated => { App.action("tool:move-pixels"); } }
-                        MenuItem { title: "Move Selection      M"; activated => { App.action("tool:move-selection"); } }
+                        MenuItem { title: @tr("Rectangle Select") + "      S"; activated => { App.action("tool:rect-select"); } }
+                        MenuItem { title: @tr("Ellipse Select") + "      S"; activated => { App.action("tool:ellipse-select"); } }
+                        MenuItem { title: @tr("Lasso Select") + "      S"; activated => { App.action("tool:lasso-select"); } }
+                        MenuItem { title: @tr("Magic Wand") + "      S"; activated => { App.action("tool:magic-wand"); } }
+                        MenuItem { title: @tr("Move Selected Pixels") + "      M"; activated => { App.action("tool:move-pixels"); } }
+                        MenuItem { title: @tr("Move Selection") + "      M"; activated => { App.action("tool:move-selection"); } }
                         MenuSeparator { }
-                        MenuItem { title: "Paintbrush      B"; activated => { App.action("tool:brush"); } }
-                        MenuItem { title: "Pencil      P"; activated => { App.action("tool:pencil"); } }
-                        MenuItem { title: "Eraser      E"; activated => { App.action("tool:eraser"); } }
-                        MenuItem { title: "Gradient      G"; activated => { App.action("tool:gradient"); } }
-                        MenuItem { title: "Paint Bucket      G"; activated => { App.action("tool:bucket"); } }
-                        MenuItem { title: "Color Picker      K"; activated => { App.action("tool:picker"); } }
-                        MenuItem { title: "Clone Stamp      C"; activated => { App.action("tool:clone"); } }
-                        MenuItem { title: "Recolor      R"; activated => { App.action("tool:recolor"); } }
+                        MenuItem { title: @tr("Paintbrush") + "      B"; activated => { App.action("tool:brush"); } }
+                        MenuItem { title: @tr("Pencil") + "      P"; activated => { App.action("tool:pencil"); } }
+                        MenuItem { title: @tr("Eraser") + "      E"; activated => { App.action("tool:eraser"); } }
+                        MenuItem { title: @tr("Gradient") + "      G"; activated => { App.action("tool:gradient"); } }
+                        MenuItem { title: @tr("Paint Bucket") + "      G"; activated => { App.action("tool:bucket"); } }
+                        MenuItem { title: @tr("Color Picker") + "      K"; activated => { App.action("tool:picker"); } }
+                        MenuItem { title: @tr("Clone Stamp") + "      C"; activated => { App.action("tool:clone"); } }
+                        MenuItem { title: @tr("Recolor") + "      R"; activated => { App.action("tool:recolor"); } }
                         MenuSeparator { }
-                        MenuItem { title: "Text      T"; activated => { App.action("tool:text"); } }
-                        MenuItem { title: "Line / Curve      O"; activated => { App.action("tool:line"); } }
-                        MenuItem { title: "Shapes      O"; activated => { App.action("tool:shape"); } }
+                        MenuItem { title: @tr("Text") + "      T"; activated => { App.action("tool:text"); } }
+                        MenuItem { title: @tr("Line / Curve") + "      O"; activated => { App.action("tool:line"); } }
+                        MenuItem { title: @tr("Shapes") + "      O"; activated => { App.action("tool:shape"); } }
                         MenuSeparator { }
-                        MenuItem { title: "Pan      H"; activated => { App.action("tool:pan"); } }
-                        MenuItem { title: "Zoom      Z"; activated => { App.action("tool:zoom"); } }
+                        MenuItem { title: @tr("Pan") + "      H"; activated => { App.action("tool:pan"); } }
+                        MenuItem { title: @tr("Zoom") + "      Z"; activated => { App.action("tool:zoom"); } }
                     }
                 }
             }

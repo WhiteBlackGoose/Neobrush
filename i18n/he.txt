@@ -1,0 +1,482 @@
+# Hebrew
+A modern, cross-platform raster graphics editor for Windows, macOS, Linux and FreeBSD. ⇒ עורך גרפיקה מודרני וחוצה־פלטפורמות ל־Windows,‏ macOS,‏ Linux ו־FreeBSD.
+About ⇒ אודות
+About Neobrush ⇒ אודות Neobrush
+Accent color ⇒ צבע הדגשה
+Actual Size ⇒ גודל אמיתי
+Add (Ctrl) ⇒ הוספה (Ctrl)
+Add New Layer ⇒ שכבה חדשה
+Add Noise ⇒ הוספת רעש
+Add Noise… ⇒ הוספת רעש…
+Add new layer ⇒ שכבה חדשה
+Additive ⇒ חיבור
+Adjustments ⇒ התאמות
+After picking ⇒ אחרי הדגימה
+Align center ⇒ יישור למרכז
+Align left ⇒ יישור לשמאל
+Align right ⇒ יישור לימין
+Alpha ⇒ אלפא
+Amount ⇒ כמות
+Anchor ⇒ עוגן
+Angle ⇒ זווית
+Antialias ⇒ החלקת קצוות
+Apply ⇒ החלה
+Arrow ⇒ חץ
+Artistic ⇒ אמנותי
+Auto Crop ⇒ חיתוך אוטומטי
+Auto-Level ⇒ רמות אוטומטיות
+Background ⇒ רקע
+Best quality ⇒ האיכות הטובה ביותר
+Bicubic ⇒ דו־קובי
+Bigger Brush ⇒ מכחול גדול יותר
+Bilinear ⇒ דו־ליניארי
+Black and White ⇒ שחור־לבן
+Blend ⇒ מיזוג
+Blend mode ⇒ מצב מיזוג
+Blue ⇒ כחול
+Blur ⇒ טשטוש
+Blurs ⇒ טשטושים
+Bold ⇒ מודגש
+Both ⇒ שניהם
+Brightness ⇒ בהירות
+Brightness / Contrast ⇒ בהירות / ניגודיות
+Brightness / Contrast… ⇒ בהירות / ניגודיות…
+Brush size ⇒ גודל מכחול
+Bulge ⇒ בליטה
+Bulge… ⇒ בליטה…
+By absolute size ⇒ לפי גודל מוחלט
+By percentage ⇒ לפי אחוזים
+Cancel ⇒ ביטול
+Canvas Size ⇒ גודל משטח
+Canvas Size… ⇒ גודל משטח…
+Cell size ⇒ גודל תא
+Center X ⇒ מרכז X
+Center Y ⇒ מרכז Y
+Centered ⇒ ממורכז
+Click to add points · drag to move · right-click to remove ⇒ לחיצה מוסיפה נקודות · גרירה מזיזה · לחיצה ימנית מסירה
+Click to fill an area. Right-click uses the secondary color. ⇒ לחצו כדי למלא אזור. לחיצה ימנית משתמשת בצבע המשני.
+Click to pick the primary color, right-click for secondary. ⇒ לחצו כדי לדגום את הצבע הראשי, לחיצה ימנית למשני.
+Click to place text, then type. ⇒ לחצו כדי למקם טקסט והקלידו.
+Click to place text. Enter for a new line, Esc to finish. ⇒ לחצו כדי למקם טקסט. Enter לשורה חדשה, Esc לסיום.
+Click to select a region of similar color. ⇒ לחצו כדי לבחור אזור בצבע דומה.
+Click to zoom in, right-click to zoom out, drag a rectangle to zoom to it. ⇒ לחיצה מגדילה, לחיצה ימנית מקטינה, גרירת מלבן מתקרבת אליו.
+Click to zoom in, right-click to zoom out. ⇒ לחיצה מגדילה, לחיצה ימנית מקטינה.
+Clipboard {}×{} ⇒ לוח העתקה {}×{}
+Clone Stamp ⇒ חותמת שכפול
+Close ⇒ סגירה
+Clouds ⇒ עננים
+Clouds… ⇒ עננים…
+Coarseness ⇒ גסות
+Color ⇒ צבע
+Color Burn ⇒ צריבת צבע
+Color Dodge ⇒ הבהרת צבע
+Color Picker ⇒ דוגם צבע
+Color range ⇒ טווח צבעים
+Color saturation ⇒ רוויית צבע
+Coloring ⇒ צביעה
+Colors ⇒ צבעים
+Colors Panel ⇒ חלונית צבעים
+Command Palette ⇒ לוח פקודות
+Command Palette… ⇒ לוח פקודות…
+Command palette ⇒ לוח פקודות
+Conical ⇒ חרוטי
+Contiguous ⇒ רציף
+Contrast ⇒ ניגודיות
+Copy ⇒ העתקה
+Copy Merged ⇒ העתקה ממוזגת
+Corner radius ⇒ רדיוס פינות
+Could not import file ⇒ לא ניתן לייבא את הקובץ
+Could not open file ⇒ לא ניתן לפתוח את הקובץ
+Could not save file ⇒ לא ניתן לשמור את הקובץ
+Coverage ⇒ כיסוי
+Create ⇒ יצירה
+Create a new image or open an existing one to get started. ⇒ צרו תמונה חדשה או פתחו תמונה קיימת כדי להתחיל.
+Crop to Selection ⇒ חיתוך לבחירה
+Ctrl+click to set the clone source first. ⇒ קודם Ctrl+לחיצה כדי לקבוע מקור.
+Ctrl+click to set the source, then paint. ⇒ Ctrl+לחיצה קובעת מקור, ואז ציירו.
+Curvature ⇒ עקמומיות
+Curves ⇒ עקומות
+Curves… ⇒ עקומות…
+Cut ⇒ גזירה
+Dark ⇒ כהה
+Darken ⇒ הכהיה
+Dashed ⇒ מקווקו
+Delete ⇒ מחיקה
+Delete Layer ⇒ מחיקת שכבה
+Delete layer ⇒ מחיקת שכבה
+Dents ⇒ שקעים
+Dents… ⇒ שקעים…
+Deselect ⇒ ביטול בחירה
+Diamond ⇒ מעוין
+Difference ⇒ הפרש
+Distance ⇒ מרחק
+Distort ⇒ עיוות
+Documents ⇒ מסמכים
+Don't Save ⇒ לא לשמור
+Donate to Voices of Children ⇒ תרומה ל־Voices of Children
+Donate to Voices of Children · voices.org.ua ⇒ תרומה ל־Voices of Children · voices.org.ua
+Done ⇒ סיום
+Dotted ⇒ מנוקד
+Download ⇒ הורדה
+Drag the selection to move its pixels. ⇒ גררו את הבחירה כדי להזיז את הפיקסלים שלה.
+Drag to draw a freeform selection. ⇒ גררו כדי לצייר בחירה חופשית.
+Drag to draw a gradient. Right-drag swaps the colors. ⇒ גררו כדי לצייר מעבר צבע. גרירה בלחצן ימני מחליפה את הצבעים.
+Drag to draw a line, then drag the handles to bend it. ⇒ גררו כדי לצייר קו, ואז כופפו אותו בעזרת הידיות.
+Drag to draw a shape, then adjust with the handles. ⇒ גררו כדי לצייר צורה, ואז כווננו בעזרת הידיות.
+Drag to draw, then adjust with the handles. Shift constrains, Enter finishes. ⇒ גררו כדי לצייר וכווננו בעזרת הידיות. Shift מגביל, Enter מסיים.
+Drag to erase to transparency. ⇒ גררו כדי למחוק לשקיפות.
+Drag to move the selection outline. ⇒ גררו כדי להזיז את קו המתאר של הבחירה.
+Drag to move. Drag corner handles to scale, right-drag to rotate. Shift constrains. ⇒ גררו כדי להזיז. ידיות הפינה משנות גודל, גרירה ימנית מסובבת. Shift מגביל.
+Drag to paint. Shift+click draws a straight line. ⇒ גררו כדי לצייר. Shift+לחיצה מציירת קו ישר.
+Drag to pan the view. ⇒ גררו כדי להזיז את התצוגה.
+Drag to pan. Middle mouse or holding Space pans with any tool. ⇒ גררו כדי להזיז את התצוגה. לחצן אמצעי או החזקת רווח עובדים עם כל כלי.
+Drag to select a rectangle. Click to deselect. ⇒ גררו כדי לבחור מלבן. לחיצה מבטלת בחירה.
+Drag to select an ellipse. Hold Shift for a circle. ⇒ גררו כדי לבחור אליפסה. Shift למעגל.
+Draw single pixel, aliased lines. ⇒ מצייר קווים ברוחב פיקסל ללא החלקה.
+Drop Shadow ⇒ צל
+Drop Shadow… ⇒ צל…
+Duplicate ⇒ שכפול
+Duplicate Layer ⇒ שכפול שכבה
+Duplicate layer ⇒ שכפול שכבה
+Edge Detect ⇒ זיהוי קצוות
+Edge Detect… ⇒ זיהוי קצוות…
+Edit ⇒ עריכה
+Effects ⇒ אפקטים
+Ellipse ⇒ אליפסה
+Ellipse Select ⇒ בחירה אליפטית
+Emboss ⇒ הבלטה
+Emboss… ⇒ הבלטה…
+Erase Selection ⇒ מחיקת הבחירה
+Eraser ⇒ מחק
+Esc to cancel ⇒ Esc לביטול
+Exit ⇒ יציאה
+Factor ⇒ מקדם
+File ⇒ קובץ
+File name ⇒ שם קובץ
+Fill ⇒ מילוי
+Fill Selection ⇒ מילוי הבחירה
+Flatten ⇒ שיטוח
+Flip Horizontal ⇒ היפוך אופקי
+Flip Layer Horizontal ⇒ היפוך שכבה אופקי
+Flip Layer Vertical ⇒ היפוך שכבה אנכי
+Flip Vertical ⇒ היפוך אנכי
+Follow System ⇒ לפי המערכת
+Follow system ⇒ לפי המערכת
+Format ⇒ תבנית
+Fragment ⇒ פיצול
+Fragments ⇒ שברים
+Fragment… ⇒ פיצול…
+Frosted Glass ⇒ זכוכית חלבית
+Frosted Glass… ⇒ זכוכית חלבית…
+Gamma ⇒ גמא
+Gaussian Blur ⇒ טשטוש גאוסיאני
+Gaussian Blur… ⇒ טשטוש גאוסיאני…
+Global ⇒ כללי
+Glow ⇒ זוהר
+Glow… ⇒ זוהר…
+Go to document: {} ⇒ מעבר למסמך: {}
+Gradient ⇒ מעבר צבע
+Green ⇒ ירוק
+Halloween ⇒ ליל כל הקדושים
+Happy Halloween! This theme is always dark. ⇒ האלווין שמח! ערכת נושא זו תמיד כהה.
+Hard Light ⇒ אור חזק
+Hardness ⇒ קשיחות
+Heart ⇒ לב
+Height ⇒ גובה
+Help ⇒ עזרה
+Hexagon ⇒ משושה
+Hide Layer ⇒ הסתרת שכבה
+Hide layer {}: {} ⇒ הסתרת שכבה {}: {}
+Higher quality means larger files. Transparency is flattened onto white. ⇒ איכות גבוהה יותר פירושה קבצים גדולים יותר. השקיפות משוטחת על לבן.
+History ⇒ היסטוריה
+History Panel ⇒ חלונית היסטוריה
+Hold Ctrl to add, Alt to subtract. ⇒ Ctrl להוספה, Alt לחיסור.
+Hue ⇒ גוון
+Hue / Saturation ⇒ גוון / רוויה
+Hue / Saturation… ⇒ גוון / רוויה…
+Icons by Lucide (ISC). Inter typeface (OFL). ⇒ סמלים מאת Lucide ‏(ISC). גופן Inter ‏(OFL).
+Image ⇒ תמונה
+Import from File ⇒ ייבוא מקובץ
+Import from File… ⇒ ייבוא מקובץ…
+Ink Sketch ⇒ סקיצת דיו
+Ink Sketch… ⇒ סקיצת דיו…
+Ink outline ⇒ קו מתאר בדיו
+Input black ⇒ שחור קלט
+Input white ⇒ לבן קלט
+Intensity ⇒ עוצמה
+Intersect ⇒ חיתוך
+Invert Colors ⇒ היפוך צבעים
+Invert Selection ⇒ היפוך בחירה
+Invert colors ⇒ היפוך צבעים
+Invert overlap ⇒ היפוך חפיפה
+Italic ⇒ נטוי
+Julia Fractal ⇒ פרקטל ז׳וליה
+Julia Fractal… ⇒ פרקטל ז׳וליה…
+Keyboard Shortcuts ⇒ קיצורי מקלדת
+Language ⇒ שפה
+Lasso Select ⇒ בחירת לסו
+Layer ⇒ שכבה
+Layer Blend Mode ⇒ מצב מיזוג שכבה
+Layer Opacity ⇒ אטימות שכבה
+Layer Properties ⇒ מאפייני שכבה
+Layer Properties… ⇒ מאפייני שכבה…
+Layer Rotate / Zoom ⇒ סיבוב / זום לשכבה
+Layer number ({} layers) ⇒ מספר שכבה ({} שכבות)
+Layer properties ⇒ מאפייני שכבה
+Layer {} ⇒ שכבה {}
+Layer {}  ·  L {} {} switch · L {} T toggle ⇒ שכבה {}  ·  L {} {} מעבר · L {} T הצגה/הסתרה
+Layers ⇒ שכבות
+Layers Panel ⇒ חלונית שכבות
+Layers are flattened in this format. ⇒ בתבנית זו השכבות משוטחות.
+Levels ⇒ רמות
+Levels… ⇒ רמות…
+Light ⇒ בהיר
+Lighten ⇒ הבהרה
+Lighting ⇒ תאורה
+Lightness ⇒ בהירות
+Line / Curve ⇒ קו / עקומה
+Linear ⇒ ליניארי
+Magic Wand ⇒ שרביט קסמים
+Magic Wand Select ⇒ בחירה בשרביט קסמים
+Maintain aspect ratio ⇒ שמירת יחס גובה־רוחב
+Mandelbrot Fractal ⇒ פרקטל מנדלברוט
+Mandelbrot Fractal… ⇒ פרקטל מנדלברוט…
+Median ⇒ חציון
+Median… ⇒ חציון…
+Menu Bar ⇒ סרגל תפריטים
+Merge Layer Down ⇒ מיזוג עם השכבה שמתחת
+Merge down ⇒ מיזוג למטה
+Merge layer down ⇒ מיזוג למטה
+More adjustments commands ⇒ עוד התאמות
+More effects commands ⇒ עוד אפקטים
+More image commands ⇒ עוד פקודות תמונה
+More layers commands ⇒ עוד פקודות שכבה
+More tools commands ⇒ עוד פקודות כלים
+More view commands ⇒ עוד פקודות תצוגה
+Motion Blur ⇒ טשטוש תנועה
+Motion Blur… ⇒ טשטוש תנועה…
+Move Layer Down ⇒ הזזת שכבה למטה
+Move Layer Up ⇒ הזזת שכבה למעלה
+Move Pixels ⇒ הזזת פיקסלים
+Move Selected Pixels ⇒ הזזת הפיקסלים הנבחרים
+Move Selection ⇒ הזזת הבחירה
+Move layer down ⇒ הזזת שכבה למטה
+Move layer up ⇒ הזזת שכבה למעלה
+Multiply ⇒ הכפלה
+Name ⇒ שם
+Nearest neighbor ⇒ השכן הקרוב
+Negation ⇒ שלילה
+New ⇒ חדש
+New Image ⇒ תמונה חדשה
+New image ⇒ תמונה חדשה
+New image {} × {} ⇒ תמונה חדשה {} × {}
+New… ⇒ חדש…
+No matching commands ⇒ אין פקודות תואמות
+Noise ⇒ רעש
+Normal ⇒ רגיל
+Nothing to paste ⇒ אין מה להדביק
+OK ⇒ אישור
+Object ⇒ אובייקט
+Offset X ⇒ היסט X
+Offset Y ⇒ היסט Y
+Oil Painting ⇒ ציור שמן
+Oil Painting… ⇒ ציור שמן…
+Opacity ⇒ אטימות
+Open ⇒ פתיחה
+Open Image ⇒ פתיחת תמונה
+Open recent: {} ⇒ פתיחת קובץ אחרון: {}
+OpenRaster keeps your layers and opens in GIMP, Krita and MyPaint. ⇒ ‏OpenRaster שומר את השכבות ונפתח ב־GIMP,‏ Krita ו־MyPaint.
+Open… ⇒ פתיחה…
+Orange ⇒ כתום
+Original: {} × {} px  →  New: {} × {} px ⇒ מקור: {} × {} פיקסלים  ←  חדש: {} × {} פיקסלים
+Outline ⇒ קו מתאר
+Outline… ⇒ קו מתאר…
+Output black ⇒ שחור פלט
+Output white ⇒ לבן פלט
+Overlay ⇒ שכבת־על
+Overwrite ⇒ דריסה
+Paint ⇒ ציור
+Paint Bucket ⇒ דלי צבע
+Paintbrush ⇒ מכחול
+Pan ⇒ יד
+Pan X ⇒ הזזה X
+Pan Y ⇒ הזזה Y
+Paste ⇒ הדבקה
+Paste into New Image ⇒ הדבקה לתמונה חדשה
+Paste into New Layer ⇒ הדבקה לשכבה חדשה
+Pencil ⇒ עיפרון
+Pencil Sketch ⇒ סקיצת עיפרון
+Pencil Sketch… ⇒ סקיצת עיפרון…
+Pencil tip size ⇒ עובי חוד העיפרון
+Pentagon ⇒ מחומש
+Percentage ⇒ אחוז
+Percentile ⇒ אחוזון
+Photo ⇒ צילום
+Pixel Grid ⇒ רשת פיקסלים
+Pixelate ⇒ פיקסול
+Pixelate… ⇒ פיקסול…
+Polar Inversion ⇒ היפוך קוטבי
+Polar Inversion… ⇒ היפוך קוטבי…
+Posterize ⇒ פוסטריזציה
+Posterize… ⇒ פוסטריזציה…
+Presets ⇒ הגדרות מוכנות
+Previous tool ⇒ הכלי הקודם
+Properties ⇒ מאפיינים
+Purple keys are chords: press them one after another (e.g. F, then B, then G). Tap Space for the command palette; hold Space to pan. ⇒ מקשים צבעוניים הם אקורדים: לחצו עליהם בזה אחר זה (למשל F, אחר כך B, אחר כך G). הקשה על רווח פותחת את לוח הפקודות; החזקה מזיזה את התצוגה.
+Quality ⇒ איכות
+Quick command ⇒ פקודה מהירה
+Radial ⇒ רדיאלי
+Radial Blur ⇒ טשטוש רדיאלי
+Radial Blur… ⇒ טשטוש רדיאלי…
+Radius ⇒ רדיוס
+Recolor ⇒ צביעה מחדש
+Rectangle ⇒ מלבן
+Rectangle Select ⇒ בחירה מלבנית
+Red ⇒ אדום
+Red Eye Removal ⇒ הסרת עיניים אדומות
+Red Eye Removal… ⇒ הסרת עיניים אדומות…
+Redo ⇒ ביצוע מחדש
+Reduce Noise ⇒ הפחתת רעש
+Reduce Noise… ⇒ הפחתת רעש…
+Reflect ⇒ החזרה
+Reflected ⇒ משתקף
+Refraction ⇒ שבירה
+Relief ⇒ תבליט
+Relief… ⇒ תבליט…
+Rename Layer ⇒ שינוי שם שכבה
+Rename current layer to “{}” ⇒ שינוי שם השכבה הנוכחית ל־„{}”
+Render ⇒ עיבוד
+Repeat Last Effect ⇒ חזרה על האפקט האחרון
+Replace ⇒ החלפה
+Replaces the secondary color with the primary color. ⇒ מחליף את הצבע המשני בצבע הראשי.
+Resampling ⇒ דגימה מחדש
+Reset ⇒ איפוס
+Reset Colors ⇒ איפוס צבעים
+Reset to black & white ⇒ איפוס לשחור ולבן
+Resize ⇒ שינוי גודל
+Resize Image ⇒ שינוי גודל תמונה
+Resize… ⇒ שינוי גודל…
+Right Triangle ⇒ משולש ישר־זווית
+Rose ⇒ ורוד
+Rotate / Zoom ⇒ סיבוב / זום
+Rotate / Zoom… ⇒ סיבוב / זום…
+Rotate 180° ⇒ סיבוב ב־180°
+Rotate 90° Clockwise ⇒ סיבוב ב־90° עם כיוון השעון
+Rotate 90° Counter-clockwise ⇒ סיבוב ב־90° נגד כיוון השעון
+Rotation ⇒ סיבוב
+Roughness ⇒ חספוס
+Rounded Rectangle ⇒ מלבן מעוגל
+Rulers ⇒ סרגלים
+Sample from ⇒ דגימה מתוך
+Sampling ⇒ דגימה
+Saturation ⇒ רוויה
+Save ⇒ שמירה
+Save As ⇒ שמירה בשם
+Save As… ⇒ שמירה בשם…
+Save Configuration ⇒ אפשרויות שמירה
+Save changes to “{}” before closing? ⇒ לשמור את השינויים ב־„{}” לפני הסגירה?
+Scale ⇒ קנה מידה
+Screen ⇒ מסך
+Search commands, tools, layers… ⇒ חיפוש פקודות, כלים, שכבות…
+Secondary color ⇒ צבע משני
+Seed ⇒ זרע
+Select All ⇒ בחירת הכול
+Select Layer Above ⇒ בחירת השכבה שמעל
+Select Layer Below ⇒ בחירת השכבה שמתחת
+Selection mode ⇒ מצב בחירה
+Sepia ⇒ ספיה
+Set brush hardness to {}% ⇒ קשיחות מכחול {}%
+Set brush size to {} px ⇒ גודל מכחול {} פיקסלים
+Set color to #{} ⇒ צבע #{}
+Set font size to {} pt ⇒ גודל גופן {} נק׳
+Set layer opacity to {}% ⇒ אטימות שכבה {}%
+Set tolerance to {}% ⇒ סובלנות {}%
+Settings ⇒ הגדרות
+Settings… ⇒ הגדרות…
+Shape ⇒ צורה
+Shapes ⇒ צורות
+Sharpen ⇒ חידוד
+Sharpen… ⇒ חידוד…
+Shift+click draws a straight line from the last point. [ and ] change the size. ⇒ Shift+לחיצה מציירת קו ישר מהנקודה האחרונה. [ ו־] משנים את הגודל.
+Show Layer ⇒ הצגת שכבה
+Show Only Layer ⇒ הצגת שכבה זו בלבד
+Show layer {}: {} ⇒ הצגת שכבה {}: {}
+Show only layer {}: {} ⇒ הצגת שכבה {} בלבד: {}
+Show only this layer ⇒ הצגת שכבה זו בלבד
+Size ⇒ גודל
+Smaller Brush ⇒ מכחול קטן יותר
+Soft Light ⇒ אור רך
+Soft Portrait ⇒ דיוקן רך
+Soft Portrait… ⇒ דיוקן רך…
+Softness ⇒ רכות
+Solid ⇒ רציף
+Source Code on GitHub ⇒ קוד מקור ב־GitHub
+Star ⇒ כוכב
+Stay on picker ⇒ להישאר בדוגם
+Strength ⇒ עוצמה
+Stylize ⇒ סגנון
+Subtract (Alt) ⇒ חיסור (Alt)
+Support Ukraine's children ⇒ תמכו בילדי אוקראינה
+Surface Blur ⇒ טשטוש משטח
+Surface Blur… ⇒ טשטוש משטח…
+Swap Colors ⇒ החלפת צבעים
+Swap colors ⇒ החלפת צבעים
+Switch (repeat digit) ⇒ מעבר (חזרו על הספרה)
+Switch to layer ⇒ מעבר לשכבה
+Switch to layer {}: {} ⇒ מעבר לשכבה {}: {}
+Teal ⇒ טורקיז
+Temperature ⇒ טמפרטורה
+Temperature / Tint ⇒ טמפרטורה / גוון
+Temperature / Tint… ⇒ טמפרטורה / גוון…
+Text ⇒ טקסט
+The clipboard does not contain an image. ⇒ אין תמונה בלוח ההעתקה.
+Theme ⇒ ערכת נושא
+Thickness ⇒ עובי
+Threshold ⇒ סף
+Tile ⇒ אריחים
+Tile Reflection ⇒ השתקפות אריחים
+Tile Reflection… ⇒ השתקפות אריחים…
+Tile size ⇒ גודל אריח
+Tiling ⇒ ריצוף
+Tint ⇒ גוון
+Toggle visibility ⇒ הצגה / הסתרה
+Tolerance ⇒ סובלנות
+Tools ⇒ כלים
+Tools Panel ⇒ חלונית כלים
+Transparency ⇒ שקיפות
+Transparent ⇒ שקוף
+Triangle ⇒ משולש
+Twist ⇒ סחרור
+Twist… ⇒ סחרור…
+Type a command, tool, layer… or try “zoom 200”, “#ff6a00”, “size 40” ⇒ הקלידו פקודה, כלי או שכבה… או נסו „zoom 200”, „#ff6a00”, „size 40”
+Underline ⇒ קו תחתון
+Undo ⇒ ביטול פעולה
+Unfocus ⇒ חוסר מיקוד
+Unfocus… ⇒ חוסר מיקוד…
+Unsaved changes ⇒ שינויים שלא נשמרו
+Untitled {} ⇒ ללא שם {}
+Version {} ⇒ גרסה {}
+Vibrance ⇒ חיוניות
+Vibrance… ⇒ חיוניות…
+View ⇒ תצוגה
+Vignette ⇒ הצללת שוליים
+Vignette… ⇒ הצללת שוליים…
+Violet ⇒ סגול
+Visible ⇒ גלוי
+Warmth ⇒ חמימות
+Welcome to Neobrush ⇒ ברוכים הבאים ל־Neobrush
+White ⇒ לבן
+Width ⇒ רוחב
+Your changes will be lost if you don't save them. ⇒ השינויים יאבדו אם לא תשמרו אותם.
+Zoom ⇒ זום
+Zoom Blur ⇒ טשטוש זום
+Zoom Blur… ⇒ טשטוש זום…
+Zoom In ⇒ הגדלה
+Zoom Out ⇒ הקטנה
+Zoom to Window ⇒ התאמה לחלון
+Zoom to {}% ⇒ זום ל־{}%
+chords work everywhere: toggle layer 2 ⇒ אקורדים עובדים בכל מקום: הצגה/הסתרה של שכבה 2
+current ⇒ נוכחית
+navigate ⇒ ניווט
+run ⇒ הפעלה
+{} copy ⇒ {} עותק

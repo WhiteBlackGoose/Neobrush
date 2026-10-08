@@ -1,0 +1,482 @@
+# Arabic
+A modern, cross-platform raster graphics editor for Windows, macOS, Linux and FreeBSD. ⇒ محرر رسوميات نقطية حديث ومتعدد المنصات لأنظمة Windows وmacOS وLinux وFreeBSD.
+About ⇒ حول
+About Neobrush ⇒ حول Neobrush
+Accent color ⇒ لون التمييز
+Actual Size ⇒ الحجم الفعلي
+Add (Ctrl) ⇒ إضافة (Ctrl)
+Add New Layer ⇒ طبقة جديدة
+Add Noise ⇒ إضافة تشويش
+Add Noise… ⇒ إضافة تشويش…
+Add new layer ⇒ طبقة جديدة
+Additive ⇒ جمع
+Adjustments ⇒ تعديلات
+After picking ⇒ بعد الالتقاط
+Align center ⇒ توسيط
+Align left ⇒ محاذاة لليسار
+Align right ⇒ محاذاة لليمين
+Alpha ⇒ ألفا
+Amount ⇒ المقدار
+Anchor ⇒ نقطة الارتكاز
+Angle ⇒ الزاوية
+Antialias ⇒ تنعيم الحواف
+Apply ⇒ تطبيق
+Arrow ⇒ سهم
+Artistic ⇒ فني
+Auto Crop ⇒ قص تلقائي
+Auto-Level ⇒ مستويات تلقائية
+Background ⇒ الخلفية
+Best quality ⇒ أفضل جودة
+Bicubic ⇒ تكعيبي ثنائي
+Bigger Brush ⇒ فرشاة أكبر
+Bilinear ⇒ خطي ثنائي
+Black and White ⇒ أبيض وأسود
+Blend ⇒ مزج
+Blend mode ⇒ وضع المزج
+Blue ⇒ أزرق
+Blur ⇒ تمويه
+Blurs ⇒ تمويه
+Bold ⇒ عريض
+Both ⇒ كلاهما
+Brightness ⇒ السطوع
+Brightness / Contrast ⇒ السطوع / التباين
+Brightness / Contrast… ⇒ السطوع / التباين…
+Brush size ⇒ حجم الفرشاة
+Bulge ⇒ انتفاخ
+Bulge… ⇒ انتفاخ…
+By absolute size ⇒ بالحجم المطلق
+By percentage ⇒ بالنسبة المئوية
+Cancel ⇒ إلغاء
+Canvas Size ⇒ حجم اللوحة
+Canvas Size… ⇒ حجم اللوحة…
+Cell size ⇒ حجم الخلية
+Center X ⇒ المركز X
+Center Y ⇒ المركز Y
+Centered ⇒ في المنتصف
+Click to add points · drag to move · right-click to remove ⇒ انقر لإضافة نقاط · اسحب للتحريك · انقر بالزر الأيمن للإزالة
+Click to fill an area. Right-click uses the secondary color. ⇒ انقر لملء منطقة. النقر بالزر الأيمن يستخدم اللون الثانوي.
+Click to pick the primary color, right-click for secondary. ⇒ انقر لالتقاط اللون الأساسي، وبالزر الأيمن للون الثانوي.
+Click to place text, then type. ⇒ انقر لوضع النص ثم اكتب.
+Click to place text. Enter for a new line, Esc to finish. ⇒ انقر لوضع النص. Enter لسطر جديد، وEsc للإنهاء.
+Click to select a region of similar color. ⇒ انقر لتحديد منطقة ذات لون مشابه.
+Click to zoom in, right-click to zoom out, drag a rectangle to zoom to it. ⇒ انقر للتكبير، وبالزر الأيمن للتصغير، واسحب مستطيلًا للتكبير إليه.
+Click to zoom in, right-click to zoom out. ⇒ انقر للتكبير، وبالزر الأيمن للتصغير.
+Clipboard {}×{} ⇒ الحافظة {}×{}
+Clone Stamp ⇒ ختم الاستنساخ
+Close ⇒ إغلاق
+Clouds ⇒ سحب
+Clouds… ⇒ سحب…
+Coarseness ⇒ الخشونة
+Color ⇒ اللون
+Color Burn ⇒ حرق اللون
+Color Dodge ⇒ تفتيح اللون
+Color Picker ⇒ القطّارة
+Color range ⇒ نطاق الألوان
+Color saturation ⇒ تشبع اللون
+Coloring ⇒ التلوين
+Colors ⇒ الألوان
+Colors Panel ⇒ لوحة الألوان
+Command Palette ⇒ لوحة الأوامر
+Command Palette… ⇒ لوحة الأوامر…
+Command palette ⇒ لوحة الأوامر
+Conical ⇒ مخروطي
+Contiguous ⇒ متصل
+Contrast ⇒ التباين
+Copy ⇒ نسخ
+Copy Merged ⇒ نسخ مدمج
+Corner radius ⇒ نصف قطر الزوايا
+Could not import file ⇒ تعذر استيراد الملف
+Could not open file ⇒ تعذر فتح الملف
+Could not save file ⇒ تعذر حفظ الملف
+Coverage ⇒ التغطية
+Create ⇒ إنشاء
+Create a new image or open an existing one to get started. ⇒ أنشئ صورة جديدة أو افتح صورة موجودة للبدء.
+Crop to Selection ⇒ قص إلى التحديد
+Ctrl+click to set the clone source first. ⇒ انقر أولًا مع Ctrl لتعيين المصدر.
+Ctrl+click to set the source, then paint. ⇒ انقر مع Ctrl لتعيين المصدر ثم ارسم.
+Curvature ⇒ الانحناء
+Curves ⇒ المنحنيات
+Curves… ⇒ المنحنيات…
+Cut ⇒ قص
+Dark ⇒ داكن
+Darken ⇒ تغميق
+Dashed ⇒ متقطع
+Delete ⇒ حذف
+Delete Layer ⇒ حذف الطبقة
+Delete layer ⇒ حذف الطبقة
+Dents ⇒ انبعاجات
+Dents… ⇒ انبعاجات…
+Deselect ⇒ إلغاء التحديد
+Diamond ⇒ معيّن
+Difference ⇒ الفرق
+Distance ⇒ المسافة
+Distort ⇒ تشويه
+Documents ⇒ المستندات
+Don't Save ⇒ عدم الحفظ
+Donate to Voices of Children ⇒ تبرّع لمؤسسة Voices of Children
+Donate to Voices of Children · voices.org.ua ⇒ تبرّع لمؤسسة Voices of Children · voices.org.ua
+Done ⇒ تم
+Dotted ⇒ منقط
+Download ⇒ تنزيل
+Drag the selection to move its pixels. ⇒ اسحب التحديد لتحريك بكسلاته.
+Drag to draw a freeform selection. ⇒ اسحب لرسم تحديد حر.
+Drag to draw a gradient. Right-drag swaps the colors. ⇒ اسحب لرسم تدرج. السحب بالزر الأيمن يبدّل الألوان.
+Drag to draw a line, then drag the handles to bend it. ⇒ اسحب لرسم خط، ثم اسحب المقابض لثنيه.
+Drag to draw a shape, then adjust with the handles. ⇒ اسحب لرسم شكل، ثم عدّله بالمقابض.
+Drag to draw, then adjust with the handles. Shift constrains, Enter finishes. ⇒ اسحب للرسم ثم عدّل بالمقابض. Shift للتقييد وEnter للإنهاء.
+Drag to erase to transparency. ⇒ اسحب للمسح إلى الشفافية.
+Drag to move the selection outline. ⇒ اسحب لتحريك حدود التحديد.
+Drag to move. Drag corner handles to scale, right-drag to rotate. Shift constrains. ⇒ اسحب للتحريك. مقابض الزوايا للتحجيم، والسحب بالزر الأيمن للتدوير. Shift للتقييد.
+Drag to paint. Shift+click draws a straight line. ⇒ اسحب للرسم. Shift مع النقر يرسم خطًا مستقيمًا.
+Drag to pan the view. ⇒ اسحب لتحريك العرض.
+Drag to pan. Middle mouse or holding Space pans with any tool. ⇒ اسحب لتحريك العرض. الزر الأوسط أو الضغط المستمر على المسافة يعمل مع أي أداة.
+Drag to select a rectangle. Click to deselect. ⇒ اسحب لتحديد مستطيل. انقر لإلغاء التحديد.
+Drag to select an ellipse. Hold Shift for a circle. ⇒ اسحب لتحديد شكل بيضاوي. اضغط Shift لدائرة.
+Draw single pixel, aliased lines. ⇒ يرسم خطوطًا بعرض بكسل واحد دون تنعيم.
+Drop Shadow ⇒ ظل
+Drop Shadow… ⇒ ظل…
+Duplicate ⇒ تكرار
+Duplicate Layer ⇒ تكرار الطبقة
+Duplicate layer ⇒ تكرار الطبقة
+Edge Detect ⇒ كشف الحواف
+Edge Detect… ⇒ كشف الحواف…
+Edit ⇒ تحرير
+Effects ⇒ مؤثرات
+Ellipse ⇒ شكل بيضاوي
+Ellipse Select ⇒ تحديد بيضاوي
+Emboss ⇒ نقش بارز
+Emboss… ⇒ نقش بارز…
+Erase Selection ⇒ مسح التحديد
+Eraser ⇒ ممحاة
+Esc to cancel ⇒ Esc للإلغاء
+Exit ⇒ خروج
+Factor ⇒ المعامل
+File ⇒ ملف
+File name ⇒ اسم الملف
+Fill ⇒ تعبئة
+Fill Selection ⇒ تعبئة التحديد
+Flatten ⇒ تسطيح
+Flip Horizontal ⇒ قلب أفقي
+Flip Layer Horizontal ⇒ قلب الطبقة أفقيًا
+Flip Layer Vertical ⇒ قلب الطبقة رأسيًا
+Flip Vertical ⇒ قلب رأسي
+Follow System ⇒ حسب النظام
+Follow system ⇒ حسب النظام
+Format ⇒ الصيغة
+Fragment ⇒ تفتيت
+Fragments ⇒ الأجزاء
+Fragment… ⇒ تفتيت…
+Frosted Glass ⇒ زجاج مصنفر
+Frosted Glass… ⇒ زجاج مصنفر…
+Gamma ⇒ غاما
+Gaussian Blur ⇒ تمويه غاوسي
+Gaussian Blur… ⇒ تمويه غاوسي…
+Global ⇒ شامل
+Glow ⇒ توهج
+Glow… ⇒ توهج…
+Go to document: {} ⇒ الانتقال إلى المستند: {}
+Gradient ⇒ تدرج
+Green ⇒ أخضر
+Halloween ⇒ الهالوين
+Happy Halloween! This theme is always dark. ⇒ هالوين سعيد! هذا السمة داكنة دائمًا.
+Hard Light ⇒ ضوء قوي
+Hardness ⇒ الصلابة
+Heart ⇒ قلب
+Height ⇒ الارتفاع
+Help ⇒ مساعدة
+Hexagon ⇒ سداسي
+Hide Layer ⇒ إخفاء الطبقة
+Hide layer {}: {} ⇒ إخفاء الطبقة {}: {}
+Higher quality means larger files. Transparency is flattened onto white. ⇒ الجودة الأعلى تعني ملفات أكبر. تُسطّح الشفافية على الأبيض.
+History ⇒ السجل
+History Panel ⇒ لوحة السجل
+Hold Ctrl to add, Alt to subtract. ⇒ اضغط Ctrl للإضافة وAlt للطرح.
+Hue ⇒ تدرج اللون
+Hue / Saturation ⇒ تدرج اللون / التشبع
+Hue / Saturation… ⇒ تدرج اللون / التشبع…
+Icons by Lucide (ISC). Inter typeface (OFL). ⇒ الأيقونات من Lucide ‏(ISC). الخط Inter ‏(OFL).
+Image ⇒ صورة
+Import from File ⇒ استيراد من ملف
+Import from File… ⇒ استيراد من ملف…
+Ink Sketch ⇒ رسم بالحبر
+Ink Sketch… ⇒ رسم بالحبر…
+Ink outline ⇒ حدود الحبر
+Input black ⇒ أسود الإدخال
+Input white ⇒ أبيض الإدخال
+Intensity ⇒ الشدة
+Intersect ⇒ تقاطع
+Invert Colors ⇒ عكس الألوان
+Invert Selection ⇒ عكس التحديد
+Invert colors ⇒ عكس الألوان
+Invert overlap ⇒ عكس التداخل
+Italic ⇒ مائل
+Julia Fractal ⇒ كسيرية جوليا
+Julia Fractal… ⇒ كسيرية جوليا…
+Keyboard Shortcuts ⇒ اختصارات لوحة المفاتيح
+Language ⇒ اللغة
+Lasso Select ⇒ تحديد بالحبل
+Layer ⇒ طبقة
+Layer Blend Mode ⇒ وضع مزج الطبقة
+Layer Opacity ⇒ عتامة الطبقة
+Layer Properties ⇒ خصائص الطبقة
+Layer Properties… ⇒ خصائص الطبقة…
+Layer Rotate / Zoom ⇒ تدوير / تكبير الطبقة
+Layer number ({} layers) ⇒ رقم الطبقة ({} طبقات)
+Layer properties ⇒ خصائص الطبقة
+Layer {} ⇒ الطبقة {}
+Layer {}  ·  L {} {} switch · L {} T toggle ⇒ الطبقة {}  ·  L {} {} انتقال · L {} T إظهار/إخفاء
+Layers ⇒ الطبقات
+Layers Panel ⇒ لوحة الطبقات
+Layers are flattened in this format. ⇒ تُسطّح الطبقات في هذه الصيغة.
+Levels ⇒ المستويات
+Levels… ⇒ المستويات…
+Light ⇒ فاتح
+Lighten ⇒ تفتيح
+Lighting ⇒ الإضاءة
+Lightness ⇒ الإضاءة
+Line / Curve ⇒ خط / منحنى
+Linear ⇒ خطي
+Magic Wand ⇒ العصا السحرية
+Magic Wand Select ⇒ تحديد بالعصا السحرية
+Maintain aspect ratio ⇒ الحفاظ على نسبة الأبعاد
+Mandelbrot Fractal ⇒ كسيرية ماندلبروت
+Mandelbrot Fractal… ⇒ كسيرية ماندلبروت…
+Median ⇒ الوسيط
+Median… ⇒ الوسيط…
+Menu Bar ⇒ شريط القوائم
+Merge Layer Down ⇒ دمج مع الطبقة السفلى
+Merge down ⇒ دمج للأسفل
+Merge layer down ⇒ دمج للأسفل
+More adjustments commands ⇒ مزيد من التعديلات
+More effects commands ⇒ مزيد من المؤثرات
+More image commands ⇒ مزيد من أوامر الصورة
+More layers commands ⇒ مزيد من أوامر الطبقات
+More tools commands ⇒ مزيد من أوامر الأدوات
+More view commands ⇒ مزيد من أوامر العرض
+Motion Blur ⇒ تمويه الحركة
+Motion Blur… ⇒ تمويه الحركة…
+Move Layer Down ⇒ تحريك الطبقة للأسفل
+Move Layer Up ⇒ تحريك الطبقة للأعلى
+Move Pixels ⇒ تحريك البكسلات
+Move Selected Pixels ⇒ تحريك البكسلات المحددة
+Move Selection ⇒ تحريك التحديد
+Move layer down ⇒ تحريك الطبقة للأسفل
+Move layer up ⇒ تحريك الطبقة للأعلى
+Multiply ⇒ ضرب
+Name ⇒ الاسم
+Nearest neighbor ⇒ أقرب جار
+Negation ⇒ نفي
+New ⇒ جديد
+New Image ⇒ صورة جديدة
+New image ⇒ صورة جديدة
+New image {} × {} ⇒ صورة جديدة {} × {}
+New… ⇒ جديد…
+No matching commands ⇒ لا توجد أوامر مطابقة
+Noise ⇒ تشويش
+Normal ⇒ عادي
+Nothing to paste ⇒ لا شيء للصق
+OK ⇒ موافق
+Object ⇒ كائن
+Offset X ⇒ الإزاحة X
+Offset Y ⇒ الإزاحة Y
+Oil Painting ⇒ لوحة زيتية
+Oil Painting… ⇒ لوحة زيتية…
+Opacity ⇒ العتامة
+Open ⇒ فتح
+Open Image ⇒ فتح صورة
+Open recent: {} ⇒ فتح الأخير: {}
+OpenRaster keeps your layers and opens in GIMP, Krita and MyPaint. ⇒ يحتفظ OpenRaster بطبقاتك ويُفتح في GIMP وKrita وMyPaint.
+Open… ⇒ فتح…
+Orange ⇒ برتقالي
+Original: {} × {} px  →  New: {} × {} px ⇒ الأصلي: {} × {} بكسل  ←  الجديد: {} × {} بكسل
+Outline ⇒ حد خارجي
+Outline… ⇒ حد خارجي…
+Output black ⇒ أسود الإخراج
+Output white ⇒ أبيض الإخراج
+Overlay ⇒ تراكب
+Overwrite ⇒ استبدال
+Paint ⇒ رسم
+Paint Bucket ⇒ دلو الطلاء
+Paintbrush ⇒ فرشاة
+Pan ⇒ يد
+Pan X ⇒ تحريك X
+Pan Y ⇒ تحريك Y
+Paste ⇒ لصق
+Paste into New Image ⇒ لصق في صورة جديدة
+Paste into New Layer ⇒ لصق في طبقة جديدة
+Pencil ⇒ قلم رصاص
+Pencil Sketch ⇒ رسم بالرصاص
+Pencil Sketch… ⇒ رسم بالرصاص…
+Pencil tip size ⇒ حجم رأس القلم
+Pentagon ⇒ خماسي
+Percentage ⇒ النسبة المئوية
+Percentile ⇒ المئين
+Photo ⇒ صورة فوتوغرافية
+Pixel Grid ⇒ شبكة البكسلات
+Pixelate ⇒ تبكسل
+Pixelate… ⇒ تبكسل…
+Polar Inversion ⇒ انعكاس قطبي
+Polar Inversion… ⇒ انعكاس قطبي…
+Posterize ⇒ تقليل الألوان
+Posterize… ⇒ تقليل الألوان…
+Presets ⇒ إعدادات جاهزة
+Previous tool ⇒ الأداة السابقة
+Properties ⇒ الخصائص
+Purple keys are chords: press them one after another (e.g. F, then B, then G). Tap Space for the command palette; hold Space to pan. ⇒ المفاتيح الملونة اختصارات متتابعة: اضغطها واحدًا تلو الآخر (مثلًا F ثم B ثم G). اضغط المسافة لفتح لوحة الأوامر، واستمر بالضغط لتحريك العرض.
+Quality ⇒ الجودة
+Quick command ⇒ أمر سريع
+Radial ⇒ شعاعي
+Radial Blur ⇒ تمويه شعاعي
+Radial Blur… ⇒ تمويه شعاعي…
+Radius ⇒ نصف القطر
+Recolor ⇒ إعادة التلوين
+Rectangle ⇒ مستطيل
+Rectangle Select ⇒ تحديد مستطيل
+Red ⇒ أحمر
+Red Eye Removal ⇒ إزالة العين الحمراء
+Red Eye Removal… ⇒ إزالة العين الحمراء…
+Redo ⇒ إعادة
+Reduce Noise ⇒ تقليل التشويش
+Reduce Noise… ⇒ تقليل التشويش…
+Reflect ⇒ انعكاس
+Reflected ⇒ منعكس
+Refraction ⇒ الانكسار
+Relief ⇒ نقش
+Relief… ⇒ نقش…
+Rename Layer ⇒ إعادة تسمية الطبقة
+Rename current layer to “{}” ⇒ إعادة تسمية الطبقة الحالية إلى «{}»
+Render ⇒ توليد
+Repeat Last Effect ⇒ تكرار آخر مؤثر
+Replace ⇒ استبدال
+Replaces the secondary color with the primary color. ⇒ يستبدل اللون الثانوي باللون الأساسي.
+Resampling ⇒ إعادة التشكيل
+Reset ⇒ إعادة تعيين
+Reset Colors ⇒ إعادة تعيين الألوان
+Reset to black & white ⇒ إعادة إلى الأسود والأبيض
+Resize ⇒ تغيير الحجم
+Resize Image ⇒ تغيير حجم الصورة
+Resize… ⇒ تغيير الحجم…
+Right Triangle ⇒ مثلث قائم
+Rose ⇒ وردي
+Rotate / Zoom ⇒ تدوير / تكبير
+Rotate / Zoom… ⇒ تدوير / تكبير…
+Rotate 180° ⇒ تدوير 180°
+Rotate 90° Clockwise ⇒ تدوير 90° مع عقارب الساعة
+Rotate 90° Counter-clockwise ⇒ تدوير 90° عكس عقارب الساعة
+Rotation ⇒ التدوير
+Roughness ⇒ الخشونة
+Rounded Rectangle ⇒ مستطيل مستدير الزوايا
+Rulers ⇒ المساطر
+Sample from ⇒ الالتقاط من
+Sampling ⇒ أخذ العينة
+Saturation ⇒ التشبع
+Save ⇒ حفظ
+Save As ⇒ حفظ باسم
+Save As… ⇒ حفظ باسم…
+Save Configuration ⇒ خيارات الحفظ
+Save changes to “{}” before closing? ⇒ حفظ التغييرات في «{}» قبل الإغلاق؟
+Scale ⇒ المقياس
+Screen ⇒ شاشة
+Search commands, tools, layers… ⇒ ابحث عن أوامر وأدوات وطبقات…
+Secondary color ⇒ اللون الثانوي
+Seed ⇒ البذرة
+Select All ⇒ تحديد الكل
+Select Layer Above ⇒ تحديد الطبقة الأعلى
+Select Layer Below ⇒ تحديد الطبقة الأدنى
+Selection mode ⇒ وضع التحديد
+Sepia ⇒ بني داكن
+Set brush hardness to {}% ⇒ صلابة الفرشاة {}%
+Set brush size to {} px ⇒ حجم الفرشاة {} بكسل
+Set color to #{} ⇒ اللون #{}
+Set font size to {} pt ⇒ حجم الخط {} نقطة
+Set layer opacity to {}% ⇒ عتامة الطبقة {}%
+Set tolerance to {}% ⇒ التفاوت {}%
+Settings ⇒ الإعدادات
+Settings… ⇒ الإعدادات…
+Shape ⇒ شكل
+Shapes ⇒ الأشكال
+Sharpen ⇒ زيادة الحدة
+Sharpen… ⇒ زيادة الحدة…
+Shift+click draws a straight line from the last point. [ and ] change the size. ⇒ Shift مع النقر يرسم خطًا مستقيمًا من آخر نقطة. [ و ] يغيّران الحجم.
+Show Layer ⇒ إظهار الطبقة
+Show Only Layer ⇒ إظهار هذه الطبقة فقط
+Show layer {}: {} ⇒ إظهار الطبقة {}: {}
+Show only layer {}: {} ⇒ إظهار الطبقة {} فقط: {}
+Show only this layer ⇒ إظهار هذه الطبقة فقط
+Size ⇒ الحجم
+Smaller Brush ⇒ فرشاة أصغر
+Soft Light ⇒ ضوء ناعم
+Soft Portrait ⇒ صورة شخصية ناعمة
+Soft Portrait… ⇒ صورة شخصية ناعمة…
+Softness ⇒ النعومة
+Solid ⇒ متصل
+Source Code on GitHub ⇒ الشيفرة المصدرية على GitHub
+Star ⇒ نجمة
+Stay on picker ⇒ البقاء على القطّارة
+Strength ⇒ القوة
+Stylize ⇒ أسلبة
+Subtract (Alt) ⇒ طرح (Alt)
+Support Ukraine's children ⇒ ادعم أطفال أوكرانيا
+Surface Blur ⇒ تمويه السطح
+Surface Blur… ⇒ تمويه السطح…
+Swap Colors ⇒ تبديل الألوان
+Swap colors ⇒ تبديل الألوان
+Switch (repeat digit) ⇒ انتقال (كرر الرقم)
+Switch to layer ⇒ الانتقال إلى الطبقة
+Switch to layer {}: {} ⇒ الانتقال إلى الطبقة {}: {}
+Teal ⇒ أزرق مخضر
+Temperature ⇒ الحرارة
+Temperature / Tint ⇒ الحرارة / الصبغة
+Temperature / Tint… ⇒ الحرارة / الصبغة…
+Text ⇒ نص
+The clipboard does not contain an image. ⇒ لا تحتوي الحافظة على صورة.
+Theme ⇒ السمة
+Thickness ⇒ السماكة
+Threshold ⇒ العتبة
+Tile ⇒ تبليط
+Tile Reflection ⇒ انعكاس البلاط
+Tile Reflection… ⇒ انعكاس البلاط…
+Tile size ⇒ حجم البلاطة
+Tiling ⇒ تبليط
+Tint ⇒ الصبغة
+Toggle visibility ⇒ إظهار / إخفاء
+Tolerance ⇒ التفاوت
+Tools ⇒ الأدوات
+Tools Panel ⇒ لوحة الأدوات
+Transparency ⇒ الشفافية
+Transparent ⇒ شفاف
+Triangle ⇒ مثلث
+Twist ⇒ التواء
+Twist… ⇒ التواء…
+Type a command, tool, layer… or try “zoom 200”, “#ff6a00”, “size 40” ⇒ اكتب أمرًا أو أداة أو طبقة… أو جرّب «zoom 200» و«#ff6a00» و«size 40»
+Underline ⇒ تسطير
+Undo ⇒ تراجع
+Unfocus ⇒ عدم التركيز
+Unfocus… ⇒ عدم التركيز…
+Unsaved changes ⇒ تغييرات غير محفوظة
+Untitled {} ⇒ بلا عنوان {}
+Version {} ⇒ الإصدار {}
+Vibrance ⇒ الحيوية
+Vibrance… ⇒ الحيوية…
+View ⇒ عرض
+Vignette ⇒ تعتيم الأطراف
+Vignette… ⇒ تعتيم الأطراف…
+Violet ⇒ بنفسجي
+Visible ⇒ مرئي
+Warmth ⇒ الدفء
+Welcome to Neobrush ⇒ مرحبًا بك في Neobrush
+White ⇒ أبيض
+Width ⇒ العرض
+Your changes will be lost if you don't save them. ⇒ ستفقد تغييراتك إن لم تحفظها.
+Zoom ⇒ تكبير/تصغير
+Zoom Blur ⇒ تمويه التكبير
+Zoom Blur… ⇒ تمويه التكبير…
+Zoom In ⇒ تكبير
+Zoom Out ⇒ تصغير
+Zoom to Window ⇒ ملاءمة النافذة
+Zoom to {}% ⇒ تكبير إلى {}%
+chords work everywhere: toggle layer 2 ⇒ الاختصارات المتتابعة تعمل في كل مكان: إظهار/إخفاء الطبقة 2
+current ⇒ الحالية
+navigate ⇒ تنقل
+run ⇒ تشغيل
+{} copy ⇒ {} نسخة

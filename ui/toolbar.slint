@@ -13,9 +13,9 @@ export component PaletteButton inherits Rectangle {
     width: 46px;
     height: 32px;
     border-radius: 10px;
-    background: @linear-gradient(root.spin, #a78bfa 0%, #6a4cf5 45%, #ec4899 100%);
+    background: @linear-gradient(root.spin, Theme.brand-1 0%, Theme.brand-2 45%, Theme.brand-3 100%);
     drop-shadow-blur: hover ? 16px : 4px;
-    drop-shadow-color: hover ? #8b5cf6b0 : #8b5cf640;
+    drop-shadow-color: hover ? Theme.brand-2.with-alpha(0.7) : Theme.brand-2.with-alpha(0.25);
     animate drop-shadow-blur, drop-shadow-color { duration: 180ms; easing: ease-out; }
     Timer {
         interval: 16ms;
@@ -48,7 +48,7 @@ export component PaletteButton inherits Rectangle {
         }
         changed has-hover => {
             if self.has-hover {
-                Tip.show("Command palette  ·  Space", root.absolute-position.x - 50px, root.absolute-position.y + root.height + 6px);
+                Tip.show(@tr("Command palette") + "  ·  Space", root.absolute-position.x - 50px, root.absolute-position.y + root.height + 6px);
             } else {
                 Tip.hide();
             }
@@ -69,7 +69,7 @@ export component TopBar inherits Rectangle {
                 width: 24px;
                 height: 24px;
                 border-radius: 7px;
-                background: @linear-gradient(135deg, #a78bfa 0%, #6a4cf5 55%, #ec4899 100%);
+                background: @linear-gradient(135deg, Theme.brand-1 0%, Theme.brand-2 55%, Theme.brand-3 100%);
                 Image {
                     source: Icons.brush;
                     width: 14px;
@@ -80,30 +80,31 @@ export component TopBar inherits Rectangle {
         }
         VDivider { height: 30px; y: 12px; }
         ToolbarSection {
-            title: "File";
+            title: @tr("File");
             HorizontalLayout {
                 spacing: 1px;
-                IconButton { icon: Icons.file-plus; tip: "New image  ·  Ctrl+N"; clicked => { App.action("file.new"); } }
-                IconButton { icon: Icons.folder-open; tip: "Open  ·  Ctrl+O"; clicked => { App.action("file.open"); } }
-                IconButton { icon: Icons.save; tip: "Save  ·  Ctrl+S"; enabled: App.has-doc; clicked => { App.action("file.save"); } }
+                IconButton { icon: Icons.file-plus; tip: @tr("New image") + "  ·  Ctrl+N"; clicked => { App.action("file.new"); } }
+                IconButton { icon: Icons.folder-open; tip: @tr("Open") + "  ·  Ctrl+O"; clicked => { App.action("file.open"); } }
+                IconButton { icon: Icons.save; tip: @tr("Save") + "  ·  Ctrl+S"; enabled: App.has-doc; clicked => { App.action("file.save"); } }
             }
         }
         VDivider { height: 30px; y: 12px; }
         ToolbarSection {
-            title: "Edit";
+            title: @tr("Edit");
             HorizontalLayout {
                 spacing: 1px;
-                IconButton { icon: Icons.undo; tip: "Undo  ·  Ctrl+Z"; enabled: App.can-undo || App.is-editing; clicked => { App.action("edit.undo"); } }
-                IconButton { icon: Icons.redo; tip: "Redo  ·  Ctrl+Y"; enabled: App.can-redo; clicked => { App.action("edit.redo"); } }
-                IconButton { icon: Icons.scissors; tip: "Cut  ·  Ctrl+X"; enabled: App.has-doc; clicked => { App.action("edit.cut"); } }
-                IconButton { icon: Icons.copy; tip: "Copy  ·  Ctrl+C"; enabled: App.has-doc; clicked => { App.action("edit.copy"); } }
-                IconButton { icon: Icons.paste; tip: "Paste  ·  Ctrl+V"; clicked => { App.action("edit.paste"); } }
+                IconButton { icon: Icons.undo; tip: @tr("Undo") + "  ·  Ctrl+Z"; enabled: App.can-undo || App.is-editing; clicked => { App.action("edit.undo"); } }
+                IconButton { icon: Icons.redo; tip: @tr("Redo") + "  ·  Ctrl+Y"; enabled: App.can-redo; clicked => { App.action("edit.redo"); } }
+                IconButton { icon: Icons.scissors; tip: @tr("Cut") + "  ·  Ctrl+X"; enabled: App.has-doc; clicked => { App.action("edit.cut"); } }
+                IconButton { icon: Icons.copy; tip: @tr("Copy") + "  ·  Ctrl+C"; enabled: App.has-doc; clicked => { App.action("edit.copy"); } }
+                IconButton { icon: Icons.paste; tip: @tr("Paste") + "  ·  Ctrl+V"; clicked => { App.action("edit.paste"); } }
             }
         }
         if App.has-doc: VDivider { height: 30px; y: 12px; }
-        if App.has-doc: ToolbarSections { wide: root.width >= 1420px; }
+        if App.has-doc: ToolbarSections { wide: root.width >= 1480px; }
         VDivider { height: 30px; y: 12px; }
         PaletteButton { y: 11px; }
+        IconButton { y: 12px; icon: @image-url("icons/settings.svg"); tip: @tr("Settings") + "  ·  Ctrl+,"; clicked => { App.action("app.settings"); } }
     }
 }
 
@@ -127,11 +128,11 @@ export component ToolOptions inherits Card {
     property <bool> has-aa: t == Tool.brush || t == Tool.eraser || t == Tool.clone || t == Tool.recolor || t == Tool.text || t == Tool.line || t == Tool.shape;
     property <bool> has-blend: t == Tool.brush || t == Tool.pencil || t == Tool.bucket || t == Tool.gradient || t == Tool.text || t == Tool.line || t == Tool.shape;
     property <bool> has-flood: t == Tool.magic-wand || t == Tool.bucket;
-    property <string> tool-name: t == Tool.rect-select ? "Rectangle Select" : t == Tool.ellipse-select ? "Ellipse Select" : t == Tool.lasso-select ? "Lasso Select"
-        : t == Tool.magic-wand ? "Magic Wand" : t == Tool.move-pixels ? "Move Pixels" : t == Tool.move-selection ? "Move Selection"
-        : t == Tool.zoom ? "Zoom" : t == Tool.pan ? "Pan" : t == Tool.bucket ? "Paint Bucket" : t == Tool.gradient ? "Gradient"
-        : t == Tool.brush ? "Paintbrush" : t == Tool.eraser ? "Eraser" : t == Tool.pencil ? "Pencil" : t == Tool.picker ? "Color Picker"
-        : t == Tool.clone ? "Clone Stamp" : t == Tool.recolor ? "Recolor" : t == Tool.text ? "Text" : t == Tool.line ? "Line / Curve" : "Shapes";
+    property <string> tool-name: t == Tool.rect-select ? @tr("Rectangle Select") : t == Tool.ellipse-select ? @tr("Ellipse Select") : t == Tool.lasso-select ? @tr("Lasso Select")
+        : t == Tool.magic-wand ? @tr("Magic Wand") : t == Tool.move-pixels ? @tr("Move Pixels") : t == Tool.move-selection ? @tr("Move Selection")
+        : t == Tool.zoom ? @tr("Zoom") : t == Tool.pan ? @tr("Pan") : t == Tool.bucket ? @tr("Paint Bucket") : t == Tool.gradient ? @tr("Gradient")
+        : t == Tool.brush ? @tr("Paintbrush") : t == Tool.eraser ? @tr("Eraser") : t == Tool.pencil ? @tr("Pencil") : t == Tool.picker ? @tr("Color Picker")
+        : t == Tool.clone ? @tr("Clone Stamp") : t == Tool.recolor ? @tr("Recolor") : t == Tool.text ? @tr("Text") : t == Tool.line ? @tr("Line / Curve") : @tr("Shapes");
     property <image> tool-icon: t == Tool.rect-select ? Icons.square-dashed : t == Tool.ellipse-select ? Icons.circle-dashed : t == Tool.lasso-select ? Icons.lasso
         : t == Tool.magic-wand ? Icons.wand : t == Tool.move-pixels ? Icons.move : t == Tool.move-selection ? Icons.pointer
         : t == Tool.zoom ? Icons.zoom-in : t == Tool.pan ? Icons.hand : t == Tool.bucket ? Icons.bucket : t == Tool.gradient ? Icons.gradient
@@ -168,21 +169,21 @@ export component ToolOptions inherits Card {
 
         if root.is-select: VerticalLayout {
             spacing: 5px;
-            OptLabel { text: "Selection mode"; }
+            OptLabel { text: @tr("Selection mode"); }
             IconSegmented {
                 items: [
-                    { icon: Icons.square, tip: "Replace" },
-                    { icon: @image-url("icons/squares-unite.svg"), tip: "Add (Ctrl)" },
-                    { icon: @image-url("icons/squares-subtract.svg"), tip: "Subtract (Alt)" },
-                    { icon: @image-url("icons/squares-intersect.svg"), tip: "Intersect" },
-                    { icon: @image-url("icons/squares-exclude.svg"), tip: "Invert overlap" },
+                    { icon: Icons.square, tip: @tr("Replace") },
+                    { icon: @image-url("icons/squares-unite.svg"), tip: @tr("Add (Ctrl)") },
+                    { icon: @image-url("icons/squares-subtract.svg"), tip: @tr("Subtract (Alt)") },
+                    { icon: @image-url("icons/squares-intersect.svg"), tip: @tr("Intersect") },
+                    { icon: @image-url("icons/squares-exclude.svg"), tip: @tr("Invert overlap") },
                 ];
                 selected: App.sel-mode;
                 changed(i) => { App.sel-mode = i; App.option-changed(); }
             }
         }
         if root.has-size: ValueSlider {
-            label: "Size";
+            label: @tr("Size");
             minimum: 1;
             maximum: 500;
             power: 2.5;
@@ -191,7 +192,7 @@ export component ToolOptions inherits Card {
             edited(v) => { App.brush-width = v; App.option-changed(); }
         }
         if root.t == Tool.brush || root.t == Tool.eraser || root.t == Tool.clone: ValueSlider {
-            label: "Hardness";
+            label: @tr("Hardness");
             minimum: 0;
             maximum: 100;
             suffix: "%";
@@ -204,7 +205,7 @@ export component ToolOptions inherits Card {
             selected(v) => { App.shape-type = self.current-index; App.option-changed(); }
         }
         if root.t == Tool.line || root.t == Tool.shape: ValueSlider {
-            label: root.t == Tool.line ? "Width" : "Outline";
+            label: root.t == Tool.line ? @tr("Width") : @tr("Outline");
             minimum: 1;
             maximum: 200;
             power: 2;
@@ -213,29 +214,29 @@ export component ToolOptions inherits Card {
             edited(v) => { App.brush-width = v; App.option-changed(); }
         }
         if root.t == Tool.shape: Segmented {
-            items: ["Outline", "Fill", "Both"];
+            items: [@tr("Outline"), @tr("Fill"), @tr("Both")];
             selected: App.fill-style;
             changed(i) => { App.fill-style = i; App.option-changed(); }
         }
         if root.t == Tool.shape && App.shape-type == 1: ValueSlider {
-            label: "Corner radius";
+            label: @tr("Corner radius");
             minimum: 0;
             maximum: 200;
             source: App.corner-radius;
             edited(v) => { App.corner-radius = v; App.option-changed(); }
         }
         if root.t == Tool.line: Segmented {
-            items: ["Solid", "Dashed", "Dotted"];
+            items: [@tr("Solid"), @tr("Dashed"), @tr("Dotted")];
             selected: App.dash;
             changed(i) => { App.dash = i; App.option-changed(); }
         }
         if root.has-flood: Segmented {
-            items: ["Contiguous", "Global"];
+            items: [@tr("Contiguous"), @tr("Global")];
             selected: App.flood-global ? 1 : 0;
             changed(i) => { App.flood-global = i == 1; App.option-changed(); }
         }
         if root.has-flood || root.t == Tool.recolor: ValueSlider {
-            label: "Tolerance";
+            label: @tr("Tolerance");
             minimum: 0;
             maximum: 100;
             suffix: "%";
@@ -244,37 +245,37 @@ export component ToolOptions inherits Card {
         }
         if root.has-flood || root.t == Tool.picker: VerticalLayout {
             spacing: 5px;
-            OptLabel { text: "Sample from"; }
+            OptLabel { text: @tr("Sample from"); }
             Segmented {
-                items: ["Layer", "Image"];
+                items: [@tr("Layer"), @tr("Image")];
                 selected: App.sample-image ? 1 : 0;
                 changed(i) => { App.sample-image = i == 1; App.option-changed(); }
             }
         }
         if root.t == Tool.gradient: ComboBox {
-            model: ["Linear", "Reflected", "Diamond", "Radial", "Conical"];
+            model: [@tr("Linear"), @tr("Reflected"), @tr("Diamond"), @tr("Radial"), @tr("Conical")];
             current-index: App.gradient-type;
             selected(v) => { App.gradient-type = self.current-index; App.option-changed(); }
         }
         if root.t == Tool.gradient: Segmented {
-            items: ["Color", "Transparency"];
+            items: [@tr("Color"), @tr("Transparency")];
             selected: App.gradient-alpha ? 1 : 0;
             changed(i) => { App.gradient-alpha = i == 1; App.option-changed(); }
         }
         if root.t == Tool.picker: VerticalLayout {
             spacing: 5px;
-            OptLabel { text: "Sampling"; }
+            OptLabel { text: @tr("Sampling"); }
             Segmented {
-                items: ["1 px", "3×3", "5×5", "9×9"];
+                items: [@tr("1 px"), "3×3", "5×5", "9×9"];
                 selected: App.picker-size;
                 changed(i) => { App.picker-size = i; App.option-changed(); }
             }
         }
         if root.t == Tool.picker: VerticalLayout {
             spacing: 5px;
-            OptLabel { text: "After picking"; }
+            OptLabel { text: @tr("After picking"); }
             ComboBox {
-                model: ["Stay on picker", "Previous tool", "Pencil"];
+                model: [@tr("Stay on picker"), @tr("Previous tool"), @tr("Pencil")];
                 current-index: App.picker-after;
                 selected(v) => { App.picker-after = self.current-index; }
             }
@@ -285,7 +286,7 @@ export component ToolOptions inherits Card {
             selected(v) => { App.font-family = v; App.option-changed(); }
         }
         if root.t == Tool.text: ValueSlider {
-            label: "Size";
+            label: @tr("Size");
             minimum: 4;
             maximum: 400;
             power: 2;
@@ -295,15 +296,15 @@ export component ToolOptions inherits Card {
         }
         if root.t == Tool.text: HorizontalLayout {
             spacing: 4px;
-            Toggle { text: "B"; tip: "Bold"; checked: App.bold; toggled(c) => { App.bold = c; App.option-changed(); } }
-            Toggle { text: "I"; tip: "Italic"; checked: App.italic; toggled(c) => { App.italic = c; App.option-changed(); } }
-            Toggle { text: "U"; tip: "Underline"; checked: App.underline; toggled(c) => { App.underline = c; App.option-changed(); } }
+            Toggle { text: "B"; tip: @tr("Bold"); checked: App.bold; toggled(c) => { App.bold = c; App.option-changed(); } }
+            Toggle { text: "I"; tip: @tr("Italic"); checked: App.italic; toggled(c) => { App.italic = c; App.option-changed(); } }
+            Toggle { text: "U"; tip: @tr("Underline"); checked: App.underline; toggled(c) => { App.underline = c; App.option-changed(); } }
             Rectangle { horizontal-stretch: 1; }
             IconSegmented {
                 items: [
-                    { icon: @image-url("icons/text-align-start.svg"), tip: "Align left" },
-                    { icon: @image-url("icons/text-align-center.svg"), tip: "Align center" },
-                    { icon: @image-url("icons/text-align-end.svg"), tip: "Align right" },
+                    { icon: @image-url("icons/text-align-start.svg"), tip: @tr("Align left") },
+                    { icon: @image-url("icons/text-align-center.svg"), tip: @tr("Align center") },
+                    { icon: @image-url("icons/text-align-end.svg"), tip: @tr("Align right") },
                 ];
                 selected: App.text-align;
                 changed(i) => { App.text-align = i; App.option-changed(); }
@@ -312,24 +313,24 @@ export component ToolOptions inherits Card {
         if root.has-aa: HorizontalLayout {
             spacing: 6px;
             Toggle {
-                text: "Antialias";
+                text: @tr("Antialias");
                 checked: App.antialias;
                 toggled(c) => { App.antialias = c; App.option-changed(); }
             }
             Rectangle { horizontal-stretch: 1; }
         }
         if root.has-blend: Segmented {
-            items: ["Normal", "Overwrite"];
+            items: [@tr("Normal"), @tr("Overwrite")];
             selected: App.overwrite ? 1 : 0;
             changed(i) => { App.overwrite = i == 1; App.option-changed(); }
         }
-        if root.t == Tool.move-pixels || root.t == Tool.move-selection: Hint { text: "Drag to move. Drag corner handles to scale, right-drag to rotate. Shift constrains."; }
-        if root.t == Tool.zoom: Hint { text: "Click to zoom in, right-click to zoom out, drag a rectangle to zoom to it."; }
-        if root.t == Tool.pan: Hint { text: "Drag to pan. Middle mouse or holding Space pans with any tool."; }
-        if root.t == Tool.clone: Hint { text: "Ctrl+click to set the source, then paint."; }
-        if root.is-select: Hint { text: "Hold Ctrl to add, Alt to subtract."; }
-        if root.t == Tool.text: Hint { text: "Click to place text. Enter for a new line, Esc to finish."; }
-        if root.t == Tool.shape || root.t == Tool.line: Hint { text: "Drag to draw, then adjust with the handles. Shift constrains, Enter finishes."; }
-        if root.t == Tool.brush: Hint { text: "Shift+click draws a straight line from the last point. [ and ] change the size."; }
+        if root.t == Tool.move-pixels || root.t == Tool.move-selection: Hint { text: @tr("Drag to move. Drag corner handles to scale, right-drag to rotate. Shift constrains."); }
+        if root.t == Tool.zoom: Hint { text: @tr("Click to zoom in, right-click to zoom out, drag a rectangle to zoom to it."); }
+        if root.t == Tool.pan: Hint { text: @tr("Drag to pan. Middle mouse or holding Space pans with any tool."); }
+        if root.t == Tool.clone: Hint { text: @tr("Ctrl+click to set the source, then paint."); }
+        if root.is-select: Hint { text: @tr("Hold Ctrl to add, Alt to subtract."); }
+        if root.t == Tool.text: Hint { text: @tr("Click to place text. Enter for a new line, Esc to finish."); }
+        if root.t == Tool.shape || root.t == Tool.line: Hint { text: @tr("Drag to draw, then adjust with the handles. Shift constrains, Enter finishes."); }
+        if root.t == Tool.brush: Hint { text: @tr("Shift+click draws a straight line from the last point. [ and ] change the size."); }
     }
 }

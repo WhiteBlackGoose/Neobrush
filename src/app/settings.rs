@@ -23,6 +23,7 @@ impl Editor {
         let ui = self.ui();
         let g = ui.global::<App>();
         let mut theme = 0;
+        let mut accent = 0;
         for line in text.lines() {
             let Some((k, v)) = line.split_once('=') else { continue };
             let (k, v) = (k.trim(), v.trim());
@@ -30,6 +31,12 @@ impl Editor {
             let b = v == "1" || v == "true";
             match k {
                 "theme" => theme = int.unwrap_or(0),
+                "language" => {
+                    if super::i18n::LANGUAGES.iter().any(|(c, _)| *c == v) {
+                        super::i18n::set_language(v);
+                    }
+                }
+                "accent" => accent = int.unwrap_or(0),
                 "pixel_grid" => g.set_pixel_grid(b),
                 "rulers" => g.set_show_rulers(b),
                 "show_menubar" => {
@@ -75,7 +82,10 @@ impl Editor {
                 _ => {}
             }
         }
-        if theme != 0 {
+        if accent != 0 {
+            ui.global::<crate::Theme>().set_accent_scheme(accent.clamp(0, 5));
+        }
+        if theme != 0 || accent == 5 {
             self.set_theme(theme);
         }
         self.sync_recent_files();
@@ -87,6 +97,8 @@ impl Editor {
         let b = |v: bool| if v { "1" } else { "0" };
         let mut s = String::new();
         s += &format!("theme={}\n", g.get_theme_mode());
+        s += &format!("language={}\n", super::i18n::current());
+        s += &format!("accent={}\n", ui.global::<crate::Theme>().get_accent_scheme());
         s += &format!("pixel_grid={}\n", b(g.get_pixel_grid()));
         s += &format!("rulers={}\n", b(g.get_show_rulers()));
         s += &format!("show_menubar={}\n", b(self.menubar_pinned));

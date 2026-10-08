@@ -156,6 +156,8 @@ Auto-Level · Black & White · Brightness / Contrast · **Curves** (per channel)
 - Tabs with live thumbnails for multiple documents
 - **Command palette** with fuzzy search and quick commands; **chords** like <kbd>L</kbd> <kbd>2</kbd> <kbd>T</kbd>
 - **History panel:** click any step to jump to it
+- **15 languages:** English, Deutsch, Español, Français, Italiano, Português, Українська, Русский, Latina, toki pona, 中文, 日本語, 한국어, עברית, العربية
+- **Accent colors** (violet, blue, teal, orange, rose) and a 🎃 **Halloween** theme
 - Clipboard: copy, copy merged, paste, paste into a new layer or image
 - Zoom from 1% to 6400%, pixel grid, rulers
 - HSV color picker with hex, alpha, palette and recent colors
@@ -260,7 +262,7 @@ and file dialogs go through the XDG desktop portal.
 ## 🙏 Credits
 
 Built with [Rust](https://www.rust-lang.org) and [Slint](https://slint.dev).
-Icons from [Lucide](https://lucide.dev) (ISC), UI font [Inter](https://rsms.me/inter/) (SIL OFL).
+Icons from [Lucide](https://lucide.dev) (ISC), UI font [Inter](https://rsms.me/inter/) (SIL OFL), CJK, Hebrew and Arabic glyphs from [Noto Sans](https://notofonts.github.io/) (SIL OFL).
 Inspired by the wonderful [Paint.NET](https://www.getpaint.net).
 
 <div align="center">

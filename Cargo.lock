@@ -2855,6 +2855,7 @@ dependencies = [
  "rfd",
  "slint",
  "slint-build",
+ "sys-locale",
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",

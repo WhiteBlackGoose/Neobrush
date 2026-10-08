@@ -1,0 +1,482 @@
+# Chinese (Simplified)
+A modern, cross-platform raster graphics editor for Windows, macOS, Linux and FreeBSD. ⇒ 一款现代的跨平台位图编辑器，支持 Windows、macOS、Linux 和 FreeBSD。
+About ⇒ 关于
+About Neobrush ⇒ 关于 Neobrush
+Accent color ⇒ 强调色
+Actual Size ⇒ 实际大小
+Add (Ctrl) ⇒ 添加（Ctrl）
+Add New Layer ⇒ 新建图层
+Add Noise ⇒ 添加杂色
+Add Noise… ⇒ 添加杂色…
+Add new layer ⇒ 新建图层
+Additive ⇒ 相加
+Adjustments ⇒ 调整
+After picking ⇒ 取色之后
+Align center ⇒ 居中对齐
+Align left ⇒ 左对齐
+Align right ⇒ 右对齐
+Alpha ⇒ 透明度
+Amount ⇒ 数量
+Anchor ⇒ 锚点
+Angle ⇒ 角度
+Antialias ⇒ 抗锯齿
+Apply ⇒ 应用
+Arrow ⇒ 箭头
+Artistic ⇒ 艺术效果
+Auto Crop ⇒ 自动裁剪
+Auto-Level ⇒ 自动色阶
+Background ⇒ 背景
+Best quality ⇒ 最佳质量
+Bicubic ⇒ 双三次
+Bigger Brush ⇒ 增大画笔
+Bilinear ⇒ 双线性
+Black and White ⇒ 黑白
+Blend ⇒ 混合
+Blend mode ⇒ 混合模式
+Blue ⇒ 蓝色
+Blur ⇒ 模糊
+Blurs ⇒ 模糊
+Bold ⇒ 粗体
+Both ⇒ 两者
+Brightness ⇒ 亮度
+Brightness / Contrast ⇒ 亮度 / 对比度
+Brightness / Contrast… ⇒ 亮度 / 对比度…
+Brush size ⇒ 画笔大小
+Bulge ⇒ 凸出
+Bulge… ⇒ 凸出…
+By absolute size ⇒ 按绝对尺寸
+By percentage ⇒ 按百分比
+Cancel ⇒ 取消
+Canvas Size ⇒ 画布大小
+Canvas Size… ⇒ 画布大小…
+Cell size ⇒ 单元大小
+Center X ⇒ 中心 X
+Center Y ⇒ 中心 Y
+Centered ⇒ 居中
+Click to add points · drag to move · right-click to remove ⇒ 点击添加控制点 · 拖动移动 · 右键删除
+Click to fill an area. Right-click uses the secondary color. ⇒ 点击填充区域。右键使用次要颜色。
+Click to pick the primary color, right-click for secondary. ⇒ 点击拾取主要颜色，右键拾取次要颜色。
+Click to place text, then type. ⇒ 点击放置文字，然后输入。
+Click to place text. Enter for a new line, Esc to finish. ⇒ 点击放置文字。回车换行，Esc 完成。
+Click to select a region of similar color. ⇒ 点击选择颜色相近的区域。
+Click to zoom in, right-click to zoom out, drag a rectangle to zoom to it. ⇒ 点击放大，右键缩小，拖出矩形可放大到该区域。
+Click to zoom in, right-click to zoom out. ⇒ 点击放大，右键缩小。
+Clipboard {}×{} ⇒ 剪贴板 {}×{}
+Clone Stamp ⇒ 仿制图章
+Close ⇒ 关闭
+Clouds ⇒ 云彩
+Clouds… ⇒ 云彩…
+Coarseness ⇒ 粗糙度
+Color ⇒ 颜色
+Color Burn ⇒ 颜色加深
+Color Dodge ⇒ 颜色减淡
+Color Picker ⇒ 吸管
+Color range ⇒ 色彩范围
+Color saturation ⇒ 色彩饱和度
+Coloring ⇒ 着色
+Colors ⇒ 颜色
+Colors Panel ⇒ 颜色面板
+Command Palette ⇒ 命令面板
+Command Palette… ⇒ 命令面板…
+Command palette ⇒ 命令面板
+Conical ⇒ 锥形
+Contiguous ⇒ 连续
+Contrast ⇒ 对比度
+Copy ⇒ 复制
+Copy Merged ⇒ 合并复制
+Corner radius ⇒ 圆角半径
+Could not import file ⇒ 无法导入文件
+Could not open file ⇒ 无法打开文件
+Could not save file ⇒ 无法保存文件
+Coverage ⇒ 覆盖率
+Create ⇒ 创建
+Create a new image or open an existing one to get started. ⇒ 新建图像或打开已有图像即可开始。
+Crop to Selection ⇒ 裁剪到选区
+Ctrl+click to set the clone source first. ⇒ 请先按住 Ctrl 点击设置仿制源。
+Ctrl+click to set the source, then paint. ⇒ 按住 Ctrl 点击设置源点，然后绘制。
+Curvature ⇒ 曲率
+Curves ⇒ 曲线
+Curves… ⇒ 曲线…
+Cut ⇒ 剪切
+Dark ⇒ 深色
+Darken ⇒ 变暗
+Dashed ⇒ 虚线
+Delete ⇒ 删除
+Delete Layer ⇒ 删除图层
+Delete layer ⇒ 删除图层
+Dents ⇒ 凹痕
+Dents… ⇒ 凹痕…
+Deselect ⇒ 取消选择
+Diamond ⇒ 菱形
+Difference ⇒ 差值
+Distance ⇒ 距离
+Distort ⇒ 扭曲
+Documents ⇒ 文档
+Don't Save ⇒ 不保存
+Donate to Voices of Children ⇒ 向 Voices of Children 捐款
+Donate to Voices of Children · voices.org.ua ⇒ 向 Voices of Children 捐款 · voices.org.ua
+Done ⇒ 完成
+Dotted ⇒ 点线
+Download ⇒ 下载
+Drag the selection to move its pixels. ⇒ 拖动选区以移动其中的像素。
+Drag to draw a freeform selection. ⇒ 拖动绘制自由形状选区。
+Drag to draw a gradient. Right-drag swaps the colors. ⇒ 拖动绘制渐变。用右键拖动会交换颜色。
+Drag to draw a line, then drag the handles to bend it. ⇒ 拖动绘制直线，再拖动控制点使其弯曲。
+Drag to draw a shape, then adjust with the handles. ⇒ 拖动绘制形状，再用控制点调整。
+Drag to draw, then adjust with the handles. Shift constrains, Enter finishes. ⇒ 拖动绘制，再用控制点调整。Shift 约束，回车完成。
+Drag to erase to transparency. ⇒ 拖动擦除为透明。
+Drag to move the selection outline. ⇒ 拖动移动选区轮廓。
+Drag to move. Drag corner handles to scale, right-drag to rotate. Shift constrains. ⇒ 拖动移动。拖动角点缩放，右键拖动旋转。Shift 约束。
+Drag to paint. Shift+click draws a straight line. ⇒ 拖动绘画。Shift+点击绘制直线。
+Drag to pan the view. ⇒ 拖动平移视图。
+Drag to pan. Middle mouse or holding Space pans with any tool. ⇒ 拖动平移视图。任何工具下都可用鼠标中键或按住空格平移。
+Drag to select a rectangle. Click to deselect. ⇒ 拖动选择矩形。点击取消选择。
+Drag to select an ellipse. Hold Shift for a circle. ⇒ 拖动选择椭圆。按住 Shift 选择正圆。
+Draw single pixel, aliased lines. ⇒ 绘制无抗锯齿的单像素线条。
+Drop Shadow ⇒ 投影
+Drop Shadow… ⇒ 投影…
+Duplicate ⇒ 复制
+Duplicate Layer ⇒ 复制图层
+Duplicate layer ⇒ 复制图层
+Edge Detect ⇒ 边缘检测
+Edge Detect… ⇒ 边缘检测…
+Edit ⇒ 编辑
+Effects ⇒ 效果
+Ellipse ⇒ 椭圆
+Ellipse Select ⇒ 椭圆选择
+Emboss ⇒ 浮雕
+Emboss… ⇒ 浮雕…
+Erase Selection ⇒ 擦除选区
+Eraser ⇒ 橡皮擦
+Esc to cancel ⇒ Esc 取消
+Exit ⇒ 退出
+Factor ⇒ 系数
+File ⇒ 文件
+File name ⇒ 文件名
+Fill ⇒ 填充
+Fill Selection ⇒ 填充选区
+Flatten ⇒ 拼合图像
+Flip Horizontal ⇒ 水平翻转
+Flip Layer Horizontal ⇒ 水平翻转图层
+Flip Layer Vertical ⇒ 垂直翻转图层
+Flip Vertical ⇒ 垂直翻转
+Follow System ⇒ 跟随系统
+Follow system ⇒ 跟随系统
+Format ⇒ 格式
+Fragment ⇒ 碎片
+Fragments ⇒ 碎片数
+Fragment… ⇒ 碎片…
+Frosted Glass ⇒ 磨砂玻璃
+Frosted Glass… ⇒ 磨砂玻璃…
+Gamma ⇒ 伽马
+Gaussian Blur ⇒ 高斯模糊
+Gaussian Blur… ⇒ 高斯模糊…
+Global ⇒ 全局
+Glow ⇒ 发光
+Glow… ⇒ 发光…
+Go to document: {} ⇒ 转到文档：{}
+Gradient ⇒ 渐变
+Green ⇒ 绿色
+Halloween ⇒ 万圣节
+Happy Halloween! This theme is always dark. ⇒ 万圣节快乐！此主题始终为深色。
+Hard Light ⇒ 强光
+Hardness ⇒ 硬度
+Heart ⇒ 心形
+Height ⇒ 高度
+Help ⇒ 帮助
+Hexagon ⇒ 六边形
+Hide Layer ⇒ 隐藏图层
+Hide layer {}: {} ⇒ 隐藏图层 {}：{}
+Higher quality means larger files. Transparency is flattened onto white. ⇒ 质量越高文件越大。透明区域会合并到白色背景上。
+History ⇒ 历史记录
+History Panel ⇒ 历史记录面板
+Hold Ctrl to add, Alt to subtract. ⇒ 按住 Ctrl 添加，按住 Alt 减去。
+Hue ⇒ 色相
+Hue / Saturation ⇒ 色相 / 饱和度
+Hue / Saturation… ⇒ 色相 / 饱和度…
+Icons by Lucide (ISC). Inter typeface (OFL). ⇒ 图标来自 Lucide（ISC）。字体 Inter（OFL）。
+Image ⇒ 图像
+Import from File ⇒ 从文件导入
+Import from File… ⇒ 从文件导入…
+Ink Sketch ⇒ 墨水素描
+Ink Sketch… ⇒ 墨水素描…
+Ink outline ⇒ 墨线轮廓
+Input black ⇒ 输入黑场
+Input white ⇒ 输入白场
+Intensity ⇒ 强度
+Intersect ⇒ 交集
+Invert Colors ⇒ 反相
+Invert Selection ⇒ 反选
+Invert colors ⇒ 反相
+Invert overlap ⇒ 反转重叠区域
+Italic ⇒ 斜体
+Julia Fractal ⇒ 朱利亚分形
+Julia Fractal… ⇒ 朱利亚分形…
+Keyboard Shortcuts ⇒ 键盘快捷键
+Language ⇒ 语言
+Lasso Select ⇒ 套索选择
+Layer ⇒ 图层
+Layer Blend Mode ⇒ 图层混合模式
+Layer Opacity ⇒ 图层不透明度
+Layer Properties ⇒ 图层属性
+Layer Properties… ⇒ 图层属性…
+Layer Rotate / Zoom ⇒ 图层旋转 / 缩放
+Layer number ({} layers) ⇒ 图层编号（共 {} 个图层）
+Layer properties ⇒ 图层属性
+Layer {} ⇒ 图层 {}
+Layer {}  ·  L {} {} switch · L {} T toggle ⇒ 图层 {}  ·  L {} {} 切换 · L {} T 显示/隐藏
+Layers ⇒ 图层
+Layers Panel ⇒ 图层面板
+Layers are flattened in this format. ⇒ 此格式会拼合图层。
+Levels ⇒ 色阶
+Levels… ⇒ 色阶…
+Light ⇒ 浅色
+Lighten ⇒ 变亮
+Lighting ⇒ 光照
+Lightness ⇒ 明度
+Line / Curve ⇒ 直线 / 曲线
+Linear ⇒ 线性
+Magic Wand ⇒ 魔棒
+Magic Wand Select ⇒ 魔棒选择
+Maintain aspect ratio ⇒ 保持宽高比
+Mandelbrot Fractal ⇒ 曼德博分形
+Mandelbrot Fractal… ⇒ 曼德博分形…
+Median ⇒ 中间值
+Median… ⇒ 中间值…
+Menu Bar ⇒ 菜单栏
+Merge Layer Down ⇒ 向下合并
+Merge down ⇒ 向下合并
+Merge layer down ⇒ 向下合并
+More adjustments commands ⇒ 更多调整
+More effects commands ⇒ 更多效果
+More image commands ⇒ 更多图像命令
+More layers commands ⇒ 更多图层命令
+More tools commands ⇒ 更多工具命令
+More view commands ⇒ 更多视图命令
+Motion Blur ⇒ 动感模糊
+Motion Blur… ⇒ 动感模糊…
+Move Layer Down ⇒ 下移图层
+Move Layer Up ⇒ 上移图层
+Move Pixels ⇒ 移动像素
+Move Selected Pixels ⇒ 移动所选像素
+Move Selection ⇒ 移动选区
+Move layer down ⇒ 下移图层
+Move layer up ⇒ 上移图层
+Multiply ⇒ 正片叠底
+Name ⇒ 名称
+Nearest neighbor ⇒ 邻近
+Negation ⇒ 排除
+New ⇒ 新建
+New Image ⇒ 新建图像
+New image ⇒ 新建图像
+New image {} × {} ⇒ 新建图像 {} × {}
+New… ⇒ 新建…
+No matching commands ⇒ 没有匹配的命令
+Noise ⇒ 杂色
+Normal ⇒ 正常
+Nothing to paste ⇒ 没有可粘贴的内容
+OK ⇒ 确定
+Object ⇒ 对象
+Offset X ⇒ X 偏移
+Offset Y ⇒ Y 偏移
+Oil Painting ⇒ 油画
+Oil Painting… ⇒ 油画…
+Opacity ⇒ 不透明度
+Open ⇒ 打开
+Open Image ⇒ 打开图像
+Open recent: {} ⇒ 最近打开：{}
+OpenRaster keeps your layers and opens in GIMP, Krita and MyPaint. ⇒ OpenRaster 会保留图层，可在 GIMP、Krita 和 MyPaint 中打开。
+Open… ⇒ 打开…
+Orange ⇒ 橙色
+Original: {} × {} px  →  New: {} × {} px ⇒ 原始：{} × {} 像素  →  新：{} × {} 像素
+Outline ⇒ 轮廓
+Outline… ⇒ 轮廓…
+Output black ⇒ 输出黑场
+Output white ⇒ 输出白场
+Overlay ⇒ 叠加
+Overwrite ⇒ 覆盖
+Paint ⇒ 绘画
+Paint Bucket ⇒ 油漆桶
+Paintbrush ⇒ 画笔
+Pan ⇒ 抓手
+Pan X ⇒ 平移 X
+Pan Y ⇒ 平移 Y
+Paste ⇒ 粘贴
+Paste into New Image ⇒ 粘贴为新图像
+Paste into New Layer ⇒ 粘贴为新图层
+Pencil ⇒ 铅笔
+Pencil Sketch ⇒ 铅笔素描
+Pencil Sketch… ⇒ 铅笔素描…
+Pencil tip size ⇒ 笔尖大小
+Pentagon ⇒ 五边形
+Percentage ⇒ 百分比
+Percentile ⇒ 百分位
+Photo ⇒ 照片
+Pixel Grid ⇒ 像素网格
+Pixelate ⇒ 像素化
+Pixelate… ⇒ 像素化…
+Polar Inversion ⇒ 极坐标反转
+Polar Inversion… ⇒ 极坐标反转…
+Posterize ⇒ 色调分离
+Posterize… ⇒ 色调分离…
+Presets ⇒ 预设
+Previous tool ⇒ 上一个工具
+Properties ⇒ 属性
+Purple keys are chords: press them one after another (e.g. F, then B, then G). Tap Space for the command palette; hold Space to pan. ⇒ 彩色按键是组合键：依次按下（例如先 F，再 B，再 G）。轻按空格打开命令面板，按住空格平移视图。
+Quality ⇒ 质量
+Quick command ⇒ 快捷命令
+Radial ⇒ 径向
+Radial Blur ⇒ 径向模糊
+Radial Blur… ⇒ 径向模糊…
+Radius ⇒ 半径
+Recolor ⇒ 重新着色
+Rectangle ⇒ 矩形
+Rectangle Select ⇒ 矩形选择
+Red ⇒ 红色
+Red Eye Removal ⇒ 去除红眼
+Red Eye Removal… ⇒ 去除红眼…
+Redo ⇒ 重做
+Reduce Noise ⇒ 减少杂色
+Reduce Noise… ⇒ 减少杂色…
+Reflect ⇒ 反射
+Reflected ⇒ 对称
+Refraction ⇒ 折射
+Relief ⇒ 浮凸
+Relief… ⇒ 浮凸…
+Rename Layer ⇒ 重命名图层
+Rename current layer to “{}” ⇒ 将当前图层重命名为“{}”
+Render ⇒ 渲染
+Repeat Last Effect ⇒ 重复上次效果
+Replace ⇒ 替换
+Replaces the secondary color with the primary color. ⇒ 用主要颜色替换次要颜色。
+Resampling ⇒ 重采样
+Reset ⇒ 重置
+Reset Colors ⇒ 重置颜色
+Reset to black & white ⇒ 重置为黑白
+Resize ⇒ 调整大小
+Resize Image ⇒ 调整图像大小
+Resize… ⇒ 调整大小…
+Right Triangle ⇒ 直角三角形
+Rose ⇒ 玫瑰红
+Rotate / Zoom ⇒ 旋转 / 缩放
+Rotate / Zoom… ⇒ 旋转 / 缩放…
+Rotate 180° ⇒ 旋转 180°
+Rotate 90° Clockwise ⇒ 顺时针旋转 90°
+Rotate 90° Counter-clockwise ⇒ 逆时针旋转 90°
+Rotation ⇒ 旋转
+Roughness ⇒ 粗糙度
+Rounded Rectangle ⇒ 圆角矩形
+Rulers ⇒ 标尺
+Sample from ⇒ 取样自
+Sampling ⇒ 取样
+Saturation ⇒ 饱和度
+Save ⇒ 保存
+Save As ⇒ 另存为
+Save As… ⇒ 另存为…
+Save Configuration ⇒ 保存选项
+Save changes to “{}” before closing? ⇒ 关闭前是否保存对“{}”的更改？
+Scale ⇒ 比例
+Screen ⇒ 滤色
+Search commands, tools, layers… ⇒ 搜索命令、工具、图层…
+Secondary color ⇒ 次要颜色
+Seed ⇒ 种子
+Select All ⇒ 全选
+Select Layer Above ⇒ 选择上方图层
+Select Layer Below ⇒ 选择下方图层
+Selection mode ⇒ 选择模式
+Sepia ⇒ 怀旧
+Set brush hardness to {}% ⇒ 画笔硬度设为 {}%
+Set brush size to {} px ⇒ 画笔大小设为 {} 像素
+Set color to #{} ⇒ 颜色设为 #{}
+Set font size to {} pt ⇒ 字号设为 {} 磅
+Set layer opacity to {}% ⇒ 图层不透明度设为 {}%
+Set tolerance to {}% ⇒ 容差设为 {}%
+Settings ⇒ 设置
+Settings… ⇒ 设置…
+Shape ⇒ 形状
+Shapes ⇒ 形状
+Sharpen ⇒ 锐化
+Sharpen… ⇒ 锐化…
+Shift+click draws a straight line from the last point. [ and ] change the size. ⇒ Shift+点击从上一点画直线。[ 和 ] 调整大小。
+Show Layer ⇒ 显示图层
+Show Only Layer ⇒ 仅显示此图层
+Show layer {}: {} ⇒ 显示图层 {}：{}
+Show only layer {}: {} ⇒ 仅显示图层 {}：{}
+Show only this layer ⇒ 仅显示此图层
+Size ⇒ 大小
+Smaller Brush ⇒ 减小画笔
+Soft Light ⇒ 柔光
+Soft Portrait ⇒ 柔和人像
+Soft Portrait… ⇒ 柔和人像…
+Softness ⇒ 柔和度
+Solid ⇒ 实线
+Source Code on GitHub ⇒ GitHub 上的源代码
+Star ⇒ 星形
+Stay on picker ⇒ 保持吸管
+Strength ⇒ 强度
+Stylize ⇒ 风格化
+Subtract (Alt) ⇒ 减去（Alt）
+Support Ukraine's children ⇒ 支持乌克兰儿童
+Surface Blur ⇒ 表面模糊
+Surface Blur… ⇒ 表面模糊…
+Swap Colors ⇒ 交换颜色
+Swap colors ⇒ 交换颜色
+Switch (repeat digit) ⇒ 切换（重复数字）
+Switch to layer ⇒ 切换到图层
+Switch to layer {}: {} ⇒ 切换到图层 {}：{}
+Teal ⇒ 青色
+Temperature ⇒ 色温
+Temperature / Tint ⇒ 色温 / 色调
+Temperature / Tint… ⇒ 色温 / 色调…
+Text ⇒ 文字
+The clipboard does not contain an image. ⇒ 剪贴板中没有图像。
+Theme ⇒ 主题
+Thickness ⇒ 粗细
+Threshold ⇒ 阈值
+Tile ⇒ 平铺
+Tile Reflection ⇒ 瓷砖反射
+Tile Reflection… ⇒ 瓷砖反射…
+Tile size ⇒ 瓷砖大小
+Tiling ⇒ 平铺
+Tint ⇒ 色调
+Toggle visibility ⇒ 显示 / 隐藏
+Tolerance ⇒ 容差
+Tools ⇒ 工具
+Tools Panel ⇒ 工具面板
+Transparency ⇒ 透明度
+Transparent ⇒ 透明
+Triangle ⇒ 三角形
+Twist ⇒ 旋转扭曲
+Twist… ⇒ 旋转扭曲…
+Type a command, tool, layer… or try “zoom 200”, “#ff6a00”, “size 40” ⇒ 输入命令、工具、图层…或试试“zoom 200”、“#ff6a00”、“size 40”
+Underline ⇒ 下划线
+Undo ⇒ 撤销
+Unfocus ⇒ 失焦
+Unfocus… ⇒ 失焦…
+Unsaved changes ⇒ 未保存的更改
+Untitled {} ⇒ 未命名 {}
+Version {} ⇒ 版本 {}
+Vibrance ⇒ 自然饱和度
+Vibrance… ⇒ 自然饱和度…
+View ⇒ 视图
+Vignette ⇒ 暗角
+Vignette… ⇒ 暗角…
+Violet ⇒ 紫罗兰
+Visible ⇒ 可见
+Warmth ⇒ 暖色
+Welcome to Neobrush ⇒ 欢迎使用 Neobrush
+White ⇒ 白色
+Width ⇒ 宽度
+Your changes will be lost if you don't save them. ⇒ 如果不保存，您的更改将会丢失。
+Zoom ⇒ 缩放
+Zoom Blur ⇒ 缩放模糊
+Zoom Blur… ⇒ 缩放模糊…
+Zoom In ⇒ 放大
+Zoom Out ⇒ 缩小
+Zoom to Window ⇒ 适合窗口
+Zoom to {}% ⇒ 缩放到 {}%
+chords work everywhere: toggle layer 2 ⇒ 组合键随处可用：显示/隐藏图层 2
+current ⇒ 当前
+navigate ⇒ 导航
+run ⇒ 执行
+{} copy ⇒ {} 副本

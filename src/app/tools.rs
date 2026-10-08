@@ -220,7 +220,7 @@ impl Editor {
                     return;
                 }
                 if tool == Tool::Clone && self.clone_src.is_none() {
-                    self.ui().global::<App>().set_status_hint("Ctrl+click to set the clone source first.".into());
+                    self.ui().global::<App>().set_status_hint(super::i18n::tr("Ctrl+click to set the clone source first.").into());
                     return;
                 }
                 let o = self.opts();

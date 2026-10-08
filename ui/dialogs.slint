@@ -1,6 +1,6 @@
 import { Theme } from "theme.slint";
 import { Icons } from "icons.slint";
-import { App, ParamItem } from "state.slint";
+import { App, ParamItem, Tip } from "state.slint";
 import { Card, IconButton, Btn, Segmented, ValueSlider, FieldLabel, Divider } from "widgets.slint";
 import { ShortcutsList } from "palette.slint";
 import { SpinBox, CheckBox, ComboBox, LineEdit, Spinner, AboutSlint } from "std-widgets.slint";
@@ -84,7 +84,7 @@ component Chip inherits Rectangle {
 }
 
 export component NewImageDialog inherits Overlay {
-    title: "New Image";
+    title: @tr("New Image");
     icon: Icons.file-plus;
     card-width: 420px;
     property <int> w: App.image-w;
@@ -95,7 +95,7 @@ export component NewImageDialog inherits Overlay {
     GridLayout {
         spacing: 10px;
         Row {
-            FieldLabel { text: "Width"; }
+            FieldLabel { text: @tr("Width"); }
             SpinBox {
                 minimum: 1;
                 maximum: 32000;
@@ -108,7 +108,7 @@ export component NewImageDialog inherits Overlay {
             FieldLabel { text: "px"; }
         }
         Row {
-            FieldLabel { text: "Height"; }
+            FieldLabel { text: @tr("Height"); }
             SpinBox {
                 minimum: 1;
                 maximum: 32000;
@@ -122,16 +122,16 @@ export component NewImageDialog inherits Overlay {
         }
     }
     CheckBox {
-        text: "Maintain aspect ratio";
+        text: @tr("Maintain aspect ratio");
         checked <=> root.keep;
     }
-    FieldLabel { text: "Presets"; }
+    FieldLabel { text: @tr("Presets"); }
     VerticalLayout {
         spacing: 6px;
         HorizontalLayout {
             spacing: 6px;
             alignment: start;
-            if App.clip-w > 0: Chip { text: "Clipboard " + App.clip-w + "×" + App.clip-h; clicked => { root.w = App.clip-w; root.h = App.clip-h; } }
+            if App.clip-w > 0: Chip { text: @tr("Clipboard {}×{}", App.clip-w, App.clip-h); clicked => { root.w = App.clip-w; root.h = App.clip-h; } }
             Chip { text: "1920×1080"; clicked => { root.w = 1920; root.h = 1080; } }
             Chip { text: "1280×720"; clicked => { root.w = 1280; root.h = 720; } }
             Chip { text: "1080×1080"; clicked => { root.w = 1080; root.h = 1080; } }
@@ -141,23 +141,23 @@ export component NewImageDialog inherits Overlay {
             alignment: start;
             Chip { text: "800×600"; clicked => { root.w = 800; root.h = 600; } }
             Chip { text: "512×512"; clicked => { root.w = 512; root.h = 512; } }
-            Chip { text: "A4 @300dpi"; clicked => { root.w = 2480; root.h = 3508; } }
+            Chip { text: @tr("A4 @300dpi"); clicked => { root.w = 2480; root.h = 3508; } }
             Chip { text: "3840×2160"; clicked => { root.w = 3840; root.h = 2160; } }
         }
     }
-    FieldLabel { text: "Background"; }
+    FieldLabel { text: @tr("Background"); }
     Segmented {
-        items: ["White", "Transparent", "Secondary color"];
+        items: [@tr("White"), @tr("Transparent"), @tr("Secondary color")];
         selected <=> root.bg;
     }
     Buttons {
-        Btn { text: "Cancel"; clicked => { App.dialog = ""; } }
-        Btn { text: "Create"; primary: true; clicked => { App.new-image(root.w, root.h, root.bg); } }
+        Btn { text: @tr("Cancel"); clicked => { App.dialog = ""; } }
+        Btn { text: @tr("Create"); primary: true; clicked => { App.new-image(root.w, root.h, root.bg); } }
     }
 }
 
 export component ResizeDialog inherits Overlay {
-    title: "Resize Image";
+    title: @tr("Resize Image");
     icon: Icons.scaling;
     card-width: 420px;
     property <int> mode: 0;
@@ -168,11 +168,11 @@ export component ResizeDialog inherits Overlay {
     property <int> resample: 0;
     close => { App.dialog = ""; }
     Segmented {
-        items: ["By percentage", "By absolute size"];
+        items: [@tr("By percentage"), @tr("By absolute size")];
         selected <=> root.mode;
     }
     if root.mode == 0: ValueSlider {
-        label: "Percentage";
+        label: @tr("Percentage");
         minimum: 1;
         maximum: 400;
         suffix: "%";
@@ -186,7 +186,7 @@ export component ResizeDialog inherits Overlay {
     GridLayout {
         spacing: 10px;
         Row {
-            FieldLabel { text: "Width"; }
+            FieldLabel { text: @tr("Width"); }
             SpinBox {
                 enabled: root.mode == 1;
                 minimum: 1;
@@ -200,7 +200,7 @@ export component ResizeDialog inherits Overlay {
             FieldLabel { text: "px"; }
         }
         Row {
-            FieldLabel { text: "Height"; }
+            FieldLabel { text: @tr("Height"); }
             SpinBox {
                 enabled: root.mode == 1;
                 minimum: 1;
@@ -215,28 +215,28 @@ export component ResizeDialog inherits Overlay {
         }
     }
     CheckBox {
-        text: "Maintain aspect ratio";
+        text: @tr("Maintain aspect ratio");
         checked <=> root.keep;
     }
     HorizontalLayout {
         spacing: 10px;
-        FieldLabel { text: "Resampling"; }
+        FieldLabel { text: @tr("Resampling"); }
         ComboBox {
-            model: ["Best quality", "Bicubic", "Bilinear", "Nearest neighbor"];
+            model: [@tr("Best quality"), @tr("Bicubic"), @tr("Bilinear"), @tr("Nearest neighbor")];
             current-index <=> root.resample;
         }
     }
     FieldLabel {
-        text: "Original: " + App.image-w + " × " + App.image-h + " px  →  New: " + root.w + " × " + root.h + " px";
+        text: @tr("Original: {} × {} px  →  New: {} × {} px", App.image-w, App.image-h, root.w, root.h);
     }
     Buttons {
-        Btn { text: "Cancel"; clicked => { App.dialog = ""; } }
-        Btn { text: "Resize"; primary: true; clicked => { App.resize-image(root.w, root.h, root.resample); } }
+        Btn { text: @tr("Cancel"); clicked => { App.dialog = ""; } }
+        Btn { text: @tr("Resize"); primary: true; clicked => { App.resize-image(root.w, root.h, root.resample); } }
     }
 }
 
 export component CanvasSizeDialog inherits Overlay {
-    title: "Canvas Size";
+    title: @tr("Canvas Size");
     icon: Icons.frame;
     card-width: 420px;
     property <int> w: App.image-w;
@@ -251,7 +251,7 @@ export component CanvasSizeDialog inherits Overlay {
             GridLayout {
                 spacing: 10px;
                 Row {
-                    FieldLabel { text: "Width"; }
+                    FieldLabel { text: @tr("Width"); }
                     SpinBox {
                         minimum: 1;
                         maximum: 32000;
@@ -263,7 +263,7 @@ export component CanvasSizeDialog inherits Overlay {
                     }
                 }
                 Row {
-                    FieldLabel { text: "Height"; }
+                    FieldLabel { text: @tr("Height"); }
                     SpinBox {
                         minimum: 1;
                         maximum: 32000;
@@ -276,13 +276,13 @@ export component CanvasSizeDialog inherits Overlay {
                 }
             }
             CheckBox {
-                text: "Maintain aspect ratio";
+                text: @tr("Maintain aspect ratio");
                 checked <=> root.keep;
             }
         }
         VerticalLayout {
             spacing: 6px;
-            FieldLabel { text: "Anchor"; }
+            FieldLabel { text: @tr("Anchor"); }
             GridLayout {
                 spacing: 4px;
                 for i in 9: Rectangle {
@@ -308,8 +308,8 @@ export component CanvasSizeDialog inherits Overlay {
         }
     }
     Buttons {
-        Btn { text: "Cancel"; clicked => { App.dialog = ""; } }
-        Btn { text: "Apply"; primary: true; clicked => { App.canvas-resize(root.w, root.h, root.anchor); } }
+        Btn { text: @tr("Cancel"); clicked => { App.dialog = ""; } }
+        Btn { text: @tr("Apply"); primary: true; clicked => { App.canvas-resize(root.w, root.h, root.anchor); } }
     }
 }
 
@@ -353,21 +353,21 @@ export component FxDialog inherits Overlay {
             y: 5px;
         }
         Rectangle { horizontal-stretch: 1; }
-        Btn { text: "Reset"; clicked => { App.fx-reset(); } }
-        Btn { text: "Cancel"; clicked => { App.fx-cancel(); } }
-        Btn { text: "Apply"; primary: true; clicked => { App.fx-ok(); } }
+        Btn { text: @tr("Reset"); clicked => { App.fx-reset(); } }
+        Btn { text: @tr("Cancel"); clicked => { App.fx-cancel(); } }
+        Btn { text: @tr("Apply"); primary: true; clicked => { App.fx-ok(); } }
     }
 }
 
 export component CurvesDialog inherits Overlay {
-    title: "Curves";
+    title: @tr("Curves");
     icon: Icons.squiggle;
     card-width: 300px;
     dim: false;
     docked: true;
     close => { App.fx-cancel(); }
     Segmented {
-        items: ["RGB", "Red", "Green", "Blue"];
+        items: [@tr("RGB"), @tr("Red"), @tr("Green"), @tr("Blue")];
         selected: App.curve-channel;
         changed(i) => {
             App.curve-channel = i;
@@ -437,18 +437,18 @@ export component CurvesDialog inherits Overlay {
         }
     }
     FieldLabel {
-        text: "Click to add points · drag to move · right-click to remove";
+        text: @tr("Click to add points · drag to move · right-click to remove");
         wrap: word-wrap;
     }
     Buttons {
-        Btn { text: "Reset"; clicked => { App.curve-reset(); } }
-        Btn { text: "Cancel"; clicked => { App.fx-cancel(); } }
-        Btn { text: "Apply"; primary: true; clicked => { App.fx-ok(); } }
+        Btn { text: @tr("Reset"); clicked => { App.curve-reset(); } }
+        Btn { text: @tr("Cancel"); clicked => { App.fx-cancel(); } }
+        Btn { text: @tr("Apply"); primary: true; clicked => { App.fx-ok(); } }
     }
 }
 
 export component LayerPropsDialog inherits Overlay {
-    title: "Layer Properties";
+    title: @tr("Layer Properties");
     icon: Icons.layers;
     card-width: 340px;
     dim: false;
@@ -463,7 +463,7 @@ export component LayerPropsDialog inherits Overlay {
     }
     HorizontalLayout {
         spacing: 10px;
-        FieldLabel { text: "Name"; width: 60px; }
+        FieldLabel { text: @tr("Name"); width: 60px; }
         LineEdit {
             text: root.name;
             changed has-focus => { App.text-focus = self.has-focus; }
@@ -474,7 +474,7 @@ export component LayerPropsDialog inherits Overlay {
         }
     }
     CheckBox {
-        text: "Visible";
+        text: @tr("Visible");
         checked: root.vis;
         toggled => {
             root.vis = self.checked;
@@ -483,7 +483,7 @@ export component LayerPropsDialog inherits Overlay {
     }
     HorizontalLayout {
         spacing: 10px;
-        FieldLabel { text: "Blend mode"; width: 60px; }
+        FieldLabel { text: @tr("Blend mode"); width: 60px; }
         ComboBox {
             model: App.blend-modes;
             current-index: root.blend;
@@ -494,7 +494,7 @@ export component LayerPropsDialog inherits Overlay {
         }
     }
     ValueSlider {
-        label: "Opacity";
+        label: @tr("Opacity");
         minimum: 0;
         maximum: 255;
         source: root.op;
@@ -504,33 +504,33 @@ export component LayerPropsDialog inherits Overlay {
         }
     }
     Buttons {
-        Btn { text: "Cancel"; clicked => { App.layer-props-cancel(); } }
-        Btn { text: "OK"; primary: true; clicked => { App.layer-props-ok(); } }
+        Btn { text: @tr("Cancel"); clicked => { App.layer-props-cancel(); } }
+        Btn { text: @tr("OK"); primary: true; clicked => { App.layer-props-ok(); } }
     }
 }
 
 export component ConfirmDialog inherits Overlay {
-    title: "Unsaved changes";
+    title: @tr("Unsaved changes");
     icon: Icons.alert;
     card-width: 440px;
     close => { App.confirm(1); }
     Text {
-        text: "Save changes to “" + App.confirm-doc + "” before closing?";
+        text: @tr("Save changes to “{}” before closing?", App.confirm-doc);
         color: Theme.text;
         font-size: Theme.font + 1px;
         wrap: word-wrap;
     }
     Text {
-        text: "Your changes will be lost if you don't save them.";
+        text: @tr("Your changes will be lost if you don't save them.");
         color: Theme.text-muted;
         font-size: Theme.font;
         wrap: word-wrap;
     }
     Buttons {
-        Btn { text: "Don't Save"; clicked => { App.confirm(0); } }
+        Btn { text: @tr("Don't Save"); clicked => { App.confirm(0); } }
         Rectangle { horizontal-stretch: 1; }
-        Btn { text: "Cancel"; clicked => { App.confirm(1); } }
-        Btn { text: "Save"; primary: true; clicked => { App.confirm(2); } }
+        Btn { text: @tr("Cancel"); clicked => { App.confirm(1); } }
+        Btn { text: @tr("Save"); primary: true; clicked => { App.confirm(2); } }
     }
 }
 
@@ -546,34 +546,34 @@ export component MessageDialog inherits Overlay {
         wrap: word-wrap;
     }
     Buttons {
-        Btn { text: "OK"; primary: true; clicked => { App.dialog = ""; } }
+        Btn { text: @tr("OK"); primary: true; clicked => { App.dialog = ""; } }
     }
 }
 
 export component JpegDialog inherits Overlay {
-    title: "Save Configuration";
+    title: @tr("Save Configuration");
     icon: Icons.image-down;
     card-width: 360px;
     close => { App.dialog = ""; }
     ValueSlider {
-        label: "Quality";
+        label: @tr("Quality");
         minimum: 1;
         maximum: 100;
         source: App.jpeg-quality;
         edited(v) => { App.jpeg-quality = v; }
     }
     FieldLabel {
-        text: "Higher quality means larger files. Transparency is flattened onto white.";
+        text: @tr("Higher quality means larger files. Transparency is flattened onto white.");
         wrap: word-wrap;
     }
     Buttons {
-        Btn { text: "Cancel"; clicked => { App.dialog = ""; } }
-        Btn { text: "Save"; primary: true; clicked => { App.jpeg-ok(); } }
+        Btn { text: @tr("Cancel"); clicked => { App.dialog = ""; } }
+        Btn { text: @tr("Save"); primary: true; clicked => { App.jpeg-ok(); } }
     }
 }
 
 export component AboutDialog inherits Overlay {
-    title: "About";
+    title: @tr("About");
     card-width: 400px;
     close => { App.dialog = ""; }
     HorizontalLayout {
@@ -582,7 +582,7 @@ export component AboutDialog inherits Overlay {
             width: 64px;
             height: 64px;
             border-radius: 18px;
-            background: @linear-gradient(135deg, #a78bfa 0%, #6a4cf5 55%, #ec4899 100%);
+            background: @linear-gradient(135deg, Theme.brand-1 0%, Theme.brand-2 55%, Theme.brand-3 100%);
             Image {
                 source: Icons.brush;
                 width: 32px;
@@ -600,14 +600,14 @@ export component AboutDialog inherits Overlay {
                 color: Theme.text;
             }
             Text {
-                text: "Version " + App.version;
+                text: @tr("Version {}", App.version);
                 color: Theme.text-muted;
                 font-size: Theme.font;
             }
         }
     }
     Text {
-        text: "A modern, cross-platform raster graphics editor for Windows, macOS, Linux and FreeBSD.";
+        text: @tr("A modern, cross-platform raster graphics editor for Windows, macOS, Linux and FreeBSD.");
         color: Theme.text;
         font-size: Theme.font;
         wrap: word-wrap;
@@ -616,23 +616,23 @@ export component AboutDialog inherits Overlay {
         height: 90px;
     }
     Text {
-        text: "Icons by Lucide (ISC). Inter typeface (OFL).";
+        text: @tr("Icons by Lucide (ISC). Inter typeface (OFL).");
         color: Theme.text-muted;
         font-size: Theme.font-sm + 0.5px;
         wrap: word-wrap;
     }
     Buttons {
-        Btn { text: "Close"; primary: true; clicked => { App.dialog = ""; } }
+        Btn { text: @tr("Close"); primary: true; clicked => { App.dialog = ""; } }
     }
 }
 
 export component ShortcutsDialog inherits Overlay {
-    title: "Keyboard Shortcuts";
+    title: @tr("Keyboard Shortcuts");
     icon: Icons.keyboard;
     card-width: 640px;
     close => { App.dialog = ""; }
     Text {
-        text: "Purple keys are chords: press them one after another (e.g. F, then B, then G). Tap Space for the command palette; hold Space to pan.";
+        text: @tr("Purple keys are chords: press them one after another (e.g. F, then B, then G). Tap Space for the command palette; hold Space to pan.");
         color: Theme.text-muted;
         font-size: Theme.font;
         wrap: word-wrap;
@@ -641,18 +641,18 @@ export component ShortcutsDialog inherits Overlay {
         height: min(520px, root.height - 220px);
     }
     Buttons {
-        Btn { text: "Close"; primary: true; clicked => { App.dialog = ""; } }
+        Btn { text: @tr("Close"); primary: true; clicked => { App.dialog = ""; } }
     }
 }
 
 export component ExportDialog inherits Overlay {
-    title: "Save As";
+    title: @tr("Save As");
     icon: Icons.image-down;
     card-width: 440px;
     close => { App.dialog = ""; }
     HorizontalLayout {
         spacing: 10px;
-        FieldLabel { text: "File name"; width: 70px; }
+        FieldLabel { text: @tr("File name"); width: 70px; }
         LineEdit {
             text <=> App.export-name;
             changed has-focus => { App.text-focus = self.has-focus; }
@@ -660,18 +660,135 @@ export component ExportDialog inherits Overlay {
     }
     HorizontalLayout {
         spacing: 10px;
-        FieldLabel { text: "Format"; width: 70px; }
+        FieldLabel { text: @tr("Format"); width: 70px; }
         Segmented {
-            items: ["PNG", "JPEG", "WebP", "OpenRaster", "BMP"];
+            items: [@tr("PNG"), @tr("JPEG"), @tr("WebP"), @tr("OpenRaster"), @tr("BMP")];
             selected <=> App.export-format;
         }
     }
     FieldLabel {
-        text: App.export-format == 3 ? "OpenRaster keeps your layers and opens in GIMP, Krita and MyPaint." : "Layers are flattened in this format.";
+        text: App.export-format == 3 ? @tr("OpenRaster keeps your layers and opens in GIMP, Krita and MyPaint.") : @tr("Layers are flattened in this format.");
         wrap: word-wrap;
     }
     Buttons {
-        Btn { text: "Cancel"; clicked => { App.dialog = ""; } }
-        Btn { text: "Download"; primary: true; clicked => { App.export-file(App.export-name, App.export-format); } }
+        Btn { text: @tr("Cancel"); clicked => { App.dialog = ""; } }
+        Btn { text: @tr("Download"); primary: true; clicked => { App.export-file(App.export-name, App.export-format); } }
+    }
+}
+
+/// Every language as a chip, each name drawn in a font that has its script.
+component LanguageGrid inherits Rectangle {
+    property <int> cols: 4;
+    property <length> gap: 6px;
+    property <length> chip-w: (self.width - (cols - 1) * gap) / cols;
+    property <length> chip-h: 30px;
+    height: ceil(App.languages.length / cols) * (chip-h + gap) - gap;
+    for lang[i] in App.languages: Rectangle {
+        property <bool> current: i == App.language-index;
+        x: mod(i, root.cols) * (root.chip-w + root.gap);
+        y: floor(i / root.cols) * (root.chip-h + root.gap);
+        width: root.chip-w;
+        height: root.chip-h;
+        border-radius: 8px;
+        background: current ? Theme.accent-soft : ta.pressed ? Theme.pressed : ta.has-hover ? Theme.hover : Theme.surface-2;
+        border-width: 1px;
+        border-color: current ? Theme.accent : Theme.border;
+        animate background, border-color { duration: 90ms; }
+        Text {
+            text: lang.name;
+            font-family: lang.font;
+            font-size: 12.5px;
+            font-weight: current ? 600 : 400;
+            color: current ? Theme.text : Theme.text-muted;
+            horizontal-alignment: center;
+            vertical-alignment: center;
+            overflow: elide;
+            width: parent.width - 8px;
+        }
+        ta := TouchArea {
+            mouse-cursor: pointer;
+            clicked => { App.set-language(i); }
+        }
+    }
+}
+
+component AccentSwatch inherits Rectangle {
+    in property <brush> fill;
+    in property <bool> selected;
+    in property <string> name;
+    in property <image> icon;
+    callback picked();
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: root.fill;
+    border-width: selected ? 3px : 0px;
+    border-color: Theme.text;
+    drop-shadow-blur: ta.has-hover || selected ? 10px : 0px;
+    drop-shadow-color: Theme.shadow;
+    animate drop-shadow-blur { duration: 120ms; }
+    if root.icon.width > 0: Image {
+        source: root.icon;
+        width: 20px;
+        height: 20px;
+        colorize: #ffffff;
+    }
+    if root.selected && root.icon.width == 0: Image {
+        source: Icons.check;
+        width: 18px;
+        height: 18px;
+        colorize: #ffffff;
+    }
+    ta := TouchArea {
+        mouse-cursor: pointer;
+        clicked => { root.picked(); }
+        changed has-hover => {
+            if self.has-hover {
+                Tip.show(root.name, root.absolute-position.x, root.absolute-position.y + root.height + 6px);
+            } else {
+                Tip.hide();
+            }
+        }
+    }
+}
+
+export component SettingsDialog inherits Overlay {
+    title: @tr("Settings");
+    icon: @image-url("icons/settings.svg");
+    card-width: 460px;
+    close => { App.dialog = ""; }
+    FieldLabel { text: @tr("Language"); }
+    LanguageGrid { }
+    FieldLabel { text: @tr("Theme"); }
+    Segmented {
+        items: [@tr("Follow system"), @tr("Light"), @tr("Dark")];
+        selected: App.theme-mode;
+        changed(i) => {
+            App.action(i == 0 ? "view.theme-system" : i == 1 ? "view.theme-light" : "view.theme-dark");
+        }
+    }
+    FieldLabel { text: @tr("Accent color"); }
+    HorizontalLayout {
+        spacing: 12px;
+        alignment: start;
+        AccentSwatch { name: @tr("Violet"); fill: @linear-gradient(135deg, #a78bfa 0%, #6a4cf5 100%); selected: Theme.accent-scheme == 0; picked => { App.set-accent(0); } }
+        AccentSwatch { name: @tr("Blue"); fill: @linear-gradient(135deg, #7dd3fc 0%, #2563eb 100%); selected: Theme.accent-scheme == 1; picked => { App.set-accent(1); } }
+        AccentSwatch { name: @tr("Teal"); fill: @linear-gradient(135deg, #5eead4 0%, #0d9488 100%); selected: Theme.accent-scheme == 2; picked => { App.set-accent(2); } }
+        AccentSwatch { name: @tr("Orange"); fill: @linear-gradient(135deg, #fdba74 0%, #ea580c 100%); selected: Theme.accent-scheme == 3; picked => { App.set-accent(3); } }
+        AccentSwatch { name: @tr("Rose"); fill: @linear-gradient(135deg, #fda4af 0%, #e11d48 100%); selected: Theme.accent-scheme == 4; picked => { App.set-accent(4); } }
+        AccentSwatch {
+            name: @tr("Halloween");
+            fill: @linear-gradient(135deg, #ff9a1f 0%, #ff6a00 45%, #5b1a7a 100%);
+            icon: @image-url("icons/ghost.svg");
+            selected: Theme.accent-scheme == 5;
+            picked => { App.set-accent(5); }
+        }
+    }
+    if Theme.halloween: FieldLabel {
+        text: @tr("Happy Halloween! This theme is always dark.");
+        wrap: word-wrap;
+    }
+    Buttons {
+        Btn { text: @tr("Done"); primary: true; clicked => { App.dialog = ""; } }
     }
 }
