@@ -60,7 +60,7 @@ export component TopBar inherits Rectangle {
     height: 54px;
     HorizontalLayout {
         padding-left: 10px;
-        padding-right: 12px;
+        padding-right: 52px;
         spacing: 6px;
         alignment: start;
         Rectangle {
@@ -104,7 +104,14 @@ export component TopBar inherits Rectangle {
         if App.has-doc: ToolbarSections { wide: root.width >= 1480px; }
         VDivider { height: 30px; y: 12px; }
         PaletteButton { y: 11px; }
-        IconButton { y: 12px; icon: @image-url("icons/settings.svg"); tip: @tr("Settings") + "  ·  Ctrl+,"; clicked => { App.action("app.settings"); } }
+    }
+    // Settings sits at the far right, outside the left-aligned sections.
+    IconButton {
+        x: parent.width - self.width - 12px;
+        y: 12px;
+        icon: @image-url("icons/settings.svg");
+        tip: @tr("Settings") + "  ·  Ctrl+,";
+        clicked => { App.action("app.settings"); }
     }
 }
 
