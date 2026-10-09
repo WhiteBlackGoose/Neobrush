@@ -12,8 +12,29 @@ component Overlay inherits Rectangle {
     in property <bool> dim: true;
     in property <bool> docked: false;
     callback close();
+    /// Enter: same as the dialog's primary button.
+    callback ok();
+    /// Other keys (e.g. mnemonics); return true when handled.
+    callback key(string) -> bool;
     background: dim ? Theme.backdrop : transparent;
     TouchArea { }
+    // Keyboard: Enter accepts, Escape closes. Keys from fields inside bubble up to here.
+    fs := FocusScope {
+    init => { self.focus(); }
+    key-pressed(e) => {
+        if e.text == Key.Return {
+            root.ok();
+            return accept;
+        }
+        if e.text == Key.Escape {
+            root.close();
+            return accept;
+        }
+        if !e.modifiers.control && !e.modifiers.alt && root.key(e.text) {
+            return accept;
+        }
+        reject
+    }
     card := Card {
         width: min(max(root.card-width, layout.min-width), parent.width - 24px);
         // Taller than the window (small screens, large UI scale): the card scrolls.
@@ -64,6 +85,7 @@ component Overlay inherits Rectangle {
             }
         }
     }
+    }
 }
 
 component Buttons inherits HorizontalLayout {
@@ -100,6 +122,7 @@ export component NewImageDialog inherits Overlay {
     property <bool> keep: false;
     property <int> bg: 0;
     close => { App.dialog = ""; }
+    ok => { App.new-image(root.w, root.h, root.bg); }
     GridLayout {
         spacing: 10px;
         Row {
@@ -175,6 +198,7 @@ export component ResizeDialog inherits Overlay {
     property <bool> keep: true;
     property <int> resample: 0;
     close => { App.dialog = ""; }
+    ok => { App.resize-image(root.w, root.h, root.resample); }
     Segmented {
         items: [@tr("By percentage"), @tr("By absolute size")];
         selected <=> root.mode;
@@ -252,6 +276,7 @@ export component CanvasSizeDialog inherits Overlay {
     property <bool> keep: false;
     property <int> anchor: 4;
     close => { App.dialog = ""; }
+    ok => { App.canvas-resize(root.w, root.h, root.anchor); }
     HorizontalLayout {
         spacing: 20px;
         VerticalLayout {
@@ -328,6 +353,7 @@ export component FxDialog inherits Overlay {
     dim: false;
     docked: true;
     close => { App.fx-cancel(); }
+    ok => { App.fx-ok(); }
     for p[i] in App.fx-params: VerticalLayout {
         if p.kind == 0: ValueSlider {
             label: p.label;
@@ -374,6 +400,7 @@ export component CurvesDialog inherits Overlay {
     dim: false;
     docked: true;
     close => { App.fx-cancel(); }
+    ok => { App.fx-ok(); }
     Segmented {
         items: [@tr("RGB"), @tr("Red"), @tr("Green"), @tr("Blue")];
         selected: App.curve-channel;
@@ -466,6 +493,7 @@ export component LayerPropsDialog inherits Overlay {
     property <int> blend: App.lp-blend;
     property <float> op: App.lp-opacity;
     close => { App.layer-props-cancel(); }
+    ok => { App.layer-props-ok(); }
     function push() {
         App.layer-props(root.name, root.vis, root.blend, root.op);
     }
@@ -522,6 +550,14 @@ export component ConfirmDialog inherits Overlay {
     icon: Icons.alert;
     card-width: 440px;
     close => { App.confirm(1); }
+    ok => { App.confirm(2); }
+    // c: cancel, n: don't save, s: save
+    key(t) => {
+        if t == "c" { App.confirm(1); return true; }
+        if t == "n" { App.confirm(0); return true; }
+        if t == "s" { App.confirm(2); return true; }
+        return false;
+    }
     Text {
         text: @tr("Save changes to “{}” before closing?", App.confirm-doc);
         color: Theme.text;
@@ -547,6 +583,7 @@ export component MessageDialog inherits Overlay {
     icon: Icons.info;
     card-width: 420px;
     close => { App.dialog = ""; }
+    ok => { App.dialog = ""; }
     Text {
         text: App.message-text;
         color: Theme.text;
@@ -563,6 +600,7 @@ export component JpegDialog inherits Overlay {
     icon: Icons.image-down;
     card-width: 360px;
     close => { App.dialog = ""; }
+    ok => { App.jpeg-ok(); }
     ValueSlider {
         label: @tr("Quality");
         minimum: 1;
@@ -584,6 +622,7 @@ export component AboutDialog inherits Overlay {
     title: @tr("About");
     card-width: 400px;
     close => { App.dialog = ""; }
+    ok => { App.dialog = ""; }
     HorizontalLayout {
         spacing: 16px;
         Rectangle {
@@ -639,6 +678,7 @@ export component ShortcutsDialog inherits Overlay {
     icon: Icons.keyboard;
     card-width: 640px;
     close => { App.dialog = ""; }
+    ok => { App.dialog = ""; }
     Text {
         text: @tr("Purple keys are chords: press them one after another (e.g. F, then B, then G). Tap Space for the command palette; hold Space to pan.");
         color: Theme.text-muted;
@@ -658,6 +698,7 @@ export component ExportDialog inherits Overlay {
     icon: Icons.image-down;
     card-width: 440px;
     close => { App.dialog = ""; }
+    ok => { App.export-file(App.export-name, App.export-format); }
     HorizontalLayout {
         spacing: 10px;
         FieldLabel { text: @tr("File name"); width: 70px; }
@@ -765,6 +806,7 @@ export component SettingsDialog inherits Overlay {
     icon: @image-url("icons/settings.svg");
     card-width: 460px;
     close => { App.dialog = ""; }
+    ok => { App.dialog = ""; }
     FieldLabel { text: @tr("Language"); }
     LanguageGrid { }
     FieldLabel { text: @tr("Theme"); }

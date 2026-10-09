@@ -4,7 +4,10 @@ export global Theme {
     /// 0 violet, 1 blue, 2 teal, 3 orange, 4 rose, 5 halloween
     in-out property <int> accent-scheme: 0;
     out property <bool> halloween: accent-scheme == 5;
-    out property <bool> dark: halloween || Palette.color-scheme == ColorScheme.dark;
+    // "Follow system" sets the scheme to unknown; the style then picks the system scheme
+    // internally, which shows up in its background color.
+    out property <bool> dark: halloween || Palette.color-scheme == ColorScheme.dark
+        || (Palette.color-scheme == ColorScheme.unknown && Palette.background.to-hsv().value < 0.5);
 
     out property <color> bg: halloween ? #110a13 : dark ? #121216 : #eef0f4;
     out property <color> surface: halloween ? #1b1020 : dark ? #1b1b21 : #ffffff;

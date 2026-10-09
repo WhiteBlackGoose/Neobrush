@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+### New
+- Dialogs: <kbd>Enter</kbd> triggers the main button (Done, OK, Create, Apply, Save…), also while a field is focused. In the “Unsaved changes” dialog <kbd>S</kbd> saves, <kbd>N</kbd> doesn't save, <kbd>C</kbd> cancels.
+
+### Fixed
+- Theme “Follow system” showed the light theme while the system was dark (and the standard widgets were dark), which made e.g. checkbox labels invisible.
+
 ## v1.0.0
 
 The first stable release.

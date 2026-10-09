@@ -55,7 +55,6 @@ pub struct Editor {
     pub last_caret: Instant,
     pub models: Models,
     pub exiting: bool,
-    pub system_scheme: slint::language::ColorScheme,
     pub recent_files: Vec<std::path::PathBuf>,
     pub glyphs: Option<render::Glyphs>,
     pub base_cache: Option<render::BaseCache>,
@@ -164,7 +163,6 @@ pub fn run(files: Vec<std::path::PathBuf>) -> Result<(), slint::PlatformError> {
         last_caret: Instant::now(),
         models,
         exiting: false,
-        system_scheme: ui.global::<crate::Palette>().get_color_scheme(),
         recent_files: vec![],
         glyphs: None,
         base_cache: None,
@@ -809,7 +807,7 @@ impl Editor {
             _ if halloween => ColorScheme::Dark,
             1 => ColorScheme::Light,
             2 => ColorScheme::Dark,
-            _ => self.system_scheme,
+            _ => ColorScheme::Unknown,
         });
         ui.global::<App>().set_theme_mode(mode);
         self.panels();

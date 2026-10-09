@@ -19,7 +19,8 @@ export component CanvasView inherits Rectangle {
     changed has-doc => { fs.focus(); }
     property <int> refocus: App.refocus;
     property <bool> has-doc: App.has-doc;
-    changed refocus => { fs.focus(); }
+    // Dialogs keep the keyboard while open.
+    changed refocus => { if App.dialog == "" { fs.focus(); } }
     // Give keyboard focus back to the canvas whenever a dialog closes.
     property <string> dialog: App.dialog;
     changed dialog => {
