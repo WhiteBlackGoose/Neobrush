@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v1.0.1
 
 ### New
 - Dialogs: <kbd>Enter</kbd> triggers the main button (Done, OK, Create, Apply, Save…), also while a field is focused. In the “Unsaved changes” dialog <kbd>S</kbd> saves, <kbd>N</kbd> doesn't save, <kbd>C</kbd> cancels.
