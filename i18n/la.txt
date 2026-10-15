@@ -486,3 +486,8 @@ No arrowheads ⇒ Sine cuspidibus
 Arrowhead at the end ⇒ Cuspis in fine
 Arrowhead at the start ⇒ Cuspis in initio
 Arrowheads at both ends ⇒ Cuspides in utroque fine
+Marker ⇒ Signator
+Smoothing ⇒ Levigatio
+Shadow ⇒ Umbra
+Shadow strength ⇒ Vis umbrae
+Drag to draw a smooth line with a soft shadow, like in screenshot tools. ⇒ Trahe ut lineam levem cum umbra molli ducas, sicut in instrumentis imaginum quadri.

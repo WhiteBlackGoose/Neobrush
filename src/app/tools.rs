@@ -44,6 +44,9 @@ impl Editor {
             radius: g.get_corner_radius() as f32,
             dash: g.get_dash(),
             arrow: g.get_arrow(),
+            marker_shadow: g.get_marker_shadow(),
+            marker_shadow_alpha: g.get_marker_shadow_strength() as f32 / 100.0,
+            marker_smooth: g.get_marker_smoothing() as f32 / 100.0,
             text: TextStyle {
                 family: g.get_font_family().to_string(),
                 size: g.get_font_size() as f32,
@@ -199,6 +202,7 @@ impl Editor {
             Tool::Picker => self.tool_picker(kind, button, p),
             Tool::Text => self.tool_text(kind, p),
             Tool::Line => self.tool_line(kind, button, p, shift),
+            Tool::Marker => self.tool_marker(kind, button, p),
             Tool::Shape => self.tool_shape(kind, button, p, shift),
             Tool::Pan => {}
         }
@@ -282,6 +286,53 @@ impl Editor {
                     if matches!(st.op, PaintOp::Color { .. }) {
                         self.push_recent(st.color);
                     }
+                    self.panels();
+                }
+            }
+            _ => {}
+        }
+    }
+
+    // ------------------------------------------------------------------------------------------
+    // Marker: smoothed annotation stroke with a soft drop shadow
+
+    fn tool_marker(&mut self, kind: i32, button: i32, p: Pt) {
+        match kind {
+            DOWN => {
+                let o = self.opts();
+                let doc = &mut self.docs[self.cur];
+                let mut m = Box::new(MarkerState {
+                    base: doc.state.layer().px.clone(),
+                    raw: vec![p],
+                    color: if button == 1 { o.secondary } else { o.primary },
+                    width: o.width,
+                    smooth: (o.marker_smooth * 12.0).round() as usize,
+                    shadow: if o.marker_shadow { o.marker_shadow_alpha } else { 0.0 },
+                    last: Rect::EMPTY,
+                });
+                m.render(doc);
+                self.drag = Drag::Marker(m);
+                self.redraw();
+            }
+            MOVE => {
+                if let Drag::Marker(mut m) = std::mem::replace(&mut self.drag, Drag::None) {
+                    // Skip samples closer than ~1.5px; they only add noise.
+                    if m.raw.last().map_or(true, |l| l.dist(p) >= 1.5) {
+                        m.raw.push(p);
+                        m.render(&mut self.docs[self.cur]);
+                    }
+                    self.drag = Drag::Marker(m);
+                }
+            }
+            UP | CANCEL => {
+                if let Drag::Marker(mut m) = std::mem::replace(&mut self.drag, Drag::None) {
+                    if m.raw.last().map_or(false, |l| l.dist(p) > 0.0) {
+                        m.raw.push(p);
+                    }
+                    let doc = &mut self.docs[self.cur];
+                    m.render(doc);
+                    doc.commit("Marker", "highlighter");
+                    self.push_recent(m.color);
                     self.panels();
                 }
             }
@@ -1090,6 +1141,7 @@ impl Editor {
             "r" => Some(Tool::Recolor),
             "t" => Some(Tool::Text),
             "o" => Some(if t == Tool::Line { Tool::Shape } else { Tool::Line }),
+            "u" => Some(Tool::Marker),
             "h" => Some(Tool::Pan),
             "z" => Some(Tool::Zoom),
             _ => None,

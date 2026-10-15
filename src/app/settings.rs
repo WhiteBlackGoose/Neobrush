@@ -46,6 +46,9 @@ impl Editor {
                 "show_donate" => g.set_show_donate(b),
                 "ui_scale" => self.ui_scale = v.parse::<f32>().unwrap_or(1.0).clamp(0.5, 3.0),
                 "show_tools" => g.set_show_tools(b),
+                "marker_shadow" => g.set_marker_shadow(b),
+                "marker_shadow_strength" => g.set_marker_shadow_strength(int.unwrap_or(55).clamp(5, 100)),
+                "marker_smoothing" => g.set_marker_smoothing(int.unwrap_or(10).clamp(0, 100)),
                 "collapse_tools" => g.set_collapse_tools(b),
                 "collapse_options" => g.set_collapse_options(b),
                 "collapse_colors" => g.set_collapse_colors(b),
@@ -112,6 +115,9 @@ impl Editor {
         s += &format!("show_donate={}\n", b(g.get_show_donate()));
         s += &format!("ui_scale={}\n", self.ui_scale);
         s += &format!("show_tools={}\n", b(g.get_show_tools()));
+        s += &format!("marker_shadow={}\n", b(g.get_marker_shadow()));
+        s += &format!("marker_shadow_strength={}\n", g.get_marker_shadow_strength());
+        s += &format!("marker_smoothing={}\n", g.get_marker_smoothing());
         s += &format!("collapse_tools={}\n", b(g.get_collapse_tools()));
         s += &format!("collapse_options={}\n", b(g.get_collapse_options()));
         s += &format!("collapse_colors={}\n", b(g.get_collapse_colors()));

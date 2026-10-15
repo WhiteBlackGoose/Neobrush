@@ -486,3 +486,8 @@ No arrowheads ⇒ 화살표 없음
 Arrowhead at the end ⇒ 끝에 화살표
 Arrowhead at the start ⇒ 시작에 화살표
 Arrowheads at both ends ⇒ 양쪽 끝에 화살표
+Marker ⇒ 마커
+Smoothing ⇒ 부드럽게
+Shadow ⇒ 그림자
+Shadow strength ⇒ 그림자 강도
+Drag to draw a smooth line with a soft shadow, like in screenshot tools. ⇒ 드래그하여 스크린샷 도구처럼 부드러운 그림자가 있는 매끄러운 선을 그립니다.

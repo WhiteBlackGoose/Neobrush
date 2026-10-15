@@ -486,3 +486,8 @@ No arrowheads ⇒ 矢印なし
 Arrowhead at the end ⇒ 終点に矢印
 Arrowhead at the start ⇒ 始点に矢印
 Arrowheads at both ends ⇒ 両端に矢印
+Marker ⇒ マーカー
+Smoothing ⇒ 手ぶれ補正
+Shadow ⇒ 影
+Shadow strength ⇒ 影の濃さ
+Drag to draw a smooth line with a soft shadow, like in screenshot tools. ⇒ ドラッグすると、スクリーンショットツールのような影付きのなめらかな線を描きます。

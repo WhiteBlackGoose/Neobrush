@@ -486,3 +486,8 @@ No arrowheads ⇒ ללא ראשי חץ
 Arrowhead at the end ⇒ ראש חץ בסוף
 Arrowhead at the start ⇒ ראש חץ בהתחלה
 Arrowheads at both ends ⇒ ראשי חץ בשני הקצוות
+Marker ⇒ מרקר
+Smoothing ⇒ החלקה
+Shadow ⇒ צל
+Shadow strength ⇒ עוצמת הצל
+Drag to draw a smooth line with a soft shadow, like in screenshot tools. ⇒ גררו כדי לצייר קו חלק עם צל רך, כמו בכלי צילום מסך.

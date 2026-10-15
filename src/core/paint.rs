@@ -503,6 +503,96 @@ pub fn polyline_cov(cov: &mut Cov, pts: &[Pt], width: f32, aa: bool, dash: f32) 
     });
 }
 
+// ---------------------------------------------------------------------------------------------
+// Marker (smoothed annotation stroke with a drop shadow)
+
+/// Smooths a freehand path: a moving average over `radius` neighbours (endpoints stay put),
+/// then one Chaikin subdivision to round off what corners remain.
+pub fn smooth_path(raw: &[Pt], radius: usize) -> Vec<Pt> {
+    let n = raw.len();
+    if n < 3 || radius == 0 {
+        return raw.to_vec();
+    }
+    let avg: Vec<Pt> = (0..n)
+        .map(|i| {
+            // Shrink the window near the ends so the stroke starts and ends where the pointer did.
+            let k = radius.min(i).min(n - 1 - i);
+            let (mut x, mut y, mut wsum) = (0.0, 0.0, 0.0);
+            for j in i - k..=i + k {
+                let w = (k + 1 - j.abs_diff(i)) as f32;
+                x += raw[j].x * w;
+                y += raw[j].y * w;
+                wsum += w;
+            }
+            Pt::new(x / wsum, y / wsum)
+        })
+        .collect();
+    let mut out = Vec::with_capacity(n * 2);
+    out.push(avg[0]);
+    for w in avg.windows(2) {
+        out.push(w[0].lerp(w[1], 0.25));
+        out.push(w[0].lerp(w[1], 0.75));
+    }
+    out.push(avg[n - 1]);
+    out
+}
+
+/// Soft drop shadow of `src` (inside `r`): offset by (dx, dy), box-blurred three times
+/// (close to a gaussian) with `blur` radius, scaled by `alpha`. Returns the shadow and its rect.
+pub fn shadow_cov(src: &Cov, r: Rect, dx: i32, dy: i32, blur: i32, alpha: f32, bounds: Rect) -> (Cov, Rect) {
+    let blur = blur.max(1);
+    let sr = Rect::new(r.x0 + dx, r.y0 + dy, r.x1 + dx, r.y1 + dy).inflate(blur * 2);
+    let out_r = sr.intersect(&bounds);
+    let mut out = Cov::new(bounds);
+    if out_r.is_empty() {
+        return (out, out_r);
+    }
+    let (w, h) = (sr.width() as usize, sr.height() as usize);
+    let mut buf = vec![0f32; w * h];
+    for y in 0..h {
+        for x in 0..w {
+            buf[y * w + x] = src.get(sr.x0 + x as i32 - dx, sr.y0 + y as i32 - dy) as f32;
+        }
+    }
+    let br = ((blur as f32) / 1.7).round().max(1.0) as usize;
+    let mut tmp = vec![0f32; w.max(h)];
+    for _ in 0..3 {
+        for y in 0..h {
+            box_blur_line(&mut buf[y * w..(y + 1) * w], 1, w, br, &mut tmp);
+        }
+        for x in 0..w {
+            box_blur_line(&mut buf[x..], w, h, br, &mut tmp);
+        }
+    }
+    for y in out_r.y0..out_r.y1 {
+        for x in out_r.x0..out_r.x1 {
+            let v = buf[(y - sr.y0) as usize * w + (x - sr.x0) as usize] * alpha;
+            if v >= 0.5 {
+                out.set(x, y, v.round().min(255.0) as u8);
+            }
+        }
+    }
+    out.touch(out_r);
+    (out, out_r)
+}
+
+/// In-place running-sum box blur of `n` values spaced `stride` apart.
+fn box_blur_line(data: &mut [f32], stride: usize, n: usize, r: usize, tmp: &mut [f32]) {
+    let k = (2 * r + 1) as f32;
+    let at = |d: &[f32], i: isize| -> f32 { if i < 0 || i as usize >= n { 0.0 } else { d[i as usize * stride] } };
+    let mut sum = 0.0;
+    for i in -(r as isize)..=(r as isize) {
+        sum += at(data, i);
+    }
+    for i in 0..n {
+        tmp[i] = sum / k;
+        sum += at(data, i as isize + r as isize + 1) - at(data, i as isize - r as isize);
+    }
+    for i in 0..n {
+        data[i * stride] = tmp[i];
+    }
+}
+
 /// Arrowhead length and half-width for a stroke of `width`.
 pub fn arrow_size(width: f32) -> (f32, f32) {
     let w = width.max(1.0);

@@ -1431,6 +1431,7 @@ fn tool_by_name(name: &str) -> Option<Tool> {
         "recolor" => Tool::Recolor,
         "text" => Tool::Text,
         "line" => Tool::Line,
+        "marker" => Tool::Marker,
         "shape" => Tool::Shape,
         "pan" => Tool::Pan,
         "zoom" => Tool::Zoom,

@@ -486,3 +486,8 @@ No arrowheads ⇒ بدون رؤوس أسهم
 Arrowhead at the end ⇒ رأس سهم في النهاية
 Arrowhead at the start ⇒ رأس سهم في البداية
 Arrowheads at both ends ⇒ رؤوس أسهم في الطرفين
+Marker ⇒ قلم تحديد
+Smoothing ⇒ التنعيم
+Shadow ⇒ ظل
+Shadow strength ⇒ قوة الظل
+Drag to draw a smooth line with a soft shadow, like in screenshot tools. ⇒ اسحب لرسم خط ناعم بظل خفيف، كما في أدوات لقطات الشاشة.

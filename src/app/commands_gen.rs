@@ -135,6 +135,7 @@ pub const COMMANDS: &[Cmd] = &[
     Cmd { id: "tool:text", title: "Text", path: "Tools", icon: "type", keys: &["T"], chord: "", keywords: "type font write tool" },
     Cmd { id: "tool:line", title: "Line / Curve", path: "Tools", icon: "spline", keys: &["O"], chord: "", keywords: "bezier arrow tool" },
     Cmd { id: "tool:shape", title: "Shapes", path: "Tools", icon: "shapes", keys: &["O"], chord: "", keywords: "rectangle ellipse star tool" },
+    Cmd { id: "tool:marker", title: "Marker", path: "Tools", icon: "highlighter", keys: &["U"], chord: "", keywords: "annotate pen highlight shadow screenshot freehand smooth tool" },
     Cmd { id: "tool:pan", title: "Pan", path: "Tools", icon: "hand", keys: &["H"], chord: "", keywords: "hand scroll move view tool" },
     Cmd { id: "tool:zoom", title: "Zoom", path: "Tools", icon: "zoom-in", keys: &["Z"], chord: "", keywords: "magnify tool" },
     Cmd { id: "color.swap", title: "Swap Colors", path: "Tools", icon: "swap", keys: &["X"], chord: "", keywords: "primary secondary exchange" },

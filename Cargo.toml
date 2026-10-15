@@ -1,6 +1,6 @@
 [package]
 name = "neobrush"
-version = "1.0.1"
+version = "1.1.0"
 edition = "2021"
 description = "A modern, cross-platform raster graphics editor"
 license = "MIT"

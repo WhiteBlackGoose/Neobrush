@@ -129,6 +129,7 @@ Drag to draw a freeform selection.
 Drag to draw a gradient. Right-drag swaps the colors.
 Drag to draw a line, then drag the handles to bend it.
 Drag to draw a shape, then adjust with the handles.
+Drag to draw a smooth line with a soft shadow, like in screenshot tools.
 Drag to draw, then adjust with the handles. Shift constrains, Enter finishes.
 Drag to erase to transparency.
 Drag to move the selection outline.
@@ -249,6 +250,7 @@ Magic Wand Select
 Maintain aspect ratio
 Mandelbrot Fractal
 Mandelbrot Fractal…
+Marker
 Median
 Median…
 Menu Bar
@@ -404,6 +406,8 @@ Set layer opacity to {}%
 Set tolerance to {}%
 Settings
 Settings…
+Shadow
+Shadow strength
 Shape
 Shapes
 Sharpen
@@ -416,6 +420,7 @@ Show only layer {}: {}
 Show only this layer
 Size
 Smaller Brush
+Smoothing
 Soft Light
 Soft Portrait
 Soft Portrait…
@@ -491,6 +496,7 @@ Zoom to {}%
 chords work everywhere: toggle layer 2
 current
 edit.erase
+highlighter
 image
 navigate
 run

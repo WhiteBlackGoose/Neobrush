@@ -485,3 +485,8 @@ No arrowheads ⇒ Без стрелок
 Arrowhead at the end ⇒ Стрелка в конце
 Arrowhead at the start ⇒ Стрелка в начале
 Arrowheads at both ends ⇒ Стрелки с обоих концов
+Marker ⇒ Маркер
+Smoothing ⇒ Сглаживание
+Shadow ⇒ Тень
+Shadow strength ⇒ Сила тени
+Drag to draw a smooth line with a soft shadow, like in screenshot tools. ⇒ Тяните, чтобы нарисовать сглаженную линию с мягкой тенью, как в программах для скриншотов.

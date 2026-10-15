@@ -495,3 +495,8 @@ No arrowheads ⇒ Keine Pfeilspitzen
 Arrowhead at the end ⇒ Pfeilspitze am Ende
 Arrowhead at the start ⇒ Pfeilspitze am Anfang
 Arrowheads at both ends ⇒ Pfeilspitzen an beiden Enden
+Marker ⇒ Marker
+Smoothing ⇒ Glättung
+Shadow ⇒ Schatten
+Shadow strength ⇒ Schattenstärke
+Drag to draw a smooth line with a soft shadow, like in screenshot tools. ⇒ Ziehen, um eine geglättete Linie mit weichem Schatten zu zeichnen, wie in Screenshot-Tools.

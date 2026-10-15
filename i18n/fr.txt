@@ -483,3 +483,8 @@ No arrowheads ⇒ Sans pointe de flèche
 Arrowhead at the end ⇒ Pointe de flèche à la fin
 Arrowhead at the start ⇒ Pointe de flèche au début
 Arrowheads at both ends ⇒ Pointes de flèche aux deux bouts
+Marker ⇒ Marqueur
+Smoothing ⇒ Lissage
+Shadow ⇒ Ombre
+Shadow strength ⇒ Intensité de l’ombre
+Drag to draw a smooth line with a soft shadow, like in screenshot tools. ⇒ Faites glisser pour tracer une ligne lissée avec une ombre douce, comme dans les outils de capture d’écran.

@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.1.0
+
+### New
+- **Marker** tool (<kbd>U</kbd>): a smoothed freehand line with a soft drop shadow, like the annotation pen in screenshot tools. Options: size, smoothing, shadow on/off and shadow strength. Right-click draws with the secondary color.
+
 ## v1.0.1
 
 ### New

@@ -33,6 +33,11 @@ pub struct Opts {
     pub dash: i32,
     /// Arrowheads: 0 none, 1 end, 2 start, 3 both.
     pub arrow: i32,
+    pub marker_shadow: bool,
+    /// Marker shadow strength 0..1.
+    pub marker_shadow_alpha: f32,
+    /// Marker smoothing 0..1.
+    pub marker_smooth: f32,
     pub text: TextStyle,
 }
 
@@ -56,6 +61,7 @@ pub enum Drag {
     None,
     Pan { sx: f32, sy: f32, ox: f32, oy: f32 },
     Stroke(Box<StrokeState>),
+    Marker(Box<MarkerState>),
     Select { start: Pt, base: Selection, mode: SelectionMode, ellipse: bool, moved: bool },
     Lasso { pts: Vec<Pt>, base: Selection, mode: SelectionMode },
     Gradient { a: Pt, b: Pt, base: Tiled, swap: bool },
@@ -346,6 +352,52 @@ impl ShapeSession {
         let dirty = self.last.union(&r);
         let sel = doc.state.selection.clone();
         paint::apply_ops(&mut doc.state.layers[self.layer].px, &self.base, dirty, &sel, &[(&fill, &fop), (&line, &lop)]);
+        doc.invalidate(dirty);
+        self.last = r;
+    }
+}
+
+/// A marker stroke being drawn: raw pointer samples, re-smoothed and re-rendered
+/// (with its shadow) on top of the untouched layer pixels on every move.
+pub struct MarkerState {
+    pub base: Tiled,
+    pub raw: Vec<Pt>,
+    pub color: Px,
+    pub width: f32,
+    pub smooth: usize,
+    /// Shadow alpha (0 = no shadow).
+    pub shadow: f32,
+    pub last: Rect,
+}
+
+impl MarkerState {
+    pub fn render(&mut self, doc: &mut Document) {
+        let bounds = doc.state.rect();
+        let pts = paint::smooth_path(&self.raw, self.smooth);
+        let mut cov = Cov::new(bounds);
+        let mut r = Rect::EMPTY;
+        if pts.len() == 1 {
+            r = paint::stroke_segment(&mut cov, pts[0], pts[0], self.width, 1.0, true);
+        }
+        for w in pts.windows(2) {
+            r = r.union(&paint::stroke_segment(&mut cov, w[0], w[1], self.width, 1.0, true));
+        }
+        let op = PaintOp::Color { c: self.color, overwrite: false };
+        let mut dirty = self.last.union(&r);
+        let sel = doc.state.selection.clone();
+        let layer = &mut doc.state.layers[doc.state.active].px;
+        if self.shadow > 0.0 && !r.is_empty() {
+            let off = (self.width * 0.3 + 2.0).round() as i32;
+            let blur = (self.width * 0.45 + 2.5).round() as i32;
+            // Blurring spreads the coverage thin; boost it so 50% reads as a clear shadow.
+            let (sh, sr) = paint::shadow_cov(&cov, r, off, off, blur, (self.shadow * 1.6).min(1.0), bounds);
+            let sop = PaintOp::Color { c: [0, 0, 0, 255], overwrite: false };
+            dirty = dirty.union(&sr);
+            r = r.union(&sr);
+            paint::apply_ops(layer, &self.base, dirty, &sel, &[(&sh, &sop), (&cov, &op)]);
+        } else {
+            paint::apply_ops(layer, &self.base, dirty, &sel, &[(&cov, &op)]);
+        }
         doc.invalidate(dirty);
         self.last = r;
     }

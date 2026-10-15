@@ -483,3 +483,8 @@ No arrowheads ⇒ Sem pontas de seta
 Arrowhead at the end ⇒ Ponta de seta no fim
 Arrowhead at the start ⇒ Ponta de seta no início
 Arrowheads at both ends ⇒ Pontas de seta nas duas pontas
+Marker ⇒ Marcador
+Smoothing ⇒ Suavização
+Shadow ⇒ Sombra
+Shadow strength ⇒ Intensidade da sombra
+Drag to draw a smooth line with a soft shadow, like in screenshot tools. ⇒ Arraste para desenhar uma linha suave com sombra, como nas ferramentas de captura de ecrã.

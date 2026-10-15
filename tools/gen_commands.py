@@ -232,6 +232,7 @@ MENUS = [
         tool("text", "Text", "type", "T", "type font write"),
         tool("line", "Line / Curve", "spline", "O", "bezier arrow"),
         tool("shape", "Shapes", "shapes", "O", "rectangle ellipse star"),
+        tool("marker", "Marker", "highlighter", "U", "annotate pen highlight shadow screenshot freehand smooth"),
         SEP,
         tool("pan", "Pan", "hand", "H", "hand scroll move view"),
         tool("zoom", "Zoom", "zoom-in", "Z", "magnify"),

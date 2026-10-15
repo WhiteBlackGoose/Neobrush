@@ -488,7 +488,7 @@ impl Editor {
             let ui = self.ui();
             let g = ui.global::<App>();
             match tool {
-                Tool::Brush | Tool::Eraser | Tool::Clone | Tool::Recolor => {
+                Tool::Brush | Tool::Eraser | Tool::Clone | Tool::Recolor | Tool::Marker => {
                     ov.circle = Some((h, g.get_brush_width() as f32 / 2.0));
                 }
                 _ => {}
@@ -547,6 +547,7 @@ impl Editor {
             Tool::Recolor => "Replaces the secondary color with the primary color.",
             Tool::Text => "Click to place text, then type.",
             Tool::Line => "Drag to draw a line, then drag the handles to bend it.",
+            Tool::Marker => "Drag to draw a smooth line with a soft shadow, like in screenshot tools.",
             Tool::Shape => "Drag to draw a shape, then adjust with the handles.",
         })
     }
@@ -769,7 +770,7 @@ impl Editor {
                 Tool::Pan => 3,
                 Tool::MovePixels | Tool::MoveSelection => 2,
                 Tool::Text => 5,
-                Tool::Brush | Tool::Eraser | Tool::Clone | Tool::Recolor => {
+                Tool::Brush | Tool::Eraser | Tool::Clone | Tool::Recolor | Tool::Marker => {
                     if g.get_brush_width() as f32 * self.doc().map(|d| d.view.zoom).unwrap_or(1.0) >= 6.0 {
                         1
                     } else {

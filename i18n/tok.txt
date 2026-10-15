@@ -486,3 +486,8 @@ No arrowheads ⇒ palisa nasin ala
 Arrowhead at the end ⇒ palisa nasin lon pini
 Arrowhead at the start ⇒ palisa nasin lon open
 Arrowheads at both ends ⇒ palisa nasin lon open en pini
+Marker ⇒ ilo sitelen pona
+Smoothing ⇒ suwi linja
+Shadow ⇒ pimeja anpa
+Shadow strength ⇒ wawa pi pimeja anpa
+Drag to draw a smooth line with a soft shadow, like in screenshot tools. ⇒ o tawa la, linja suwi li kama, li jo e pimeja anpa.

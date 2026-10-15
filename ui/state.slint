@@ -18,6 +18,7 @@ export enum Tool {
     text,
     line,
     shape,
+    marker,
 }
 
 export struct LangItem {
@@ -157,6 +158,9 @@ export global App {
     in-out property <int> fill-style: 0;
     in-out property <int> dash: 0;
     in-out property <int> arrow: 0;
+    in-out property <bool> marker-shadow: true;
+    in-out property <int> marker-shadow-strength: 55;
+    in-out property <int> marker-smoothing: 10;
     in-out property <int> corner-radius: 20;
     in property <[string]> fonts;
     in property <[string]> shape-names;

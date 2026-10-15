@@ -486,3 +486,8 @@ No arrowheads ⇒ 无箭头
 Arrowhead at the end ⇒ 末端箭头
 Arrowhead at the start ⇒ 起点箭头
 Arrowheads at both ends ⇒ 两端箭头
+Marker ⇒ 马克笔
+Smoothing ⇒ 平滑
+Shadow ⇒ 阴影
+Shadow strength ⇒ 阴影强度
+Drag to draw a smooth line with a soft shadow, like in screenshot tools. ⇒ 拖动以绘制带柔和阴影的平滑线条，类似截图工具。

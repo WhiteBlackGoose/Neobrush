@@ -134,7 +134,7 @@ component OptLabel inherits Text {
 export component ToolOptions inherits Card {
     property <Tool> t: App.tool;
     property <bool> is-select: t == Tool.rect-select || t == Tool.ellipse-select || t == Tool.lasso-select || t == Tool.magic-wand;
-    property <bool> has-size: t == Tool.brush || t == Tool.eraser || t == Tool.clone || t == Tool.recolor;
+    property <bool> has-size: t == Tool.brush || t == Tool.eraser || t == Tool.clone || t == Tool.recolor || t == Tool.marker;
     property <bool> has-aa: t == Tool.brush || t == Tool.eraser || t == Tool.clone || t == Tool.recolor || t == Tool.text || t == Tool.line || t == Tool.shape;
     property <bool> has-blend: t == Tool.brush || t == Tool.pencil || t == Tool.bucket || t == Tool.gradient || t == Tool.text || t == Tool.line || t == Tool.shape;
     property <bool> has-flood: t == Tool.magic-wand || t == Tool.bucket;
@@ -142,12 +142,12 @@ export component ToolOptions inherits Card {
         : t == Tool.magic-wand ? @tr("Magic Wand") : t == Tool.move-pixels ? @tr("Move Pixels") : t == Tool.move-selection ? @tr("Move Selection")
         : t == Tool.zoom ? @tr("Zoom") : t == Tool.pan ? @tr("Pan") : t == Tool.bucket ? @tr("Paint Bucket") : t == Tool.gradient ? @tr("Gradient")
         : t == Tool.brush ? @tr("Paintbrush") : t == Tool.eraser ? @tr("Eraser") : t == Tool.pencil ? @tr("Pencil") : t == Tool.picker ? @tr("Color Picker")
-        : t == Tool.clone ? @tr("Clone Stamp") : t == Tool.recolor ? @tr("Recolor") : t == Tool.text ? @tr("Text") : t == Tool.line ? @tr("Line / Curve") : @tr("Shapes");
+        : t == Tool.clone ? @tr("Clone Stamp") : t == Tool.recolor ? @tr("Recolor") : t == Tool.text ? @tr("Text") : t == Tool.line ? @tr("Line / Curve") : t == Tool.marker ? @tr("Marker") : @tr("Shapes");
     property <image> tool-icon: t == Tool.rect-select ? Icons.square-dashed : t == Tool.ellipse-select ? Icons.circle-dashed : t == Tool.lasso-select ? Icons.lasso
         : t == Tool.magic-wand ? Icons.wand : t == Tool.move-pixels ? Icons.move : t == Tool.move-selection ? Icons.pointer
         : t == Tool.zoom ? Icons.zoom-in : t == Tool.pan ? Icons.hand : t == Tool.bucket ? Icons.bucket : t == Tool.gradient ? Icons.gradient
         : t == Tool.brush ? Icons.brush : t == Tool.eraser ? Icons.eraser : t == Tool.pencil ? Icons.pencil : t == Tool.picker ? Icons.pipette
-        : t == Tool.clone ? Icons.stamp : t == Tool.recolor ? Icons.replace : t == Tool.text ? Icons.type : t == Tool.line ? Icons.spline : Icons.shapes;
+        : t == Tool.clone ? Icons.stamp : t == Tool.recolor ? Icons.replace : t == Tool.text ? Icons.type : t == Tool.line ? Icons.spline : t == Tool.marker ? Icons.highlighter : Icons.shapes;
 
     VerticalLayout {
         padding: 12px;
@@ -238,6 +238,27 @@ export component ToolOptions inherits Card {
                 maximum: 200;
                 source: App.corner-radius;
                 edited(v) => { App.corner-radius = v; App.option-changed(); }
+            }
+            if root.t == Tool.marker: ValueSlider {
+                label: @tr("Smoothing");
+                minimum: 0;
+                maximum: 100;
+                suffix: "%";
+                source: App.marker-smoothing;
+                edited(v) => { App.marker-smoothing = v; App.option-changed(); }
+            }
+            if root.t == Tool.marker: Toggle {
+                text: @tr("Shadow");
+                checked: App.marker-shadow;
+                toggled(v) => { App.marker-shadow = v; App.option-changed(); }
+            }
+            if root.t == Tool.marker && App.marker-shadow: ValueSlider {
+                label: @tr("Shadow strength");
+                minimum: 5;
+                maximum: 100;
+                suffix: "%";
+                source: App.marker-shadow-strength;
+                edited(v) => { App.marker-shadow-strength = v; App.option-changed(); }
             }
             if root.t == Tool.line: HorizontalLayout {
                 alignment: start;
@@ -364,6 +385,7 @@ export component ToolOptions inherits Card {
             if root.t == Tool.clone: Hint { text: @tr("Ctrl+click to set the source, then paint."); }
             if root.is-select: Hint { text: @tr("Hold Ctrl to add, Alt to subtract."); }
             if root.t == Tool.text: Hint { text: @tr("Click to place text. Enter for a new line, Esc to finish."); }
+            if root.t == Tool.marker: Hint { text: @tr("Drag to draw a smooth line with a soft shadow, like in screenshot tools."); }
             if root.t == Tool.shape || root.t == Tool.line: Hint { text: @tr("Drag to draw, then adjust with the handles. Shift constrains, Enter finishes."); }
             if root.t == Tool.brush: Hint { text: @tr("Shift+click draws a straight line from the last point. [ and ] change the size."); }
         }

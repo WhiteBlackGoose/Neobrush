@@ -483,3 +483,8 @@ No arrowheads ⇒ Nessuna punta di freccia
 Arrowhead at the end ⇒ Punta di freccia alla fine
 Arrowhead at the start ⇒ Punta di freccia all’inizio
 Arrowheads at both ends ⇒ Punte di freccia a entrambe le estremità
+Marker ⇒ Pennarello
+Smoothing ⇒ Levigatura
+Shadow ⇒ Ombra
+Shadow strength ⇒ Intensità dell’ombra
+Drag to draw a smooth line with a soft shadow, like in screenshot tools. ⇒ Trascina per disegnare una linea levigata con un’ombra morbida, come negli strumenti per screenshot.
